@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './page/Home';
 import Community from './page/community';
 import CommunityWrite from './page/communityWrite';
+import KakaoLogin from './page/kakaoLogin';
 
 function App() {
     const [test, setTest] = useState("");
@@ -60,6 +61,8 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/community/community' element={<Community />} />
             <Route path='/community/communitywrite' element={<CommunityWrite />} />
+            {/* <Route path='/api/kakaoLogin' element={<KakaoLogin/>} /> */}
+            <Route path='https://kauth.kakao.com/oauth/authorize?client_id=${3494afad7131fc9645ae9b08ed0dfda6}&redirect_uri=${localhost:8081/api/kakaoLogin}&response_type=code'></Route>
         </Routes>
         </div>
     );
