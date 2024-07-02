@@ -9,8 +9,9 @@ const HashTag = ({ onClick, selectedTags }) => {
         {selectedTags.map(tag => (
           <span className='tag' key={tag}>#{tag}</span>
         ))}
+        <button className='hashtag-button' onClick={onClick}>+선택하기</button>
       </div>
-      <button className='hashtag-button' onClick={onClick}>+선택하기</button>
+      
     </div>
   )
 }

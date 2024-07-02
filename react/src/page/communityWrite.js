@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TopBar from '../component/TopBar';
 import Title from '../component/Title';
 import Content from '../component/Content';
@@ -13,6 +13,7 @@ const CommunityWrite = () => {
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(null);
   const [selectedTags, setSelectedTags] = useState([]);
+  const [tempTags, setTempTags] = useState([]); // 임시 태그 상태 추가
 
   const handleOpenPetBottomSheet = () => {
     setBottomSheetType('pet');
@@ -21,6 +22,7 @@ const CommunityWrite = () => {
 
   const handleOpenTagBottomSheet = () => {
     setBottomSheetType('tag');
+    setTempTags(selectedTags); // 선택된 태그를 임시 태그로 설정
     setShowBottomSheet(true);
   };
 
@@ -37,6 +39,12 @@ const CommunityWrite = () => {
     setSelectedTags([requiredTag, ...optionalTags]);
     handleCloseBottomSheet();
   };
+
+  useEffect(() => {
+    if (!showBottomSheet && bottomSheetType === 'tag') {
+      setTempTags([]); // bottomSheet가 닫힐 때 임시 태그를 초기화
+    }
+  }, [showBottomSheet, bottomSheetType]);
 
   return (
     <div>
@@ -59,6 +67,7 @@ const CommunityWrite = () => {
         onSelectPet={handleSelectPet}
         type={bottomSheetType}
         onCompleteTags={handleCompleteTags}
+        initialTags={tempTags} // 임시 태그를 initialTags로 설정
       />
     </div>
   );

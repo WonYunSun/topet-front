@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 import { Routes, Route } from 'react-router-dom';
-import Home from './page/Home';
+import Home from './page/Home'
 import Community from './page/community';
 import CommunityWrite from './page/communityWrite';
 import KakaoLogin from './page/kakaoLogin';

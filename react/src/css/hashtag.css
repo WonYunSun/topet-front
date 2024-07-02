@@ -77,7 +77,10 @@
   .selected-tags {
     margin-bottom: 10px;
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap; /* 태그들이 줄 바꿈 되도록 */
+    align-items: center; /* 버튼이 태그들과 같은 높이에 위치하도록 */
+    gap: 10px; /* 태그와 버튼 사이의 간격 */
+    width: 100%; /* 부모 요소의 너비를 차지하도록 설정 */
   }
   
   .selected-tag {
@@ -115,9 +118,13 @@
   }
   
   .tag {
-    padding: 5px 10px; 
-    border-radius: 20px;
-    background-color: orange;
-    color: white;
+    background-color: transparent;
+    color: #FFA62F;
+    border: 2px solid #FFA62F;
+    border-radius: 30px;
+    padding: 5px 10px;
+    font-size: 13px;
     cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
   }

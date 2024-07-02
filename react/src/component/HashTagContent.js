@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/hashtag.css'
 
-const HashTagContent = ({ onComplete }) => {
+const HashTagContent = ({ onComplete, initialTags }) => { // initialTags 추가
   const [requiredTag, setRequiredTag] = useState('');
   const [optionalTags, setOptionalTags] = useState([]);
   const [inputValue, setInputValue] = useState('');
+
+  useEffect(() => {
+    if (initialTags.length > 0) {
+      setRequiredTag(initialTags[0]);
+      setOptionalTags(initialTags.slice(1));
+    } else {
+      setRequiredTag('자유/일상');
+      setOptionalTags([]);
+    }
+  }, [initialTags]); // initialTags 변경 시 업데이트
 
   const handleRequiredTagClick = (tag) => {
     setRequiredTag(tag);
@@ -41,6 +51,7 @@ const HashTagContent = ({ onComplete }) => {
         <button className="register-button" onClick={handleRegisterTag}>등록</button>
       </div>
       <div className="selected-tags">
+      {requiredTag && <div className='tag'>#{requiredTag}</div>}
         {optionalTags.map(tag => (
           <div className='tag' key={tag}>#{tag}</div>
         ))}

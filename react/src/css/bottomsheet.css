@@ -32,3 +32,10 @@
   .bottom-sheet-content {
     padding: 20px;
   }
+
+  .bottom-sheet-title {
+    margin: 20px;
+    font-size: 16px; /* 텍스트 크기 설정 */
+    font-weight: bold; /* 텍스트 굵기 설정 */
+  }
+  
