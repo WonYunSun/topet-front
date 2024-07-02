@@ -8,7 +8,7 @@ import Community from './page/community';
 import CommunityWrite from './page/communityWrite';
 
 function App() {
-    const [test, setTest] = useState('');
+    const [test, setTest] = useState("");
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
@@ -23,7 +23,10 @@ function App() {
             .catch(error => console.log(error));
     }, []);
 
-    const titleChange = (e) => setTitle(e.target.value);
+    const titleChange = (e) => {
+        setTitle(e.target.value);
+        console.log(e.target.value)
+    }
     const contentChange = (e) => setContent(e.target.value);
 
     const fnpostName = () => {
@@ -40,8 +43,19 @@ function App() {
     }
 
     return (
-        <div>
-        
+       <div className="App">
+            <div>
+                <header className="App-header">
+                    <img src={logo} className="App-logo" alt="logo" />
+                    <div>
+                        complete? {test}    
+                    </div>
+                    <input onChange={titleChange} placeholder='이름을 입력하세요'/>
+                    <input onChange={contentChange} placeholder='학년을 입력하세요'/>
+                    <button type='button' onClick={fnpostName}>전송</button>
+                    <div>{form}</div>
+                </header>
+            </div>
         <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/community/community' element={<Community />} />

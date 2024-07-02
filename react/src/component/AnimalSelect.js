@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 import AnimalProfile from './AnimalProfile';
 import { GoChevronDown } from "react-icons/go";
 
 
-const AnimalSelect = () => {
+const AnimalSelect = ({ onClick, selectedPet }) => {
   return (
-    <div className='animal-select'>
-      <AnimalProfile />
-      <GoChevronDown  className='arrow-bottom'/>
-     </div>
-  )
+    <div className='animal-select' onClick={onClick}>
+      <AnimalProfile selectedPet={selectedPet}/>
+      <GoChevronDown className='arrow-bottom' />
+    </div>
+  );
 }
 
-export default AnimalSelect
+export default AnimalSelect;
