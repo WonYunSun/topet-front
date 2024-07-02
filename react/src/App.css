@@ -38,6 +38,12 @@
 }
 
 
+
+
+
+
+/**topbar*/
+
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -54,11 +60,17 @@
   color: black;
 }
 
+.arrow-bottom {
+  font-size: 24px;
+}
+
 .logo {
   color: #FFA62F;
   font-size: 20px;
   font-weight: bold;
 }
+
+/**title*/
 
 .titlewrite textarea {
   width: 100%;
@@ -77,8 +89,10 @@
   font-weight: bold;
 }
 
+/**content*/
+
 .contentwrite{
-  height: 100vh;
+  height: 60vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -99,6 +113,8 @@
 .contentwrite textarea::placeholder {
   color: #aaa;
 }
+
+/**animal profile*/
 
 .animal-profile {
   margin-left: 10px;
@@ -128,9 +144,7 @@
   padding-right: 10px;
 }
 
-.arrow-bottom {
-  font-size: 24px; /* 아이콘 크기 설정 */
-}
+/**overlay*/
 
 .overlay {
   position: fixed;
@@ -138,27 +152,152 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(144, 143, 143, 0.5); /* 투명한 회색 배경 */
-  z-index: 999; /* 높은 z-index 값으로 다른 요소들 위에 표시 */
+  background-color: rgba(144, 143, 143, 0.5);
+  z-index: 999;
 }
 
+/**bottomSheet*/
+
 .bottom-sheet {
-  height: 300px;
-  width: 100vw; /* 가로를 화면 너비로 설정 */
+  min-height: max-content;
+  width: 100vw;
   background-color: white;
-  position: fixed; /* 화면에 고정 */
-  bottom: -300px; /* 기본적으로 화면 아래에 숨김 */
+  position: fixed;
+  bottom: 0;
   left: 0;
-  transition: bottom 0.3s ease-in-out; /* 부드러운 전환 효과 */
-  border-top-left-radius: 15px; /* 좌상단 둥근 모서리 */
-  border-top-right-radius: 15px; /* 우상단 둥근 모서리 */
-  z-index: 1000; /* 오버레이보다 높은 z-index 값으로 설정 */
+  transform: translateY(100%);
+  transition: bottom 0.3s ease-in-out;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  z-index: 1000;
 }
 
 .bottom-sheet.show {
-  bottom: 0; /* 표시될 때 위치 */
+  bottom: 0;
+  transform: translateY(0);
 }
 
 .bottom-sheet-content {
   padding: 20px;
+}
+
+/**photo-select*/
+
+.photo-select{
+  height: 100px;
+  width: 100px;
+  background-color: #9d9d9d;
+  margin: 10px;
+}
+
+/**hashtag*/
+
+.hashtag-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 10px;
+}
+
+.hashtag-label {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.hashtag-button {
+  background-color: transparent;
+  color: #FFA62F;
+  border: 2px dashed #FFA62F;
+  border-radius: 30px;
+  padding: 5px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.hashtag-button:hover {
+  background-color: #FFA62F;
+  color: #fff;
+}
+
+.hashtag-content {
+  overflow-y: auto;
+  max-height: calc(100vh - 300px);
+}
+
+.hashtag-title, .hashtag-subtitle {
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.hashtag-buttons {
+  margin-bottom: 20px;
+}
+
+.hashtag-input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.hashtag-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  margin-right: 10px;
+}
+
+.register-button {
+  padding: 10px 20px;
+  background-color: orange;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.register-button:hover {
+  background-color: darkorange;
+}
+
+.selected-tags {
+  margin-bottom: 10px;
+}
+
+.selected-tag {
+  margin: 5px;
+  padding: 10px 15px;
+  border: 1px solid orange;
+  border-radius: 20px;
+  background-color: transparent;
+  color: orange;
+  cursor: pointer;
+}
+
+.selected-tag:hover {
+  background-color: orange;
+  color: white;
+}
+
+.complete-button {
+  width: 100%;
+  padding: 15px 0;
+  background-color: orange;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.complete-button:hover {
+  background-color: darkorange;
+}
+
+.hashtag-button.selected {
+  background-color: orange;
+  color: white;
 }

@@ -11,7 +11,8 @@ const AnimalProfile = ({selectedPet}) => {
   const initialPetList = {
     '체리' : 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQC5qNvtQUdFvFdOVhurco8HcIQZzM7VzZ6aJZ9JoysBIlkcGeZ',
     '코코' : 'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202310/24/bemypet/20231024090024806qbul.jpg',
-    '성근' : 'https://img.seoul.co.kr//img/upload/2024/02/15/SSC_20240215002627.jpg'
+    '성근' : 'https://img.seoul.co.kr//img/upload/2024/02/15/SSC_20240215002627.jpg',
+    '이티' : 'https://lh6.googleusercontent.com/proxy/cm-xLarCEsGkewLWHGVnmq97nd1_jmDowqrTzS6eSHi_1suwzHewGa25VZyynlEEyvpjQyqGaBKSri53Oym_JyxrsD5MZQGeTEVGn0d7lGKNQDSEn1uw6jBY4FEP4wyS'
   }
 
     const [animalName, setAnimalName] = useState('')

@@ -4,12 +4,22 @@ import Title from '../component/Title';
 import Content from '../component/Content';
 import AnimalSelect from '../component/AnimalSelect';
 import BottomSheet from '../component/BottomSheet';
+import HashTag from '../component/HashTag';
+import PhotoSelectBox from '../component/PhotoSelectBox';
 
 const CommunityWrite = () => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
+  const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(null);
+  const [selectedTags, setSelectedTags] = useState([]);
 
-  const handleOpenBottomSheet = () => {
+  const handleOpenPetBottomSheet = () => {
+    setBottomSheetType('pet');
+    setShowBottomSheet(true);
+  };
+
+  const handleOpenTagBottomSheet = () => {
+    setBottomSheetType('tag');
     setShowBottomSheet(true);
   };
 
@@ -22,18 +32,33 @@ const CommunityWrite = () => {
     handleCloseBottomSheet();
   };
 
+  const handleCompleteTags = (requiredTag, optionalTags) => {
+    setSelectedTags([requiredTag, ...optionalTags]);
+    handleCloseBottomSheet();
+  };
+
   return (
     <div>
       <TopBar />
-      <AnimalSelect onClick={handleOpenBottomSheet} selectedPet={selectedPet} />
+      <AnimalSelect onClick={handleOpenPetBottomSheet} selectedPet={selectedPet} />
       <div style={{ height: '10px' }}></div>
       <Title />
       <div style={{ height: '20px' }}></div>
       <Content />
+      <br />
+      <PhotoSelectBox />
+      <br />
+      <HashTag onClick={handleOpenTagBottomSheet} selectedTags={selectedTags} />
       {showBottomSheet && (
         <div className="overlay" onClick={handleCloseBottomSheet}></div>
       )}
-      <BottomSheet show={showBottomSheet} onClose={handleCloseBottomSheet} onSelectPet={handleSelectPet} />
+      <BottomSheet
+        show={showBottomSheet}
+        onClose={handleCloseBottomSheet}
+        onSelectPet={handleSelectPet}
+        type={bottomSheetType}
+        onCompleteTags={handleCompleteTags}
+      />
     </div>
   );
 }
