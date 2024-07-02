@@ -2,6 +2,7 @@ import React from 'react';
 import { GoArrowLeft } from 'react-icons/go';
 import { GoHome } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
+import '../css/topbar.css';
 
 const TopBar = () => {
     const navigate = useNavigate()

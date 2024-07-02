@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { setPetList } from '../redux/reducer/reducer'
 import { useSelector, useDispatch } from 'react-redux'
+import '../css/animal_profile.css'
 
 const AnimalProfile = ({selectedPet}) => {
 

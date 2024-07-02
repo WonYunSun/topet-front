@@ -1,4 +1,5 @@
 import React from 'react';
+import '../css/photo_select.css'
 
 function PhotoSelectButton({ text, fontSize }) {
   return (

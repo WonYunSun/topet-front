@@ -6,6 +6,7 @@ import AnimalSelect from '../component/AnimalSelect';
 import BottomSheet from '../component/BottomSheet';
 import HashTag from '../component/HashTag';
 import PhotoSelectBox from '../component/PhotoSelectBox';
+import '../css/bottomsheet.css'
 
 const CommunityWrite = () => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);

@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserView, MobileView } from 'react-device-detect';
+import { BrowserView, MobileView, isMobile } from 'react-device-detect';
 import PhotoSelectButton from './PhotoSelectButton';
-
+import '../css/photo_select.css'
 
 const gettingImageData = () => {
-    if (window.flutterGetImage && window.flutterGetImage.postMessage) {
-      window.flutterGetImage.postMessage('getImageData');
-    } else {
-      console.error('flutterGetImage is not defined');
-    }
-  };
-  
+  if (window.flutterGetImage && window.flutterGetImage.postMessage) {
+    window.flutterGetImage.postMessage('getImageData');
+  } else {
+    console.error('flutterGetImage is not defined');
+  }
+};
 
 // onMounted 함수
 const onMounted = (setPickedImg) => {
@@ -26,7 +25,6 @@ const onMounted = (setPickedImg) => {
   };
 };
 
-
 function PhotoSelectBox() {
   const [pickedImg, setPickedImg] = useState(null);
 
@@ -34,14 +32,21 @@ function PhotoSelectBox() {
     onMounted(setPickedImg);
   }, []);
 
+  useEffect(() => {
+    console.log('isMobile:', isMobile);
+  }, []);
+
   return (
     <div>
-      <MobileView>
-        <button onClick={gettingImageData}>사진 선택(현재 기능 미작동)</button>
-      </MobileView>
-      <BrowserView>
-        <PhotoSelectButton text="Button2" fontSize={20} />
-      </BrowserView>
+      {isMobile ? (
+        <MobileView>
+          <button onClick={gettingImageData}>사진 선택</button>
+        </MobileView>
+      ) : (
+        <BrowserView>
+          <PhotoSelectButton text="Button2" fontSize={20} />
+        </BrowserView>
+      )}
       {pickedImg && <img src={pickedImg} alt="Picked" />}
     </div>
   );

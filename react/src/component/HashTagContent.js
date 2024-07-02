@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../css/hashtag.css'
 
 const HashTagContent = ({ onComplete }) => {
   const [requiredTag, setRequiredTag] = useState('');
@@ -41,7 +42,7 @@ const HashTagContent = ({ onComplete }) => {
       </div>
       <div className="selected-tags">
         {optionalTags.map(tag => (
-          <span className='tag' key={tag}>#{tag}</span>
+          <div className='tag' key={tag}>#{tag}</div>
         ))}
       </div>
       
