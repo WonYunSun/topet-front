@@ -4,7 +4,7 @@ import '../css/animal_profile.css'
 
 
 const PetList = ({ onSelectPet }) => {
-  const petList = useSelector(state => state.main.petList);
+  const petList = useSelector(state => state.petList.petList);
 
   const handleSelectPet = (name) => {
     const url = petList[name];
