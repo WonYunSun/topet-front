@@ -1,55 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserView, MobileView, isMobile } from 'react-device-detect';
-import PhotoSelectButton from './PhotoSelectButton';
-import '../css/photo_select.css'
+import React, { useRef, useState } from 'react';
+import { FaCamera } from "react-icons/fa";
+import '../css/photo_select.css';
 
-const gettingImageData = () => {
-  if (window.flutterGetImage && window.flutterGetImage.postMessage) {
-    window.flutterGetImage.postMessage('getImageData');
-  } else {
-    console.error('flutterGetImage is not defined');
-  }
-};
+const PhotoSelectBox = ({ onPhotosSelected, selectedPhotoCount }) => {
+  const fileInputRef = useRef(null);
 
-// onMounted 함수
-const onMounted = (setPickedImg) => {
-  window.getImageData = function (base64Data) {
-    const binaryString = atob(base64Data);
-    const uint8Array = new Uint8Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) {
-      uint8Array[i] = binaryString.charCodeAt(i);
-    }
-    const blob = new Blob([uint8Array], { type: "image/jpeg" });
-    const objectURL = URL.createObjectURL(blob);
-    setPickedImg(objectURL);
+  const photoSelect = () => {
+    fileInputRef.current.click();
   };
-};
 
-function PhotoSelectBox() {
-  const [pickedImg, setPickedImg] = useState(null);
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    const validFiles = files.filter(file =>
+      (file.type === 'image/jpeg' || file.type === 'image/png')
+    );
 
-  useEffect(() => {
-    onMounted(setPickedImg);
-  }, []);
-
-  useEffect(() => {
-    console.log('isMobile:', isMobile);
-  }, []);
+    onPhotosSelected(validFiles);
+  };
 
   return (
-    <div>
-      {isMobile ? (
-        <MobileView>
-          <button onClick={gettingImageData}>사진 선택</button>
-        </MobileView>
-      ) : (
-        <BrowserView>
-          <PhotoSelectButton text="Button2" fontSize={20} />
-        </BrowserView>
-      )}
-      {pickedImg && <img src={pickedImg} alt="Picked" />}
+    <div className='photo-select-box' onClick={photoSelect}>
+      <FaCamera className='camera-icon' />
+      <span>({selectedPhotoCount}/10)</span>
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+        accept=".jpg, .jpeg, .png"
+        multiple
+      />
     </div>
   );
-}
+};
 
 export default PhotoSelectBox;

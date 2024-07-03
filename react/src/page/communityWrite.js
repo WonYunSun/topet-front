@@ -5,8 +5,8 @@ import Content from '../component/Content';
 import AnimalSelect from '../component/AnimalSelect';
 import BottomSheet from '../component/BottomSheet';
 import HashTag from '../component/HashTag';
-import PhotoSelectBox from '../component/PhotoSelectBox';
 import '../css/bottomsheet.css'
+import PhotoSelectArea from '../component/PhotoSelectArea';
 
 const CommunityWrite = () => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
@@ -55,7 +55,7 @@ const CommunityWrite = () => {
       <div style={{ height: '20px' }}></div>
       <Content />
       <br />
-      <PhotoSelectBox />
+      <PhotoSelectArea />
       <br />
       <HashTag onClick={handleOpenTagBottomSheet} selectedTags={selectedTags} />
       {showBottomSheet && (
