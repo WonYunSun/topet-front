@@ -3,7 +3,7 @@ import PetList from './PetList';
 import HashTagContent from './HashTagContent';
 import '../css/bottomsheet.css'
 
-const BottomSheet = ({ show, onClose, onSelectPet, type, onCompleteTags, initialTags }) => {  // initialTags 추가
+const BottomSheet = ({ show, onClose, onSelectPet, type, onCompleteTags, initialTags }) => {
   return (
     <div className={`bottom-sheet ${show ? 'show' : ''}`}>
         <div className='bottom-sheet-title'>
@@ -17,7 +17,7 @@ const BottomSheet = ({ show, onClose, onSelectPet, type, onCompleteTags, initial
         {type === 'pet' ? (
           <PetList onSelectPet={onSelectPet} />
         ) : (
-          <HashTagContent onComplete={onCompleteTags} initialTags={initialTags} /> // initialTags 추가
+          <HashTagContent onComplete={onCompleteTags} initialTags={initialTags} />
         )}
       </div>
     </div>

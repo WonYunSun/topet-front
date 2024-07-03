@@ -77,10 +77,10 @@
   .selected-tags {
     margin-bottom: 10px;
     display: flex;
-    flex-wrap: wrap; /* 태그들이 줄 바꿈 되도록 */
-    align-items: center; /* 버튼이 태그들과 같은 높이에 위치하도록 */
-    gap: 10px; /* 태그와 버튼 사이의 간격 */
-    width: 100%; /* 부모 요소의 너비를 차지하도록 설정 */
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
   }
   
   .selected-tag {
@@ -118,6 +118,8 @@
   }
   
   .tag {
+    display: flex;
+    align-items: center;
     background-color: transparent;
     color: #FFA62F;
     border: 2px solid #FFA62F;
@@ -127,4 +129,11 @@
     cursor: pointer;
     outline: none;
     transition: background-color 0.3s ease;
+  }
+  
+  .hashtag-remove-button button {
+    background-color: transparent;
+    border: none;
+    color: gray;
+    cursor: pointer;
   }

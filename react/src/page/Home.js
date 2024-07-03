@@ -1,5 +1,7 @@
-import React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React from 'react'
+import { useNavigate, Link } from 'react-router-dom';
+import { GoogleLogin, GoogleOAuthProvider  } from '@react-oauth/google';
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -16,7 +18,16 @@ const Home = () => {
     navigate("/calendar");
   };
   return (
-    <div>
+    <div>      
+      <img src='/img/kakao_login_large_narrow.png' onClick={goKaKaoLogin}/>
+    {/* <GoogleLogin
+onSuccess={credentialResponse => {
+  console.log(credentialResponse);
+}}
+onError={() => {
+  console.log('Login Failed');
+}}
+/>; */}
       <button onClick={goCommunity}>커뮤니티 이동</button>
       <button onClick={goKaKaoLogin}>카카오로그인 이동</button>
       <button onClick={goCalendar}>캘린더 이동</button>

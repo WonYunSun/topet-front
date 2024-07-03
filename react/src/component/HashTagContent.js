@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import '../css/hashtag.css'
+import '../css/hashtag.css';
 
-const HashTagContent = ({ onComplete, initialTags }) => { // initialTags 추가
+const HashTagContent = ({ onComplete, initialTags }) => {
   const [requiredTag, setRequiredTag] = useState('');
   const [optionalTags, setOptionalTags] = useState([]);
   const [inputValue, setInputValue] = useState('');
@@ -9,12 +9,18 @@ const HashTagContent = ({ onComplete, initialTags }) => { // initialTags 추가
   useEffect(() => {
     if (initialTags.length > 0) {
       setRequiredTag(initialTags[0]);
-      setOptionalTags(initialTags.slice(1));
     } else {
       setRequiredTag('자유/일상');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (initialTags.length > 1) {
+      setOptionalTags(initialTags.slice(1));
+    } else {
       setOptionalTags([]);
     }
-  }, [initialTags]); // initialTags 변경 시 업데이트
+  }, [initialTags]);
 
   const handleRequiredTagClick = (tag) => {
     setRequiredTag(tag);
@@ -36,6 +42,10 @@ const HashTagContent = ({ onComplete, initialTags }) => { // initialTags 추가
     onComplete(requiredTag, optionalTags);
   };
 
+  const handleRemoveTag = (tagToRemove) => {
+    setOptionalTags(optionalTags.filter(tag => tag !== tagToRemove));
+  };
+
   return (
     <div className="hashtag-content">
       <div className="hashtag-title">필수 태그(1개만 선택해 주세요)</div>
@@ -51,15 +61,18 @@ const HashTagContent = ({ onComplete, initialTags }) => { // initialTags 추가
         <button className="register-button" onClick={handleRegisterTag}>등록</button>
       </div>
       <div className="selected-tags">
-      {requiredTag && <div className='tag'>#{requiredTag}</div>}
+        {requiredTag && <div className='tag'>#{requiredTag}</div>}
         {optionalTags.map(tag => (
-          <div className='tag' key={tag}>#{tag}</div>
+          <div className='tag' key={tag}>
+            #{tag}
+            <div className='hashtag-remove-button'><button onClick={() => handleRemoveTag(tag)}>x</button></div>
+          </div>
         ))}
       </div>
-      
+
       <button className="complete-button" onClick={handleComplete}>완료</button>
     </div>
   );
-}
+};
 
-export default HashTagContent
+export default HashTagContent;
