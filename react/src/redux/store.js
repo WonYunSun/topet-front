@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import reducer from './reducer/reducer';
+import petListReducer from './reducers/petListReducer';
 
-let store = configureStore({
+const store = configureStore({
     reducer : {
-        main : reducer
+        petList : petListReducer
     }
 })
+
+
 
 export default store;
