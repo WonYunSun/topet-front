@@ -5,15 +5,16 @@ import Content from '../component/Content';
 import AnimalSelect from '../component/AnimalSelect';
 import BottomSheet from '../component/BottomSheet';
 import HashTag from '../component/HashTag';
-import '../css/bottomsheet.css'
+import '../css/bottomsheet.css';
 import PhotoSelectArea from '../component/PhotoSelectArea';
+import WhiteButton from '../component/WhiteButton';
 
 const CommunityWrite = () => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(null);
-  const [selectedTags, setSelectedTags] = useState([]);
-  const [tempTags, setTempTags] = useState([]); // 임시 태그 상태 추가
+  const [selectedTags, setSelectedTags] = useState([]); //selectedTags를 백엔드에 넘겨주면 됨.
+  const [tempTags, setTempTags] = useState([]);
 
   const handleOpenPetBottomSheet = () => {
     setBottomSheetType('pet');
@@ -22,7 +23,7 @@ const CommunityWrite = () => {
 
   const handleOpenTagBottomSheet = () => {
     setBottomSheetType('tag');
-    setTempTags(selectedTags); // 선택된 태그를 임시 태그로 설정
+    setTempTags([...selectedTags]);
     setShowBottomSheet(true);
   };
 
@@ -42,9 +43,13 @@ const CommunityWrite = () => {
 
   useEffect(() => {
     if (!showBottomSheet && bottomSheetType === 'tag') {
-      setTempTags([]); // bottomSheet가 닫힐 때 임시 태그를 초기화
+      setTempTags([]);
     }
   }, [showBottomSheet, bottomSheetType]);
+
+  useEffect(() => {
+    console.log('selectedTags:', selectedTags);
+  }, [selectedTags]);
 
   return (
     <div>
@@ -61,16 +66,20 @@ const CommunityWrite = () => {
       {showBottomSheet && (
         <div className="overlay" onClick={handleCloseBottomSheet}></div>
       )}
+      <div>
+      <WhiteButton text={'취소'} />
+      <WhiteButton text={'작성 완료'} />
+      </div>
       <BottomSheet
         show={showBottomSheet}
         onClose={handleCloseBottomSheet}
         onSelectPet={handleSelectPet}
         type={bottomSheetType}
         onCompleteTags={handleCompleteTags}
-        initialTags={tempTags} // 임시 태그를 initialTags로 설정
+        initialTags={tempTags}
       />
     </div>
   );
-}
+};
 
 export default CommunityWrite;

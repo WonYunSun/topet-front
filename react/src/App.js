@@ -48,7 +48,7 @@ function App() {
 
   return (
     <div className="App">
-      <div>
+      {/* <div>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <div>complete? {test}</div>
@@ -59,7 +59,7 @@ function App() {
           </button>
           <div>{form}</div>
         </header>
-      </div>
+      </div> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/community/community" element={<Community />} />

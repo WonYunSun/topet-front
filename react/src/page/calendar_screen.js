@@ -38,6 +38,7 @@ export const Calendarscreen = () => {
         onClose={handleCloseBottomSheet}
         onSelectPet={handleSelectPet}
         type={bottomSheetType}
+        initialTags={[]}
       />
     </div>
   );

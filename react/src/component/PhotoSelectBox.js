@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { FaCamera } from "react-icons/fa";
 import '../css/photo_select.css';
 
@@ -16,6 +16,8 @@ const PhotoSelectBox = ({ onPhotosSelected, selectedPhotoCount }) => {
     );
 
     onPhotosSelected(validFiles);
+
+    event.target.value = null;
   };
 
   return (
