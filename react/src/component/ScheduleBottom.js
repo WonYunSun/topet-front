@@ -4,8 +4,16 @@ import dayjs from "dayjs";
 import isToday from "dayjs/plugin/isToday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import styles from "../css/schedule_bottom.module.css";
+import "dayjs/locale/ko";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
+
+dayjs.locale("ko");
 
 const ScheduleBottom = ({ schedules, selectedDate }) => {
   const getSchedule = useCallback(
@@ -18,12 +26,13 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
     },
     [schedules]
   );
+  const dayformatter = dayjs(selectedDate).format("YYYY년 MM월 DD일 (ddd)");
 
   return (
     <div className={styles.ScheduleContainer}>
-      {selectedDate && (
+      {dayformatter && (
         <div className={styles.ScheduleWrap}>
-          <p className={styles.SelectedDate}>{selectedDate}</p>
+          <p className={styles.SelectedDate}>{dayformatter}</p>
           {getSchedule(selectedDate).length > 0 ? (
             getSchedule(selectedDate).map((item, index) => {
               return (

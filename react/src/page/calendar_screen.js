@@ -10,6 +10,7 @@ import AnimalSelect from "../component/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
 import ScheduleBottom from "../component/ScheduleBottom";
 import "../css/bottomsheet.css";
+import FloatingBtn from "../component/FloatingBtn";
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
 
@@ -21,6 +22,14 @@ export const Calendarscreen = () => {
     {
       date: "07/10/2024",
       schedule: { title: "example1", content: "test1" },
+    },
+    {
+      date: "07/10/2024",
+      schedule: { title: "example2", content: "test1" },
+    },
+    {
+      date: "07/10/2024",
+      schedule: { title: "example2", content: "test1" },
     },
     {
       date: "07/10/2024",
@@ -76,6 +85,7 @@ export const Calendarscreen = () => {
         initialTags={[]}
       />
       <ScheduleBottom schedules={schedules} selectedDate={selectedDate} />
+      <FloatingBtn />
     </div>
   );
 };
