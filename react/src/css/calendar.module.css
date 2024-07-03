@@ -148,3 +148,6 @@ button:focus-visible {
   transform: translate(70%, 20%);
   bottom: 5px;
 }
+.SelectedDate {
+  color: #ffa62f;
+}
