@@ -8,27 +8,8 @@ import styles from "../css/calendar.module.css"; // CSS 모듈 임포트
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
 
-export const Calendar = () => {
-  // 더미데이터 넣어놓은겁니다
-  const [schedules, setSchedules] = useState([
-    {
-      date: "07/10/2024",
-      schedule: { title: "example1", content: "test1" },
-    },
-    {
-      date: "07/10/2024",
-      schedule: { title: "example1-2", content: "test1-2" },
-    },
-    {
-      date: "07/17/2024",
-      schedule: { title: "example2", content: "test2" },
-    },
-    {
-      date: "08/17/2024",
-      schedule: { title: "example2", content: "test2" },
-    },
-  ]);
-
+export const Calendar = ({ schedules, onDateClick }) => {
+  // 달력생성
   const [date, setDate] = useState(dayjs());
   const dates = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -42,18 +23,7 @@ export const Calendar = () => {
     setDate((prev) => prev.add(1, "month"));
   }, []);
 
-  // 스케쥴 유무 여부 확인
   const hasSchedule = useCallback(
-    (date) => {
-      return schedules.some((schedule) =>
-        dayjs(schedule.date).isSame(date, "day")
-      );
-    },
-    [schedules]
-  );
-
-  // 특정 날짜의 스케쥴을 가져오는 함수
-  const getSchedules = useCallback(
     (date) => {
       return schedules.find((schedule) =>
         dayjs(schedule.date).isSame(date, "day")
@@ -63,18 +33,11 @@ export const Calendar = () => {
   );
 
   const onClickDay = useCallback(
-    (date, e) => {
+    (clickedDate, e) => {
       e.preventDefault();
-      console.log(dayjs(date).format("L"));
-      if (dayjs(date).isToday()) {
-        console.log("오늘이다");
-      }
-      const schedules = getSchedules(date);
-      if (hasSchedule(date)) {
-        console.log(schedules);
-      }
+      onDateClick(dayjs(clickedDate).format("L"));
     },
-    [getSchedules, hasSchedule]
+    [onDateClick]
   );
 
   return (
