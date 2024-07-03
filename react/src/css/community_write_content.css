@@ -1,0 +1,24 @@
+/**content*/
+
+.contentwrite{
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  .contentwrite textarea {
+    width: 100%;
+    height: calc(60vh - 20px);
+    font-size: 15px;
+    padding: 10px;
+    border: none;
+    box-sizing: border-box;
+    outline: none;
+    resize: none;
+    overflow: scroll;
+  }
+  
+  .contentwrite textarea::placeholder {
+    color: #aaa;
+  }

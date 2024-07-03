@@ -1,0 +1,29 @@
+/**animal profile*/
+
+.animal-profile {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .animal-img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+  
+  .animal-name {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .animal-select{
+    height: 60px; /* 원하는 높이로 설정 */
+    border-bottom: 1px solid rgb(212, 211, 211);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 10px;
+  }

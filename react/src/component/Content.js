@@ -1,4 +1,5 @@
 import React from 'react'
+import '../css/community_write_content.css'
 
 const Content = () => {
   return (

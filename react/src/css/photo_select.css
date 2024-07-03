@@ -1,0 +1,66 @@
+.photo-select-box {
+  height: 95px;
+  width: 95px;
+  background-color: #ffffff;
+  border: 3px dotted gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.camera-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.photo-select-area {
+  display: flex;
+  flex-direction: row; /* 가로 배치 */
+  overflow-x: auto; /* 가로 스크롤 */
+  gap: 10px;
+  padding: 10px;
+}
+
+.selected-photos {
+  display: flex;
+  flex-direction: row; /* 가로 배치 */
+  gap: 10px;
+}
+
+.selected-photos {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+}
+
+.photo {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.selected-photo-box{
+  position: relative;
+  max-height: fit-content;
+  max-width: fit-content;
+}
+
+.remove-photo-button {
+  position: absolute;
+  top: 5px; /* 원하는 위치 조정 */
+  right: 5px; /* 원하는 위치 조정 */
+  background-color: rgba(255, 255, 255, 0);
+  color: red; /* 버튼 텍스트 색상 */
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}

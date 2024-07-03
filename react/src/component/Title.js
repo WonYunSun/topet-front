@@ -1,4 +1,5 @@
 import React from 'react'
+import '../css/community_write_title.css'
 
 const Title = () => {
   return (

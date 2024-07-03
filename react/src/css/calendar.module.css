@@ -1,0 +1,150 @@
+:root {
+  line-height: 1.7e;
+  font-weight: 400;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* a {
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
+  }
+  a:hover {
+    color: #535bf2;
+  } */
+
+/* button {
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: border-color 0.25s;
+} */
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* @media (prefers-color-scheme: light) {
+    :root {
+      color: #213547;
+      background-color: #ffffff;
+    }
+    a:hover {
+      color: #747bff;
+    }
+    button {
+      background-color: #f9f9f9;
+    }
+  } */
+
+/* app.css */
+
+#root {
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* .logo {
+    height: 6em;
+    padding: 1.5em;
+    will-change: filter;
+    transition: filter 300ms;
+  }
+  .logo:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+  }
+  .logo.react:hover {
+    filter: drop-shadow(0 0 2em #61dafbaa);
+  } */
+
+/* @keyframes logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    a:nth-of-type(2) .logo {
+      animation: logo-spin infinite 20s linear;
+    }
+  }
+  
+  .card {
+    padding: 2em;
+  } */
+
+/*  */
+
+.CalendarContainer {
+  padding: 6px;
+  border-radius: 8px;
+  width: fit-content;
+  border: 1px solid red;
+  margin: 10px auto;
+}
+
+.CalendarHeader {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.DateContainer {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-gap: 8px;
+  color: #a4b9de;
+}
+
+.DayContainer {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-gap: 8px;
+}
+
+.DateLabel {
+  color: gray;
+  padding: 20px;
+  margin: auto; /* 기본 색상 */
+}
+
+.DateLabel.currentMonth.Today {
+  color: #fff; /* 오늘일 경우 색상 */
+}
+.DateLabel.currentMonth {
+  position: relative;
+  color: #202020; /* 현재 달인 경우의 색상 */
+  padding: 20px;
+  margin: 0 auto;
+}
+.TodayDot {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  background-color: #ffa62f;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+.scheduleDot {
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  transform: translate(70%, 20%);
+  bottom: 5px;
+}
