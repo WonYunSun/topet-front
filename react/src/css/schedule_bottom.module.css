@@ -1,0 +1,22 @@
+:root {
+  --margin-size: 40px; /* 기본 margin 값 */
+}
+.ScheduleContainer {
+  height: 400px;
+  width: 100%;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 1); /* adjusted shadow */
+  overflow: hidden;
+  position: relative;
+}
+
+.ScheduleBox {
+  margin: calc(var(--margin-size) / 4) var(--margin-size);
+  width: calc(100% - 2 * var(--margin-size)); /* margin 값을 동적으로 반영 */
+  box-sizing: border-box;
+  height: 100px;
+  background-color: darkmagenta;
+  border-radius: 25px;
+}
+
+.SelectedDate {
+}
