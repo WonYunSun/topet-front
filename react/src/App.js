@@ -48,7 +48,7 @@ function App() {
             <Route path='/community/community' element={<Community />} />
             <Route path='/community/communitywrite' element={<CommunityWrite />} />
             {/* <Route path='/api/kakaoLogin' element={<KakaoLogin/>} /> */}
-            <Route path='https://kauth.kakao.com/oauth/authorize?client_id=${3494afad7131fc9645ae9b08ed0dfda6}&redirect_uri=${localhost:8081/api/kakaoLogin}&response_type=code'></Route>
+            <Route path='https://kauth.kakao.com/oauth/authorize?client_id=3494afad7131fc9645ae9b08ed0dfda6&redirect_uri=http://localhost:8081/api/kakaoLogin/OAuth&response_type=code'></Route>
         </Routes>
         </div>
     );
