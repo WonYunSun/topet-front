@@ -1,11 +1,12 @@
 // ScheduleBottom.js
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import dayjs from "dayjs";
-import isToday from "dayjs/plugin/isToday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import styles from "../css/schedule_bottom.module.css";
+import "dayjs/locale/ko";
+
 dayjs.extend(localizedFormat);
-dayjs.extend(isToday);
+dayjs.locale("ko");
 
 const ScheduleBottom = ({ schedules, selectedDate }) => {
   const getSchedule = useCallback(
@@ -19,22 +20,24 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
     [schedules]
   );
 
+  const dayformatter = dayjs(selectedDate).format("YYYY년 MM월 DD일 (ddd)");
+
   return (
     <div className={styles.ScheduleContainer}>
-      {selectedDate && (
+      {dayformatter && (
         <div className={styles.ScheduleWrap}>
-          <p className={styles.SelectedDate}>{selectedDate}</p>
-          {getSchedule(selectedDate).length > 0 ? (
-            getSchedule(selectedDate).map((item, index) => {
-              return (
+          <p className={styles.SelectedDate}>{dayformatter}</p>
+          <div className={styles.ScheduleBoxWrap}>
+            {getSchedule(selectedDate).length > 0 ? (
+              getSchedule(selectedDate).map((item, index) => (
                 <div className={styles.ScheduleBox} key={index}>
                   {item.schedule.title}
                 </div>
-              );
-            })
-          ) : (
-            <p className={styles.Noschedule}>일정이 없습니다.</p>
-          )}
+              ))
+            ) : (
+              <p className={styles.Noschedule}>일정이 없습니다.</p>
+            )}
+          </div>
         </div>
       )}
     </div>

@@ -1,0 +1,14 @@
+.BtnContiner {
+  width: 80px;
+  height: 80px;
+  z-index: 999;
+  position: fixed;
+  bottom: 5%;
+  right: 10%;
+}
+.AddscdBtn {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #ffa62f;
+}
