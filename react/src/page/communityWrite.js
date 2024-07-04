@@ -21,7 +21,7 @@ const CommunityWrite = () => {
   const [contentText, setContentText] = useState('')
   const [selectedPhotos, setSelectedPhotos] = useState([]); //selectedPhotos에 사진이 저장되어 있음.
   const [selectedTags, setSelectedTags] = useState([]); //selectedTags를 백엔드에 넘겨주면 됨.
-
+  
   const handleOpenPetBottomSheet = () => { //petList를 bottomSheet에 띄어주기 위한 함수
     setBottomSheetType('pet');
     setShowBottomSheet(true);
@@ -152,7 +152,9 @@ const CommunityWrite = () => {
       <PhotoSelectArea
         selectedPhotos={selectedPhotos} 
         onPhotosSelected={handlePhotosSelected} 
-        onRemovePhoto={handleRemovePhoto} />
+        onRemovePhoto={handleRemovePhoto}
+        cnt={10}
+        />
       <br />
       <HashTag onClick={handleOpenTagBottomSheet} selectedTags={selectedTags} />
       {showBottomSheet && (
