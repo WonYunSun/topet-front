@@ -63,7 +63,25 @@ const CommunityWrite = () => {
     );
     const updatedPhotos = [...selectedPhotos, ...newPhotos].slice(0, 10);
 
-      axios.post('/api/community/community/postPhoto', photos, {
+
+    setSelectedPhotos(updatedPhotos);
+  };
+
+  const handleRemovePhoto = (index) => {
+    setSelectedPhotos(prevPhotos => prevPhotos.filter((_, i) => i !== index));
+  };
+
+
+  const postServer_withPhotos = () => { //서버 전송(사진 빼고) 함수
+
+    const formData = new FormData();
+
+    selectedPhotos.slice(0, 10).forEach((photo, index) => {
+      formData.append('photos', photo);
+    });
+
+  
+    axios.post("/api/community/community/postPhoto", formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -74,56 +92,31 @@ const CommunityWrite = () => {
     .catch(error => {
       console.error('서버 오류:', error);
     });
+   };
 
-
-    setSelectedPhotos(updatedPhotos);
-  };
-
-  const handleRemovePhoto = (index) => {
-    setSelectedPhotos(prevPhotos => prevPhotos.filter((_, i) => i !== index));
-  };
-
-
-  const postServer = () => { //서버 전송 함수
+   const postServer_withoutPhotos = () => { //서버 전송(사진 빼고) 함수
 
     const formData = new FormData();
 
     formData.append('title', titleText);
-
     formData.append('content', contentText);
   
-    selectedPhotos.forEach((photo, index) => {
-      formData.append(`photo_${index}`, photo);
-    });
+    const hashtagsString = selectedTags.map((tag, index) => `${index + 1},${tag}`).join('');
+    formData.append('hashtag', hashtagsString);
+    console.log("test = " +  hashtagsString)
   
-    selectedTags.forEach((tag, index) => {
-      formData.append(`hashtag_${index}`, tag);
+    axios.post("/api/community/community/post", formData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      console.log('서버 응답:', response.data);
+    })
+    .catch(error => {
+      console.error('서버 오류:', error);
     });
-  
-    // axios.post('/your-endpoint', formData, {
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data'
-    //   }
-    // })
-    // .then(response => {
-    //   console.log('서버 응답:', response.data);
-    // })
-    // .catch(error => {
-    //   console.error('서버 오류:', error);
-    // });
    };
-
-  // { 서버에서 받게 되는 형식
-  //   "data": {
-  //     "title": "example title",
-  //     "content": "example content"
-  //   },
-  //   "photo_0": (binary data),
-  //   "photo_1": (binary data),
-  //   "hashtag_0": "exampleTag1",
-  //   "hashtag_1": "exampleTag2"
-  // }
-  
 
 
 
@@ -162,7 +155,7 @@ const CommunityWrite = () => {
       )}
       <div>
       <WhiteButton text={'취소'} />
-      <WhiteButton text={'작성 완료'} postServer={postServer} />
+      <WhiteButton text={'작성 완료'} postServer_withoutPhotos={postServer_withoutPhotos} postServer_withPhotos={postServer_withPhotos}  />
       </div>
       <BottomSheet
         show={showBottomSheet}
