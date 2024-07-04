@@ -16,12 +16,6 @@ dayjs.extend(isToday);
 
 export const Calendarscreen = () => {
   const now = dayjs().format("DD/MM/YY");
-  const [scheduleColor, setScheduleColor] = useState([
-    "#DE496E",
-    "#EC9454",
-    "#ADD899",
-    "#EE4E4E",
-  ]);
 
   // 더미데이터 넣어놓은겁니다
   const [schedules, setSchedules] = useState([

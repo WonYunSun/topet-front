@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import dayjs from "dayjs";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Button from "../component/Button";
+import PhotoSelectBox from "../component/PhotoSelectBox";
 import ko from "date-fns/locale/ko";
 
 registerLocale("ko", ko);
@@ -11,15 +13,16 @@ export default function AddSchedule({ selectedDate }) {
     ? dayjs(selectedDate).toDate()
     : new Date();
   const [startDate, setStartDate] = useState(initialDate);
-  const [endDate, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(initialDate);
   const [isComplete, setIsComplete] = useState(false);
   const [isAllDay, setIsAllDay] = useState(false);
-  //   const [schdeduleColor, setschdeduleColor] = useState([
-  //     "#DE496E",
-  //     "#EC9454",
-  //     "#ADD899",
-  //     "#EE4E4E",
-  //   ]);
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+    if (dayjs(date).isAfter(endDate)) {
+      setEndDate(date);
+    }
+  };
 
   const handleAllDay = () => {
     const startOfDay = dayjs(startDate).startOf("day").toDate();
@@ -40,25 +43,46 @@ export default function AddSchedule({ selectedDate }) {
         <div>
           <DatePicker
             selected={startDate}
-            onChange={setStartDate}
+            onChange={handleStartDateChange}
             locale="ko"
-            {...(isAllDay
-              ? { dateFormat: "yyyy-MM-dd" }
-              : { dateFormat: "yyyy-MM-dd HH:mm" })}
-            {...(isAllDay ? {} : { showTimeSelect: true })}
-            timeIntervals={10}
+            dateFormat="yyyy-MM-dd"
           />
           <DatePicker
             selected={endDate}
             onChange={setEndDate}
             minDate={startDate}
             locale="ko"
-            {...(isAllDay
-              ? { dateFormat: "yyyy-MM-dd" }
-              : { dateFormat: "yyyy-MM-dd HH:mm" })}
-            {...(isAllDay ? {} : { showTimeSelect: true })}
-            timeIntervals={10}
+            openToDate={startDate}
+            dateFormat="yyyy-MM-dd"
           />
+          {isAllDay && (
+            <div>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => {
+                  setStartDate(date);
+                  console.log("Selected start time:", date);
+                }}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={15}
+                timeCaption="Time"
+                dateFormat="h:mm"
+              />
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => {
+                  setEndDate(date);
+                  console.log("Selected end time:", date);
+                }}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={15}
+                timeCaption="Time"
+                dateFormat="h:mm"
+              />
+            </div>
+          )}
           <button type="button" onClick={handleAllDay}>
             하루종일
           </button>
@@ -87,8 +111,13 @@ export default function AddSchedule({ selectedDate }) {
           메모
           <input type="text" name="memo" placeholder="메모를 입력해주세요" />
         </div>
-        <div>이미지 선택</div>
-        <button type="submit">완료</button>
+        <div>
+          이미지 선택
+          <PhotoSelectBox isCountNeed="true" />
+        </div>
+        <Button type="submit" text="완료" btnstyle="orange">
+          완료
+        </Button>
       </form>
     </div>
   );

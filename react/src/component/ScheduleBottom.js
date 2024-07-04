@@ -1,13 +1,17 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import styles from "../css/schedule_bottom.module.css";
 import "dayjs/locale/ko";
+import BottomSheet from "../component/BottomSheet";
 
 dayjs.extend(localizedFormat);
 dayjs.locale("ko");
 
 const ScheduleBottom = ({ schedules, selectedDate }) => {
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
+  const [bottomSheetContent, setBottomSheetContent] = useState(null);
+
   const getSchedule = useCallback(
     (date) => {
       const day = schedules.filter((schedule) =>
@@ -17,6 +21,15 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
     },
     [schedules]
   );
+
+  const handleScheduleClick = (schedule, date) => {
+    setBottomSheetContent({ ...schedule, date });
+    setShowBottomSheet(true);
+  };
+
+  const handleCloseBottomSheet = () => {
+    setShowBottomSheet(false);
+  };
 
   const dayformatter = dayjs(selectedDate).format("YYYY년 MM월 DD일 (ddd)");
 
@@ -32,6 +45,7 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
                   className={styles.ScheduleBox}
                   key={index}
                   style={{ backgroundColor: item.schedule.color }}
+                  onClick={() => handleScheduleClick(item.schedule, item.date)}
                 >
                   {item.schedule.title}
                 </div>
@@ -41,6 +55,14 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
             )}
           </div>
         </div>
+      )}
+      {showBottomSheet && (
+        <BottomSheet
+          show={showBottomSheet}
+          onClose={handleCloseBottomSheet}
+          type="scheduleDetail"
+          schedule={bottomSheetContent}
+        />
       )}
     </div>
   );

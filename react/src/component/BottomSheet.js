@@ -1,8 +1,8 @@
 import React from "react";
 import PetList from "./PetList";
 import HashTagContent from "./HashTagContent";
-import "../css/bottomsheet.css";
 import AddSchedule from "./AddSchedule";
+import "../css/bottomsheet.css";
 
 const BottomSheet = ({
   show,
@@ -12,6 +12,7 @@ const BottomSheet = ({
   onCompleteTags,
   initialTags,
   selectedDate,
+  schedule,
 }) => {
   function getTypeText(type) {
     switch (type) {
@@ -21,6 +22,8 @@ const BottomSheet = ({
         return "태그 선택";
       case "addSchedule":
         return "일정 등록";
+      case "scheduleDetail":
+        return "일정 상세";
       default:
         return "";
     }
@@ -39,16 +42,28 @@ const BottomSheet = ({
         );
       case "addSchedule":
         return <AddSchedule selectedDate={selectedDate} />;
+      case "scheduleDetail":
+        return schedule ? (
+          <div>
+            <h2>{schedule.title}</h2>
+            <p>{schedule.content}</p>
+            <p>Color: {schedule.color}</p>
+            <p>Date: {schedule.date}</p>
+          </div>
+        ) : null;
       default:
         return "";
     }
   }
 
   return (
-    <div className={`bottom-sheet ${show ? "show" : ""}`}>
-      <div className="bottom-sheet-title">{getTypeText(type)}</div>
-      <div className="bottom-sheet-content">{getSheetContent(type)}</div>
-    </div>
+    <>
+      {show && <div className="overlay" onClick={onClose}></div>}
+      <div className={`bottom-sheet ${show ? "show" : ""}`}>
+        <div className="bottom-sheet-title">{getTypeText(type)}</div>
+        <div className="bottom-sheet-content">{getSheetContent(type)}</div>
+      </div>
+    </>
   );
 };
 
