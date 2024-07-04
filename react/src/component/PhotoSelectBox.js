@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { FaCamera } from "react-icons/fa";
 import "../css/photo_select.css";
 
-const PhotoSelectBox = ({ onPhotosSelected, selectedPhotoCount }) => {
+const PhotoSelectBox = ({ onPhotosSelected, selectedPhotoCount, cnt }) => {
   const fileInputRef = useRef(null);
 
   const photoSelect = () => {
@@ -23,14 +23,15 @@ const PhotoSelectBox = ({ onPhotosSelected, selectedPhotoCount }) => {
   return (
     <div className="photo-select-box" onClick={photoSelect}>
       <FaCamera className="camera-icon" />
-
-      <span className="photoCntSpan">({selectedPhotoCount}/10)</span>
+      <span>
+        ({selectedPhotoCount}/{cnt})
+      </span>
       <input
         type="file"
         ref={fileInputRef}
         style={{ display: "none" }}
         onChange={handleFileChange}
-        accept=".jpg, .jpeg, .png"
+        accept="image/*" //나중에 쇼츠로 동영상만 받아 올 때는 "video/*"로 하면 동영상만 받아올 수 있음 이것도 역시 모바일에서 갤러리 열림
         multiple
       />
     </div>

@@ -69,6 +69,20 @@ const CommunityWrite = () => {
         )
     );
     const updatedPhotos = [...selectedPhotos, ...newPhotos].slice(0, 10);
+
+    axios
+      .post("/api/community/community/postPhoto", photos, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log("서버 응답:", response.data);
+      })
+      .catch((error) => {
+        console.error("서버 오류:", error);
+      });
+
     setSelectedPhotos(updatedPhotos);
   };
 
@@ -120,6 +134,7 @@ const CommunityWrite = () => {
         handleContentTextChange={handleContentTextChange}
       />
       <br />
+
       <PhotoSelectArea
         selectedPhotos={selectedPhotos}
         onPhotosSelected={handlePhotosSelected}
