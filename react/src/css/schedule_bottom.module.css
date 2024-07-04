@@ -25,7 +25,6 @@
   width: calc(100% - 2 * var(--margin-size)); /* margin 값을 동적으로 반영 */
   box-sizing: border-box;
   height: 100px;
-  background-color: darkmagenta;
   border-radius: 25px;
 }
 .SelectedDate {
