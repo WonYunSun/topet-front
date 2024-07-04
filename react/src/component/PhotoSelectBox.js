@@ -15,6 +15,7 @@ const PhotoSelectBox = ({ onPhotosSelected, selectedPhotoCount }) => {
       (file.type === 'image/jpeg' || file.type === 'image/png')
     );
 
+    
     onPhotosSelected(validFiles);
 
     event.target.value = null;
@@ -29,7 +30,7 @@ const PhotoSelectBox = ({ onPhotosSelected, selectedPhotoCount }) => {
         ref={fileInputRef}
         style={{ display: 'none' }}
         onChange={handleFileChange}
-        accept=".jpg, .jpeg, .png"
+        accept="image/*" //나중에 쇼츠로 동영상만 받아 올 때는 "video/*"로 하면 동영상만 받아올 수 있음 이것도 역시 모바일에서 갤러리 열림
         multiple
       />
     </div>

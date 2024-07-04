@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { BrowserView, MobileView } from 'react-device-detect'
 import TopBar from '../component/TopBar';
 import Title from '../component/Title';
 import Content from '../component/Content';
@@ -61,6 +62,20 @@ const CommunityWrite = () => {
       (photo) => !selectedPhotos.some((selectedPhoto) => selectedPhoto.name === photo.name)
     );
     const updatedPhotos = [...selectedPhotos, ...newPhotos].slice(0, 10);
+
+      axios.post('/api/community/community/postPhoto', photos, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then(response => {
+      console.log('서버 응답:', response.data);
+    })
+    .catch(error => {
+      console.error('서버 오류:', error);
+    });
+
+
     setSelectedPhotos(updatedPhotos);
   };
 
@@ -68,14 +83,14 @@ const CommunityWrite = () => {
     setSelectedPhotos(prevPhotos => prevPhotos.filter((_, i) => i !== index));
   };
 
+
   const postServer = () => { //서버 전송 함수
-    const data = {
-      title: titleText,
-      content: contentText,
-    };
-  
+
     const formData = new FormData();
-    formData.append('data', JSON.stringify(data));
+
+    formData.append('title', titleText);
+
+    formData.append('content', contentText);
   
     selectedPhotos.forEach((photo, index) => {
       formData.append(`photo_${index}`, photo);
@@ -85,17 +100,17 @@ const CommunityWrite = () => {
       formData.append(`hashtag_${index}`, tag);
     });
   
-  //   axios.post('/your-endpoint', formData, {
-  //     headers: {
-  //       'Content-Type': 'multipart/form-data'
-  //     }
-  //   })
-  //   .then(response => {
-  //     console.log('서버 응답:', response.data);
-  //   })
-  //   .catch(error => {
-  //     console.error('서버 오류:', error);
-  //   });
+    // axios.post('/your-endpoint', formData, {
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data'
+    //   }
+    // })
+    // .then(response => {
+    //   console.log('서버 응답:', response.data);
+    // })
+    // .catch(error => {
+    //   console.error('서버 오류:', error);
+    // });
    };
 
   // { 서버에서 받게 되는 형식
@@ -133,6 +148,7 @@ const CommunityWrite = () => {
       <div style={{ height: '20px' }}></div>
       <Content value={contentText} handleContentTextChange={handleContentTextChange}/>
       <br />
+      
       <PhotoSelectArea
         selectedPhotos={selectedPhotos} 
         onPhotosSelected={handlePhotosSelected} 
