@@ -1,4 +1,3 @@
-// ScheduleBottom.js
 import React, { useCallback } from "react";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
@@ -14,7 +13,6 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
       const day = schedules.filter((schedule) =>
         dayjs(schedule.date).isSame(date, "day")
       );
-      // 필터링된 결과가 있으면 해당 배열 반환, 없으면 빈 배열 반환
       return day.length > 0 ? day : [];
     },
     [schedules]
@@ -30,7 +28,11 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
           <div className={styles.ScheduleBoxWrap}>
             {getSchedule(selectedDate).length > 0 ? (
               getSchedule(selectedDate).map((item, index) => (
-                <div className={styles.ScheduleBox} key={index}>
+                <div
+                  className={styles.ScheduleBox}
+                  key={index}
+                  style={{ backgroundColor: item.schedule.color }}
+                >
                   {item.schedule.title}
                 </div>
               ))
