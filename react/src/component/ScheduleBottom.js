@@ -9,10 +9,10 @@ dayjs.extend(customParseFormat);
 dayjs.extend(localizedFormat);
 dayjs.locale("ko");
 
-const ScheduleBottom = ({ schedules, selectedDate }) => {
+const ScheduleBottom = ({ schedules, selectedDate, onClose }) => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetContent, setBottomSheetContent] = useState(null);
-  console.log("props로받아오는값이 : ", selectedDate);
+
   const getSchedule = useCallback(
     (date) => {
       const day = schedules.filter((schedule) => {
@@ -40,7 +40,7 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
   const dayformatter = dayjs(selectedDate, "YYYY/MM/DD").format(
     "YYYY년 MM월 DD일 (ddd)"
   );
-  console.log(dayformatter);
+
   return (
     <div className={styles.ScheduleContainer}>
       {dayformatter && (
@@ -67,7 +67,7 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
       {showBottomSheet && (
         <BottomSheet
           show={showBottomSheet}
-          onClose={handleCloseBottomSheet}
+          onClose={onClose}
           type="scheduleDetail"
           schedule={bottomSheetContent}
         />

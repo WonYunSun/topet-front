@@ -14,13 +14,6 @@ const BottomSheet = ({
   selectedDate,
   schedule,
 }) => {
-  const [showBottomSheet, setShowBottomSheet] = useState(false);
-  // const handleOpenBottomSheet = () => {
-  //   setShowBottomSheet(true);
-  // };
-  const handleCloseBottomSheet = () => {
-    setShowBottomSheet(false);
-  };
   function getTypeText(type) {
     switch (type) {
       case "pet":
@@ -48,12 +41,7 @@ const BottomSheet = ({
           />
         );
       case "addSchedule":
-        return (
-          <AddSchedule
-            selectedDate={selectedDate}
-            onClose={() => handleCloseBottomSheet}
-          />
-        );
+        return <AddSchedule selectedDate={selectedDate} onClose={onClose} />;
       case "scheduleDetail":
         return schedule ? (
           <div>

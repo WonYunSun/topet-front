@@ -10,9 +10,7 @@ import axios from "axios";
 registerLocale("ko", ko);
 
 export default function AddSchedule({ selectedDate, onClose }) {
-  const initialDate = dayjs(selectedDate).isValid()
-    ? dayjs(selectedDate).toDate()
-    : new Date();
+  const initialDate = dayjs(selectedDate).isValid() ? selectedDate : new Date();
   const [startDate, setStartDate] = useState(initialDate);
   const [endDate, setEndDate] = useState(initialDate);
   const [title, setTitle] = useState("");
@@ -49,7 +47,7 @@ export default function AddSchedule({ selectedDate, onClose }) {
     setSelectedPhoto(null);
   };
 
-  const postScheduleData = () => {
+  const postScheduleData = async () => {
     const formData = new FormData();
 
     formData.append(
@@ -68,22 +66,19 @@ export default function AddSchedule({ selectedDate, onClose }) {
       console.log(`${key}: ${value}`);
     }
 
-    axios
-      .post("/api/schedule/post", formData, {
+    try {
+      const response = await axios.post("/api/schedule/post", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      })
-      .then((response) => {
-        console.log("서버 응답:", response.data);
-        onClose();
-      })
-      .catch((error) => {
-        console.error("서버 오류:", error);
       });
+      console.log("서버 응답:", response.data);
+    } catch (error) {
+      console.error("서버 오류:", error);
+    }
   };
 
-  const postSchedulePhoto = () => {
+  const postSchedulePhoto = async () => {
     if (!selectedPhoto) return;
 
     const formData = new FormData();
@@ -93,18 +88,26 @@ export default function AddSchedule({ selectedDate, onClose }) {
       console.log(`${key}: ${value}`);
     }
 
-    axios
-      .post("/api/schedule/postPhoto", formData, {
+    try {
+      const response = await axios.post("/api/schedule/postPhoto", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      })
-      .then((response) => {
-        console.log("서버 응답:", response.data);
-      })
-      .catch((error) => {
-        console.error("서버 오류:", error);
       });
+      console.log("서버 응답:", response.data);
+    } catch (error) {
+      console.error("서버 오류:", error);
+    }
+  };
+
+  const handleButtonClick = async () => {
+    try {
+      await postScheduleData();
+      await postSchedulePhoto();
+      onClose(); // 두 요청 모두 성공 후 onClose 호출
+    } catch (error) {
+      console.error("스케줄 저장 중 오류 발생:", error);
+    }
   };
 
   return (
@@ -206,6 +209,7 @@ export default function AddSchedule({ selectedDate, onClose }) {
         btnstyle="orange"
         postServer_withoutPhotos={postScheduleData}
         postServer_withPhotos={postSchedulePhoto}
+        onClick={handleButtonClick}
       />
     </div>
   );
