@@ -50,6 +50,7 @@ const BottomSheet = ({
             <p>Color: {schedule.color}</p>
             <p>startDate: {schedule.startDate}</p>
             <p>endDate: {schedule.endDate}</p>
+            {schedule.isComplete ? <div>완료</div> : <div>미완료</div>}
           </div>
         ) : null;
       default:

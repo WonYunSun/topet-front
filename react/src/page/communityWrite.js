@@ -86,22 +86,6 @@ const CommunityWrite = () => {
       formData.append("photos", photo);
     });
 
-    setSelectedPhotos(updatedPhotos);
-  };
-
-  const handleRemovePhoto = (index) => {
-    setSelectedPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
-  };
-
-  const postServer_withPhotos = () => {
-    //서버 전송(사진) 함수
-
-    const formData = new FormData();
-
-    selectedPhotos.slice(0, 10).forEach((photo, index) => {
-      formData.append("photos", photo);
-    });
-
     axios
       .post("/api/community/community/postPhoto", formData, {
         headers: {

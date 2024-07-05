@@ -61,10 +61,13 @@ function App() {
         </header>
       </div> */}
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/community/community" element={<Community />} />
-        <Route path="/community/communitywrite" element={<CommunityWrite />} />
-        <Route path="/calendar" element={<Calendarscreen />} />
+        <Route path="/api" element={<Home />} />
+        <Route path="/api/community/community" element={<Community />} />
+        <Route
+          path="/api/community/communitywrite"
+          element={<CommunityWrite />}
+        />
+        <Route path="/api/schedule" element={<Calendarscreen />} />
 
         {/* <Route path='/api/kakaoLogin' element={<KakaoLogin/>} /> */}
         <Route path="https://kauth.kakao.com/oauth/authorize?client_id=${3494afad7131fc9645ae9b08ed0dfda6}&redirect_uri=${localhost:8081/api/kakaoLogin}&response_type=code"></Route>
