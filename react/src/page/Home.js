@@ -8,13 +8,13 @@ const Home = () => {
     "https://kauth.kakao.com/oauth/authorize?client_id=3494afad7131fc9645ae9b08ed0dfda6&redirect_uri=http://localhost:8081/api/kakaoLogin/OAuth&response_type=code";
 
   const goCommunity = () => {
-    navigate("/community/community");
+    navigate("/api/community/community");
   };
   const goKaKaoLogin = () => {
     window.location.href = link;
   };
   const goCalendar = () => {
-    navigate("/calendar");
+    navigate("/api/schedule");
   };
   return (
     <div>
