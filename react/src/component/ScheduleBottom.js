@@ -29,6 +29,8 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
 
   const handleScheduleClick = (schedule) => {
     setBottomSheetContent(schedule);
+  const handleScheduleClick = (schedule) => {
+    setBottomSheetContent(schedule);
     setShowBottomSheet(true);
   };
 
@@ -49,6 +51,8 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
                 <div
                   className={styles.ScheduleBox}
                   key={index}
+                  style={{ backgroundColor: item.color }}
+                  onClick={() => handleScheduleClick(item)}
                   style={{ backgroundColor: item.color }}
                   onClick={() => handleScheduleClick(item)}
                 >

@@ -34,6 +34,11 @@ export const Calendarscreen = () => {
       scheduleTitle: "example2",
       scheduleContent: "test2",
       color: "#EE4E4E",
+      startDate: "2024-07-11T13:00:00",
+      endDate: "2024-07-11T14:00:00",
+      scheduleTitle: "example2",
+      scheduleContent: "test2",
+      color: "#EE4E4E",
     },
     {
       startDate: "2024-07-11T13:00:00",
