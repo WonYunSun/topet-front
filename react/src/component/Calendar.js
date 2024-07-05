@@ -1,16 +1,13 @@
 import React, { useState, useCallback, useMemo } from "react";
-import React, { useState, useCallback, useMemo } from "react";
 import dayjs from "dayjs";
 import isToday from "dayjs/plugin/isToday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import isBetween from "dayjs/plugin/isBetween";
-import isBetween from "dayjs/plugin/isBetween";
 import { generateDate } from "./generateDate"; // 날짜 가져오는 파일
-import styles from "../css/calendar.module.css"; // CSS 모듈 임포트
+import styles from "../css/calendar.module.css"; // CSS 모듈 임포트a
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
-dayjs.extend(isBetween);
 dayjs.extend(isBetween);
 
 export const Calendar = ({ schedules, onDateClick }) => {
@@ -44,7 +41,6 @@ export const Calendar = ({ schedules, onDateClick }) => {
     (clickedDate, e) => {
       e.preventDefault();
       setSelectedDate(clickedDate); // 클릭된 날짜 설정
-      onDateClick(dayjs(clickedDate).format("YYYY-MM-DD"));
       onDateClick(dayjs(clickedDate).format("YYYY-MM-DD"));
     },
     [onDateClick]
@@ -95,7 +91,6 @@ export const Calendar = ({ schedules, onDateClick }) => {
                 <div className={styles.TodayDot}></div>
               )}
               {currentMonth && hasSchedule(date) && (
-              {currentMonth && hasSchedule(date) && (
                 <div className={styles.scheduleDot}></div>
               )}
             </div>
@@ -105,7 +100,5 @@ export const Calendar = ({ schedules, onDateClick }) => {
     </div>
   );
 };
-
-export default Calendar;
 
 export default Calendar;
