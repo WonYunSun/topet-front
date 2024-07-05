@@ -70,8 +70,24 @@ const CommunityWrite = () => {
     );
     const updatedPhotos = [...selectedPhotos, ...newPhotos].slice(0, 10);
 
+    setSelectedPhotos(updatedPhotos);
+  };
+
+  const handleRemovePhoto = (index) => {
+    setSelectedPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
+  };
+
+  const postServer_withPhotos = () => {
+    //서버 전송(사진) 함수
+
+    const formData = new FormData();
+
+    selectedPhotos.slice(0, 10).forEach((photo, index) => {
+      formData.append("photos", photo);
+    });
+
     axios
-      .post("/api/community/community/postPhoto", photos, {
+      .post("/api/community/community/postPhoto", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -82,31 +98,34 @@ const CommunityWrite = () => {
       .catch((error) => {
         console.error("서버 오류:", error);
       });
-
-    setSelectedPhotos(updatedPhotos);
   };
 
-  const handleRemovePhoto = (index) => {
-    setSelectedPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
-  };
-
-  const postServer = () => {
-    //서버 전송 함수
-    const data = {
-      title: titleText,
-      content: contentText,
-    };
+  const postServer_withoutPhotos = () => {
+    //서버 전송(사진 빼고) 함수
 
     const formData = new FormData();
-    formData.append("data", JSON.stringify(data));
 
-    selectedPhotos.forEach((photo, index) => {
-      formData.append(`photo_${index}`, photo);
-    });
+    formData.append("title", titleText);
 
-    selectedTags.forEach((tag, index) => {
-      formData.append(`hashtag_${index}`, tag);
-    });
+    formData.append("content", contentText);
+
+    const hashtagsString = selectedTags
+      .map((tag, index) => `${index + 1},${tag}`)
+      .join("");
+    formData.append("hashtag", hashtagsString);
+
+    axios
+      .post("/api/community/community/post", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log("서버 응답:", response.data);
+      })
+      .catch((error) => {
+        console.error("서버 오류:", error);
+      });
   };
 
   useEffect(() => {
@@ -139,12 +158,18 @@ const CommunityWrite = () => {
         selectedPhotos={selectedPhotos}
         onPhotosSelected={handlePhotosSelected}
         onRemovePhoto={handleRemovePhoto}
+        cnt={10}
       />
       <br />
       <HashTag onClick={handleOpenTagBottomSheet} selectedTags={selectedTags} />
       <div>
         <Button text={"취소"} btnstyle="white" />
-        <Button text={"작성 완료"} btnstyle="white" postServer={postServer} />
+        <Button
+          text={"작성 완료"}
+          btnstyle="white"
+          postServer_withoutPhotos={postServer_withoutPhotos}
+          postServer_withPhotos={postServer_withPhotos}
+        />
       </div>
       <BottomSheet
         show={showBottomSheet}

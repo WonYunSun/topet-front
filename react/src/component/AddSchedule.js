@@ -55,7 +55,7 @@ export default function AddSchedule({ selectedDate }) {
             openToDate={startDate}
             dateFormat="yyyy-MM-dd"
           />
-          {isAllDay && (
+          {!isAllDay && (
             <div>
               <DatePicker
                 selected={startDate}

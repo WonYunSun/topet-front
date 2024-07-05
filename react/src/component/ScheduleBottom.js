@@ -14,16 +14,21 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
 
   const getSchedule = useCallback(
     (date) => {
-      const day = schedules.filter((schedule) =>
-        dayjs(schedule.date).isSame(date, "day")
-      );
+      const day = schedules.filter((schedule) => {
+        const start = dayjs(schedule.startDate);
+        const end = dayjs(schedule.endDate);
+        const targetDate = dayjs(date);
+
+        return targetDate.isBetween(start, end, "day", "[]");
+      });
+
       return day.length > 0 ? day : [];
     },
     [schedules]
   );
 
-  const handleScheduleClick = (schedule, date) => {
-    setBottomSheetContent({ ...schedule, date });
+  const handleScheduleClick = (schedule) => {
+    setBottomSheetContent(schedule);
     setShowBottomSheet(true);
   };
 
@@ -44,10 +49,10 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
                 <div
                   className={styles.ScheduleBox}
                   key={index}
-                  style={{ backgroundColor: item.schedule.color }}
-                  onClick={() => handleScheduleClick(item.schedule, item.date)}
+                  style={{ backgroundColor: item.color }}
+                  onClick={() => handleScheduleClick(item)}
                 >
-                  {item.schedule.title}
+                  {item.scheduleTitle}
                 </div>
               ))
             ) : (

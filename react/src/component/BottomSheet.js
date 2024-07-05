@@ -45,10 +45,11 @@ const BottomSheet = ({
       case "scheduleDetail":
         return schedule ? (
           <div>
-            <h2>{schedule.title}</h2>
-            <p>{schedule.content}</p>
+            <h2>{schedule.scheduleTitle}</h2>
+            <p>{schedule.scheduleContent}</p>
             <p>Color: {schedule.color}</p>
-            <p>Date: {schedule.date}</p>
+            <p>startDate: {schedule.startDate}</p>
+            <p>endDate: {schedule.endDate}</p>
           </div>
         ) : null;
       default:
