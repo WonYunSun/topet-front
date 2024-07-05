@@ -1,22 +1,40 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import styles from "../css/schedule_bottom.module.css";
 import "dayjs/locale/ko";
+import BottomSheet from "../component/BottomSheet";
 
 dayjs.extend(localizedFormat);
 dayjs.locale("ko");
 
 const ScheduleBottom = ({ schedules, selectedDate }) => {
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
+  const [bottomSheetContent, setBottomSheetContent] = useState(null);
+
   const getSchedule = useCallback(
     (date) => {
       const day = schedules.filter((schedule) =>
-        dayjs(schedule.date).isSame(date, "day")
+        dayjs(date).isBetween(
+          dayjs(schedule.startdate),
+          dayjs(schedule.enddate),
+          "day",
+          "[]"
+        )
       );
       return day.length > 0 ? day : [];
     },
     [schedules]
   );
+
+  const handleScheduleClick = (schedule) => {
+    setBottomSheetContent(schedule);
+    setShowBottomSheet(true);
+  };
+
+  const handleCloseBottomSheet = () => {
+    setShowBottomSheet(false);
+  };
 
   const dayformatter = dayjs(selectedDate).format("YYYY년 MM월 DD일 (ddd)");
 
@@ -31,9 +49,10 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
                 <div
                   className={styles.ScheduleBox}
                   key={index}
-                  style={{ backgroundColor: item.schedule.color }}
+                  style={{ backgroundColor: item.color }}
+                  onClick={() => handleScheduleClick(item)}
                 >
-                  {item.schedule.title}
+                  {item.scheduletitle}
                 </div>
               ))
             ) : (
@@ -41,6 +60,14 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
             )}
           </div>
         </div>
+      )}
+      {showBottomSheet && (
+        <BottomSheet
+          show={showBottomSheet}
+          onClose={handleCloseBottomSheet}
+          type="scheduleDetail"
+          schedule={bottomSheetContent}
+        />
       )}
     </div>
   );

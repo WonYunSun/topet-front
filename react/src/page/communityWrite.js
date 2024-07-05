@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BrowserView, MobileView } from 'react-device-detect'
 import TopBar from '../component/TopBar';
 import Title from '../component/Title';
 import Content from '../component/Content';
@@ -9,7 +8,7 @@ import BottomSheet from '../component/BottomSheet';
 import HashTag from '../component/HashTag';
 import '../css/bottomsheet.css';
 import PhotoSelectArea from '../component/PhotoSelectArea';
-import WhiteButton from '../component/WhiteButton';
+import Button from '../component/Button';
 
 
 const CommunityWrite = () => {
@@ -72,7 +71,7 @@ const CommunityWrite = () => {
   };
 
 
-  const postServer_withPhotos = () => { //서버 전송(사진 빼고) 함수
+  const postServer_withPhotos = () => { //서버 전송(사진) 함수
 
     const formData = new FormData();
 
@@ -99,11 +98,11 @@ const CommunityWrite = () => {
     const formData = new FormData();
 
     formData.append('title', titleText);
+
     formData.append('content', contentText);
   
     const hashtagsString = selectedTags.map((tag, index) => `${index + 1},${tag}`).join('');
     formData.append('hashtag', hashtagsString);
-    console.log("test = " +  hashtagsString)
   
     axios.post("/api/community/community/post", formData, {
       headers: {
@@ -150,12 +149,11 @@ const CommunityWrite = () => {
         />
       <br />
       <HashTag onClick={handleOpenTagBottomSheet} selectedTags={selectedTags} />
-      {showBottomSheet && (
-        <div className="overlay" onClick={handleCloseBottomSheet}></div>
-      )}
       <div>
-      <WhiteButton text={'취소'} />
-      <WhiteButton text={'작성 완료'} postServer_withoutPhotos={postServer_withoutPhotos} postServer_withPhotos={postServer_withPhotos}  />
+
+        
+      <Button text={'취소'} btnstyle="white"/>
+      <Button text={'작성 완료'} btnstyle="white" postServer_withoutPhotos={postServer_withoutPhotos} postServer_withPhotos={postServer_withPhotos}  />
       </div>
       <BottomSheet
         show={showBottomSheet}
@@ -164,6 +162,7 @@ const CommunityWrite = () => {
         type={bottomSheetType}
         onCompleteTags={handleCompleteTags}
         initialTags={tempTags}
+        selectedDate={new Date()}
       />
     </div>
   );

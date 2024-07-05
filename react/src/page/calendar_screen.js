@@ -10,44 +10,44 @@ import BottomSheet from "../component/BottomSheet";
 import ScheduleBottom from "../component/ScheduleBottom";
 import "../css/bottomsheet.css";
 import FloatingBtn from "../component/FloatingBtn";
+import isBetween from "dayjs/plugin/isBetween";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
+dayjs.extend(isBetween);
 
 export const Calendarscreen = () => {
   const now = dayjs().format("DD/MM/YY");
-  const [scheduleColor, setScheduleColor] = useState([
-    "#DE496E",
-    "#EC9454",
-    "#ADD899",
-    "#EE4E4E",
-  ]);
 
   // 더미데이터 넣어놓은겁니다
   const [schedules, setSchedules] = useState([
     {
-      date: "07/10/2024",
-      schedule: { title: "example1", content: "test1", color: "#DE496E" },
+      startDate: "2024-07-10T09:00:00",
+      endDate: "2024-07-10T10:00:00",
+      scheduleTitle: "example1",
+      scheduleContent: "test1",
+      color: "#DE496E",
     },
     {
-      date: "07/10/2024",
-      schedule: { title: "example2", content: "test1", color: "#EE4E4E" },
+      startDate: "2024-07-11T13:00:00",
+      endDate: "2024-07-11T14:00:00",
+      scheduleTitle: "example2",
+      scheduleContent: "test2",
+      color: "#EE4E4E",
     },
     {
-      date: "07/10/2024",
-      schedule: { title: "example2", content: "test1", color: "#ADD899" },
+      startDate: "2024-07-12T11:30:00",
+      endDate: "2024-07-12T12:30:00",
+      scheduleTitle: "example3",
+      scheduleContent: "test3",
+      color: "#ADD899",
     },
     {
-      date: "07/10/2024",
-      schedule: { title: "example2", content: "test1", color: "#EE4E4E" },
-    },
-    {
-      date: "07/17/2024",
-      schedule: { title: "example2", content: "test2", color: "#DE496E" },
-    },
-    {
-      date: "07/23/2024",
-      schedule: { title: "example3", content: "test3", color: "#EC9454" },
+      startDate: "2024-07-13T15:00:00",
+      endDate: "2024-07-13T16:00:00",
+      scheduleTitle: "example4",
+      scheduleContent: "test4",
+      color: "#EC9454",
     },
   ]);
 

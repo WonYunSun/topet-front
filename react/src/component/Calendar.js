@@ -1,12 +1,14 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import dayjs from "dayjs";
 import isToday from "dayjs/plugin/isToday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import isBetween from "dayjs/plugin/isBetween";
 import { generateDate } from "./generateDate"; // 날짜 가져오는 파일
 import styles from "../css/calendar.module.css"; // CSS 모듈 임포트
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
+dayjs.extend(isBetween);
 
 export const Calendar = ({ schedules, onDateClick }) => {
   const [date, setDate] = useState(dayjs());
@@ -25,9 +27,18 @@ export const Calendar = ({ schedules, onDateClick }) => {
 
   const hasSchedule = useCallback(
     (date) => {
-      return schedules.find((schedule) =>
-        dayjs(schedule.date).isSame(date, "day")
-      );
+      return schedules.some((schedule) => {
+        const start = dayjs(schedule.startDate);
+        const end = dayjs(schedule.endDate);
+        const current = dayjs(date);
+        // console.log("------------------------------");
+        // console.log("Current:", current.format());
+        // console.log("Start:", start.format());
+        // console.log("End:", end.format());
+
+        // isBetween with inclusive range '[]'
+        return current.isBetween(start, end, "day", "[]");
+      });
     },
     [schedules]
   );
@@ -36,7 +47,7 @@ export const Calendar = ({ schedules, onDateClick }) => {
     (clickedDate, e) => {
       e.preventDefault();
       setSelectedDate(clickedDate); // 클릭된 날짜 설정
-      onDateClick(dayjs(clickedDate).format("L"));
+      onDateClick(dayjs(clickedDate).format("YYYY-MM-DD"));
     },
     [onDateClick]
   );
@@ -85,7 +96,7 @@ export const Calendar = ({ schedules, onDateClick }) => {
               {isToday && currentMonth && (
                 <div className={styles.TodayDot}></div>
               )}
-              {hasSchedule(date) && currentMonth && (
+              {currentMonth && hasSchedule(date) && (
                 <div className={styles.scheduleDot}></div>
               )}
             </div>
@@ -95,3 +106,5 @@ export const Calendar = ({ schedules, onDateClick }) => {
     </div>
   );
 };
+
+export default Calendar;
