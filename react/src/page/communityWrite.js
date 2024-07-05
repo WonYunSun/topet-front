@@ -96,13 +96,18 @@ const CommunityWrite = () => {
    const postServer_withoutPhotos = () => { //서버 전송(사진 빼고) 함수
 
     const formData = new FormData();
-
+  
     formData.append('title', titleText);
-
     formData.append('content', contentText);
   
-    const hashtagsString = selectedTags.map((tag, index) => `${index + 1},${tag}`).join('');
-    formData.append('hashtag', hashtagsString);
+    if (selectedTags.length > 0) {
+      // 첫 번째 요소는 'category'로 추가
+      formData.append('category', selectedTags[0]);
+  
+      // 나머지 요소들을 'hashtag' 문자열로 결합하여 추가
+      const hashtagsString = selectedTags.slice(1).map((tag, index) => `${index + 1},${tag}`).join('');
+      formData.append('hashtag', hashtagsString);
+    }
   
     axios.post("/api/community/community/post", formData, {
       headers: {
@@ -115,7 +120,8 @@ const CommunityWrite = () => {
     .catch(error => {
       console.error('서버 오류:', error);
     });
-   };
+  };
+  
 
 
 

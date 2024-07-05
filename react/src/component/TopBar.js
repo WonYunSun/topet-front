@@ -4,7 +4,7 @@ import { GoHome } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import '../css/topbar.css';
 
-const TopBar = () => {
+const TopBar = ( {community} ) => {
     const navigate = useNavigate()
 
     const goBack = () => {
