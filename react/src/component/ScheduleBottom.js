@@ -1,17 +1,18 @@
 import React, { useCallback, useState } from "react";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import styles from "../css/schedule_bottom.module.css";
 import "dayjs/locale/ko";
 import BottomSheet from "../component/BottomSheet";
-
+dayjs.extend(customParseFormat);
 dayjs.extend(localizedFormat);
 dayjs.locale("ko");
 
 const ScheduleBottom = ({ schedules, selectedDate }) => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetContent, setBottomSheetContent] = useState(null);
-
+  console.log("props로받아오는값이 : ", selectedDate);
   const getSchedule = useCallback(
     (date) => {
       const day = schedules.filter((schedule) => {
@@ -36,8 +37,10 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
     setShowBottomSheet(false);
   };
 
-  const dayformatter = dayjs(selectedDate).format("YYYY년 MM월 DD일 (ddd)");
-
+  const dayformatter = dayjs(selectedDate, "YYYY/MM/DD").format(
+    "YYYY년 MM월 DD일 (ddd)"
+  );
+  console.log(dayformatter);
   return (
     <div className={styles.ScheduleContainer}>
       {dayformatter && (

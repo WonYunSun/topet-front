@@ -145,6 +145,7 @@ button:focus-visible {
   transform: translate(-50%, -50%);
   z-index: -1;
 }
+
 .scheduleDot {
   width: 8px;
   height: 8px;
@@ -154,6 +155,11 @@ button:focus-visible {
   transform: translate(70%, 20%);
   bottom: 5px;
 }
+
 .SelectedDate > div {
   color: #ffa62f;
+}
+
+.SelectedDate.Today > div {
+  color: #fff;
 }

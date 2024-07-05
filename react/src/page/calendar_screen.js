@@ -17,7 +17,7 @@ dayjs.extend(isToday);
 dayjs.extend(isBetween);
 
 export const Calendarscreen = () => {
-  const now = dayjs().format("DD/MM/YY");
+  const now = dayjs().format("YYYY/MM/DD");
 
   // 더미데이터 넣어놓은겁니다
   const [schedules, setSchedules] = useState([
@@ -110,7 +110,7 @@ export const Calendarscreen = () => {
     setBottomSheetType("addSchedule");
     setShowBottomSheet(true);
   };
-
+  console.log("선택된 날짜는 : ", selectedDate);
   return (
     <div>
       <TopBar />

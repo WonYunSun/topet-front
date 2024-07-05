@@ -9,7 +9,7 @@ import axios from "axios";
 
 registerLocale("ko", ko);
 
-export default function AddSchedule({ selectedDate }) {
+export default function AddSchedule({ selectedDate, onClose }) {
   const initialDate = dayjs(selectedDate).isValid()
     ? dayjs(selectedDate).toDate()
     : new Date();
@@ -76,6 +76,7 @@ export default function AddSchedule({ selectedDate }) {
       })
       .then((response) => {
         console.log("서버 응답:", response.data);
+        onClose();
       })
       .catch((error) => {
         console.error("서버 오류:", error);
