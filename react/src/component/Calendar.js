@@ -78,6 +78,7 @@ export const Calendar = ({ schedules, onDateClick }) => {
             currentMonth ? styles.currentMonth : "",
             isToday ? styles.Today : "",
             isSelected ? styles.SelectedDate : "", // 클릭된 날짜일 경우 추가 클래스 적용
+            isToday && isSelected ? styles.SelectedToday : "", // 오늘 날짜이면서 선택된 날짜일 경우 추가 클래스 적용
           ].join(" ");
 
           return (

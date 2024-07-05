@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PetList from "./PetList";
 import HashTagContent from "./HashTagContent";
 import AddSchedule from "./AddSchedule";
@@ -14,6 +14,13 @@ const BottomSheet = ({
   selectedDate,
   schedule,
 }) => {
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
+  // const handleOpenBottomSheet = () => {
+  //   setShowBottomSheet(true);
+  // };
+  const handleCloseBottomSheet = () => {
+    setShowBottomSheet(false);
+  };
   function getTypeText(type) {
     switch (type) {
       case "pet":
@@ -41,7 +48,12 @@ const BottomSheet = ({
           />
         );
       case "addSchedule":
-        return <AddSchedule selectedDate={selectedDate} />;
+        return (
+          <AddSchedule
+            selectedDate={selectedDate}
+            onClose={() => handleCloseBottomSheet}
+          />
+        );
       case "scheduleDetail":
         return schedule ? (
           <div>
