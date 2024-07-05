@@ -24,11 +24,11 @@
   padding: 10px;
 }
 
-.selected-photos {
+/* .selected-photos {
   display: flex;
-  flex-direction: row; /* 가로 배치 */
+  flex-direction: row;
   gap: 10px;
-}
+} */
 
 .selected-photos {
   display: flex;

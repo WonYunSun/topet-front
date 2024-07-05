@@ -1,17 +1,20 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import isToday from "dayjs/plugin/isToday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
-// import { generateDate } from "../component/generateDate"; // 날짜 가져오는 파일
-import styles from "../css/calendar.module.css"; // CSS 모듈 임포트
+import styles from "../css/calendar.module.css";
 import { Calendar } from "./../component/Calendar";
 import TopBar from "../component/TopBar";
 import AnimalSelect from "../component/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
 import ScheduleBottom from "../component/ScheduleBottom";
 import "../css/bottomsheet.css";
+import FloatingBtn from "../component/FloatingBtn";
+import isBetween from "dayjs/plugin/isBetween";
+
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
+dayjs.extend(isBetween);
 
 export const Calendarscreen = () => {
   const now = dayjs().format("DD/MM/YY");
@@ -19,21 +22,32 @@ export const Calendarscreen = () => {
   // 더미데이터 넣어놓은겁니다
   const [schedules, setSchedules] = useState([
     {
-      date: "07/10/2024",
-      schedule: { title: "example1", content: "test1" },
+      startDate: "2024-07-10T09:00:00",
+      endDate: "2024-07-10T10:00:00",
+      scheduleTitle: "example1",
+      scheduleContent: "test1",
+      color: "#DE496E",
     },
     {
-      date: "07/10/2024",
-      schedule: { title: "example2", content: "test1" },
-    },
-
-    {
-      date: "07/17/2024",
-      schedule: { title: "example2", content: "test2" },
+      startDate: "2024-07-11T13:00:00",
+      endDate: "2024-07-11T14:00:00",
+      scheduleTitle: "example2",
+      scheduleContent: "test2",
+      color: "#EE4E4E",
     },
     {
-      date: "07/23/2024",
-      schedule: { title: "example3", content: "test3" },
+      startDate: "2024-07-12T11:30:00",
+      endDate: "2024-07-12T12:30:00",
+      scheduleTitle: "example3",
+      scheduleContent: "test3",
+      color: "#ADD899",
+    },
+    {
+      startDate: "2024-07-13T15:00:00",
+      endDate: "2024-07-13T16:00:00",
+      scheduleTitle: "example4",
+      scheduleContent: "test4",
+      color: "#EC9454",
     },
   ]);
 
@@ -59,7 +73,12 @@ export const Calendarscreen = () => {
   const handleDateClick = (date) => {
     setSelectedDate(date); // 선택된 날짜 업데이트
   };
-  console.log(selectedDate);
+
+  const handleFloatingBtnClick = () => {
+    setBottomSheetType("addSchedule");
+    setShowBottomSheet(true);
+  };
+
   return (
     <div>
       <TopBar />
@@ -74,9 +93,16 @@ export const Calendarscreen = () => {
         onSelectPet={handleSelectPet}
         type={bottomSheetType}
         initialTags={[]}
+        selectedDate={selectedDate}
       />
       <ScheduleBottom schedules={schedules} selectedDate={selectedDate} />
+      <FloatingBtn onClick={handleFloatingBtnClick} />
+
+      {showBottomSheet && (
+        <div className="overlay" onClick={handleCloseBottomSheet}></div>
+      )}
     </div>
   );
 };
+
 export default Calendarscreen;

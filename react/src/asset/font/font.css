@@ -1,4 +1,6 @@
 @font-face {
   font-family: "SUIT Variable", sans-serif;
   src: url("./SUIT-Variable.ttf");
+  font-weight: normal;
+  font-style: normal;
 }

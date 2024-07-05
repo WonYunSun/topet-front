@@ -1,16 +1,18 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import dayjs from "dayjs";
 import isToday from "dayjs/plugin/isToday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import isBetween from "dayjs/plugin/isBetween";
 import { generateDate } from "./generateDate"; // 날짜 가져오는 파일
 import styles from "../css/calendar.module.css"; // CSS 모듈 임포트
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
+dayjs.extend(isBetween);
 
 export const Calendar = ({ schedules, onDateClick }) => {
-  // 달력생성
   const [date, setDate] = useState(dayjs());
+  const [selectedDate, setSelectedDate] = useState(null); // 클릭된 날짜 상태 추가
   const dates = ["일", "월", "화", "수", "목", "금", "토"];
 
   const records = useMemo(() => generateDate(date), [date]);
@@ -25,9 +27,18 @@ export const Calendar = ({ schedules, onDateClick }) => {
 
   const hasSchedule = useCallback(
     (date) => {
-      return schedules.find((schedule) =>
-        dayjs(schedule.date).isSame(date, "day")
-      );
+      return schedules.some((schedule) => {
+        const start = dayjs(schedule.startDate);
+        const end = dayjs(schedule.endDate);
+        const current = dayjs(date);
+        // console.log("------------------------------");
+        // console.log("Current:", current.format());
+        // console.log("Start:", start.format());
+        // console.log("End:", end.format());
+
+        // isBetween with inclusive range '[]'
+        return current.isBetween(start, end, "day", "[]");
+      });
     },
     [schedules]
   );
@@ -35,7 +46,8 @@ export const Calendar = ({ schedules, onDateClick }) => {
   const onClickDay = useCallback(
     (clickedDate, e) => {
       e.preventDefault();
-      onDateClick(dayjs(clickedDate).format("L"));
+      setSelectedDate(clickedDate); // 클릭된 날짜 설정
+      onDateClick(dayjs(clickedDate).format("YYYY-MM-DD"));
     },
     [onDateClick]
   );
@@ -65,10 +77,13 @@ export const Calendar = ({ schedules, onDateClick }) => {
       <div className={styles.DayContainer}>
         {records.map(({ date, currentMonth }, index) => {
           const isToday = dayjs(date).isToday();
+          const isSelected = selectedDate === date.$d; // 클릭된 날짜인지 확인
+
           const classNames = [
             styles.DateLabel,
             currentMonth ? styles.currentMonth : "",
             isToday ? styles.Today : "",
+            isSelected ? styles.SelectedDate : "", // 클릭된 날짜일 경우 추가 클래스 적용
           ].join(" ");
 
           return (
@@ -81,7 +96,7 @@ export const Calendar = ({ schedules, onDateClick }) => {
               {isToday && currentMonth && (
                 <div className={styles.TodayDot}></div>
               )}
-              {hasSchedule(date) && currentMonth && (
+              {currentMonth && hasSchedule(date) && (
                 <div className={styles.scheduleDot}></div>
               )}
             </div>
@@ -91,3 +106,5 @@ export const Calendar = ({ schedules, onDateClick }) => {
     </div>
   );
 };
+
+export default Calendar;

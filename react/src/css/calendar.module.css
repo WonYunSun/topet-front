@@ -1,10 +1,9 @@
 :root {
-  line-height: 1.7e;
-  font-weight: 400;
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+body {
 }
 
 /* a {
@@ -24,12 +23,17 @@
   cursor: pointer;
   transition: border-color 0.25s;
 } */
+button {
+  border: 0;
+  background-color: transparent;
+}
 button:hover {
   border-color: #646cff;
+  background-color: transparent;
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  background-color: transparent;
 }
 
 /* @media (prefers-color-scheme: light) {
@@ -87,10 +91,11 @@ button:focus-visible {
 /*  */
 
 .CalendarContainer {
+  font-weight: 600;
   padding: 6px;
   border-radius: 8px;
   width: fit-content;
-  border: 1px solid red;
+
   margin: 10px auto;
 }
 
@@ -98,6 +103,7 @@ button:focus-visible {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin: 10px 0 25px 0;
 }
 
 .DateContainer {
@@ -147,4 +153,7 @@ button:focus-visible {
   position: absolute;
   transform: translate(70%, 20%);
   bottom: 5px;
+}
+.SelectedDate > div {
+  color: #ffa62f;
 }

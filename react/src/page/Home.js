@@ -1,7 +1,6 @@
-import React from 'react'
-import { useNavigate, Link } from 'react-router-dom';
+import React from "react";
+import { useNavigate, Link } from "react-router-dom";
 //import { GoogleLogin, GoogleOAuthProvider  } from '@react-oauth/google';
-
 
 const Home = () => {
   const navigate = useNavigate();
@@ -18,9 +17,9 @@ const Home = () => {
     navigate("/calendar");
   };
   return (
-    <div>      
-      <img src='/img/kakao_login_large_narrow.png' onClick={goKaKaoLogin}/>
-    {/* <GoogleLogin
+    <div>
+      <img src="/img/kakao_login_large_narrow.png" onClick={goKaKaoLogin} />
+      {/* <GoogleLogin
 onSuccess={credentialResponse => {
   console.log(credentialResponse);
 }}
