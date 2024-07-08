@@ -2,9 +2,11 @@
 input {
   border: none;
   outline: none;
+  margin: 0;
 }
-span {
+.AddScheduleWrap > div > span {
   font-weight: 600;
+  margin-right: 20px;
 }
 
 /* input이 포커스를 받을 때 (클릭 시 포함) */
@@ -27,25 +29,23 @@ input:active {
   height: 20%;
 }
 .AddScheduleWrap {
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: baseline;
-  gap: 15px;
+  gap: 30px;
   justify-content: space-between;
 }
 .ScheduleTitle {
   font-size: 20px;
   font-weight: 600;
 }
-span {
-  margin-right: 10px;
-}
+
 .DataSelectArea {
-  background-color: cornflowerblue;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 .DatepickerBoxWrap {
   display: flex;
@@ -59,12 +59,46 @@ span {
 .TimepickerBox {
   width: 10ch;
   text-align: center;
-  font-size: 15px;
+  font-weight: 500;
   font-size: 20px;
+  transition: max-height 0.5s ease-in, opacity 0.5s ease-out;
+  max-height: 100px;
+  opacity: 1;
+  overflow: hidden;
+}
+.TimepickerBox.hidden {
+  max-height: 0;
+  opacity: 0;
 }
 .DatepickerBox :focus {
   outline: none;
 }
 .TimepickerBox :focus {
   outline: none;
+}
+input[type="radio"] {
+  transform: scale(1.8); /* 원하는 크기로 조정 */
+  -webkit-transform: scale(1.8); /* Safari and Chrome */
+  -moz-transform: scale(1.8); /* Firefox */
+  -ms-transform: scale(1.8); /* IE 9 */
+  -o-transform: scale(1.8); /* Opera */
+  margin-left: 30px;
+  vertical-align: middle;
+}
+.imagepickerBox {
+  display: flex;
+  flex-direction: row;
+}
+.radiobtn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  vertical-align: middle;
+}
+.radioLabel {
+  vertical-align: middle;
+}
+label div {
+  display: inline;
+  margin-left: 5px;
 }
