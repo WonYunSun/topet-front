@@ -12,3 +12,15 @@
   border-radius: 50%;
   background-color: #ffa62f;
 }
+.AddscdBtn div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  margin: 0 auto;
+  padding-top: 5px;
+}
+.AddscdBtn p {
+  margin: 0;
+  font-size: 13px;
+}
