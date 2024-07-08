@@ -28,10 +28,10 @@ button {
   background-color: transparent;
 }
 
-button:focus,
+/* button:focus,
 button:focus-visible {
   background-color: transparent;
-}
+} */
 
 /* @media (prefers-color-scheme: light) {
     :root {
