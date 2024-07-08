@@ -1,15 +1,14 @@
-import { createProxyMiddleware } from 'http-proxy-middleware';
+import { createProxyMiddleware } from "http-proxy-middleware";
 
-module.exports = function(app) {
-app.use(
-    '/api',     //이제 프론트엔드에서 '/api'로 요청을 보내면, 백엔드인 8080포트(=target)로 요청이 도착하게 됩니다.
+module.exports = function (app) {
+  app.use(
+    "/api", //이제 프론트엔드에서 '/api'로 요청을 보내면, 백엔드인 8080포트(=target)로 요청이 도착하게 됩니다.
     createProxyMiddleware({
-        target: 'http://localhost:8081',//# 서버 URL or localhost:설정한포트번호
-        changeOrigin: true,
+      target: "http://175.45.202.131:8081/", //# 서버 URL or localhost:설정한포트번호
+      changeOrigin: true,
     })
-);
+  );
 };
-
 
 // src/main/frontend/src/setProxy.js
 //https://velog.io/@u-nij/Spring-Boot-React.js-%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD-%EC%84%B8%ED%8C%85
