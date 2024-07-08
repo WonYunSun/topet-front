@@ -14,11 +14,6 @@ function App() {
     const [test, setTest] = useState('');
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [test, setTest] = useState('');
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
-
-    const [form, setForm] = useState('');
     const [form, setForm] = useState('');
 
     useEffect(() => {
@@ -40,16 +35,11 @@ function App() {
             .catch((error) => console.log(error));
     }, []);
 
-    const titleChange = (e) => {
-        setTitle(e.target.value);
-        console.log(e.target.value);
-    };
     const contentChange = (e) => setContent(e.target.value);
     const titleChange = (e) => {
         setTitle(e.target.value);
         console.log(e.target.value);
     };
-    const contentChange = (e) => setContent(e.target.value);
 
     const fnpostName = () => {
         const formData = {

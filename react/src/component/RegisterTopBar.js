@@ -20,10 +20,21 @@ const RegisterTopBar = ({ stepNum }) => {
     };
 
     return (
-        <div className={styles.registertopBar}>
-            <GoArrowLeft className={styles.icon} onClick={goBack} />
-            <div onChange={Sequence}>{stepNum}/6</div>
-            <MdOutlineCancel className={styles.icon} onClick={cancel} />
+        <div>
+            <div className={styles.registertopBar}>
+                <GoArrowLeft className={styles.icon} onClick={goBack} />
+                <div onChange={Sequence}>{stepNum}/6</div>
+                <MdOutlineCancel className={styles.icon} onClick={cancel} />
+            </div>
+            <div
+                style={{
+                    width: (100 * stepNum) / 6 + '%',
+                    height: '6px',
+                    backgroundColor: 'orange',
+                    borderTopRightRadius: '15%',
+                    borderBottomRightRadius: '15%',
+                }}
+            ></div>
         </div>
     );
 };
