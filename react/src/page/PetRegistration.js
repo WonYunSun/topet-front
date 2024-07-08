@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import RegisterTopBar from '../component/RegisterTopBar';
-import styles from '../css/registertopbar.module.css';
 import AnimalType from '../component/AnimalSelectComp/AnimalType';
 import AnimalKind from '../component/AnimalSelectComp/AnimalKind';
 import AnimalGender from '../component/AnimalSelectComp/AnimalGender';
