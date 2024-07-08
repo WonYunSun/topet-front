@@ -110,7 +110,7 @@ export const Calendarscreen = () => {
     setBottomSheetType("addSchedule");
     setShowBottomSheet(true);
   };
-  console.log("선택된 날짜는 : ", selectedDate);
+
   return (
     <div>
       <TopBar />
@@ -127,12 +127,12 @@ export const Calendarscreen = () => {
         initialTags={[]}
         selectedDate={selectedDate}
       />
-      <ScheduleBottom schedules={schedules} selectedDate={selectedDate} />
+      <ScheduleBottom
+        schedules={schedules}
+        selectedDate={selectedDate}
+        onClose={handleCloseBottomSheet}
+      />
       <FloatingBtn onClick={handleFloatingBtnClick} />
-
-      {showBottomSheet && (
-        <div className="overlay" onClick={handleCloseBottomSheet}></div>
-      )}
     </div>
   );
 };

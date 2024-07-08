@@ -14,13 +14,6 @@ const BottomSheet = ({
   selectedDate,
   schedule,
 }) => {
-  const [showBottomSheet, setShowBottomSheet] = useState(false);
-  // const handleOpenBottomSheet = () => {
-  //   setShowBottomSheet(true);
-  // };
-  const handleCloseBottomSheet = () => {
-    setShowBottomSheet(false);
-  };
   function getTypeText(type) {
     switch (type) {
       case "pet":
@@ -48,12 +41,7 @@ const BottomSheet = ({
           />
         );
       case "addSchedule":
-        return (
-          <AddSchedule
-            selectedDate={selectedDate}
-            onClose={() => handleCloseBottomSheet}
-          />
-        );
+        return <AddSchedule selectedDate={selectedDate} onClose={onClose} />;
       case "scheduleDetail":
         return schedule ? (
           <div>
@@ -64,7 +52,9 @@ const BottomSheet = ({
             <p>endDate: {schedule.endDate}</p>
             {schedule.isComplete ? <div>완료</div> : <div>미완료</div>}
           </div>
-        ) : null;
+        ) : (
+          <div></div>
+        );
       default:
         return "";
     }
@@ -72,7 +62,16 @@ const BottomSheet = ({
 
   return (
     <>
-      {show && <div className="overlay" onClick={onClose}></div>}
+      {show && (
+        <div
+          className="overlay"
+          onClick={() => {
+            console.log("Overlay clicked");
+            onClose();
+          }}
+        ></div>
+      )}
+
       <div className={`bottom-sheet ${show ? "show" : ""}`}>
         <div className="bottom-sheet-title">{getTypeText(type)}</div>
         <div className="bottom-sheet-content">{getSheetContent(type)}</div>

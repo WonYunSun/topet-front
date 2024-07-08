@@ -1,6 +1,6 @@
 import React from "react";
 import PhotoSelectBox from "./PhotoSelectBox";
-import "../css/photo_select.css";
+import styles from "../css/photo_select.module.css";
 
 const SchedulePhotoSelectArea = ({
   selectedPhoto,
@@ -14,8 +14,8 @@ const SchedulePhotoSelectArea = ({
   };
 
   return (
-    <div className="photo-select-area">
-      <div className="selected-photos">
+    <div className={styles["photo-select-area-single"]}>
+      <div className={styles["selected-photos"]}>
         {!selectedPhoto && (
           <PhotoSelectBox
             onPhotosSelected={handlePhotoSelected}
@@ -24,13 +24,16 @@ const SchedulePhotoSelectArea = ({
           />
         )}
         {selectedPhoto && (
-          <div className="selected-photo-box">
+          <div className={styles["selected-photo-box-single"]}>
             <img
               src={URL.createObjectURL(selectedPhoto)}
               alt="selected"
-              className="photo"
+              className={styles["photo"]}
             />
-            <button className="remove-photo-button" onClick={onRemovePhoto}>
+            <button
+              className={styles["remove-photo-button"]}
+              onClick={onRemovePhoto}
+            >
               x
             </button>
           </div>
