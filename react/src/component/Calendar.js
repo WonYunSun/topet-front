@@ -4,7 +4,7 @@ import isToday from "dayjs/plugin/isToday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import isBetween from "dayjs/plugin/isBetween";
 import { generateDate } from "./generateDate"; // 날짜 가져오는 파일
-import styles from "../css/calendar.module.css"; // CSS 모듈 임포트
+import styles from "../css/calendar.module.css"; // CSS 모듈 임포트a
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
@@ -31,12 +31,6 @@ export const Calendar = ({ schedules, onDateClick }) => {
         const start = dayjs(schedule.startDate);
         const end = dayjs(schedule.endDate);
         const current = dayjs(date);
-        // console.log("------------------------------");
-        // console.log("Current:", current.format());
-        // console.log("Start:", start.format());
-        // console.log("End:", end.format());
-
-        // isBetween with inclusive range '[]'
         return current.isBetween(start, end, "day", "[]");
       });
     },
@@ -84,6 +78,7 @@ export const Calendar = ({ schedules, onDateClick }) => {
             currentMonth ? styles.currentMonth : "",
             isToday ? styles.Today : "",
             isSelected ? styles.SelectedDate : "", // 클릭된 날짜일 경우 추가 클래스 적용
+            isToday && isSelected ? styles.SelectedToday : "", // 오늘 날짜이면서 선택된 날짜일 경우 추가 클래스 적용
           ].join(" ");
 
           return (

@@ -43,7 +43,7 @@
   border-radius: 20px;
 }
 
-.selected-photo-box{
+.selected-photo-box {
   position: relative;
   max-height: fit-content;
   max-width: fit-content;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PetList from "./PetList";
 import HashTagContent from "./HashTagContent";
 import AddSchedule from "./AddSchedule";
@@ -13,6 +13,7 @@ const BottomSheet = ({
   initialTags,
   selectedDate,
   schedule,
+  onSelectAnimal
 }) => {
   function getTypeText(type) {
     switch (type) {
@@ -29,6 +30,8 @@ const BottomSheet = ({
     }
   }
 
+
+
   function getSheetContent(type) {
     switch (type) {
       case "pet":
@@ -41,14 +44,16 @@ const BottomSheet = ({
           />
         );
       case "addSchedule":
-        return <AddSchedule selectedDate={selectedDate} />;
+        return <AddSchedule selectedDate={selectedDate} onClose={onClose} />;
       case "scheduleDetail":
         return schedule ? (
           <div>
-            <h2>{schedule.title}</h2>
-            <p>{schedule.content}</p>
+            <h2>{schedule.scheduleTitle}</h2>
+            <p>{schedule.scheduleContent}</p>
             <p>Color: {schedule.color}</p>
-            <p>Date: {schedule.date}</p>
+            <p>startDate: {schedule.startDate}</p>
+            <p>endDate: {schedule.endDate}</p>
+            {schedule.isComplete ? <div>완료</div> : <div>미완료</div>}
           </div>
         ) : null;
       default:
