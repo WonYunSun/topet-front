@@ -1,0 +1,42 @@
+.kindwrapper {
+    margin-top: 30px;
+    margin-left: 30px;
+    margin-bottom: 70px;
+    height: 450px;
+    overflow-y: scroll;
+    text-align: left;
+}
+
+.searchBarWrapper {
+    border-radius: 10%;
+}
+
+.title {
+    font-size: 27px;
+}
+
+.kind {
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+
+.icon {
+    font-size: 27px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.searchbar {
+    border: none;
+    width: 280px;
+    height: 33px;
+    font-size: 16px;
+}
+
+.emptyList {
+    height: 520px;
+}
+
+.kindListContainer {
+    height: 520px;
+}

@@ -1,0 +1,41 @@
+.type {
+    width: 200px;
+    height: 200px; /* height를 명시적으로 설정 */
+    border-radius: 70%;
+    overflow: hidden;
+    margin: 10px auto;
+    box-sizing: border-box;
+}
+
+.AnimalTypeWrapper {
+    overflow: hidden;
+    height: max-content;
+    margin: 10px;
+}
+
+.typename {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 0px 20px 0px;
+}
+
+.typeimg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block; /* 이미지 주위의 공백을 제거 */
+}
+.Imgcontainer {
+    width: 200px;
+    height: 200px;
+    box-sizing: border-box;
+}
+
+.selected {
+    outline: 6px solid orange;
+    outline-offset: -6px;
+}
+
+.ImgWrapper {
+    margin: 10px;
+}
