@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaCamera } from 'react-icons/fa';
 import styles from '../../css/animal_photoandname.module.css';
 
-const AnimalPhotoandName = ({ onPhotosSelected }) => {
+const AnimalPhotoandName = ({}) => {
     const [selectedPhoto, setSelectedPhoto] = useState();
 
     const fileInputRef = useRef(null);
@@ -11,12 +11,13 @@ const AnimalPhotoandName = ({ onPhotosSelected }) => {
     };
 
     const handleFileChange = (event) => {
-        const photo = Array.from(event.target.files);
-        const validPhoto = photo.filter((file) => file.type === 'image/jpeg' || file.type === 'image/png');
+        const photo = event.target.files;
+        //const validPhoto = photo.fil  ter((file) => file.type === 'image/jpeg' || file.type === 'image/png');
+        console.log(photo);
 
-        onPhotosSelected(validPhoto);
+        //onPhotosSelected(validPhoto);
 
-        event.target.value = null; // reset the value of the input to allow re-upload of the same file
+        //event.target.value = null; // reset the value of the input to allow re-upload of the same file
     };
 
     const ProfilePhoto = () => {
