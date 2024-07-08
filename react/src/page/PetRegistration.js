@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import RegisterTopBar from '../component/RegisterTopBar';
-import styles from '../css/registertopbar.module.css';
 import AnimalType from '../component/AnimalSelectComp/AnimalType';
 import AnimalKind from '../component/AnimalSelectComp/AnimalKind';
 import AnimalGender from '../component/AnimalSelectComp/AnimalGender';
+import AnimalPhotoandName from '../component/AnimalSelectComp/AnimalPhotoandName';
 
 const PetRegistration = () => {
     const [stepNum, setStepNum] = useState(1);
@@ -12,9 +12,12 @@ const PetRegistration = () => {
     const [selectedGender, setSelectedGender] = useState();
     const [selectedNeutered, setSelectedNeuterd] = useState(false);
     const [checkedGender, setCheckedGender] = useState(false);
+    const [name, setName] = useState();
     useEffect(() => {
         show1(stepNum);
-        checkedGenderControl();
+        checkedGenderControl((current) => {
+            !current;
+        });
         setSelectedGender('');
     }, [stepNum, selectedType]);
 
@@ -103,8 +106,15 @@ const PetRegistration = () => {
                         selectedNeutered={selectedNeutered}
                         setSelectedNeuterd={setSelectedNeuterd}
                         selectedType={selectedType}
-                        checkedGender={checkedGender}
-                        setCheckedGender={setCheckedGender}
+                        //checkedGender={checkedGender}
+                        //setCheckedGender={setCheckedGender}
+                    />
+                );
+            case 4:
+                return (
+                    <AnimalPhotoandName
+                    //name={name} setName={setName}
+                    //  onPhotosSelected={onPhotosSelected}
                     />
                 );
             default:
