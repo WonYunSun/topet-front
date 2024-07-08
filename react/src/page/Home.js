@@ -16,6 +16,10 @@ const Home = () => {
   const goCalendar = () => {
     navigate("/api/schedule");
   };
+
+  const goMap =() =>{
+    navigate("/api/map");
+  }
   return (
     <div>
       <img src="/img/kakao_login_large_narrow.png" onClick={goKaKaoLogin} />

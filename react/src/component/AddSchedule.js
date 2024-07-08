@@ -38,7 +38,8 @@ export default function AddSchedule({ selectedDate, onClose }) {
   };
 
   const handleCompletionChange = (event) => {
-    setIsComplete(event.target.value === "완료");
+    setIsComplete(!isComplete);
+    
   };
 
   const handlePhotoSelected = (photo) => {
