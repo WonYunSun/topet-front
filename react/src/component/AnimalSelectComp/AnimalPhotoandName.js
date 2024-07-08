@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaCamera } from 'react-icons/fa';
 import styles from '../../css/animal_photoandname.module.css';
 
-const AnimalPhotoandName = () => {
+const AnimalPhotoandName = ({ onPhotosSelected }) => {
     const [selectedPhoto, setSelectedPhoto] = useState();
 
     const fileInputRef = useRef(null);

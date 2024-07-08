@@ -111,7 +111,12 @@ const PetRegistration = () => {
                     />
                 );
             case 4:
-                return <AnimalPhotoandName name={name} setName={setName} />;
+                return (
+                    <AnimalPhotoandName
+                        //name={name} setName={setName}
+                        onPhotosSelected={onPhotosSelected}
+                    />
+                );
             default:
                 return null;
         }

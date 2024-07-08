@@ -12,19 +12,21 @@
 }
 
 .selecting_photo_button {
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     border-radius: 70%;
     border-style: solid;
     border-color: gray;
     border-width: 1px;
     background-color: #ffffff;
-    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .selecting_photo_icon {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     color: gray;
 }
 
