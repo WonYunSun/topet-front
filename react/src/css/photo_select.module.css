@@ -1,4 +1,4 @@
-.photo-select-box {
+.photo_select_box {
   height: 95px;
   width: 95px;
   background-color: #ffffff;
@@ -10,8 +10,12 @@
   border-radius: 20px;
   cursor: pointer;
 }
+.selected-photo-box-single {
+  height: 80px;
+  width: 80px;
+}
 
-.camera-icon {
+.camera_icon {
   width: 30px;
   height: 30px;
 }
