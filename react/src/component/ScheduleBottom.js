@@ -9,7 +9,7 @@ dayjs.extend(customParseFormat);
 dayjs.extend(localizedFormat);
 dayjs.locale("ko");
 
-const ScheduleBottom = ({ schedules, selectedDate, onClose }) => {
+const ScheduleBottom = ({ schedules, selectedDate }) => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetContent, setBottomSheetContent] = useState(null);
 
@@ -67,7 +67,7 @@ const ScheduleBottom = ({ schedules, selectedDate, onClose }) => {
       {showBottomSheet && (
         <BottomSheet
           show={showBottomSheet}
-          onClose={onClose}
+          onClose={handleCloseBottomSheet}
           type="scheduleDetail"
           schedule={bottomSheetContent}
         />

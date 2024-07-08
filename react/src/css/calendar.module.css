@@ -27,10 +27,7 @@ button {
   border: 0;
   background-color: transparent;
 }
-button:hover {
-  border-color: #646cff;
-  background-color: transparent;
-}
+
 button:focus,
 button:focus-visible {
   background-color: transparent;

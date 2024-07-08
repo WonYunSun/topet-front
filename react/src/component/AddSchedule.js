@@ -124,7 +124,7 @@ export default function AddSchedule({ selectedDate, onClose }) {
           selected={startDate}
           onChange={handleStartDateChange}
           locale="ko"
-          dateFormat="yyyy-MM-dd"
+          dateFormat="yyyy년 MM월 dd일"
         />
         <DatePicker
           selected={endDate}
@@ -132,7 +132,7 @@ export default function AddSchedule({ selectedDate, onClose }) {
           minDate={startDate}
           locale="ko"
           openToDate={startDate}
-          dateFormat="yyyy-MM-dd"
+          dateFormat="yyyy년 MM월 dd일"
         />
         {!isAllDay && (
           <div>
