@@ -8,9 +8,9 @@
     height: 100vh;
     background-color: rgba(144, 143, 143, 0.5);
     z-index: 999;
-  }
-  
-  .bottom-sheet {
+}
+
+.bottom-sheet {
     min-height: max-content;
     width: 100vw;
     background-color: white;
@@ -22,20 +22,19 @@
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     z-index: 1000;
-  }
-  
-  .bottom-sheet.show {
+}
+
+.bottom-sheet.show {
     bottom: 0;
     transform: translateY(0);
-  }
-  
-  .bottom-sheet-content {
-    padding: 20px;
-  }
+}
 
-  .bottom-sheet-title {
+.bottom-sheet-content {
+    padding: 20px;
+}
+
+.bottom-sheet-title {
     margin: 20px;
     font-size: 16px; /* 텍스트 크기 설정 */
     font-weight: bold; /* 텍스트 굵기 설정 */
-  }
-  
+}

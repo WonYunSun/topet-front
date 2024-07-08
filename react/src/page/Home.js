@@ -10,6 +10,9 @@ const Home = () => {
     const goCommunity = () => {
         navigate('/community/community');
     }
+    const goPetRegistration = () =>{
+        navigate('/petregistration');
+    }
     const goKaKaoLogin = () =>{
           window.location.href = link;
     }
@@ -18,6 +21,7 @@ const Home = () => {
     <div>
      
       <button onClick={goCommunity}>커뮤니티 이동</button>
+      <button onClick={goPetRegistration}>반려동물 등록</button>
       <button onClick={goKaKaoLogin}>카카오로그인 이동</button>
     </div>
   )

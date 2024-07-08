@@ -1,0 +1,39 @@
+.wrapper {
+    display: flex;
+    /* vertical-align: middle; */
+    justify-content: center; /* 가로 정렬을 중앙으로 설정 */
+    align-items: center; /* 세로 정렬을 중앙으로 설정 */
+    height: 500px;
+}
+
+.genderWrapper {
+    margin: 30px;
+}
+
+.title {
+    font-size: 27px;
+}
+
+.genderIcon {
+    font-size: 70px;
+}
+
+.genderIconWrapper {
+    width: 180px;
+    height: 180px;
+    border-radius: 70%;
+}
+
+.selectedIconWrapper {
+    outline: 6px solid orange;
+    outline-offset: -6px;
+    width: 160px;
+    height: 160px;
+    border-radius: 70%;
+}
+
+.genderText {
+    margin-top: 40px;
+    font-size: 22px;
+    font-weight: bold;
+}
