@@ -9,7 +9,9 @@
   overflow: hidden;
   transition: height 0.3s ease; /* 높이 변화를 애니메이션화 */
 }
-
+.ScheduleBoxWrap {
+  padding-bottom: 25%;
+}
 .ScheduleWrap {
   height: auto; /* 높이를 자동으로 설정하여 콘텐츠에 맞게 조정 */
   height: 100%; /* 부모 높이를 가득 채우도록 설정 */

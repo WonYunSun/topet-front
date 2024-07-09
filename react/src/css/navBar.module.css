@@ -1,5 +1,5 @@
 .navbar {
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
   width: 100%;
   display: flex;
@@ -11,10 +11,10 @@
 }
 
 .navItem {
-  color: #888;
+  color: #ffa62f;
   text-decoration: none;
 }
 
 .activeNavItem {
-  color: #000;
+  color: #ffa62f;
 }

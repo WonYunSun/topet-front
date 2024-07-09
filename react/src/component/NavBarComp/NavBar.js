@@ -1,14 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import {
-  FaHome,
-  FaSearch,
-  FaPlusSquare,
-  FaHeart,
-  FaUser,
-} from "react-icons/fa";
 import styles from "../../css/navBar.module.css";
-
+import { TbCalendar } from "react-icons/tb";
+import { TbHome } from "react-icons/tb";
+import { TbUserCircle } from "react-icons/tb";
+import { TbMovie } from "react-icons/tb";
+import { TbMap } from "react-icons/tb";
 function NavBar() {
   return (
     <nav className={styles.navbar}>
@@ -19,7 +16,7 @@ function NavBar() {
           isActive ? styles.activeNavItem : styles.navItem
         }
       >
-        <FaSearch size={24} />
+        <TbMap size={30} />
       </NavLink>
       {/* 쇼츠 화면 이동 */}
       <NavLink
@@ -28,26 +25,26 @@ function NavBar() {
           isActive ? styles.activeNavItem : styles.navItem
         }
       >
-        <FaPlusSquare size={24} />
+        <TbMovie size={30} />
       </NavLink>
       {/* 홈 화면 이동 */}
       <NavLink
-        to="/api"
+        to=""
         end
         className={({ isActive }) =>
           isActive ? styles.activeNavItem : styles.navItem
         }
       >
-        <FaHome size={24} />
+        <TbHome size={30} />
       </NavLink>
       {/* 캘린더 화면 이동 */}
       <NavLink
-        to="/favorites"
+        to="/api/schedule"
         className={({ isActive }) =>
           isActive ? styles.activeNavItem : styles.navItem
         }
       >
-        <FaHeart size={24} />
+        <TbCalendar size={30} />
       </NavLink>
       {/* 마이페이지 화면 이동 */}
       <NavLink
@@ -56,7 +53,7 @@ function NavBar() {
           isActive ? styles.activeNavItem : styles.navItem
         }
       >
-        <FaUser size={24} />
+        <TbUserCircle size={30} />
       </NavLink>
     </nav>
   );

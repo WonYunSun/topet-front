@@ -18,7 +18,7 @@ dayjs.extend(isBetween);
 
 export const Calendarscreen = () => {
   const now = dayjs().format("YYYY/MM/DD");
-
+  let screenH = window.innerHeight;
   // 더미데이터 넣어놓은겁니다
   const [schedules, setSchedules] = useState([
     {
