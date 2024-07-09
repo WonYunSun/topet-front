@@ -9,7 +9,7 @@ import AnimalSelect from "../component/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
 import ScheduleBottom from "../component/CalendarComp/ScheduleBottom";
 import "../css/bottomsheet.css";
-import FloatingBtn from "../component/FloatingBtn";
+import FloatingBtn from "../component/ButtonComp/FloatingBtn";
 import isBetween from "dayjs/plugin/isBetween";
 
 dayjs.extend(localizedFormat);

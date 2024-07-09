@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import dayjs from "dayjs";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Button from "../Button";
+import Button from "../../component/ButtonComp/Button";
 import ko from "date-fns/locale/ko";
 import SchedulePhotoSelectArea from "./SchedulePhotoSelectArea";
 import styles from "../../css/addSchedule.module.css";

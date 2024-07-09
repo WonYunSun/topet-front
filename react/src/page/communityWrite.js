@@ -8,8 +8,7 @@ import BottomSheet from "../component/BottomSheet";
 import HashTag from "../component/HashTag";
 import "../css/bottomsheet.css";
 import PhotoSelectArea from "../component/PhotoSelectArea";
-import Button from "../component/Button";
-
+import Button from "../component/ButtonComp/Button";
 
 const CommunityWrite = () => {
   const [selectedPet, setSelectedPet] = useState(null);
@@ -44,51 +43,51 @@ const CommunityWrite = () => {
     setSelectedPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
   };
 
-                          const postServer_withPhotos = () => {
-                            const formData = new FormData();
+  const postServer_withPhotos = () => {
+    const formData = new FormData();
 
-                            selectedPhotos.slice(0, 10).forEach((photo, index) => {
-                              formData.append("photos", photo);
-                            });
+    selectedPhotos.slice(0, 10).forEach((photo, index) => {
+      formData.append("photos", photo);
+    });
 
-                            axios
-                              .post("/api/community/community/postPhoto", formData, {
-                                headers: {
-                                  "Content-Type": "multipart/form-data",
-                                },
-                              })
-                              .then((response) => {
-                                console.log("서버 응답:", response.data);
-                              })
-                              .catch((error) => {
-                                console.error("서버 오류:", error);
-                              });
-                          };
+    axios
+      .post("/api/community/community/postPhoto", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log("서버 응답:", response.data);
+      })
+      .catch((error) => {
+        console.error("서버 오류:", error);
+      });
+  };
 
-                          const postServer_withoutPhotos = () => {
-                            const formData = new FormData();
+  const postServer_withoutPhotos = () => {
+    const formData = new FormData();
 
-                            formData.append("title", titleText);
-                            formData.append("content", contentText);
+    formData.append("title", titleText);
+    formData.append("content", contentText);
 
-                            const hashtagsString = selectedTags
-                              .map((tag, index) => `${index + 1},${tag}`)
-                              .join("");
-                            formData.append("hashtag", hashtagsString);
+    const hashtagsString = selectedTags
+      .map((tag, index) => `${index + 1},${tag}`)
+      .join("");
+    formData.append("hashtag", hashtagsString);
 
-                            axios
-                              .post("/api/community/community/post", formData, {
-                                headers: {
-                                  "Content-Type": "application/json",
-                                },
-                              })
-                              .then((response) => {
-                                console.log("서버 응답:", response.data);
-                              })
-                              .catch((error) => {
-                                console.error("서버 오류:", error);
-                              });
-                          };
+    axios
+      .post("/api/community/community/post", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log("서버 응답:", response.data);
+      })
+      .catch((error) => {
+        console.error("서버 오류:", error);
+      });
+  };
 
   const handleBottomSheetOpen = (type) => {
     setBottomSheetType(type);
@@ -102,11 +101,17 @@ const CommunityWrite = () => {
   return (
     <div>
       <TopBar />
-      <AnimalSelect onClick={() => handleBottomSheetOpen("pet")} selectedPet={selectedPet} />
+      <AnimalSelect
+        onClick={() => handleBottomSheetOpen("pet")}
+        selectedPet={selectedPet}
+      />
       <div style={{ height: "10px" }}></div>
       <Title value={titleText} handleTitleTextChange={handleTitleTextChange} />
       <div style={{ height: "20px" }}></div>
-      <Content value={contentText} handleContentTextChange={handleContentTextChange} />
+      <Content
+        value={contentText}
+        handleContentTextChange={handleContentTextChange}
+      />
       <br />
       <PhotoSelectArea
         selectedPhotos={selectedPhotos}
@@ -115,13 +120,20 @@ const CommunityWrite = () => {
         cnt={10}
       />
       <br />
-      <HashTag onClick={() => handleBottomSheetOpen("tag")} selectedTags={selectedTags} />
+      <HashTag
+        onClick={() => handleBottomSheetOpen("tag")}
+        selectedTags={selectedTags}
+      />
       <div>
         <Button text={"취소"} btnstyle="white" />
         <Button
           text={"작성 완료"}
           btnstyle="white"
-          onClick={selectedPhotos.length > 0 ? postServer_withPhotos : postServer_withoutPhotos}
+          onClick={
+            selectedPhotos.length > 0
+              ? postServer_withPhotos
+              : postServer_withoutPhotos
+          }
         />
       </div>
       <BottomSheet
