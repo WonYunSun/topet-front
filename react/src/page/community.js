@@ -5,7 +5,7 @@ import TopBar from '../component/TopBar';
 const Community = () => {
     const navigate = useNavigate();
     const goCommunityWrite = () => {
-        navigate('/community/communityWrite');
+        navigate('/api/community/communityWrite');
     }
   return (
     <div>

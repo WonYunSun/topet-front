@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PetList from "./PetList";
 import HashTagContent from "./HashTagContent";
 import AddSchedule from "./AddSchedule";
 import "../css/bottomsheet.css";
 
-const BottomSheet = ({
+
+
+
+
+
+const TempBottomSheet = ({
   show,
   onClose,
   onSelectPet,
@@ -13,31 +18,9 @@ const BottomSheet = ({
   initialTags,
   selectedDate,
   schedule,
-  setSelectedPet,
-  setSelectedTags,
-  selectedTags,
+
+  
 }) => {
-  const [tempTags, setTempTags] = useState([]);
-
-  useEffect(() => {
-    if (!show && type === "tag") {
-      setTempTags([]);
-    }
-  }, [show, type]);
-
-  const handleCloseBottomSheet = () => {
-    onClose();
-  };
-
-  const handleSelectPet = (pet) => {
-    setSelectedPet(pet);
-    handleCloseBottomSheet();
-  };
-
-  const handleCompleteTags = (requiredTag, optionalTags) => {
-    setSelectedTags([requiredTag, ...optionalTags]);
-    handleCloseBottomSheet();
-  };
 
   function getTypeText(type) {
     switch (type) {
@@ -57,16 +40,16 @@ const BottomSheet = ({
   function getSheetContent(type) {
     switch (type) {
       case "pet":
-        return <PetList onSelectPet={handleSelectPet} />;
+        return <PetList onSelectPet={onSelectPet} />;
       case "tag":
         return (
           <HashTagContent
-            onComplete={handleCompleteTags}
-            initialTags={tempTags}
+            onComplete={onCompleteTags}
+            initialTags={initialTags}
           />
         );
       case "addSchedule":
-        return <AddSchedule selectedDate={selectedDate} onClose={handleCloseBottomSheet} />;
+        return <AddSchedule selectedDate={selectedDate} onClose={onClose} />;
       case "scheduleDetail":
         return schedule ? (
           <div>
@@ -88,17 +71,21 @@ const BottomSheet = ({
   return (
     <>
       {show && (
-        <div className="overlay" onClick={handleCloseBottomSheet}></div>
+        <div
+          className="overlay"
+          onClick={() => {
+            console.log("Overlay clicked");
+            onClose();
+          }}
+        ></div>
       )}
 
       <div className={`bottom-sheet ${show ? "show" : ""}`}>
         <div className="bottom-sheet-title">{getTypeText(type)}</div>
-        <div className="bottom-sheet-content">
-          {getSheetContent(type)}
-        </div>
+        <div className="bottom-sheet-content">{getSheetContent(type)}</div>
       </div>
     </>
   );
 };
 
-export default BottomSheet;
+export default TempBottomSheet;

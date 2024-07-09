@@ -15,9 +15,8 @@ const PetRegistration = () => {
     const [name, setName] = useState();
     useEffect(() => {
         show1(stepNum);
-        checkedGenderControl((current) => {
-            !current;
-        });
+        setCheckedGender(!checkedGender
+        );
         setSelectedGender('');
     }, [stepNum, selectedType]);
 

@@ -122,10 +122,12 @@ export const Calendarscreen = () => {
       <BottomSheet
         show={showBottomSheet}
         onClose={handleCloseBottomSheet}
-        onSelectPet={handleSelectPet}
         type={bottomSheetType}
         initialTags={[]}
         selectedDate={selectedDate}
+        setSelectedPet={setSelectedPet}
+        //setSelectedTags={setSelectedTags}
+        //selectedTags={selectedTags}
       />
       <ScheduleBottom
         schedules={schedules}
