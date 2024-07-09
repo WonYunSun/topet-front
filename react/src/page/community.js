@@ -1,10 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import TopBar from '../component/TopBar';
-import CommunityPreview from '../component/Community/CommunityListData';
-import styles from '../css/community.module.css';
 
-import BottomSheet from '../component/BottomSheet';
+import styles from '../css/community.module.css';
 import CommunityList from '../component/Community/CommunityList';
 
 
@@ -30,8 +28,6 @@ const Community = () => {
   }
 
 
-
-
   return (
     <div className={styles.community}>
       <TopBar centerChange = {ontextChange()}/>
@@ -39,6 +35,7 @@ const Community = () => {
       <CommunityList selectedAnimal={ontextChange()}/>
     </div>
   )
+
 }
 
 export default Community
