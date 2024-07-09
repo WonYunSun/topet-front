@@ -8,3 +8,10 @@
     overflow-y: auto;
   }
   
+  .community_preview {
+    width: 90%;
+    height: 150px; /* 각 CommunityPreview의 높이를 설정 */
+    background-color: rgb(140, 140, 140);
+    margin: 10px 0; /* 각 CommunityPreview 사이에 여백을 추가 */
+  }
+  
