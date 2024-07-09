@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import BottomSheet from "../component/BottomSheet";
 import axios from "axios";
 
+import NavBar from "../component/NavBarComp/NavBar";
 
 const MapScreen = () => {
   let screenH = window.innerHeight;
@@ -34,8 +35,9 @@ const MapScreen = () => {
     });
   }, []);
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=bdskcjy9wf';
+    const script = document.createElement("script");
+    script.src =
+      "https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=bdskcjy9wf";
     script.async = true;
     script.onload = () => {
       if (window.naver) {
@@ -50,6 +52,7 @@ const MapScreen = () => {
   const CustomButton = ({ num }) => {
     const isSelected = selectedButton === num; // 현재 버튼이 선택된 버튼인지 확인합니다.
     
+  const CustomButton = ({ num }) => {
     return (
       <div
         onClick={() => {setSelectedButton(isSelected ? null : num); setSeleceted(isSelected);}}  // 동일한 버튼 클릭 시 선택 해제합니다.
@@ -84,13 +87,19 @@ const MapScreen = () => {
   const initMap = () => {
     if (!position) return;
 
-    const map = new window.naver.maps.Map('map', {
-      center: new window.naver.maps.LatLng(position.latitude, position.longitude),
+    const map = new window.naver.maps.Map("map", {
+      center: new window.naver.maps.LatLng(
+        position.latitude,
+        position.longitude
+      ),
       zoom: 15,
     });
 
     new window.naver.maps.Marker({
-      position: new window.naver.maps.LatLng(position.latitude, position.longitude),
+      position: new window.naver.maps.LatLng(
+        position.latitude,
+        position.longitude
+      ),
       map: map,
     });
   };

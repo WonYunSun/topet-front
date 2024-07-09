@@ -1,13 +1,13 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import styles from "../css/schedule_bottom.module.css";
+import styles from "../../css/schedule_bottom.module.css";
 import "dayjs/locale/ko";
-import BottomSheet from "../component/BottomSheet";
+import BottomSheet from "../BottomSheet";
 import { GoCircle } from "react-icons/go";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
-import { updateScheduleStatus } from "../api/scheduleApi"; // postApi
+import ScheduleService from "../../api/scheduleApi"; // postApi
 dayjs.extend(customParseFormat);
 dayjs.extend(localizedFormat);
 dayjs.locale("ko");
@@ -17,9 +17,13 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
   const [bottomSheetContent, setBottomSheetContent] = useState(null);
   const [updatedSchedules, setUpdatedSchedules] = useState(schedules);
 
+  useEffect(() => {
+    setUpdatedSchedules(schedules);
+  }, [schedules]);
+
   const getSchedule = useCallback(
     (date) => {
-      const day = schedules.filter((schedule) => {
+      const day = updatedSchedules.filter((schedule) => {
         const start = dayjs(schedule.startDate);
         const end = dayjs(schedule.endDate);
         const targetDate = dayjs(date);
@@ -29,7 +33,7 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
 
       return day.length > 0 ? day : [];
     },
-    [schedules]
+    [updatedSchedules]
   );
 
   const handleScheduleClick = (schedule) => {
@@ -43,11 +47,10 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
 
   const handleCheckBoxClick = async (scheduleId) => {
     try {
-      await updateScheduleStatus(scheduleId);
-      // 업데이트 된 스케줄 정보를 반영
+      await ScheduleService.updateScheduleStatus(scheduleId);
       setUpdatedSchedules((prevSchedules) =>
         prevSchedules.map((schedule) =>
-          schedule.id === scheduleId
+          schedule.scheduleId === scheduleId
             ? { ...schedule, isComplete: !schedule.isComplete }
             : schedule
         )
@@ -100,7 +103,7 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
                         className={styles.ScheduleBoxCheckBox}
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleCheckBoxClick(item.id);
+                          handleCheckBoxClick(item.scheduleId);
                         }}
                       >
                         {item.isComplete ? (

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { FaCamera } from "react-icons/fa";
-import styles from "../css/photo_select.module.css";
+import styles from "../../css/photo_select.module.css";
 
 const PhotoSelectBox = ({ onPhotosSelected, selectedPhotoCount, cnt }) => {
   const fileInputRef = useRef(null);

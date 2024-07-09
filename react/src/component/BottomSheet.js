@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import PetList from "./PetList";
-import HashTagContent from "./HashTagContent";
-import AddSchedule from "./AddSchedule";
+import PetList from "./AnimalProfileComp/PetList";
+import HashTagContent from "./HashTagComp/HashTagContent";
+import AddSchedule from "./CalendarComp/AddSchedule";
 import "../css/bottomsheet.css";
-
 
 const BottomSheet = ({
   show,
@@ -57,8 +56,6 @@ const BottomSheet = ({
     }
   }
 
-
-
   function getSheetContent(type) {
     switch (type) {
       case "pet":
@@ -71,7 +68,12 @@ const BottomSheet = ({
           />
         );
       case "addSchedule":
-        return <AddSchedule selectedDate={selectedDate} onClose={handleCloseBottomSheet} />;
+        return (
+          <AddSchedule
+            selectedDate={selectedDate}
+            onClose={handleCloseBottomSheet}
+          />
+        );
       case "scheduleDetail":
         return schedule ? (
           <div>
@@ -93,23 +95,16 @@ const BottomSheet = ({
     }
   }
 
-  
   return (
     <>
-      {show && (
-        <div className="overlay" onClick={handleCloseBottomSheet}></div>
-      )}
+      {show && <div className="overlay" onClick={handleCloseBottomSheet}></div>}
 
       <div className={`bottom-sheet ${show ? "show" : ""}`}>
         <div className="bottom-sheet-title">{getTypeText(type)}</div>
-        <div className="bottom-sheet-content">
-          {getSheetContent(type)}
-        </div>
+        <div className="bottom-sheet-content">{getSheetContent(type)}</div>
       </div>
     </>
   );
 };
 
-
 export default BottomSheet;
-

@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from '../css/communityListData.module.css';
-import CommunityList from './CommunityList';
+import styles from '../../css/communityListData.module.css';
+import CommunityList from '../Community/CommunityList';
 
 const CommunityListData = ({ data }) => {
 

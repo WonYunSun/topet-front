@@ -18,56 +18,56 @@ function App() {
   const [form, setForm] = useState("");
 
   useEffect(() => {
-    axios
-      .get("/api/temp")
-      .then((res) => {
-        setTest(res.data);
-        console.log(res.data);
-      })
-      .catch((error) => console.log(error));
+    // axios
+    //   .get("/api/temp")
+    //   .then((res) => {
+    //     setTest(res.data);
+    //     console.log(res.data);
+    //   })
+    //   .catch((error) => console.log(error));
   }, []);
   useEffect(() => {
-    axios
-      .get("/api/temp")
-      .then((res) => {
-        setTest(res.data);
-        console.log(res.data);
-      })
-      .catch((error) => console.log(error));
+    // axios
+    //   .get("/api/temp")
+    //   .then((res) => {
+    //     setTest(res.data);
+    //     console.log(res.data);
+    //   })
+    //   .catch((error) => console.log(error));
   }, []);
 
-  const fnpostName = () => {
-    const formData = {
-      postTitle: title,
-      postContent: content,
-    };
+  // const fnpostName = () => {
+  //   const formData = {
+  //     postTitle: title,
+  //     postContent: content,
+  //   };
 
-    const contentChange = (e) => setContent(e.target.value);
-    const titleChange = (e) => {
-      setTitle(e.target.value);
-      console.log(e.target.value);
-    };
+  //   const contentChange = (e) => setContent(e.target.value);
+  //   const titleChange = (e) => {
+  //     setTitle(e.target.value);
+  //     console.log(e.target.value);
+  //   };
 
-    const fnpostName = () => {
-      const formData = {
-        postTitle: title,
-        postContent: content,
-      };
+  //   const fnpostName = () => {
+  //     const formData = {
+  //       postTitle: title,
+  //       postContent: content,
+  //     };
 
-      axios
-        .post("/api/postTemp", formData)
-        .then((res) => {
-          setForm(res.data);
-        })
-        .catch((error) => console.log(error));
-    };
-    axios
-      .post("/api/postTemp", formData)
-      .then((res) => {
-        setForm(res.data);
-      })
-      .catch((error) => console.log(error));
-  };
+  //     axios
+  //       .post("/api/postTemp", formData)
+  //       .then((res) => {
+  //         setForm(res.data);
+  //       })
+  //       .catch((error) => console.log(error));
+  //   };
+  //   axios
+  //     .post("/api/postTemp", formData)
+  //     .then((res) => {
+  //       setForm(res.data);
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
 
   return (
     <div className="App">

@@ -4,7 +4,7 @@ import isToday from "dayjs/plugin/isToday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import isBetween from "dayjs/plugin/isBetween";
 import { generateDate } from "./generateDate"; // 날짜 가져오는 파일
-import styles from "../css/calendar.module.css"; // CSS 모듈 임포트a
+import styles from "../../css/calendar.module.css"; // CSS 모듈 임포트
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);

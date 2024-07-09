@@ -1,6 +1,6 @@
 import React from "react";
 import PhotoSelectBox from "./PhotoSelectBox";
-import styles from "../css/photo_select.module.css";
+import styles from "../../css/photo_select.module.css";
 
 const PhotoSelectArea = ({
   selectedPhotos,

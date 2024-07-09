@@ -3,22 +3,22 @@ import dayjs from "dayjs";
 import isToday from "dayjs/plugin/isToday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 // import styles from "../css/calendar.module.css";
-import { Calendar } from "./../component/Calendar";
+import { Calendar } from "../component/CalendarComp/Calendar";
 import TopBar from "../component/TopBar";
-import AnimalSelect from "../component/AnimalSelect";
+import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
-import ScheduleBottom from "../component/ScheduleBottom";
+import ScheduleBottom from "../component/CalendarComp/ScheduleBottom";
 import "../css/bottomsheet.css";
-import FloatingBtn from "../component/FloatingBtn";
+import FloatingBtn from "../component/ButtonComp/FloatingBtn";
 import isBetween from "dayjs/plugin/isBetween";
-
+import NavBar from "../component/NavBarComp/NavBar";
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
 dayjs.extend(isBetween);
 
 export const Calendarscreen = () => {
   const now = dayjs().format("YYYY/MM/DD");
-
+  let screenH = window.innerHeight;
   // 더미데이터 넣어놓은겁니다
   const [schedules, setSchedules] = useState([
     {
@@ -185,6 +185,7 @@ export const Calendarscreen = () => {
         onClose={handleCloseBottomSheet}
       />
       <FloatingBtn onClick={handleFloatingBtnClick} />
+      <NavBar />
     </div>
   );
 };

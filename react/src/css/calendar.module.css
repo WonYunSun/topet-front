@@ -91,9 +91,11 @@ button:focus-visible {
   font-weight: 600;
   padding: 6px;
   border-radius: 8px;
-  width: fit-content;
-
+  width: 100%;
+  max-width: 100%; /* 추가 */
+  box-sizing: border-box;
   margin: 10px auto;
+  margin-bottom: 20px;
 }
 
 .CalendarHeader {
@@ -107,21 +109,22 @@ button:focus-visible {
 
 .DateContainer {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(7, 1fr);
   grid-gap: 8px;
   color: #a4b9de;
 }
 
 .DayContainer {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(7, 1fr);
   grid-gap: 8px;
 }
 
 .DateLabel {
   color: gray;
-  padding: 20px;
+  /* padding: 20px; */
   margin: auto; /* 기본 색상 */
+  padding: 10px;
 }
 
 .DateLabel.currentMonth.Today {
@@ -130,7 +133,7 @@ button:focus-visible {
 .DateLabel.currentMonth {
   position: relative;
   color: #202020; /* 현재 달인 경우의 색상 */
-  padding: 20px;
+  padding: 10px;
   margin: 0 auto;
 }
 .TodayDot {
@@ -151,7 +154,7 @@ button:focus-visible {
   background-color: red;
   border-radius: 50%;
   position: absolute;
-  transform: translate(70%, 20%);
+  transform: translate(50%, 60%);
   bottom: 5px;
 }
 
