@@ -11,7 +11,7 @@ import ScheduleBottom from "../component/CalendarComp/ScheduleBottom";
 import "../css/bottomsheet.css";
 import FloatingBtn from "../component/ButtonComp/FloatingBtn";
 import isBetween from "dayjs/plugin/isBetween";
-
+import NavBar from "../component/NavBarComp/NavBar";
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
 dayjs.extend(isBetween);
@@ -185,6 +185,7 @@ export const Calendarscreen = () => {
         onClose={handleCloseBottomSheet}
       />
       <FloatingBtn onClick={handleFloatingBtnClick} />
+      <NavBar />
     </div>
   );
 };

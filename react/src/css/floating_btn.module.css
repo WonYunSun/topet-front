@@ -11,6 +11,7 @@
   height: 100%;
   border-radius: 50%;
   background-color: #ffa62f;
+  filter: drop-shadow(2px 5px 4px #75757544);
 }
 .AddscdBtn div {
   display: flex;
