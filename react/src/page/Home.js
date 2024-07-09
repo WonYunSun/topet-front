@@ -21,7 +21,11 @@ const Home = () => {
     const goPetRegistration = () => {
         navigate('/api/petregistration');
     };
-    return (
+  
+  const goMap =() =>{
+    navigate("/api/map");
+  }
+  return (
         <div>
             <img src="/img/kakao_login_large_narrow.png" onClick={goKaKaoLogin} />
             {/* <GoogleLogin
