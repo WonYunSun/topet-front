@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useSelector } from "react";
 import PetList from "./PetList";
 import HashTagContent from "./HashTagContent";
 import AddSchedule from "./AddSchedule";
 import "../css/bottomsheet.css";
+
 
 const BottomSheet = ({
   show,
@@ -13,8 +14,8 @@ const BottomSheet = ({
   initialTags,
   selectedDate,
   schedule,
-  onSelectAnimal
 }) => {
+  
   function getTypeText(type) {
     switch (type) {
       case "pet":
@@ -55,15 +56,27 @@ const BottomSheet = ({
             <p>endDate: {schedule.endDate}</p>
             {schedule.isComplete ? <div>완료</div> : <div>미완료</div>}
           </div>
-        ) : null;
+        ) : (
+          <div></div>
+        );
       default:
         return "";
     }
   }
 
+  
   return (
     <>
-      {show && <div className="overlay" onClick={onClose}></div>}
+      {show && (
+        <div
+          className="overlay"
+          onClick={() => {
+            console.log("Overlay clicked");
+            onClose();
+          }}
+        ></div>
+      )}
+
       <div className={`bottom-sheet ${show ? "show" : ""}`}>
         <div className="bottom-sheet-title">{getTypeText(type)}</div>
         <div className="bottom-sheet-content">{getSheetContent(type)}</div>
@@ -72,4 +85,6 @@ const BottomSheet = ({
   );
 };
 
+
 export default BottomSheet;
+

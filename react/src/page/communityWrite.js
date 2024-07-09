@@ -10,6 +10,7 @@ import "../css/bottomsheet.css";
 import PhotoSelectArea from "../component/PhotoSelectArea";
 import Button from "../component/Button";
 
+
 const CommunityWrite = () => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
@@ -26,11 +27,13 @@ const CommunityWrite = () => {
     setShowBottomSheet(true);
   };
 
-  const handleSelectPet = (pet) => {
+
+    const handleSelectPet = (pet) => {
     //pet선택 함수
-    setSelectedPet(pet);
-    handleCloseBottomSheet();
-  };
+      setSelectedPet(pet);
+      handleCloseBottomSheet();
+    };
+
 
   const handleOpenTagBottomSheet = () => {
     //hashTag를 bottomSheet에 띄어주기 위한 함수
@@ -101,6 +104,10 @@ const CommunityWrite = () => {
       });
   };
 
+
+
+
+
   const postServer_withoutPhotos = () => {
     //서버 전송(사진 빼고) 함수
 
@@ -145,7 +152,7 @@ const CommunityWrite = () => {
     <div>
       <TopBar centerChange="로고"/>
       <AnimalSelect
-        onClick={handleOpenPetBottomSheet}
+        onClick={()=>{handleOpenPetBottomSheet(setShowBottomSheet, setBottomSheetType)}}
         selectedPet={selectedPet}
       />
       <div style={{ height: "10px" }}></div>
@@ -177,7 +184,8 @@ const CommunityWrite = () => {
       <BottomSheet
         show={showBottomSheet}
         onClose={handleCloseBottomSheet}
-        onSelectPet={handleSelectPet}
+        onSelectPet={handleSelectPet
+        }
         type={bottomSheetType}
         onCompleteTags={handleCompleteTags}
         initialTags={tempTags}

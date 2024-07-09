@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { FaCamera } from "react-icons/fa";
-import "../css/photo_select.css";
+import styles from "../css/photo_select.module.css";
 
 const PhotoSelectBox = ({ onPhotosSelected, selectedPhotoCount, cnt }) => {
   const fileInputRef = useRef(null);
@@ -21,8 +21,8 @@ const PhotoSelectBox = ({ onPhotosSelected, selectedPhotoCount, cnt }) => {
   };
 
   return (
-    <div className="photo-select-box" onClick={photoSelect}>
-      <FaCamera className="camera-icon" />
+    <div className={styles.photo_select_box} onClick={photoSelect}>
+      <FaCamera className={styles.camera_icon} />
       <span>
         ({selectedPhotoCount}/{cnt})
       </span>

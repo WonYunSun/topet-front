@@ -1,7 +1,8 @@
 import React from 'react';
-import styles from '../css/communityPreview.module.css';
+import styles from '../css/communityListData.module.css';
+import CommunityList from './CommunityList';
 
-const CommunityPreview = ({ data }) => {
+const CommunityListData = ({ data }) => {
 
   
   const formatHashtags = (hashtagString) => {
@@ -23,4 +24,4 @@ const CommunityPreview = ({ data }) => {
   );
 };
 
-export default CommunityPreview;
+export default CommunityListData;

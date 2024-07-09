@@ -1,22 +1,36 @@
-import React, { useState } from 'react';
-import PhotoSelectBox from './PhotoSelectBox';
-import '../css/photo_select.css';
+import React from "react";
+import PhotoSelectBox from "./PhotoSelectBox";
+import styles from "../css/photo_select.module.css";
 
-const PhotoSelectArea = ({selectedPhotos, onPhotosSelected, onRemovePhoto, cnt}) => {
-
-  
-  
-
+const PhotoSelectArea = ({
+  selectedPhotos,
+  onPhotosSelected,
+  onRemovePhoto,
+  cnt,
+}) => {
   return (
-    <div className='photo-select-area'>
-      <div className='selected-photos'>
+    <div className={styles["photo-select-area"]}>
+      <div className={styles["selected-photos"]}>
         {selectedPhotos.length < cnt && (
-          <PhotoSelectBox onPhotosSelected={onPhotosSelected} selectedPhotoCount={selectedPhotos.length} cnt={cnt} />
+          <PhotoSelectBox
+            onPhotosSelected={onPhotosSelected}
+            selectedPhotoCount={selectedPhotos.length}
+            cnt={cnt}
+          />
         )}
         {selectedPhotos.map((photo, index) => (
-          <div key={index} className='selected-photo-box'>
-            <img src={URL.createObjectURL(photo)} alt={`selected ${index}`} className='photo' />
-            <button className='remove-photo-button' onClick={() => onRemovePhoto(index)}>x</button>
+          <div key={index} className={styles["selected-photo-box"]}>
+            <img
+              src={URL.createObjectURL(photo)}
+              alt={`selected ${index}`}
+              className={styles["photo"]}
+            />
+            <button
+              className={styles["remove-photo-button"]}
+              onClick={() => onRemovePhoto(index)}
+            >
+              x
+            </button>
           </div>
         ))}
       </div>

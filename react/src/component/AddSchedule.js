@@ -6,6 +6,7 @@ import Button from "../component/Button";
 import ko from "date-fns/locale/ko";
 import SchedulePhotoSelectArea from "../component/SchedulePhotoSelectArea";
 import axios from "axios";
+import styles from "../css/addSchedule.module.css";
 
 registerLocale("ko", ko);
 
@@ -111,31 +112,30 @@ export default function AddSchedule({ selectedDate, onClose }) {
   };
 
   return (
-    <div>
+    <div className={styles.AddScheduleWrap}>
       <input
+        className={styles.ScheduleTitle}
         type="text"
         name="title"
         placeholder="제목"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <div>
-        <DatePicker
-          selected={startDate}
-          onChange={handleStartDateChange}
-          locale="ko"
-          dateFormat="yyyy-MM-dd"
-        />
-        <DatePicker
-          selected={endDate}
-          onChange={setEndDate}
-          minDate={startDate}
-          locale="ko"
-          openToDate={startDate}
-          dateFormat="yyyy-MM-dd"
-        />
-        {!isAllDay && (
-          <div>
+      <div className={styles.DataSelectArea}>
+        <span>일정</span>
+        <div className={styles.DatepickerBoxWrap}>
+          <DatePicker
+            selected={startDate}
+            onChange={handleStartDateChange}
+            locale="ko"
+            dateFormat="yyyy년 MM월 dd일"
+            className={styles.DatepickerBox}
+          />
+          <div
+            className={`${styles.TimepickerBox} ${
+              isAllDay ? styles.hidden : ""
+            }`}
+          >
             <DatePicker
               selected={startDate}
               onChange={(date) => setStartDate(date)}
@@ -143,8 +143,27 @@ export default function AddSchedule({ selectedDate, onClose }) {
               showTimeSelectOnly
               timeIntervals={15}
               timeCaption="Time"
-              dateFormat="h:mm"
+              dateFormat="h:mm aa"
+              className={styles.TimepickerBox}
             />
+          </div>
+        </div>
+        <div> - </div>
+        <div className={styles.DatepickerBoxWrap}>
+          <DatePicker
+            selected={endDate}
+            onChange={setEndDate}
+            minDate={startDate}
+            locale="ko"
+            openToDate={startDate}
+            dateFormat="yyyy년 MM월 dd일"
+            className={styles.DatepickerBox}
+          />
+          <div
+            className={`${styles.TimepickerBox} ${
+              isAllDay ? styles.hidden : ""
+            }`}
+          >
             <DatePicker
               selected={endDate}
               onChange={(date) => setEndDate(date)}
@@ -152,35 +171,44 @@ export default function AddSchedule({ selectedDate, onClose }) {
               showTimeSelectOnly
               timeIntervals={15}
               timeCaption="Time"
-              dateFormat="h:mm"
+              dateFormat="h:mm aa"
+              className={styles.TimepickerBox}
             />
           </div>
-        )}
-        <button type="button" onClick={handleAllDay}>
-          하루종일
+        </div>
+        <button
+          type="button"
+          onClick={handleAllDay}
+          className={isAllDay ? styles.AlldayBtn : styles.AlldayBtnReverse}
+        >
+          하루 종일
         </button>
       </div>
-      <div>
-        완료여부
-        <input
-          type="radio"
-          name="chk_info"
-          value="완료"
-          onChange={handleCompletionChange}
-          checked={isComplete}
-        />{" "}
-        완료
-        <input
-          type="radio"
-          name="chk_info"
-          value="미완료"
-          onChange={handleCompletionChange}
-          checked={!isComplete}
-        />{" "}
-        미완료
+      <div className={styles.radiobtn}>
+        <span>완료여부</span>
+        <label className={styles.radioLabel}>
+          <input
+            type="radio"
+            name="chk_info"
+            value="완료"
+            onChange={handleCompletionChange}
+            checked={isComplete}
+          />{" "}
+          <div>완료</div>
+        </label>
+        <label className={styles.radioLabel}>
+          <input
+            type="radio"
+            name="chk_info"
+            value="미완료"
+            onChange={handleCompletionChange}
+            checked={!isComplete}
+          />{" "}
+          <div>미완료</div>
+        </label>
       </div>
       <div>
-        색상
+        <span>색상</span>
         <input
           type="color"
           value={color}
@@ -188,7 +216,7 @@ export default function AddSchedule({ selectedDate, onClose }) {
         />
       </div>
       <div>
-        메모
+        <span>메모</span>
         <input
           type="text"
           name="memo"
@@ -197,12 +225,15 @@ export default function AddSchedule({ selectedDate, onClose }) {
           onChange={(e) => setContent(e.target.value)}
         />
       </div>
-      <div>이미지 선택</div>
-      <SchedulePhotoSelectArea
-        selectedPhoto={selectedPhoto}
-        onPhotoSelected={handlePhotoSelected}
-        onRemovePhoto={handleRemovePhoto}
-      />
+
+      <div className={styles.imagepickerBox}>
+        <span>사진</span>
+        <SchedulePhotoSelectArea
+          selectedPhoto={selectedPhoto}
+          onPhotoSelected={handlePhotoSelected}
+          onRemovePhoto={handleRemovePhoto}
+        />
+      </div>
       <Button
         type="submit"
         text="완료"

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GoArrowLeft } from 'react-icons/go';
 import { GoHome } from 'react-icons/go';
 import { CiSearch } from "react-icons/ci";
@@ -6,9 +6,9 @@ import { GoChevronDown } from "react-icons/go";
 import { useNavigate } from 'react-router-dom';
 import styles from '../css/topbar.module.css';
 
-const TopBar = ( {centerChange} ) => {
+const TopBar = ( {centerChange, showBottomSheet} ) => {
     const navigate = useNavigate()
-    console.log(centerChange);
+    
 
     const goBack = () => {
         navigate(-1); // 뒤로가기
@@ -27,7 +27,7 @@ const TopBar = ( {centerChange} ) => {
               <div className={styles.topbar}>
                   <GoArrowLeft className={styles.icon} onClick={goBack} />
                   
-                  <div className={styles.animalSelectBox}>{centerChange}
+                  <div className={styles.animalSelectBox} onClick={showBottomSheet}>{centerChange}
                   <GoChevronDown className='arrow-bottom' /></div>
                   
                   <CiSearch className={styles.icon} />
