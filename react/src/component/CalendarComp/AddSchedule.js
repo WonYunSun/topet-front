@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import dayjs from "dayjs";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Button from "../component/Button";
+import Button from "../Button";
 import ko from "date-fns/locale/ko";
-import SchedulePhotoSelectArea from "../component/SchedulePhotoSelectArea";
-import styles from "../css/addSchedule.module.css";
-import ScheduleService from "../api/scheduleApi"; // 올바르게 import
+import SchedulePhotoSelectArea from "./SchedulePhotoSelectArea";
+import styles from "../../css/addSchedule.module.css";
+import ScheduleService from "../../api/scheduleApi";
 
 registerLocale("ko", ko);
 
