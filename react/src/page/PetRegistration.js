@@ -13,12 +13,12 @@ const PetRegistration = () => {
     const [selectedNeutered, setSelectedNeuterd] = useState(false);
     const [checkedGender, setCheckedGender] = useState(false);
     const [name, setName] = useState();
+    const [selectedPhoto, setSelectedPhoto] = useState();
     useEffect(() => {
         show1(stepNum);
-        checkedGenderControl((current) => {
-            !current;
-        });
+        checkedGenderControl((current) => !current);
         setSelectedGender('');
+        setSelectedPhoto();
     }, [stepNum, selectedType]);
 
     const [petData, setPetData] = useState({
@@ -32,6 +32,22 @@ const PetRegistration = () => {
         petHealth: '',
         petProfilePhoto: '',
     });
+
+    const handleNameChange = (value) => {
+        setName(value);
+        setPetData({
+            ...petData,
+            petName: value,
+        });
+    };
+
+    const handleSelectedProfilePhotoChange = (value) => {
+        setSelectedPhoto(value);
+        setPetData({
+            ...petData,
+            petProfilePhoto: value,
+        });
+    };
 
     const handleSelectedKindChange = (value) => {
         setSelectedKind(value);
@@ -63,9 +79,11 @@ const PetRegistration = () => {
         setCheckedGender(false);
     };
 
-    console.log('selectedType: ', selectedType);
-    console.log('selectedKind: ', selectedKind);
-    console.log('selectedGender: ', selectedGender);
+    console.log('petName: ', petData.petName);
+    console.log('selectedType: ', petData.petType);
+    console.log('selectedKind: ', petData.petKind);
+    console.log('selectedGender: ', petData.petGender);
+    console.log('selectedProfilePhoto: ', petData.petProfilePhoto);
 
     const nextStep = () => {
         if (stepNum < 6) setStepNum(stepNum + 1);
@@ -113,8 +131,11 @@ const PetRegistration = () => {
             case 4:
                 return (
                     <AnimalPhotoandName
-                    //name={name} setName={setName}
-                    //  onPhotosSelected={onPhotosSelected}
+                        selectedPhoto={selectedPhoto}
+                        setSelectedPhoto={setSelectedPhoto}
+                        handleSelectedProfilePhotoChange={handleSelectedProfilePhotoChange}
+                        name={name}
+                        setName={setName}
                     />
                 );
             default:

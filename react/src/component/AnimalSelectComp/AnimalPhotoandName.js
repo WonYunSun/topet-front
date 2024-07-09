@@ -2,45 +2,60 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaCamera } from 'react-icons/fa';
 import styles from '../../css/animal_photoandname.module.css';
 
-const AnimalPhotoandName = ({}) => {
-    const [selectedPhoto, setSelectedPhoto] = useState();
-
+const AnimalPhotoandName = ({ name, setName, selectedPhoto, setSelectedPhoto, handleSelectedProfilePhotoChange }) => {
     const fileInputRef = useRef(null);
     const photoSelect = () => {
         fileInputRef.current.click();
     };
 
     const handleFileChange = (event) => {
-        const photo = event.target.files;
-        //const validPhoto = photo.fil  ter((file) => file.type === 'image/jpeg' || file.type === 'image/png');
-        console.log(photo);
+        const photo = event.target.files[0];
+        setSelectedPhoto(photo);
+    };
 
-        //onPhotosSelected(validPhoto);
+    console.log(selectedPhoto);
 
-        //event.target.value = null; // reset the value of the input to allow re-upload of the same file
+    const onChange = (e) => {
+        setName(e.target.value.trim());
+    };
+
+    const ProfileName = () => {
+        return (
+            <div className={styles.profilename_bar_wrapper}>
+                <input
+                    className={styles.profilename_bar}
+                    type="text"
+                    onChange={onChange}
+                    placeholder="반려동물의 이름을 입력해주세요!"
+                ></input>
+            </div>
+        );
     };
 
     const ProfilePhoto = () => {
         return (
-            <div>
-                <div className={styles.selecting_photo_button} onClick={photoSelect}>
-                    <FaCamera className={styles.selecting_photo_icon} />
-                </div>
+            <div className={styles.selected_profile_photo_box} onChange={handleSelectedProfilePhotoChange}>
+                {/* <img src={URL.createObjectURL(selectedPhoto)} className={styles.selected_profile_photo} /> */}
+                {selectedPhoto == null ? (
+                    <div></div>
+                ) : (
+                    <img src={URL.createObjectURL(selectedPhoto)} className={styles.selected_profile_photo} />
+                )}
             </div>
         );
     };
 
     const SelectingPhoto = () => {
         return (
-            <div>
+            <div className={styles.selecting_photo_button} onClick={photoSelect}>
                 <input
                     type="file"
                     ref={fileInputRef}
                     style={{ display: 'none' }}
                     onChange={handleFileChange}
-                    accept="image/*" //나중에 쇼츠로 동영상만 받아 올 때는 "video/*"로 하면 동영상만 받아올 수 있음 이것도 역시 모바일에서 갤러리 열림
-                    multiple
+                    accept="image/*"
                 />
+                <FaCamera className={styles.selecting_photo_icon} />
             </div>
         );
     };
@@ -49,6 +64,7 @@ const AnimalPhotoandName = ({}) => {
         <div>
             <ProfilePhoto />
             <SelectingPhoto />
+            <ProfileName />
         </div>
     );
 };

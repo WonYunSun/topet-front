@@ -1,16 +1,3 @@
-.select-profile-photo {
-    height: 95px;
-    width: 95px;
-    background-color: #ffffff;
-    border: 3px dotted gray;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 20px;
-    cursor: pointer;
-}
-
 .selecting_photo_button {
     width: 35px;
     height: 35px;
@@ -30,36 +17,30 @@
     color: gray;
 }
 
-.selected-profile-photo {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 10px;
-}
-
-.selected-profile-photo-box {
-    height: 80px;
-    width: 80px;
-}
-
-.profile-photo {
+.selected_profile_photo {
     width: 100px;
     height: 100px;
     object-fit: cover;
     border-radius: 20px;
 }
 
-.remove-profile-photo-button {
-    position: absolute;
-    top: 5px; /* 원하는 위치 조정 */
-    right: 5px; /* 원하는 위치 조정 */
-    background-color: rgba(255, 255, 255, 0);
-    color: red; /* 버튼 텍스트 색상 */
+.selected_profile_photo_box {
+    height: 80px;
+    width: 80px;
+}
+
+.profilename_bar {
     border: none;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: 80%;
+    height: 38px;
+    font-size: 16px;
+}
+
+.profilename_bar_wrapper {
+    color: gray;
+    box-shadow: 0 0 3px;
+    border-style: solid;
+    border-radius: 20px;
+    width: 80%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
 }
