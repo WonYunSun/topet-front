@@ -4,6 +4,7 @@ import HashTagContent from "./HashTagContent";
 import AddSchedule from "./AddSchedule";
 import "../css/bottomsheet.css";
 
+
 const BottomSheet = ({
   show,
   onClose,
@@ -54,6 +55,8 @@ const BottomSheet = ({
     }
   }
 
+
+
   function getSheetContent(type) {
     switch (type) {
       case "pet":
@@ -85,6 +88,7 @@ const BottomSheet = ({
     }
   }
 
+  
   return (
     <>
       {show && (
@@ -101,4 +105,6 @@ const BottomSheet = ({
   );
 };
 
+
 export default BottomSheet;
+

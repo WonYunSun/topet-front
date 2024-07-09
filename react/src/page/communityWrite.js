@@ -10,6 +10,7 @@ import "../css/bottomsheet.css";
 import PhotoSelectArea from "../component/PhotoSelectArea";
 import Button from "../component/Button";
 
+
 const CommunityWrite = () => {
   const [selectedPet, setSelectedPet] = useState(null);
   const [selectedTags, setSelectedTags] = useState([]);
