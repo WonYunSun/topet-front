@@ -22,7 +22,7 @@
   margin: calc(var(--margin-size) / 4) var(--margin-size);
   width: calc(100% - 2 * var(--margin-size)); /* margin 값을 동적으로 반영 */
   box-sizing: border-box;
-  height: 80px;
+  height: 90px;
   border-radius: 20px;
   padding: 10px;
   margin-bottom: 15px;
@@ -40,9 +40,10 @@
 
 .SelectedDate {
   margin: 0;
-  padding: 10px;
+  padding-top: 10px;
   height: 10%;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 16px;
   position: sticky;
   top: 0;
   background-color: white; /* 원하는 배경색 지정 */
@@ -51,19 +52,23 @@
 .ScheduleContent {
   color: #fff;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.ScheduleBoxCheckBox {
+.ScheduleBoxCheckBoxWrap {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 .ScheduleDate {
   font-weight: 100;
+  font-size: 16px;
 }
 .ScheduleTitle {
-  font-weight: 600;
-  font-size: 15px;
+  font-weight: 500;
+  font-size: 17px;
 }
 .verticalDivider {
   width: 1.9px; /* 너비 */

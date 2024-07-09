@@ -22,6 +22,7 @@ export const Calendarscreen = () => {
   // 더미데이터 넣어놓은겁니다
   const [schedules, setSchedules] = useState([
     {
+      scheduleId: 1,
       startDate: "2024-07-10T00:00:00",
       endDate: "2024-07-13T23:59:59",
       scheduleTitle: "병원 진료(건강검진)",
@@ -32,6 +33,7 @@ export const Calendarscreen = () => {
       scheduleEditer: "B",
     },
     {
+      scheduleId: 2,
       startDate: "2024-07-10T09:00:00",
       endDate: "2024-07-10T10:00:00",
       scheduleTitle: "코코 아침 산책",
@@ -42,6 +44,7 @@ export const Calendarscreen = () => {
       scheduleEditer: "B",
     },
     {
+      scheduleId: 3,
       startDate: "2024-07-10T09:00:00",
       endDate: "2024-07-10T10:00:00",
       scheduleTitle: "example1",
@@ -52,6 +55,7 @@ export const Calendarscreen = () => {
       scheduleEditer: "B",
     },
     {
+      scheduleId: 4,
       startDate: "2024-07-10T09:00:00",
       endDate: "2024-07-10T10:00:00",
       scheduleTitle: "example1",
@@ -62,6 +66,7 @@ export const Calendarscreen = () => {
       scheduleEditer: "B",
     },
     {
+      scheduleId: 5,
       startDate: "2024-07-10T09:00:00",
       endDate: "2024-07-10T10:00:00",
       scheduleTitle: "example1",
@@ -72,6 +77,7 @@ export const Calendarscreen = () => {
       scheduleEditer: "B",
     },
     {
+      scheduleId: 6,
       startDate: "2024-07-11T13:00:00",
       endDate: "2024-07-11T14:00:00",
       scheduleTitle: "example2",
@@ -82,6 +88,7 @@ export const Calendarscreen = () => {
       scheduleEditer: "B",
     },
     {
+      scheduleId: 7,
       startDate: "2024-07-11T13:00:00",
       endDate: "2024-07-12T14:00:00",
       scheduleTitle: "겹치는 일정 잘 표시되나",
@@ -92,6 +99,7 @@ export const Calendarscreen = () => {
       scheduleEditer: "B",
     },
     {
+      scheduleId: 8,
       startDate: "2024-07-12T11:30:00",
       endDate: "2024-07-12T12:30:00",
       scheduleTitle: "example3",
@@ -102,6 +110,7 @@ export const Calendarscreen = () => {
       scheduleEditer: "B",
     },
     {
+      scheduleId: 9,
       startDate: "2024-07-13T15:00:00",
       endDate: "2024-07-13T16:00:00",
       scheduleTitle: "example4",
@@ -112,6 +121,7 @@ export const Calendarscreen = () => {
       scheduleEditer: "B",
     },
     {
+      scheduleId: 10,
       startDate: "2024-07-19T15:00:00",
       endDate: "2024-07-22T16:00:00",
       scheduleTitle: "example4",

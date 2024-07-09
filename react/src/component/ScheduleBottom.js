@@ -5,11 +5,9 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import styles from "../css/schedule_bottom.module.css";
 import "dayjs/locale/ko";
 import BottomSheet from "../component/BottomSheet";
-
 import { GoCircle } from "react-icons/go";
-
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
-import { RxDividerVertical } from "react-icons/rx";
+import { updateScheduleStatus } from "../api/scheduleApi"; // postApi
 dayjs.extend(customParseFormat);
 dayjs.extend(localizedFormat);
 dayjs.locale("ko");
@@ -17,6 +15,7 @@ dayjs.locale("ko");
 const ScheduleBottom = ({ schedules, selectedDate }) => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetContent, setBottomSheetContent] = useState(null);
+  const [updatedSchedules, setUpdatedSchedules] = useState(schedules);
 
   const getSchedule = useCallback(
     (date) => {
@@ -42,6 +41,22 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
     setShowBottomSheet(false);
   };
 
+  const handleCheckBoxClick = async (scheduleId) => {
+    try {
+      await updateScheduleStatus(scheduleId);
+      // 업데이트 된 스케줄 정보를 반영
+      setUpdatedSchedules((prevSchedules) =>
+        prevSchedules.map((schedule) =>
+          schedule.id === scheduleId
+            ? { ...schedule, isComplete: !schedule.isComplete }
+            : schedule
+        )
+      );
+    } catch (error) {
+      console.error("Failed to update schedule status:", error);
+    }
+  };
+
   const dayformatter = dayjs(selectedDate, "YYYY/MM/DD").format(
     "YYYY년 MM월 DD일 (ddd)"
   );
@@ -50,7 +65,7 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
     <div className={styles.ScheduleContainer}>
       {dayformatter && (
         <div className={styles.ScheduleWrap}>
-          <p className={styles.SelectedDate}>{dayformatter}</p>
+          <div className={styles.SelectedDate}>{dayformatter}</div>
           <div className={styles.ScheduleBoxWrap}>
             {getSchedule(selectedDate).length > 0 ? (
               getSchedule(selectedDate).map((item, index) => (
@@ -79,14 +94,24 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
                         {item.scheduleTitle}
                       </div>
                     </div>
-                    <div className={styles.ScheduleBoxCheckBox}>
+                    <div className={styles.ScheduleBoxCheckBoxWrap}>
                       <div className={styles.verticalDivider} />
-
-                      {item.isComplete ? (
-                        <IoCheckmarkCircleOutline color="#fff" size={28} />
-                      ) : (
-                        <GoCircle color="rgba(255, 255, 255, 0.3)" size={25} />
-                      )}
+                      <div
+                        className={styles.ScheduleBoxCheckBox}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCheckBoxClick(item.id);
+                        }}
+                      >
+                        {item.isComplete ? (
+                          <IoCheckmarkCircleOutline color="#fff" size={28} />
+                        ) : (
+                          <GoCircle
+                            color="rgba(255, 255, 255, 0.3)"
+                            size={25}
+                          />
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

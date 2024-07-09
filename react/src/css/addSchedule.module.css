@@ -50,6 +50,7 @@ input:active {
 .DatepickerBoxWrap {
   display: flex;
   flex-direction: column;
+  gap: 5px;
 }
 .DatepickerBox {
   width: 15ch;
@@ -88,6 +89,9 @@ input[type="radio"] {
 .imagepickerBox {
   display: flex;
   flex-direction: row;
+}
+.imagepickerBox > span {
+  padding-top: 10px;
 }
 .radiobtn {
   display: flex;
