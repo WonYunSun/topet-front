@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import CommunityListData from './CommunityListData';
-import styles from '../css/communityList.module.css';
+import styles from '../../css/communityList.module.css';
 import { 
   dog_community_dummy_data, 
   cat_community_dummy_data, 
   exoticpet_community_dummy_data 
-} from '../dummydata/community_dummy_data';
+} from '../../dummydata/community_dummy_data';
 
 const CommunityList = ({ selectedAnimal }) => {
   const [currentData, setCurrentData] = useState(null);

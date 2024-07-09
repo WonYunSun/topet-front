@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import TopBar from '../component/TopBar';
-import CommunityPreview from '../component/CommunityListData';
+import CommunityPreview from '../component/Community/CommunityListData';
 import styles from '../css/community.module.css';
 
 import BottomSheet from '../component/BottomSheet';
-import CommunityList from '../component/CommunityList';
+import CommunityList from '../component/Community/CommunityList';
 
 
 

@@ -1,5 +1,5 @@
 import React from "react";
-import PhotoSelectBox from "../PhotoSelectBox";
+import PhotoSelectBox from "../PhotoSelect/PhotoSelectBox";
 import styles from "../../css/photo_select.module.css";
 
 const SchedulePhotoSelectArea = ({
