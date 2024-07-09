@@ -90,11 +90,7 @@ const CommunityWrite = () => {
       />
       <div>
         <Button text={"취소"} btnstyle="white" />
-        <Button
-          text={"작성 완료"}
-          btnstyle="white"
-          onClick={handleSubmit}
-        />
+        <Button text={"작성 완료"} btnstyle="white" onClick={handleSubmit} />
       </div>
       <BottomSheet
         show={showBottomSheet}
