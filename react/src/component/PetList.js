@@ -9,6 +9,7 @@ const PetList = ({ onSelectPet }) => {
   const handleSelectPet = (name) => {
     const url = petList[name];
     onSelectPet({name, url});
+    
   };
 
   return (

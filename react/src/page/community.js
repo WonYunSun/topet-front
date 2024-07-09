@@ -1,16 +1,42 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, {useState, useEffect} from 'react'
+import { useLocation, useNavigate } from 'react-router-dom';
 import TopBar from '../component/TopBar';
+import CommunityPreview from '../component/CommunityListData';
+import styles from '../css/community.module.css';
+
+import BottomSheet from '../component/BottomSheet';
+import CommunityList from '../component/CommunityList';
+
+
 
 const Community = () => {
-    const navigate = useNavigate();
-    const goCommunityWrite = () => {
-        navigate('/community/communityWrite');
+  const [selectedCenter, setSelectedCenter] = useState("");
+
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const animalType = location.state?.animalType;
+
+  const goCommunityWrite = () => {
+    navigate('/api/community/communityWrite');
+  }
+
+  const ontextChange  = () => {
+    if(selectedCenter == "") {
+      return animalType
+    } else {
+      return selectedCenter
     }
+  }
+
+
+
+
   return (
-    <div>
-      <TopBar />
+    <div className={styles.community}>
+      <TopBar centerChange = {ontextChange()}/>
       <button onClick={goCommunityWrite}>글 작성 이동</button>
+      <CommunityList selectedAnimal={ontextChange()}/>
     </div>
   )
 }

@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import dayjs from "dayjs";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Button from "../component/Button";
+import Button from "../../component/ButtonComp/Button";
 import ko from "date-fns/locale/ko";
-import SchedulePhotoSelectArea from "../component/SchedulePhotoSelectArea";
-import axios from "axios";
-import styles from "../css/addSchedule.module.css";
+import SchedulePhotoSelectArea from "./SchedulePhotoSelectArea";
+import styles from "../../css/addSchedule.module.css";
+import ScheduleService from "../../api/scheduleApi";
 
 registerLocale("ko", ko);
 
@@ -36,9 +36,8 @@ export default function AddSchedule({ selectedDate, onClose }) {
     setIsAllDay(!isAllDay);
   };
 
-  const handleCompletionChange = (event) => {
+  const handleCompletionChange = () => {
     setIsComplete(!isComplete);
-    
   };
 
   const handlePhotoSelected = (photo) => {
@@ -51,7 +50,6 @@ export default function AddSchedule({ selectedDate, onClose }) {
 
   const postScheduleData = async () => {
     const formData = new FormData();
-
     formData.append(
       "startDate",
       dayjs(startDate).format("YYYY-MM-DDTHH:mm:ss")
@@ -64,20 +62,7 @@ export default function AddSchedule({ selectedDate, onClose }) {
     formData.append("scheduleWriter", "WriterName");
     formData.append("scheduleEditer", "EditorName");
 
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-
-    try {
-      const response = await axios.post("/api/schedule/post", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log("서버 응답:", response.data);
-    } catch (error) {
-      console.error("서버 오류:", error);
-    }
+    await ScheduleService.postSche(formData); // ScheduleService 호출 //post로직
   };
 
   const postSchedulePhoto = async () => {
@@ -86,20 +71,7 @@ export default function AddSchedule({ selectedDate, onClose }) {
     const formData = new FormData();
     formData.append("photo", selectedPhoto);
 
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-
-    try {
-      const response = await axios.post("/api/schedule/postPhoto", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log("서버 응답:", response.data);
-    } catch (error) {
-      console.error("서버 오류:", error);
-    }
+    await ScheduleService.postSche(formData); // ScheduleService 호출
   };
 
   const handleButtonClick = async () => {

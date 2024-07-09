@@ -8,18 +8,12 @@ import AnimalPhotoandName from '../component/AnimalSelectComp/AnimalPhotoandName
 const PetRegistration = () => {
     const [stepNum, setStepNum] = useState(1);
     const [selectedType, setSelectedType] = useState();
-    const [selectedKind, setSelectedKind] = useState(''); // 추가된 부분
+    const [selectedKind, setSelectedKind] = useState('');
     const [selectedGender, setSelectedGender] = useState();
     const [selectedNeutered, setSelectedNeuterd] = useState(false);
     const [checkedGender, setCheckedGender] = useState(false);
     const [name, setName] = useState();
     const [selectedPhoto, setSelectedPhoto] = useState();
-    useEffect(() => {
-        show1(stepNum);
-        checkedGenderControl((current) => !current);
-        setSelectedGender('');
-        setSelectedPhoto();
-    }, [stepNum, selectedType]);
 
     const [petData, setPetData] = useState({
         petGender: '',
@@ -32,6 +26,31 @@ const PetRegistration = () => {
         petHealth: '',
         petProfilePhoto: '',
     });
+
+    useEffect(() => {
+        show1(stepNum);
+        setCheckedGender(!checkedGender);
+        setSelectedGender('');
+        setSelectedPhoto();
+    }, [stepNum, selectedType]);
+
+    const checkedGenderControl = () => {
+        setCheckedGender(false);
+    };
+
+    useEffect(() => {
+        show1(stepNum);
+        checkedGenderControl((current) => !current);
+        setSelectedGender('');
+    }, [stepNum, selectedType]);
+
+    const handleSelectedKindChange = (value) => {
+        setSelectedKind(value);
+        setPetData({
+            ...petData,
+            petKind: value,
+        });
+    };
 
     const handleNameChange = (value) => {
         setName(value);
@@ -46,14 +65,6 @@ const PetRegistration = () => {
         setPetData({
             ...petData,
             petProfilePhoto: value,
-        });
-    };
-
-    const handleSelectedKindChange = (value) => {
-        setSelectedKind(value);
-        setPetData({
-            ...petData,
-            petKind: value,
         });
     };
 
@@ -75,15 +86,9 @@ const PetRegistration = () => {
         });
     };
 
-    const checkedGenderControl = () => {
-        setCheckedGender(false);
-    };
-
-    console.log('petName: ', petData.petName);
-    console.log('selectedType: ', petData.petType);
-    console.log('selectedKind: ', petData.petKind);
-    console.log('selectedGender: ', petData.petGender);
-    console.log('selectedProfilePhoto: ', petData.petProfilePhoto);
+    console.log('selectedType: ', selectedType);
+    console.log('selectedKind: ', selectedKind);
+    console.log('selectedGender: ', selectedGender);
 
     const nextStep = () => {
         if (stepNum < 6) setStepNum(stepNum + 1);
@@ -112,7 +117,7 @@ const PetRegistration = () => {
                     <AnimalKind
                         handleSelectedKindChange={handleSelectedKindChange}
                         selectedType={selectedType}
-                        selectedKind={selectedKind} // 추가된 부분
+                        selectedKind={selectedKind}
                     />
                 );
             case 3:
@@ -124,8 +129,6 @@ const PetRegistration = () => {
                         selectedNeutered={selectedNeutered}
                         setSelectedNeuterd={setSelectedNeuterd}
                         selectedType={selectedType}
-                        //checkedGender={checkedGender}
-                        //setCheckedGender={setCheckedGender}
                     />
                 );
             case 4:

@@ -1,6 +1,11 @@
+@font-face {
+  font-family: "SUIT Variable";
+  font-weight: 100 900;
+  src: url("./asset/font/SUIT-Variable.woff2") format("woff2-variations");
+}
+
 .App {
   text-align: center;
-  
 }
 
 .App-logo {
@@ -37,4 +42,3 @@
     transform: rotate(360deg);
   }
 }
-

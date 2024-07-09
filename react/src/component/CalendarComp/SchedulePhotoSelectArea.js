@@ -1,6 +1,6 @@
 import React from "react";
-import PhotoSelectBox from "./PhotoSelectBox";
-import styles from "../css/photo_select.module.css";
+import PhotoSelectBox from "../PhotoSelectBox";
+import styles from "../../css/photo_select.module.css";
 
 const SchedulePhotoSelectArea = ({
   selectedPhoto,
@@ -14,7 +14,7 @@ const SchedulePhotoSelectArea = ({
   };
 
   return (
-    <div className={styles["photo-select-area-single"]}>
+    <div className={styles["photo-select-area"]}>
       <div className={styles["selected-photos"]}>
         {!selectedPhoto && (
           <PhotoSelectBox
@@ -24,7 +24,7 @@ const SchedulePhotoSelectArea = ({
           />
         )}
         {selectedPhoto && (
-          <div className={styles["selected-photo-box-single"]}>
+          <div className={styles["selected-photo-box"]}>
             <img
               src={URL.createObjectURL(selectedPhoto)}
               alt="selected"

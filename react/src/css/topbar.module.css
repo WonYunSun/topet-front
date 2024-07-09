@@ -8,12 +8,14 @@
     padding: 10px;
     color: white;
     border-bottom: 1px solid black;
+    height: 30px;
   }
   
   .icon {
     font-size: 24px;
     cursor: pointer;
     color: black;
+    /* margin-left: 10px; */
   }
   
   .arrow-bottom {
@@ -25,3 +27,18 @@
     font-size: 20px;
     font-weight: bold;
   }
+
+  .animalSelectBox {
+    color: #FFA62F;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+  .rightIcons {
+    display: flex;
+    align-items: center;
+}
