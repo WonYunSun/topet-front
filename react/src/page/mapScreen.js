@@ -34,6 +34,27 @@ const MapScreen = () => {
       });
     });
   }, []);
+
+  const initMap = () => {
+    if (!position) return;
+
+    const map = new window.naver.maps.Map("map", {
+      center: new window.naver.maps.LatLng(
+        position.latitude,
+        position.longitude
+      ),
+      zoom: 15,
+    });
+
+    new window.naver.maps.Marker({
+      position: new window.naver.maps.LatLng(
+        position.latitude,
+        position.longitude
+      ),
+      map: map,
+    });
+  };
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
@@ -84,25 +105,7 @@ const MapScreen = () => {
   };
 
 
-  const initMap = () => {
-    if (!position) return;
-
-    const map = new window.naver.maps.Map("map", {
-      center: new window.naver.maps.LatLng(
-        position.latitude,
-        position.longitude
-      ),
-      zoom: 15,
-    });
-
-    new window.naver.maps.Marker({
-      position: new window.naver.maps.LatLng(
-        position.latitude,
-        position.longitude
-      ),
-      map: map,
-    });
-  };
+  
 
   return (
     
@@ -165,5 +168,6 @@ const MapScreen = () => {
     </div>
   );
 };
+}
 
 export default MapScreen;
