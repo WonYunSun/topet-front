@@ -50,6 +50,8 @@ const BottomSheet = ({
         return "일정 등록";
       case "scheduleDetail":
         return "일정 상세";
+      case "map" :
+          return "지도";
       default:
         return "";
     }
@@ -83,6 +85,9 @@ const BottomSheet = ({
         ) : (
           <div></div>
         );
+
+      case "map": 
+        return (<h1>지도리스트</h1>);
       default:
         return "";
     }
