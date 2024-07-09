@@ -44,51 +44,60 @@ const CommunityWrite = () => {
     setSelectedPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
   };
 
-                          const postServer_withPhotos = () => {
-                            const formData = new FormData();
+                  const postServer_withPhotos = () => {
+                    const formData = new FormData();
 
-                            selectedPhotos.slice(0, 10).forEach((photo, index) => {
-                              formData.append("photos", photo);
-                            });
+                    selectedPhotos.slice(0, 10).forEach((photo, index) => {
+                      formData.append("photos", photo);
+                    });
 
-                            axios
-                              .post("/api/community/community/postPhoto", formData, {
-                                headers: {
-                                  "Content-Type": "multipart/form-data",
-                                },
-                              })
-                              .then((response) => {
-                                console.log("서버 응답:", response.data);
-                              })
-                              .catch((error) => {
-                                console.error("서버 오류:", error);
-                              });
-                          };
+                    axios
+                      .post("/api/community/community/postPhoto", formData, {
+                        headers: {
+                          "Content-Type": "multipart/form-data",
+                        },
+                      })
+                      .then((response) => {
+                        console.log("서버 응답:", response.data);
+                      })
+                      .catch((error) => {
+                        console.error("서버 오류:", error);
+                      });
+                  };
 
-                          const postServer_withoutPhotos = () => {
-                            const formData = new FormData();
+                  const postServer_withoutPhotos = () => {
+                    const formData = new FormData();
 
-                            formData.append("title", titleText);
-                            formData.append("content", contentText);
+                    formData.append("title", titleText);
+                    formData.append("content", contentText);
 
-                            const hashtagsString = selectedTags
-                              .map((tag, index) => `${index + 1},${tag}`)
-                              .join("");
-                            formData.append("hashtag", hashtagsString);
+                    const hashtagsString = selectedTags
+                      .map((tag, index) => `${index + 1},${tag}`)
+                      .join("");
+                    formData.append("hashtag", hashtagsString);
 
-                            axios
-                              .post("/api/community/community/post", formData, {
-                                headers: {
-                                  "Content-Type": "application/json",
-                                },
-                              })
-                              .then((response) => {
-                                console.log("서버 응답:", response.data);
-                              })
-                              .catch((error) => {
-                                console.error("서버 오류:", error);
-                              });
-                          };
+                    axios
+                      .post("/api/community/community/post", formData, {
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                      })
+                      .then((response) => {
+                        console.log("서버 응답:", response.data);
+                      })
+                      .catch((error) => {
+                        console.error("서버 오류:", error);
+                      });
+                  };
+
+                  const handleSubmit = () => {
+                    if (selectedPhotos.length > 0) {
+                      postServer_withPhotos();
+                      postServer_withoutPhotos();
+                    } else {
+                      postServer_withoutPhotos();
+                    }
+                  };
 
   const handleBottomSheetOpen = (type) => {
     setBottomSheetType(type);
@@ -121,7 +130,7 @@ const CommunityWrite = () => {
         <Button
           text={"작성 완료"}
           btnstyle="white"
-          onClick={selectedPhotos.length > 0 ? postServer_withPhotos : postServer_withoutPhotos}
+          onClick={handleSubmit}
         />
       </div>
       <BottomSheet

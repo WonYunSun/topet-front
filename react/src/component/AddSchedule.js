@@ -62,7 +62,7 @@ export default function AddSchedule({ selectedDate, onClose }) {
     formData.append("scheduleWriter", "WriterName");
     formData.append("scheduleEditer", "EditorName");
 
-    await ScheduleService.postSche(formData); // ScheduleService 호출
+    await ScheduleService.postSche(formData); // ScheduleService 호출 //post로직
   };
 
   const postSchedulePhoto = async () => {
