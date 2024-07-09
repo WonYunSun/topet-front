@@ -6,13 +6,19 @@ import AnimalGender from "../component/AnimalSelectComp/AnimalGender";
 import AnimalPhotoandName from "../component/AnimalSelectComp/AnimalPhotoandName";
 
 const PetRegistration = () => {
-  const [stepNum, setStepNum] = useState(1);
-  const [selectedType, setSelectedType] = useState();
-  const [selectedKind, setSelectedKind] = useState(""); // 추가된 부분
-  const [selectedGender, setSelectedGender] = useState();
-  const [selectedNeutered, setSelectedNeuterd] = useState(false);
-  const [checkedGender, setCheckedGender] = useState(false);
-  const [name, setName] = useState();
+    const [stepNum, setStepNum] = useState(1);
+    const [selectedType, setSelectedType] = useState();
+    const [selectedKind, setSelectedKind] = useState(''); // 추가된 부분
+    const [selectedGender, setSelectedGender] = useState();
+    const [selectedNeutered, setSelectedNeuterd] = useState(false);
+    const [checkedGender, setCheckedGender] = useState(false);
+    const [name, setName] = useState();
+    useEffect(() => {
+        show1(stepNum);
+        setCheckedGender(!checkedGender
+        );
+        setSelectedGender('');
+    }, [stepNum, selectedType]);
 
   const checkedGenderControl = () => {
     setCheckedGender(false);
