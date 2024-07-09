@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updatePetList } from '../redux/reducers/petListReducer';
-import '../css/animal_profile.css';
+import { updatePetList } from '../../redux/reducers/petListReducer';
+import '../../css/animal_profile.css'
 
 const AnimalProfile = ({ selectedPet }) => {
     const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../css/hashtag.css';
+import '../../css/hashtag.css';
 
 const HashTagContent = ({ onComplete, initialTags }) => {
   const [requiredTag, setRequiredTag] = useState('');

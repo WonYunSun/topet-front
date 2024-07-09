@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import PetList from "./PetList";
-import HashTagContent from "./HashTagContent";
+import PetList from "./AnimalProfileComp/PetList";
+import HashTagContent from "./HashTagComp/HashTagContent";
 import AddSchedule from "./CalendarComp/AddSchedule";
 import "../css/bottomsheet.css";
 

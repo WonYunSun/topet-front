@@ -5,7 +5,7 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 // import styles from "../css/calendar.module.css";
 import { Calendar } from "../component/CalendarComp/Calendar";
 import TopBar from "../component/TopBar";
-import AnimalSelect from "../component/AnimalSelect";
+import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
 import ScheduleBottom from "../component/CalendarComp/ScheduleBottom";
 import "../css/bottomsheet.css";

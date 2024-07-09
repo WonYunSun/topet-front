@@ -3,11 +3,11 @@ import axios from "axios";
 import TopBar from "../component/TopBar";
 import Title from "../component/Title";
 import Content from "../component/Content";
-import AnimalSelect from "../component/AnimalSelect";
+import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
-import HashTag from "../component/HashTag";
+import HashTag from "../component/HashTagComp/HashTag";
 import "../css/bottomsheet.css";
-import PhotoSelectArea from "../component/PhotoSelectArea";
+import PhotoSelectArea from "../component/PhotoSelect/PhotoSelectArea";
 import Button from "../component/ButtonComp/Button";
 
 const CommunityWrite = () => {
