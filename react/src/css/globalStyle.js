@@ -6,6 +6,8 @@ body {
     font-family: "SUIT Variable", sans-serif;
     
     
+}input{
+    font-family: "SUIT Variable", sans-serif;
 }
 `;
 

@@ -6,7 +6,8 @@ input {
 }
 .AddScheduleWrap > div > span {
   font-weight: 600;
-  margin-right: 20px;
+  margin-right: 5px;
+  font-size: 14px;
 }
 
 /* input이 포커스를 받을 때 (클릭 시 포함) */
@@ -17,16 +18,21 @@ input:active {
 }
 
 .AlldayBtn {
+  margin-left: 5px;
   background-color: #333;
   border-radius: 10px;
   color: #fff;
+  height: 18px;
+  font-size: 10px;
 }
 .AlldayBtnReverse {
+  margin-left: 5px;
   background-color: #fff;
   border-radius: 10px;
   color: #333;
   border: #333 0.5px solid;
-  height: 20%;
+  height: 18px;
+  font-size: 10px;
 }
 .AddScheduleWrap {
   margin: 0 auto;
@@ -42,26 +48,31 @@ input:active {
 }
 
 .DataSelectArea {
+  min-width: 320px;
+  max-width: 320px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 15px;
+  gap: 5px;
 }
 .DatepickerBoxWrap {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 5px;
 }
 .DatepickerBox {
-  width: 15ch;
+  width: 13ch;
   text-align: center;
-  font-size: 15px;
+  font-size: 12px;
+  caret-color: transparent; /* 커서 숨김 */
 }
 .TimepickerBox {
-  width: 10ch;
+  width: 8ch;
+  caret-color: transparent; /* 커서 숨김 */
   text-align: center;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 16px;
   transition: max-height 0.5s ease-in, opacity 0.5s ease-out;
   max-height: 100px;
   opacity: 1;
@@ -83,7 +94,7 @@ input[type="radio"] {
   -moz-transform: scale(1.8); /* Firefox */
   -ms-transform: scale(1.8); /* IE 9 */
   -o-transform: scale(1.8); /* Opera */
-  margin-left: 30px;
+
   vertical-align: middle;
 }
 .imagepickerBox {
@@ -98,6 +109,7 @@ input[type="radio"] {
   flex-direction: row;
   align-items: center;
   vertical-align: middle;
+  gap: 13px;
 }
 .radioLabel {
   vertical-align: middle;
@@ -105,4 +117,24 @@ input[type="radio"] {
 label div {
   display: inline;
   margin-left: 5px;
+  margin-right: 10px;
+}
+.colorPicker {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.colorOptions {
+  display: flex;
+  gap: 10px;
+}
+
+.colorOption {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
 }
