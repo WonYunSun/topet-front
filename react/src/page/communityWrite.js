@@ -8,8 +8,7 @@ import BottomSheet from "../component/BottomSheet";
 import HashTag from "../component/HashTag";
 import "../css/bottomsheet.css";
 import PhotoSelectArea from "../component/PhotoSelectArea";
-import Button from "../component/Button";
-
+import Button from "../component/ButtonComp/Button";
 
 const CommunityWrite = () => {
   const [selectedPet, setSelectedPet] = useState(null);
@@ -111,11 +110,17 @@ const CommunityWrite = () => {
   return (
     <div>
       <TopBar />
-      <AnimalSelect onClick={() => handleBottomSheetOpen("pet")} selectedPet={selectedPet} />
+      <AnimalSelect
+        onClick={() => handleBottomSheetOpen("pet")}
+        selectedPet={selectedPet}
+      />
       <div style={{ height: "10px" }}></div>
       <Title value={titleText} handleTitleTextChange={handleTitleTextChange} />
       <div style={{ height: "20px" }}></div>
-      <Content value={contentText} handleContentTextChange={handleContentTextChange} />
+      <Content
+        value={contentText}
+        handleContentTextChange={handleContentTextChange}
+      />
       <br />
       <PhotoSelectArea
         selectedPhotos={selectedPhotos}
@@ -124,7 +129,10 @@ const CommunityWrite = () => {
         cnt={10}
       />
       <br />
-      <HashTag onClick={() => handleBottomSheetOpen("tag")} selectedTags={selectedTags} />
+      <HashTag
+        onClick={() => handleBottomSheetOpen("tag")}
+        selectedTags={selectedTags}
+      />
       <div>
         <Button text={"취소"} btnstyle="white" />
         <Button

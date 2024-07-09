@@ -3,13 +3,13 @@ import dayjs from "dayjs";
 import isToday from "dayjs/plugin/isToday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 // import styles from "../css/calendar.module.css";
-import { Calendar } from "./../component/Calendar";
+import { Calendar } from "../component/CalendarComp/Calendar";
 import TopBar from "../component/TopBar";
 import AnimalSelect from "../component/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
-import ScheduleBottom from "../component/ScheduleBottom";
+import ScheduleBottom from "../component/CalendarComp/ScheduleBottom";
 import "../css/bottomsheet.css";
-import FloatingBtn from "../component/FloatingBtn";
+import FloatingBtn from "../component/ButtonComp/FloatingBtn";
 import isBetween from "dayjs/plugin/isBetween";
 
 dayjs.extend(localizedFormat);

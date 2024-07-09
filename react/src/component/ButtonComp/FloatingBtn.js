@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../css/floating_btn.module.css";
+import styles from "../../css/floating_btn.module.css";
 import { FiPlus } from "react-icons/fi";
 
 export default function FloatingBtn({ onClick }) {

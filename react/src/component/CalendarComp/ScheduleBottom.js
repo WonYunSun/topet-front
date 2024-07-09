@@ -2,12 +2,12 @@ import React, { useCallback, useState, useEffect } from "react";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import styles from "../css/schedule_bottom.module.css";
+import styles from "../../css/schedule_bottom.module.css";
 import "dayjs/locale/ko";
-import BottomSheet from "../component/BottomSheet";
+import BottomSheet from "../BottomSheet";
 import { GoCircle } from "react-icons/go";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
-import ScheduleService from "../api/scheduleApi"; // postApi
+import ScheduleService from "../../api/scheduleApi"; // postApi
 dayjs.extend(customParseFormat);
 dayjs.extend(localizedFormat);
 dayjs.locale("ko");
