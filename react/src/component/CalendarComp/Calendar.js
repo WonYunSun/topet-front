@@ -61,31 +61,43 @@ export const Calendar = ({ schedules, onDateClick }) => {
   return (
     <div className={styles.CalendarContainer}>
       {showYearMonthPicker && (
-        <div className={styles.YearMonthPickerModal} defaultValue={date.year()}>
-          <select
-            id="yearPicker"
-            className={styles.YearPicker}
+        <>
+          <div
+            className={styles.ModalOverlay}
+            onClick={() => setShowYearMonthPicker(false)}
+          />
+          <div
+            className={styles.YearMonthPickerModal}
             defaultValue={date.year()}
           >
-            {years.map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
-          <select
-            id="monthPicker"
-            className={styles.MonthPicker}
-            defaultValue={date.month() + 1}
-          >
-            {months.map((month) => (
-              <option key={month} value={month}>
-                {month}
-              </option>
-            ))}
-          </select>
-          <button onClick={handleYearMonthSelect}>확인</button>
-        </div>
+            <span>달력 이동</span>
+            <div>
+              <select
+                id="yearPicker"
+                className={styles.YearPicker}
+                defaultValue={date.year()}
+              >
+                {years.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+              <select
+                id="monthPicker"
+                className={styles.MonthPicker}
+                defaultValue={date.month() + 1}
+              >
+                {months.map((month) => (
+                  <option key={month} value={month}>
+                    {month}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button onClick={handleYearMonthSelect}>확인</button>
+          </div>
+        </>
       )}
       <div className={styles.CalendarHeader}>
         <div onClick={prevMonth}>

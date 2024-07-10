@@ -12,18 +12,46 @@ registerLocale("ko", ko);
 
 const colors = ["#DE496E", "#5C60ED", "#4BAFDA", "#F4A5B5"];
 
-export default function AddSchedule({ selectedDate, onClose }) {
+export default function AddSchedule({
+  selectedDate,
+  onClose,
+  initialValues = {},
+}) {
   const initialDate = dayjs(selectedDate).isValid()
     ? dayjs(selectedDate).toDate()
     : new Date();
-  const [startDate, setStartDate] = useState(initialDate);
-  const [endDate, setEndDate] = useState(initialDate);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [isComplete, setIsComplete] = useState(false);
+  console.log({ initialDate });
+  // 기본값 설정
+  const defaultValues = {
+    startDate: initialDate,
+    endDate: initialDate,
+    title: "",
+    content: "",
+    isComplete: false,
+    color: "#000000",
+  };
+
+  const [startDate, setStartDate] = useState(
+    initialValues.startDate || defaultValues.startDate
+  );
+  const [endDate, setEndDate] = useState(
+    initialValues.endDate || defaultValues.endDate
+  );
+  const [title, setTitle] = useState(
+    initialValues.title || defaultValues.title
+  );
+  const [content, setContent] = useState(
+    initialValues.content || defaultValues.content
+  );
+  const [isComplete, setIsComplete] = useState(
+    initialValues.isComplete || defaultValues.isComplete
+  );
+  const [color, setColor] = useState(
+    initialValues.color || defaultValues.color
+  );
+
   const [isAllDay, setIsAllDay] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [color, setColor] = useState("#DE496E");
 
   const handleStartDateChange = (date) => {
     const newDate = dayjs(date).toDate();
