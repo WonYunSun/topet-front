@@ -1,45 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styles from '../../css/communityList.module.css';
-import { fetchCommunityPosts } from '../../api/baseURLs'; // 추가
+import { baseURLs } from '../../api/baseURLs';
 
 const CommunityList = ({ selectedAnimal }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [category, setCategory] = useState('freedomAndDaily');
+  const [communityPosts, setCommunityPosts] = useState([]);
+
   const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
   const currentAnimalType = animalTypeMap[selectedAnimal] || 'dog';
-  const communityPosts = useSelector(state => state.communityPosts);
 
   useEffect(() => {
-    const fetchData = async () => {
-      await fetchCommunityPosts(currentAnimalType, 'freedomAndDaily')(dispatch);
-      await fetchCommunityPosts(currentAnimalType, 'curious')(dispatch);
-      await fetchCommunityPosts(currentAnimalType, 'sharingInformation')(dispatch);
+    const fetchData = async (type, category) => {
+      try {
+        const response = await axios.get(`${baseURLs[type]}/${category}`);
+        setCommunityPosts(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
-    fetchData();
-  }, [selectedAnimal, dispatch, currentAnimalType]);
 
-  const handleCategoryChange = (newCategory) => setCategory(newCategory);
+    fetchData(currentAnimalType, 'freedomAndDaily');
+  }, [selectedAnimal]);
 
-  const getFilteredData = () => {
-    const categoryKey = `${currentAnimalType}_community_${category}`;
-    return communityPosts[categoryKey] || [];
+  const handleCategoryChange = async (newCategory) => {
+    setCategory(newCategory);
+    try {
+      const response = await axios.get(`${baseURLs[currentAnimalType]}/${newCategory}`);
+      setCommunityPosts(response.data);
+      console.log(response.data)
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   const formatHashtags = (hashtagString) => {
-    // 쉼표로 분리
     const tags = hashtagString.split(',');
-    // 숫자 부분 제거 후 나머지에 #을 붙여서 배열로 변환
     const formattedTags = tags
-      .filter(tag => isNaN(tag)) // 숫자가 아닌 값만 필터링
+      .filter(tag => isNaN(tag))
       .map(tag => `#${tag}`);
-    return formattedTags.join(' '); // 배열을 문자열로 변환
+    return formattedTags.join(' ');
   };
 
   const handlePostClick = (comid) => {
-    navigate(`/api/community/community/${comid}`); // 게시물 페이지로 이동
+    navigate(`/api/community/community/${comid}`);
   };
 
   return (
@@ -50,7 +57,7 @@ const CommunityList = ({ selectedAnimal }) => {
         <button onClick={() => handleCategoryChange('sharingInformation')}>정보공유</button>
       </div>
       <div className={styles.community_content_area}>
-        {getFilteredData().map(item => (
+        {communityPosts.map(item => (
           <div className={styles.community_preview} key={item.comid} onClick={() => handlePostClick(item.comid)}>
             <h3>{item.comid}</h3>
             <h3>{item.title}</h3>

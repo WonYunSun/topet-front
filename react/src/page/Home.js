@@ -13,6 +13,8 @@ const Home = () => {
   const goCommunity = () => {
     navigate("/api/community/community", { state: { animalType } });
   };
+
+
   const goKaKaoLogin = () => {
     window.location.href = link;
   };
