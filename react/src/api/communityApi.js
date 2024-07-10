@@ -36,11 +36,17 @@ class CommunityApi {
   
       formData.append("title", titleText);
       formData.append("content", contentText);
+
+      if (selectedTags.length > 0) {
+        // 첫 번째 요소는 'category'로 추가
+        formData.append('category', selectedTags[0]);
   
-      const hashtagsString = selectedTags
-        .map((tag, index) => `${index + 1},${tag}`)
-        .join("");
-      formData.append("hashtag", hashtagsString);
+        // 나머지 요소들을 'hashtag' 문자열로 결합하여 추가
+        const hashtagsString = selectedTags.slice(1).map((tag, index) => `${index + 1},${tag}`).join('');
+        formData.append('hashtag', hashtagsString);
+      }
+  
+  
   
       return await axios
         .post(`${this.baseURL}/community/community/post`, formData, {
