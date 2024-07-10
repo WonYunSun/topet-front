@@ -5,7 +5,7 @@ import catList from '../../data/catList';
 import exoticPetList from '../../data/exoticPetList';
 import styles from '../../css/animal_kind.module.css';
 
-const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange, setNextPossible }) => {
+const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange, setNextPossible, nextPossible }) => {
     const [searchKind, setSearchKind] = useState([]);
     const [searchResult, setSearchResult] = useState(0);
     const [localSelectedKind, setLocalSelectedKind] = useState('');

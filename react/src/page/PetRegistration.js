@@ -9,11 +9,11 @@ import AnimalWeightandHealth from '../component/AnimalSelectComp/AnimalWeightand
 
 const PetRegistration = () => {
     const [stepNum, setStepNum] = useState(1);
-    const [selectedType, setSelectedType] = useState();
+    const [selectedType, setSelectedType] = useState('');
     
     const [selectedKind, setSelectedKind] = useState('');
 
-    const [selectedGender, setSelectedGender] = useState();
+    const [selectedGender, setSelectedGender] = useState();//남or여
 
     const [selectedNeutered, setSelectedNeuterd] = useState('');//중성화
     const [checkedGender, setCheckedGender] = useState(false);//몰라요
@@ -43,26 +43,45 @@ const PetRegistration = () => {
     });
 
     useEffect(() => {
-        setCheckedGender(!checkedGender);
+        //setCheckedGender(!checkedGender);
         
     }, [selectedType, selectedKind, selectedBirth ]);
 
     useEffect(() => { show1(); 
                     consoleLog();
                     nextPossibleFunction(stepNum) 
-                    }, [stepNum]);
+                    }, 
+                    [stepNum]);
+
     useEffect(() => { NextPossibleComp(); }, [nextPossible]);
 
 
     const handleSelectedTypeChange = (value) => {
-        setSelectedType(value);
-        setSelectedKind('');
-        setNextPossible(selectedType>=1 && selectedType <= 3 || value != ''); // 선택된 타입이 있을 때만 다음 단계로 진행 가능하도록 설정
-        setPetData({
-            ...petData,
-            petType: value,
-            petKind: '',
-        });
+
+        if(selectedType != '' &&selectedType != value){
+            console.log('이전 선택과 다릅니다!');
+            ResetForm();
+            setSelectedType(value);
+            setNextPossible(selectedType>=1 && selectedType <= 3 || value != '');
+            setPetData({
+                ...petData,
+                petType: value,
+                petKind: '',
+            });
+            consoleLog();
+        }else{
+            console.log('이전 선택과 같습니다!');
+            setSelectedType(value);
+            setNextPossible(selectedType>=1 && selectedType <= 3 || value != ''); // 선택된 타입이 있을 때만 다음 단계로 진행 가능하도록 설정
+            setPetData({
+                ...petData,
+                petType: value,
+                petKind: '',
+            });
+            consoleLog();
+
+        }
+        
     };
     
     
@@ -116,8 +135,9 @@ const PetRegistration = () => {
             ...petData,
             petName: tempName,
         });
-        // setNextPossible(tempName != ''); // change가 일어날때마다 하지말고, 값을 저장하고, 저장된값을 검증해서, 유효하면 nextPossible이 바뀌게 하면 되겠다.
+        setNextPossible(tempName != ''); // change가 일어날때마다 하지말고, 값을 저장하고, 저장된값을 검증해서, 유효하면 nextPossible이 바뀌게 하면 되겠다.
     };
+
 
     const handleSelectedProfilePhotoChange = (value) => {
         setSelectedPhoto(value);
@@ -175,6 +195,12 @@ const PetRegistration = () => {
     };
 
     const prevStep = () => {
+        
+        if(stepNum == 1){
+            
+            //아니면 continue를 해야함
+        }
+
         if (stepNum > 1) {
             setStepNum(stepNum - 1);
         } else {
@@ -198,7 +224,7 @@ const PetRegistration = () => {
         setWeight('');
         setAllergy('');
         setHealth('');
-        setSelectedPhoto('');
+        setSelectedPhoto(null);
         consoleLog();
     };
 
@@ -234,7 +260,7 @@ const PetRegistration = () => {
 
     function consoleLog(){
         console.log("-------------------------------------------------")
-        console.log("toggle : ", nextPossible);
+        
         console.log('Type: ', selectedType);
         console.log('Kind: ', selectedKind);
         console.log('Gender: ', selectedGender);
@@ -272,6 +298,8 @@ const PetRegistration = () => {
                         handleSelectedKindChange={handleSelectedKindChange}
                         selectedType={selectedType}
                         selectedKind={selectedKind}
+
+                        nextPossible={nextPossible}
                         setNextPossible={setNextPossible}
                     />
                     <NextPossibleComp/>
@@ -289,6 +317,8 @@ const PetRegistration = () => {
                         selectedType={selectedType}
                         checkedGender = {checkedGender}
                         setCheckedGender={setCheckedGender}
+
+                        nextPossible={nextPossible}
                         setNextPossible={setNextPossible}
                     />
                     <NextPossibleComp/>
@@ -309,26 +339,35 @@ const PetRegistration = () => {
                         </div>
                 );
             case 5:
-                return (<div><AnimalBirth selectedBirth={selectedBirth} setSelectedBirth={setSelectedBirth} /> <NextPossibleComp/></div>);
+                return (
+                    <div>
+                        <AnimalBirth 
+                            selectedBirth={selectedBirth} 
+                            setSelectedBirth={setSelectedBirth}
+                            setNextPossible={setNextPossible} /> 
+                        <NextPossibleComp/>
+                    </div>
+                    );
             case 6:
                 return (
-                    <AnimalWeightandHealth
-                        weight={weight}
-                        allergy={allergy}
-                        health={health}
-                        setWeight={setWeight}
-                        handleWeightChange={handleWeightChange}
-                        handleAllergyChange={handleAllergyChange}
-                        handleHealthChange={handleHealthChange}
-                    />
+                    <div>
+                        <AnimalWeightandHealth
+                            weight={weight}
+                            allergy={allergy}
+                            health={health}
+                            setWeight={setWeight}
+                            handleWeightChange={handleWeightChange}
+                            handleAllergyChange={handleAllergyChange}
+                            handleHealthChange={handleHealthChange}
+                            />
+                        <NextPossibleComp/>
+                    </div>
                 );
             default:
                 return null;
         }
     };
-    function reRender() {
-        
-    }
+    
 
     return (
         <div>

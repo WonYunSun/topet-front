@@ -19,7 +19,7 @@ const InputPetHealth = ({ value, onChange, title, inputText }) => {
     );
 };
 
-const InputWeight = ({ weight, setWeight }) => {
+const InputWeight = ({ weight, setWeight}) => {
     const [weightValue, setWeightValue] = useState(''); // 체중 값을 개별 상태로 관리합니다.
     const [selectedUnit, setSelectedUnit] = useState('kg'); // 초기값을 'kg'로 설정합니다.
 
@@ -54,13 +54,13 @@ const InputWeight = ({ weight, setWeight }) => {
     );
 };
 
-const AnimalWeightandHealth = ({ allergy, health, handleAllergyChange, handleHealthChange }) => {
+const AnimalWeightandHealth = ({ allergy, health, handleAllergyChange, handleHealthChange,  setWeight  }) => {
     
 
     return (
         <div>
             <h2>반려동물의 건강상태를 알려주세요</h2>
-            <InputWeight />
+            <InputWeight setWeight={setWeight}/>
             <InputPetHealth
                 title={'알레르기(선택)'}
                 value={allergy}

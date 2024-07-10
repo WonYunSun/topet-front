@@ -1,30 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { FaCamera } from 'react-icons/fa';
 import styles from '../../css/animal_photoandname.module.css';
 
 const AnimalPhotoandName = ({ name, setName, selectedPhoto, setSelectedPhoto, handleSelectedProfilePhotoChange, handleNameChange }) => {
     const fileInputRef = useRef(null);
-    const photoSelect = () => {
+    
+    const photoSelect = useCallback(() => {
         fileInputRef.current.click();
-    };
+    }, []);
 
-    const handleFileChange = (event) => {
+    const handleFileChange = useCallback((event) => {
         const photo = event.target.files[0];
         setSelectedPhoto(photo);
-    };
+    }, [setSelectedPhoto]);
 
-    
-
-    const ProfileName = () => {
-        return (
-            <div></div>
-        );
-    };
-
-    const ProfilePhoto = () => {
+    const ProfilePhoto = useMemo(() => {
         return (
             <div className={styles.selected_profile_photo_box} onChange={handleSelectedProfilePhotoChange}>
-                {/* <img src={URL.createObjectURL(selectedPhoto)} className={styles.selected_profile_photo} /> */}
                 {selectedPhoto == null ? (
                     <div></div>
                 ) : (
@@ -32,9 +24,9 @@ const AnimalPhotoandName = ({ name, setName, selectedPhoto, setSelectedPhoto, ha
                 )}
             </div>
         );
-    };
+    }, [selectedPhoto, handleSelectedProfilePhotoChange]);
 
-    const SelectingPhoto = () => {
+    const SelectingPhoto = useMemo(() => {
         return (
             <div className={styles.selecting_photo_button} onClick={photoSelect}>
                 <input
@@ -47,14 +39,13 @@ const AnimalPhotoandName = ({ name, setName, selectedPhoto, setSelectedPhoto, ha
                 <FaCamera className={styles.selecting_photo_icon} />
             </div>
         );
-    };
+    }, [photoSelect, handleFileChange]);
 
     return (
         <div>
-            <ProfilePhoto />
-            <SelectingPhoto />
-            <div className={styles.profilename_bar_wrapper}
-            >
+            {ProfilePhoto}
+            {SelectingPhoto}
+            <div className={styles.profilename_bar_wrapper}>
                 <input
                     className={styles.profilename_bar}
                     value={name || ''}
