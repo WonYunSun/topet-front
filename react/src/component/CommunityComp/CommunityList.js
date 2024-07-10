@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../../css/communityList.module.css';
 import { baseURLs } from '../../api/baseURLs';
 
+
+
 const CommunityList = ({ selectedAnimal }) => {
+  const { category } = useParams();
   const navigate = useNavigate();
-  const [category, setCategory] = useState('freedomAndDaily');
   const [communityPosts, setCommunityPosts] = useState([]);
+
 
   const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
   const currentAnimalType = animalTypeMap[selectedAnimal] || 'dog';
@@ -23,18 +26,23 @@ const CommunityList = ({ selectedAnimal }) => {
       }
     };
 
-    fetchData(currentAnimalType, 'freedomAndDaily');
-  }, [selectedAnimal]);
 
-  const handleCategoryChange = async (newCategory) => {
-    setCategory(newCategory);
-    try {
-      const response = await axios.get(`${baseURLs[currentAnimalType]}/${newCategory}`);
-      setCommunityPosts(response.data);
-      console.log(response.data)
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    fetchData(currentAnimalType, category); 
+  }, [selectedAnimal, category]);
+
+
+  const handleCategoryChange = (newCategory) => {
+    navigate(`/community/community/${currentAnimalType}/${newCategory}`, { replace: true });
+    const fetchData = async (type, category) => {
+      try {
+        const response = await axios.get(`${baseURLs[type]}/${category}`);
+        setCommunityPosts(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData(currentAnimalType, newCategory);
   };
 
   const formatHashtags = (hashtagString) => {

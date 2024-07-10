@@ -1,4 +1,3 @@
-// bottomsheet.js
 import React, { useEffect, useState } from "react";
 import PetList from "./AnimalProfileComp/PetList";
 import HashTagContent from "./HashTagComp/HashTagContent";
@@ -96,9 +95,9 @@ const BottomSheet = ({
 
       case "map":
         return <h1>지도리스트</h1>;
-      case "강아지":
-      case "고양이":
-      case "특수동물":
+        case "강아지":
+        case "고양이":
+        case "특수동물":
         return (
           <div className="bottom-sheet-buttons">
             <button
