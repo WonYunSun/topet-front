@@ -5,6 +5,7 @@ const Button = ({
   text,
   btnstyle,
   onClick, // 외부에서 전달받은 onClick 핸들러 추가
+  disabled, // 버튼 disbaled 속성 받기
 }) => {
   const textVerification = () => {
     // 정확한 조건 검사
@@ -14,7 +15,11 @@ const Button = ({
   };
 
   return (
-    <button className={style[btnstyle]} onClick={textVerification}>
+    <button
+      className={style[btnstyle]}
+      onClick={textVerification}
+      disabled={disabled}
+    >
       {text}
     </button>
   );

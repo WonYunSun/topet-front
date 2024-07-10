@@ -1,40 +1,56 @@
 /**bottomSheet*/
 
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(144, 143, 143, 0.5);
-    z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 .bottom-sheet {
-    min-height: max-content;
-    width: 100vw;
-    background-color: white;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    transform: translateY(100%);
-    transition: bottom 0.3s ease-in-out;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    z-index: 1000;
+  min-height: max-content;
+  width: 100vw;
+  background-color: white;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  transform: translateY(100%);
+  transition: bottom 0.3s ease-in-out;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  z-index: 1000;
 }
 
 .bottom-sheet.show {
-    bottom: 0;
-    transform: translateY(0);
+  bottom: 0;
+  transform: translateY(0);
 }
 
 .bottom-sheet-content {
-    padding: 20px;
+  padding: 20px;
 }
 
 .bottom-sheet-title {
-    margin: 20px;
-    font-size: 16px; /* 텍스트 크기 설정 */
-    font-weight: bold; /* 텍스트 굵기 설정 */
+  margin: 20px;
+  font-size: 16px; /* 텍스트 크기 설정 */
+  font-weight: bold; /* 텍스트 굵기 설정 */
 }
+
+.bottom-sheet-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .bottom-sheet-button {
+    font-size: 20px; /* 글씨 크기 */
+    color: orange; /* 글씨 색깔 */
+    margin: 5px 0; /* 항목들 간의 거리 */
+    padding: 5px 10px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }

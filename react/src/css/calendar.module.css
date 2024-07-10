@@ -99,9 +99,6 @@ button:focus-visible {
 }
 
 .CalendarHeader {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
   margin: 10px 0 25px 0;
   font-size: 18px;
   font-weight: 700;
@@ -154,7 +151,7 @@ button:focus-visible {
   background-color: red;
   border-radius: 50%;
   position: absolute;
-  transform: translate(50%, 60%);
+  transform: translate(50%, 100%);
   bottom: 5px;
 }
 
@@ -165,18 +162,11 @@ button:focus-visible {
 .SelectedDate.Today > div {
   color: #fff;
 }
-/*  */
-/* calendar.module.css */
 
 .CalendarHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.DateContainer {
-  display: flex;
-  justify-content: space-between;
 }
 
 .DayContainer {
@@ -194,8 +184,14 @@ button:focus-visible {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.YearMonthPickerModal > div {
+  display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 5px;
 }
 
 .YearPicker,
@@ -203,4 +199,13 @@ button:focus-visible {
   margin: 10px 0;
   padding: 10px;
   font-size: 16px;
+}
+.ModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 투명도 있는 회색 배경 */
+  z-index: 1000; /* 모달 뒤에 위치 */
 }

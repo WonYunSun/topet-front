@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -7,28 +7,88 @@ import ko from "date-fns/locale/ko";
 import SchedulePhotoSelectArea from "./SchedulePhotoSelectArea";
 import styles from "../../css/addSchedule.module.css";
 import ScheduleService from "../../api/scheduleApi";
+import CheckModal from "../CheckModal"; // CancleCheckModal 임포트
 
 registerLocale("ko", ko);
 
 const colors = ["#DE496E", "#5C60ED", "#4BAFDA", "#F4A5B5"];
 
-export default function AddSchedule({ selectedDate, onClose }) {
+export default function AddSchedule({
+  selectedDate,
+  onClose,
+  initialValues = {},
+}) {
   const initialDate = dayjs(selectedDate).isValid()
     ? dayjs(selectedDate).toDate()
     : new Date();
-  const [startDate, setStartDate] = useState(initialDate);
-  const [endDate, setEndDate] = useState(initialDate);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [isComplete, setIsComplete] = useState(false);
+  const defaultValues = {
+    startDate: initialDate,
+    endDate: initialDate,
+    title: "",
+    content: "",
+    isComplete: false,
+    color: "#000000",
+  };
+
+  const [startDate, setStartDate] = useState(
+    initialValues.startDate || defaultValues.startDate
+  );
+  const [endDate, setEndDate] = useState(
+    initialValues.endDate || defaultValues.endDate
+  );
+  const [title, setTitle] = useState(
+    initialValues.title || defaultValues.title
+  );
+  const [content, setContent] = useState(
+    initialValues.content || defaultValues.content
+  );
+  const [isComplete, setIsComplete] = useState(
+    initialValues.isComplete || defaultValues.isComplete
+  );
+  const [color, setColor] = useState(
+    initialValues.color || defaultValues.color
+  );
+
   const [isAllDay, setIsAllDay] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [color, setColor] = useState("#DE496E");
+  // 모달 상태 추가
+  // 버튼 상태 추가
+  const [btnStyle, setBtnStyle] = useState("gray");
+  const [btnDisabled, setBtnDisabled] = useState("disabled");
+
+  useEffect(() => {
+    setStartDate(initialValues.startDate || defaultValues.startDate);
+    setEndDate(initialValues.endDate || defaultValues.endDate);
+    setTitle(initialValues.title || defaultValues.title);
+    setContent(initialValues.content || defaultValues.content);
+    setIsComplete(initialValues.isComplete || defaultValues.isComplete);
+    setColor(initialValues.color || defaultValues.color);
+  }, [initialValues]);
+
+  // title 값이 변경될 때마다 버튼 상태 업데이트
+  useEffect(() => {
+    if (title.trim() === "") {
+      setBtnDisabled("disabled");
+      setBtnStyle("gray");
+    } else {
+      setBtnDisabled("");
+      setBtnStyle("orange");
+    }
+  }, [title]);
 
   const handleStartDateChange = (date) => {
     const newDate = dayjs(date).toDate();
     setStartDate(newDate);
     if (dayjs(newDate).isAfter(endDate)) {
+      setEndDate(newDate);
+    }
+  };
+
+  const handleEndDateChange = (date) => {
+    const newDate = dayjs(date).toDate();
+    if (dayjs(newDate).isBefore(startDate)) {
+      setEndDate(startDate);
+    } else {
       setEndDate(newDate);
     }
   };
@@ -84,12 +144,17 @@ export default function AddSchedule({ selectedDate, onClose }) {
   };
 
   const handleButtonClick = async () => {
-    try {
-      await postScheduleData();
-      await postSchedulePhoto();
-      onClose(); // 두 요청 모두 성공 후 onClose 호출
-    } catch (error) {
-      console.error("스케줄 저장 중 오류 발생:", error);
+    if (title !== "") {
+      try {
+        await postScheduleData();
+        await postSchedulePhoto();
+        onClose(); // 두 요청 모두 성공 후 onClose 호출
+      } catch (error) {
+        console.error("스케줄 저장 중 오류 발생:", error);
+      }
+    } else {
+      // setShowCancelModal(true); // 타이틀이 빈 문자열일 경우 모달 표시
+      console.log("제목입력 안함");
     }
   };
 
@@ -123,9 +188,10 @@ export default function AddSchedule({ selectedDate, onClose }) {
               onChange={(date) => setStartDate(dayjs(date).toDate())}
               showTimeSelect
               showTimeSelectOnly
+              locale="ko"
               timeIntervals={15}
               timeCaption="Time"
-              dateFormat="h:mm aa"
+              dateFormat="aa h:mm"
               className={styles.TimepickerBox}
             />
           </div>
@@ -134,7 +200,7 @@ export default function AddSchedule({ selectedDate, onClose }) {
         <div className={styles.DatepickerBoxWrap}>
           <DatePicker
             selected={endDate}
-            onChange={(date) => setEndDate(dayjs(date).toDate())}
+            onChange={handleEndDateChange}
             minDate={startDate}
             locale="ko"
             openToDate={startDate}
@@ -148,12 +214,13 @@ export default function AddSchedule({ selectedDate, onClose }) {
           >
             <DatePicker
               selected={endDate}
-              onChange={(date) => setEndDate(dayjs(date).toDate())}
+              onChange={handleEndDateChange}
               showTimeSelect
               showTimeSelectOnly
               timeIntervals={15}
+              locale="ko"
               timeCaption="Time"
-              dateFormat="h:mm aa"
+              dateFormat="aa h:mm"
               className={styles.TimepickerBox}
             />
           </div>
@@ -227,10 +294,11 @@ export default function AddSchedule({ selectedDate, onClose }) {
       <Button
         type="submit"
         text="완료"
-        btnstyle="orange"
+        btnstyle={btnStyle}
         postServer_withoutPhotos={postScheduleData}
         postServer_withPhotos={postSchedulePhoto}
         onClick={handleButtonClick}
+        disabled={btnDisabled}
       />
     </div>
   );
