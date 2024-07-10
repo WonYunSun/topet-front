@@ -2,8 +2,11 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { FaCamera } from 'react-icons/fa';
 import styles from '../../css/animal_photoandname.module.css';
 
-const AnimalPhotoandName = ({ name, setName, selectedPhoto, setSelectedPhoto, handleSelectedProfilePhotoChange, handleNameChange }) => {
+const AnimalPhotoandName = ({ name, setName, setNextPossible, selectedPhoto, setSelectedPhoto, handleSelectedProfilePhotoChange, handleNameChange }) => {
     const fileInputRef = useRef(null);
+    if(name == ''){
+        setNextPossible(false);
+    }
     
     const photoSelect = useCallback(() => {
         fileInputRef.current.click();

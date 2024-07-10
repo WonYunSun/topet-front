@@ -7,6 +7,10 @@ const AnimalBirth = ({ year, month, day, setYear, setMonth, setDay, selectedBirt
     const currentYear = today.year();
     var currentMonth = today.month() + 1; // month는 0부터 시작하므로 1을 더합니다
     const currentDay = today.date();
+    console.log("daydayday",day);
+    if(day != ''){
+        setNextPossible(true);
+    }
 
     // useEffect(() => {
     //     if (year && month && day) {

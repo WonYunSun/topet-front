@@ -149,7 +149,6 @@ const PetRegistration = () => {
             ...petData,
             petProfilePhoto: value,
         });
-        setNextPossible(value != ''); // 선택된 종류가 있을 때만 다음 단계로 진행 가능하도록 설정
     };
     
     const handleSelectedBirthChange = (value) => {
@@ -340,6 +339,7 @@ const PetRegistration = () => {
                         name={name}
                         setName={setName}
                         handleNameChange={handleNameChange}
+                        setNextPossible={setNextPossible}
                     />
                     <NextPossibleComp />
                         </div>
