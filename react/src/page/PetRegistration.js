@@ -20,6 +20,10 @@ const PetRegistration = () => {
 
 
     const [selectedBirth, setSelectedBirth] = useState();
+    const [year, setYear] = useState('');
+    const [month, setMonth] = useState('');
+    const [day, setDay] = useState('');
+
     const [name, setName] = useState();
     const [weight, setWeight] = useState();
     const [allergy, setAllergy] = useState();
@@ -154,7 +158,7 @@ const PetRegistration = () => {
             ...petData,
             petBirth: value,
         });
-        // setNextPossible(value != ''); // 선택된 종류가 있을 때만 다음 단계로 진행 가능하도록 설정
+        setNextPossible(value != ''); // 선택된 종류가 있을 때만 다음 단계로 진행 가능하도록 설정
     };
 
     const handleWeightChange = (value) => {
@@ -220,6 +224,9 @@ const PetRegistration = () => {
         setSelectedNeuterd('');
         setCheckedGender('');
         setSelectedBirth('');
+        setYear('');
+        setMonth('');
+        setDay('');
         setName('');
         setWeight('');
         setAllergy('');
@@ -231,7 +238,6 @@ const PetRegistration = () => {
     function nextPossibleFunction(stepNum){
         switch(stepNum){
             case 1 :
-                
                 (selectedType >= 1 && selectedType <= 3)?setNextPossible(true):setNextPossible(false);
                 return;
             case 2 :
@@ -253,7 +259,7 @@ const PetRegistration = () => {
         return (
             <div>            
             <button onClick={prevStep}>이전</button>
-            {nextPossible ? <button onClick={nextStep}>다음</button> : <button style={{ backgroundColor: 'gray' }}>다음</button>}
+            {nextPossible ? <button onClick={nextStep}>{(stepNum < 6) ? '다음' : '완료'}</button> : <button style={{ backgroundColor: 'gray' }}>{(stepNum < 6) ? '다음' : '완료'}</button>}
             </div>
         )
     }
@@ -288,7 +294,7 @@ const PetRegistration = () => {
                             setSelectedKind={setSelectedKind}
                             petData={petData}
                         />
-                        <NextPossibleComp/>
+                        <NextPossibleComp />
                         </div>
                 );
             case 2:
@@ -302,7 +308,7 @@ const PetRegistration = () => {
                         nextPossible={nextPossible}
                         setNextPossible={setNextPossible}
                     />
-                    <NextPossibleComp/>
+                    <NextPossibleComp />
                         </div>
                 );
             case 3:
@@ -321,7 +327,7 @@ const PetRegistration = () => {
                        
                         setNextPossible={setNextPossible}
                     />
-                    <NextPossibleComp/>
+                    <NextPossibleComp />
                     </div>
                 );
             case 4:
@@ -335,7 +341,7 @@ const PetRegistration = () => {
                         setName={setName}
                         handleNameChange={handleNameChange}
                     />
-                    <NextPossibleComp/>
+                    <NextPossibleComp />
                         </div>
                 );
             case 5:
@@ -344,8 +350,15 @@ const PetRegistration = () => {
                         <AnimalBirth 
                             selectedBirth={selectedBirth} 
                             setSelectedBirth={setSelectedBirth}
-                            setNextPossible={setNextPossible} /> 
-                        <NextPossibleComp/>
+                            setNextPossible={setNextPossible}
+                            year={year}
+                            month={month}
+                            day={day}
+                            setYear={setYear}
+                            setMonth={setMonth}
+                            setDay={setDay}
+                            /> 
+                        <NextPossibleComp />
                     </div>
                     );
             case 6:
@@ -360,7 +373,7 @@ const PetRegistration = () => {
                             handleAllergyChange={handleAllergyChange}
                             handleHealthChange={handleHealthChange}
                             />
-                        <NextPossibleComp/>
+                        <NextPossibleComp />
                     </div>
                 );
             default:

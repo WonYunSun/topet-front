@@ -2,15 +2,11 @@ import React, { useState, useEffect } from 'react';
 import years from '../../data/year';
 import dayjs from 'dayjs';
 
-const AnimalBirth = ({ selectedBirth, setSelectedBirth, setNextPossible }) => {
+const AnimalBirth = ({ year, month, day, setYear, setMonth, setDay, selectedBirth, setSelectedBirth, setNextPossible }) => {
     const today = dayjs(); // 현재 날짜를 가져옵니다
     const currentYear = today.year();
     var currentMonth = today.month() + 1; // month는 0부터 시작하므로 1을 더합니다
     const currentDay = today.date();
-
-    const [year, setYear] = useState('');
-    const [month, setMonth] = useState('');
-    const [day, setDay] = useState('');
 
     // useEffect(() => {
     //     if (year && month && day) {
@@ -25,7 +21,6 @@ const AnimalBirth = ({ selectedBirth, setSelectedBirth, setNextPossible }) => {
 
         if (newYear && month && day) {
             setSelectedBirth(`${newYear}${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}`);
-            
         }
     };
 
@@ -102,19 +97,21 @@ const AnimalBirth = ({ selectedBirth, setSelectedBirth, setNextPossible }) => {
             <h1>반려동물의 생일을 알려주세요</h1>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <select value={year} onChange={handleYearChange}>
-                    
-                    <option value="">년</option>
+                    <option value="">{(year == '') ? '년' : year}</option>
                     {renderYearOptions()}
+                    {console.log('year: ', year)}
                 </select>
                 <span>년</span>
                 <select value={month} onChange={handleMonthChange} disabled={!year}>
-                    <option value="">월</option>
+                    <option value="">{(month == '') ? '월' : month}</option>
                     {renderMonthOptions()}
+                    {console.log('month: ', month)}
                 </select>
                 <span>월</span>
                 <select value={day} onChange={handleDayChange} disabled={!month}>
-                    <option value="">일</option>
+                    <option value="">{(day == '') ? '일' : day}</option>
                     {renderDayOptions()}
+                    {console.log('day: ', day)}
                 </select>
                 <span>일</span>
             </div>
