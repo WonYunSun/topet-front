@@ -8,7 +8,6 @@ export default function FloatingBtn({ onClick }) {
       <div className={styles.AddscdBtn}>
         <div>
           <FiPlus color="#fff" size={40} />
-          <p>일정추가</p>
         </div>
       </div>
     </div>
