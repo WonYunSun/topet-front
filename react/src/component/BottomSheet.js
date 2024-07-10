@@ -17,11 +17,14 @@ const BottomSheet = ({
   setSelectedTags,
   selectedTags,
 }) => {
+
+
   const [tempTags, setTempTags] = useState([]);
 
   useEffect(() => {
     if (!show && type === "tag") {
       setTempTags([]);
+      
     }
   }, [show, type]);
 
@@ -39,6 +42,7 @@ const BottomSheet = ({
     handleCloseBottomSheet();
   };
 
+
   function getTypeText(type) {
     switch (type) {
       case "pet":
@@ -51,6 +55,10 @@ const BottomSheet = ({
         return "일정 상세";
       case "map" :
           return "지도";
+      case "강아지" :
+      case "고양이" :
+      case "특수동물" :
+          return "게시판 선택";
       default:
         return "";
     }
@@ -90,6 +98,17 @@ const BottomSheet = ({
 
       case "map": 
         return (<h1>지도리스트</h1>);
+      case "강아지":
+      case "고양이":
+      case "특수동물":
+        return (
+          <div className="bottom-sheet-buttons">
+            <button className="bottom-sheet-button" onClick={() => handleSelectPet("강아지")}>강아지</button>
+            <button className="bottom-sheet-button" onClick={() => handleSelectPet("고양이")}>고양이</button>
+            <button className="bottom-sheet-button" onClick={() => handleSelectPet("특수동물")}>특수동물</button>
+          </div>
+        );
+        
       default:
         return "";
     }
