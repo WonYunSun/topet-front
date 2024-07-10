@@ -31,6 +31,11 @@ const Home = () => {
   const goMap = () => {
     navigate("/api/map");
   };
+
+  const gotemp = () => {
+    navigate("/api/temp");
+  }
+
   return (
     <div>
       <img src="/img/kakao_login_large_narrow.png" onClick={goKaKaoLogin} />
@@ -44,6 +49,7 @@ onError={() => {
 />; */}
       <button onClick={goCommunity}>커뮤니티 이동</button>
       <button onClick={goPetRegistration}>반려동물 등록</button>
+      <button onClick={gotemp}>반려동물 등록</button>
       <button onClick={goKaKaoLogin}>카카오로그인 이동</button>
       <button onClick={goCalendar}>캘린더 이동</button>
       <NavBar />
