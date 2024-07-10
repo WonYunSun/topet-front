@@ -4,15 +4,20 @@ import NavBar from "../component/NavBarComp/NavBar";
 //import { GoogleLogin, GoogleOAuthProvider  } from '@react-oauth/google';
 
 const Home = () => {
-  const [animalType, setAnimalType] = useState("강아지");
+  const [animalType, setAnimalType] = useState("강아지"); //이거 활용해서 현재 유저가 선택한 동물 유형 저장해야 됨.
 
   const navigate = useNavigate();
   const link =
     "https://kauth.kakao.com/oauth/authorize?client_id=3494afad7131fc9645ae9b08ed0dfda6&redirect_uri=http://localhost:8081/api/kakaoLogin/OAuth&response_type=code";
 
+
   const goCommunity = () => {
-    navigate("/api/community/community", { state: { animalType } });
+    const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
+    const currentAnimalType = animalTypeMap[animalType] || 'dog';
+    navigate(`/community/community/${currentAnimalType}/freedomAndDaily`);
   };
+
+
   const goKaKaoLogin = () => {
     window.location.href = link;
   };

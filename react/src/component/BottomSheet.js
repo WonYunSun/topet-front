@@ -1,8 +1,8 @@
-// bottomsheet.js
 import React, { useEffect, useState } from "react";
 import PetList from "./AnimalProfileComp/PetList";
 import HashTagContent from "./HashTagComp/HashTagContent";
 import AddSchedule from "./CalendarComp/AddSchedule";
+import ScheduleDetail from "./CalendarComp/ScheduleDetail";
 import "../css/bottomsheet.css";
 
 const BottomSheet = ({
@@ -81,24 +81,13 @@ const BottomSheet = ({
           />
         );
       case "scheduleDetail":
-        return schedule ? (
-          <div>
-            <h2>{schedule.scheduleTitle}</h2>
-            <p>{schedule.scheduleContent}</p>
-            <p>Color: {schedule.color}</p>
-            <p>startDate: {schedule.startDate}</p>
-            <p>endDate: {schedule.endDate}</p>
-            {schedule.isComplete ? <div>완료</div> : <div>미완료</div>}
-          </div>
-        ) : (
-          <div></div>
-        );
+        return <ScheduleDetail schedule={schedule} />;
 
       case "map":
         return <h1>지도리스트</h1>;
-      case "강아지":
-      case "고양이":
-      case "특수동물":
+        case "강아지":
+        case "고양이":
+        case "특수동물":
         return (
           <div className="bottom-sheet-buttons">
             <button

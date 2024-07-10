@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import TopBar from '../component/TopBar';
 import BottomSheet from '../component/BottomSheet';
 import styles from '../css/community.module.css';
 import CommunityList from '../component/CommunityComp/CommunityList';
+import FloatingBtn from '../component/ButtonComp/FloatingBtn';
 
 const Community = () => {
-  const [selectedCenter, setSelectedCenter] = useState("");
+  const navigate = useNavigate();
+  const { animalType, category } = useParams();
+
+  const animalTypeMapReverse = { 'dog': '강아지', 'cat': '고양이', 'exoticpet': '특수동물' };
+  const selectedAnimalType = animalTypeMapReverse[animalType] || '강아지';
+
+  const [selectedCenter, setSelectedCenter] = useState(selectedAnimalType);
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState('');
 
-  const navigate = useNavigate();
-  const location = useLocation();
-  const animalType = location.state?.animalType;
-
   const goCommunityWrite = () => {
     navigate('/api/community/communityWrite');
-  }
-
-  const ontextChange = () => {
-    return selectedCenter || animalType;
   }
 
   const handleBottomSheetOpen = (type) => {
@@ -31,17 +30,24 @@ const Community = () => {
     setShowBottomSheet(false);
   };
 
+  const handleSelectPet = (pet) => {
+    setSelectedCenter(pet);
+    const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
+    const newAnimalType = animalTypeMap[pet] || 'dog';
+    navigate(`/community/community/${newAnimalType}/freedomAndDaily`, { replace: true });
+  };
+
   return (
     <div className={styles.community}>
-      <TopBar centerChange={ontextChange()} handleBottomSheetOpen={handleBottomSheetOpen} />
-      <button onClick={goCommunityWrite}>글 작성 이동</button>
-      <CommunityList selectedAnimal={ontextChange()} />
+      <TopBar centerChange={selectedCenter} handleBottomSheetOpen={handleBottomSheetOpen} />
+      <CommunityList selectedAnimal={selectedCenter} category={category} />
+      <FloatingBtn onClick={goCommunityWrite} />
       <BottomSheet
         show={showBottomSheet}
         onClose={handleBottomSheetClose}
         type={bottomSheetType}
         initialTags={[]}
-        setSelectedPet={setSelectedCenter}
+        setSelectedPet={handleSelectPet}
         setSelectedTags={() => {}}
         selectedTags={[]}
         selectedDate={new Date()}
