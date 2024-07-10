@@ -48,6 +48,7 @@ export default function AddSchedule({
   const [color, setColor] = useState(
     initialValues.color || defaultValues.color
   );
+
   const [isAllDay, setIsAllDay] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   // 모달 상태 추가
@@ -187,9 +188,10 @@ export default function AddSchedule({
               onChange={(date) => setStartDate(dayjs(date).toDate())}
               showTimeSelect
               showTimeSelectOnly
+              locale="ko"
               timeIntervals={15}
               timeCaption="Time"
-              dateFormat="h:mm aa"
+              dateFormat="aa h:mm"
               className={styles.TimepickerBox}
             />
           </div>
@@ -216,8 +218,9 @@ export default function AddSchedule({
               showTimeSelect
               showTimeSelectOnly
               timeIntervals={15}
+              locale="ko"
               timeCaption="Time"
-              dateFormat="h:mm aa"
+              dateFormat="aa h:mm"
               className={styles.TimepickerBox}
             />
           </div>

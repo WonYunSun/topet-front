@@ -66,6 +66,7 @@ input:active {
   width: 13ch;
   text-align: center;
   font-size: 12px;
+  font-weight: 500;
   caret-color: transparent; /* 커서 숨김 */
 }
 .TimepickerBox {
