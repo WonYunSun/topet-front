@@ -8,21 +8,24 @@ const AnimalGender = ({
     setSelectedGender,
     selectedNeutered,
     selectedGender,
+    
     setSelectedNeuterd,
     selectedType,
     // checkedGender,
     // setCheckedGender,
 }) => {
     const [neuToggle, setNeuToggle] = useState(false);
-    const [genderToggle, setGenderToggle] = useState(false);
-
+    const [genderToggle, setGenderToggle] = useState();
     const ShowGender = ({ genderIcon, gender, value }) => {
+    
+    (selectedNeutered === '중성화')? setNeuToggle(true) : setNeuToggle(false);
+         
         return (
             <div
                 className={`${styles.genderIconWrapper} ${
-                    genderToggle
-                        ? setSelectedGender('성별모름')
-                        : selectedGender === value
+                    genderToggle? 
+                    setSelectedGender('성별모름')
+                    : selectedGender === value
                         ? styles.selectedIconWrapper
                         : ''
                 }`}
@@ -43,38 +46,6 @@ const AnimalGender = ({
             </div>
         );
     };
-    // const Neutering = () => {
-    //     const handleNeuteredChecked = (e) => {
-    //         setSelectedNeuterd(!selectedNeutered);
-    //     };
-
-    //     console.log('중성화 여부:', selectedNeutered);
-
-    //     return (
-    //         <div>
-    //             <div>중성화를 했어요</div>
-    //             <div>
-    //                 <input type="checkbox" checked={neuToggle} onChange={handleNeuteredChecked} />
-    //             </div>
-    //         </div>
-    //     );
-    // };
-    // const DontKnowGender = () => {
-    //     const handleDontKnowGenderChecked = (e) => {
-    //         setSelectedGender('성별모름');
-    //         setGenderToggle(!genderToggle);
-    //     };
-    //     console.log('성별:', selectedGender);
-
-    //     return (
-    //         <div>
-    //             <div>성별을 몰라요</div>
-    //             <div>
-    //                 <input type="checkbox" onChange={handleDontKnowGenderChecked} checked={genderToggle} />
-    //             </div>
-    //         </div>
-    //     );
-    // };
 
     const CheckboxOption = ({ label, type, toggleState, setToggleState, selectedValue, setSelectedValue }) => {
         const handleCheckboxChange = () => {
@@ -82,16 +53,10 @@ const AnimalGender = ({
                 setSelectedValue('성별모름');
                 setToggleState(!toggleState);
             } else if (type === 'neutering') {
-                setSelectedValue(!selectedValue);
+                //setSelectedValue(!selectedValue);
+                setSelectedNeuterd('중성화');
                 setToggleState(!toggleState);
             }
-            //datatype int String
-            /*
-                == 같냐?
-                === 데이터타입까지 같냐?
-                '3'  ==  3  true
-                '3'  === 3 false
-             */
         };
 
         return (
