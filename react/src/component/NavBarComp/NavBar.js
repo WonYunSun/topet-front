@@ -48,7 +48,7 @@ function NavBar() {
       </NavLink>
       {/* 마이페이지 화면 이동 */}
       <NavLink
-        to="/profile"
+        to="/api/mypage"
         className={({ isActive }) =>
           isActive ? styles.activeNavItem : styles.navItem
         }
