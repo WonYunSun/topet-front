@@ -6,7 +6,7 @@ import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
 import HashTag from "../component/HashTagComp/HashTag";
 import "../css/bottomsheet.css";
-import PhotoSelectArea from "../component/PhotoSelect/PhotoSelectArea";
+import PhotoSelectArea from "../component/PhotoSelectComp/PhotoSelectArea";
 import Button from "../component/ButtonComp/Button";
 import communityApi from "../api/communityApi";
 
