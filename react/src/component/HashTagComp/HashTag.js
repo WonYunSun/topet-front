@@ -1,5 +1,5 @@
 import React from 'react'
-import '../css/hashtag.css'
+import '../../css/hashtag.css'
 
 const HashTag = ({ onClick, selectedTags  }) => {
   return (

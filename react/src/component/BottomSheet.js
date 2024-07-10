@@ -1,18 +1,19 @@
+// bottomsheet.js
 import React, { useEffect, useState } from "react";
-import PetList from "./PetList";
-import HashTagContent from "./HashTagContent";
+import PetList from "./AnimalProfileComp/PetList";
+import HashTagContent from "./HashTagComp/HashTagContent";
 import AddSchedule from "./CalendarComp/AddSchedule";
 import "../css/bottomsheet.css";
 
 const BottomSheet = ({
   show,
   onClose,
-  onSelectPet,
   type,
   onCompleteTags,
   initialTags,
   selectedDate,
   schedule,
+  initialAddScheduleValues,
   setSelectedPet,
   setSelectedTags,
   selectedTags,
@@ -49,6 +50,12 @@ const BottomSheet = ({
         return "일정 등록";
       case "scheduleDetail":
         return "일정 상세";
+      case "map":
+        return "지도";
+      case "강아지":
+      case "고양이":
+      case "특수동물":
+        return "게시판 선택";
       default:
         return "";
     }
@@ -70,6 +77,7 @@ const BottomSheet = ({
           <AddSchedule
             selectedDate={selectedDate}
             onClose={handleCloseBottomSheet}
+            initialValues={initialAddScheduleValues}
           />
         );
       case "scheduleDetail":
@@ -85,6 +93,35 @@ const BottomSheet = ({
         ) : (
           <div></div>
         );
+
+      case "map":
+        return <h1>지도리스트</h1>;
+      case "강아지":
+      case "고양이":
+      case "특수동물":
+        return (
+          <div className="bottom-sheet-buttons">
+            <button
+              className="bottom-sheet-button"
+              onClick={() => handleSelectPet("강아지")}
+            >
+              강아지
+            </button>
+            <button
+              className="bottom-sheet-button"
+              onClick={() => handleSelectPet("고양이")}
+            >
+              고양이
+            </button>
+            <button
+              className="bottom-sheet-button"
+              onClick={() => handleSelectPet("특수동물")}
+            >
+              특수동물
+            </button>
+          </div>
+        );
+
       default:
         return "";
     }
@@ -93,7 +130,6 @@ const BottomSheet = ({
   return (
     <>
       {show && <div className="overlay" onClick={handleCloseBottomSheet}></div>}
-
       <div className={`bottom-sheet ${show ? "show" : ""}`}>
         <div className="bottom-sheet-title">{getTypeText(type)}</div>
         <div className="bottom-sheet-content">{getSheetContent(type)}</div>

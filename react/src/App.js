@@ -10,6 +10,7 @@ import { Calendarscreen } from "./page/calendar_screen";
 import PetRegistration from "./page/PetRegistration";
 import KakaoLogin from "./page/kakaoLogin";
 import MapScreen from "./page/mapScreen";
+import CommunityDetail from "./component/CommunityComp/CommunityDetail";
 
 function App() {
   const [test, setTest] = useState("");
@@ -88,6 +89,7 @@ function App() {
         <Route path="/api" element={<Home />} />
         <Route path="/api/map" element={<MapScreen />} />
         <Route path="/api/community/community" element={<Community />} />
+        <Route path="/api/community/community/:comid" element={<CommunityDetail />} />
         <Route
           path="/api/community/communitywrite"
           element={<CommunityWrite />}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import '../css/animal_profile.css'
+import '../../css/animal_profile.css'
 
 
 const PetList = ({ onSelectPet }) => {

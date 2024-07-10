@@ -9,7 +9,7 @@ const Button = ({
   const textVerification = () => {
     // 정확한 조건 검사
     if (text === "작성 완료" || text === "완료") {
-      onClick()
+      onClick();
     }
   };
 

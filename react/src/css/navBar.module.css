@@ -1,0 +1,20 @@
+.navbar {
+  /* position: fixed; */
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background-color: #fff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  z-index: 1000;
+}
+
+.navItem {
+  color: #ffa62f;
+  text-decoration: none;
+}
+
+.activeNavItem {
+  color: #ffa62f;
+}
