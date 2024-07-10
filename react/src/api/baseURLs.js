@@ -1,5 +1,4 @@
 import axios from "axios";
-import { updateCommunityPosts } from "../redux/reducers/communityPosts";
 
 const DOG_API_BASE_URL = "http://localhost:5001";
 const CAT_API_BASE_URL = "http://localhost:5002";
@@ -11,12 +10,13 @@ const baseURLs = {
   exoticpet: EXOTICPET_API_BASE_URL
 };
 
-const fetchCommunityPosts = (type, category) => async (dispatch) => {
+const fetchCommunityPosts = async (type, category) => {
   try {
     const response = await axios.get(`${baseURLs[type]}/${category}`);
-    dispatch(updateCommunityPosts({ category: `${type}_community_${category}`, data: response.data }));
+    return response.data; // 데이터를 반환
   } catch (error) {
     console.error("서버 오류:", error);
+    throw error; // 오류를 던짐
   }
 };
 

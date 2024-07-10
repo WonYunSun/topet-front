@@ -4,6 +4,7 @@ import TopBar from '../component/TopBar';
 import BottomSheet from '../component/BottomSheet';
 import styles from '../css/community.module.css';
 import CommunityList from '../component/CommunityComp/CommunityList';
+import FloatingBtn from '../component/ButtonComp/FloatingBtn';
 
 const Community = () => {
   const [selectedCenter, setSelectedCenter] = useState("");
@@ -34,8 +35,8 @@ const Community = () => {
   return (
     <div className={styles.community}>
       <TopBar centerChange={ontextChange()} handleBottomSheetOpen={handleBottomSheetOpen} />
-      <button onClick={goCommunityWrite}>글 작성 이동</button>
       <CommunityList selectedAnimal={ontextChange()} />
+      <FloatingBtn onClick={goCommunityWrite}/>
       <BottomSheet
         show={showBottomSheet}
         onClose={handleBottomSheetClose}
