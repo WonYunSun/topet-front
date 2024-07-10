@@ -50,7 +50,10 @@ export default function AddSchedule({
   );
   const [isAllDay, setIsAllDay] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [showCancelModal, setShowCancelModal] = useState(false); // 모달 상태 추가
+  // 모달 상태 추가
+  // 버튼 상태 추가
+  const [btnStyle, setBtnStyle] = useState("gray");
+  const [btnDisabled, setBtnDisabled] = useState("disabled");
 
   useEffect(() => {
     setStartDate(initialValues.startDate || defaultValues.startDate);
@@ -60,6 +63,17 @@ export default function AddSchedule({
     setIsComplete(initialValues.isComplete || defaultValues.isComplete);
     setColor(initialValues.color || defaultValues.color);
   }, [initialValues]);
+
+  // title 값이 변경될 때마다 버튼 상태 업데이트
+  useEffect(() => {
+    if (title.trim() === "") {
+      setBtnDisabled("disabled");
+      setBtnStyle("gray");
+    } else {
+      setBtnDisabled("");
+      setBtnStyle("orange");
+    }
+  }, [title]);
 
   const handleStartDateChange = (date) => {
     const newDate = dayjs(date).toDate();
@@ -138,19 +152,13 @@ export default function AddSchedule({
         console.error("스케줄 저장 중 오류 발생:", error);
       }
     } else {
-      setShowCancelModal(true); // 타이틀이 빈 문자열일 경우 모달 표시
+      // setShowCancelModal(true); // 타이틀이 빈 문자열일 경우 모달 표시
+      console.log("제목입력 안함");
     }
   };
 
   return (
     <div className={styles.AddScheduleWrap}>
-      {showCancelModal && (
-        <CheckModal
-          onClose={() => setShowCancelModal(false)}
-          Content="제목을 입력해주세요"
-          oneBtn={true}
-        />
-      )}
       <input
         className={styles.ScheduleTitle}
         type="text"
@@ -283,10 +291,11 @@ export default function AddSchedule({
       <Button
         type="submit"
         text="완료"
-        btnstyle="orange"
+        btnstyle={btnStyle}
         postServer_withoutPhotos={postScheduleData}
         postServer_withPhotos={postSchedulePhoto}
         onClick={handleButtonClick}
+        disabled={btnDisabled}
       />
     </div>
   );
