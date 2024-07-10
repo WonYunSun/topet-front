@@ -10,7 +10,7 @@ import { Calendarscreen } from "./page/calendar_screen";
 import PetRegistration from "./page/PetRegistration";
 import KakaoLogin from "./page/kakaoLogin";
 import MapScreen from "./page/mapScreen";
-import CommunityDetail from "./component/Community/CommunityDetail";
+import CommunityDetail from "./component/CommunityComp/CommunityDetail";
 
 function App() {
   const [test, setTest] = useState("");

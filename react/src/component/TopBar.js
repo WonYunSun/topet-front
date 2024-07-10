@@ -6,7 +6,7 @@ import { GoChevronDown } from "react-icons/go";
 import { useNavigate } from 'react-router-dom';
 import styles from '../css/topbar.module.css';
 
-const TopBar = ( {centerChange, showBottomSheet} ) => {
+const TopBar = ( {centerChange} ) => {
     const navigate = useNavigate()
     
 
@@ -26,9 +26,11 @@ const TopBar = ( {centerChange, showBottomSheet} ) => {
             return (
               <div className={styles.topbar}>
                   <GoArrowLeft className={styles.icon} onClick={goBack} />
+
                   
-                  <div className={styles.animalSelectBox} onClick={showBottomSheet}>{centerChange}
-                  <GoChevronDown className='arrow-bottom' /></div>
+                  <div className={styles.animalSelectBox}>{centerChange}
+                  <GoChevronDown className='arrow-bottom' />
+                  </div>
                   
                   <CiSearch className={styles.icon} />
               </div>
