@@ -10,11 +10,16 @@ import AnimalWeightandHealth from '../component/AnimalSelectComp/AnimalWeightand
 const PetRegistration = () => {
     const [stepNum, setStepNum] = useState(1);
     const [selectedType, setSelectedType] = useState();
+    
     const [selectedKind, setSelectedKind] = useState('');
+
     const [selectedGender, setSelectedGender] = useState();
+
+    const [selectedNeutered, setSelectedNeuterd] = useState('');//중성화
+    const [checkedGender, setCheckedGender] = useState(false);//몰라요
+
+
     const [selectedBirth, setSelectedBirth] = useState();
-    const [selectedNeutered, setSelectedNeuterd] = useState('');
-    const [checkedGender, setCheckedGender] = useState(false);
     const [name, setName] = useState();
     const [weight, setWeight] = useState();
     const [allergy, setAllergy] = useState();
@@ -23,10 +28,12 @@ const PetRegistration = () => {
     const [nextPossible, setNextPossible] = useState(false);
 
     const [petData, setPetData] = useState({
+        petType: '',
+        petKind: '',
+
         petGender: '',
         petNeutered: '',
-        petKind: '',
-        petType: '',
+        
         petName: '',
         petBirth: '',
         petWeight: '',
@@ -37,12 +44,15 @@ const PetRegistration = () => {
 
     useEffect(() => {
         setCheckedGender(!checkedGender);
-        setSelectedPhoto();
-        nextPossibleFunction(stepNum);
-        show1();
-        NextPossibleComp();
-        consoleLog();
-    }, [selectedType, selectedKind, selectedBirth, nextPossible, stepNum]);
+        
+    }, [selectedType, selectedKind, selectedBirth ]);
+
+    useEffect(() => { show1(); 
+                    consoleLog();
+                    nextPossibleFunction(stepNum) 
+                    }, [stepNum]);
+    useEffect(() => { NextPossibleComp(); }, [nextPossible]);
+
 
     const handleSelectedTypeChange = (value) => {
         setSelectedType(value);
@@ -70,14 +80,34 @@ const PetRegistration = () => {
             setNextPossible(false); 
         }
     };
+
+
     const handleSelectedGenderChange = (value) => {
-        setSelectedGender(value);
-        setNextPossible(value != '');
-        setPetData({
-            ...petData,
-            petGender: value,
-        });
-        setNextPossible(value != ''); // 선택된 종류가 있을 때만 다음 단계로 진행 가능하도록 설정
+       
+        
+        if(value == '중성화'){
+            console.log('중성화 콘솔')
+            setSelectedNeuterd('중성화');
+            setNextPossible(true);
+        }else if(value == '성별모름'){
+            
+            setCheckedGender(true);
+            setNextPossible(true);
+            
+        }else if(value == ''){
+            setNextPossible(false);
+        }else{//암컷수컷
+            setSelectedGender(value);
+            setPetData({
+                ...petData,
+                petGender: value,
+            });
+            setNextPossible(true);
+        }
+
+
+        
+        
     };
     const handleNameChange = (e) => {
         const tempName = e.target.value;
@@ -86,7 +116,7 @@ const PetRegistration = () => {
             ...petData,
             petName: tempName,
         });
-        setNextPossible(tempName != ''); // 선택된 종류가 있을 때만 다음 단계로 진행 가능하도록 설정
+        // setNextPossible(tempName != ''); // change가 일어날때마다 하지말고, 값을 저장하고, 저장된값을 검증해서, 유효하면 nextPossible이 바뀌게 하면 되겠다.
     };
 
     const handleSelectedProfilePhotoChange = (value) => {
@@ -151,15 +181,31 @@ const PetRegistration = () => {
             setStepNum(1);
         }
 
-        switch(stepNum){
-            case 2 :
-                setSelectedKind('');
-            return;
-        }
+        
+            
+        
     };
+
+    const ResetForm = () => {
+        console.log('resetForm 작동됐음')
+        setSelectedType('');
+        setSelectedKind('');
+        setSelectedGender('');
+        setSelectedNeuterd('');
+        setCheckedGender('');
+        setSelectedBirth('');
+        setName('');
+        setWeight('');
+        setAllergy('');
+        setHealth('');
+        setSelectedPhoto('');
+        consoleLog();
+    };
+
     function nextPossibleFunction(stepNum){
         switch(stepNum){
             case 1 :
+                
                 (selectedType >= 1 && selectedType <= 3)?setNextPossible(true):setNextPossible(false);
                 return;
             case 2 :
@@ -189,22 +235,27 @@ const PetRegistration = () => {
     function consoleLog(){
         console.log("-------------------------------------------------")
         console.log("toggle : ", nextPossible);
-        console.log('Type: ', petData.petType);
-        console.log('Kind: ', petData.petKind);
-        console.log('Gender: ', petData.petGender);
-        console.log('name: ', petData.petName);
-        console.log('birth: ', petData.petBirth);
-        console.log('weight: ', petData.petWeight);
-        console.log('allergy: ', petData.petAllergy);
-        console.log('health: ', petData.petHealth);
-        console.log('setSelectedNeuterd :' , selectedNeutered);
+        console.log('Type: ', selectedType);
+        console.log('Kind: ', selectedKind);
+        console.log('Gender: ', selectedGender);
+        console.log('name: ', name);
+        console.log('birth: ', selectedBirth);
+        console.log('weight: ', weight);
+        console.log('allergy: ', allergy);
+        console.log('health: ', health);
+        
+        console.log('setSelectedNeuterd :', selectedNeutered);
+        console.log('checkedGender :' , checkedGender);
+        console.log('nextPossible', nextPossible)
         console.log("-------------------------------------------------")
     }
     const show1 = () => {
         switch (stepNum) {
             case 1:
+                
                 return (
-                        <div>
+                    
+                       <div>
                         <AnimalType
                             setSelectedType={setSelectedType}
                             handleSelectedTypeChange={handleSelectedTypeChange}
@@ -213,12 +264,9 @@ const PetRegistration = () => {
                         />
                         <NextPossibleComp/>
                         </div>
-
                 );
             case 2:
-                
                 return (
-                    
                     <div>
                     <AnimalKind
                         handleSelectedKindChange={handleSelectedKindChange}
@@ -239,11 +287,12 @@ const PetRegistration = () => {
                         selectedNeutered={selectedNeutered}
                         setSelectedNeuterd={setSelectedNeuterd}
                         selectedType={selectedType}
-                        
+                        checkedGender = {checkedGender}
+                        setCheckedGender={setCheckedGender}
                         setNextPossible={setNextPossible}
                     />
                     <NextPossibleComp/>
-                        </div>
+                    </div>
                 );
             case 4:
                 return (

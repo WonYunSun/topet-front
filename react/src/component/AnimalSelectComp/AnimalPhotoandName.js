@@ -13,7 +13,7 @@ const AnimalPhotoandName = ({ name, setName, selectedPhoto, setSelectedPhoto, ha
         setSelectedPhoto(photo);
     };
 
-    console.log(selectedPhoto);
+    
 
     const ProfileName = () => {
         return (
