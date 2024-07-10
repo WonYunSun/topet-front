@@ -5,6 +5,7 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 import isBetween from "dayjs/plugin/isBetween";
 import { generateDate } from "./generateDate"; // 날짜 가져오는 파일
 import styles from "../../css/calendar.module.css"; // CSS 모듈 임포트
+import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
@@ -13,7 +14,11 @@ dayjs.extend(isBetween);
 export const Calendar = ({ schedules, onDateClick }) => {
   const [date, setDate] = useState(dayjs());
   const [selectedDate, setSelectedDate] = useState(null); // 클릭된 날짜 상태 추가
+  const [showYearMonthPicker, setShowYearMonthPicker] = useState(false);
   const dates = ["일", "월", "화", "수", "목", "금", "토"];
+
+  const years = Array.from({ length: 100 }, (_, i) => dayjs().year() - 50 + i);
+  const months = Array.from({ length: 12 }, (_, i) => i + 1);
 
   const records = useMemo(() => generateDate(date), [date]);
 
@@ -46,19 +51,60 @@ export const Calendar = ({ schedules, onDateClick }) => {
     [onDateClick]
   );
 
+  const handleYearMonthSelect = () => {
+    const year = document.getElementById("yearPicker").value;
+    const month = document.getElementById("monthPicker").value;
+    setDate(dayjs(`${year}-${month}-01`));
+    setShowYearMonthPicker(false);
+  };
+
   return (
     <div className={styles.CalendarContainer}>
+      {showYearMonthPicker && (
+        <div className={styles.YearMonthPickerModal} defaultValue={date.year()}>
+          <select
+            id="yearPicker"
+            className={styles.YearPicker}
+            defaultValue={date.year()}
+          >
+            {years.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+          <select
+            id="monthPicker"
+            className={styles.MonthPicker}
+            defaultValue={date.month() + 1}
+          >
+            {months.map((month) => (
+              <option key={month} value={month}>
+                {month}
+              </option>
+            ))}
+          </select>
+          <button onClick={handleYearMonthSelect}>확인</button>
+        </div>
+      )}
       <div className={styles.CalendarHeader}>
         <div onClick={prevMonth}>
-          <button>{` < `}</button>
+          <button>
+            <SlArrowLeft />
+          </button>
         </div>
-        <div className="block xl:hidden">
+        <div
+          className="block xl:hidden"
+          onClick={() => setShowYearMonthPicker(true)}
+        >
           <span>
             {date.year()}년 {date.month() + 1}월
           </span>
         </div>
         <div onClick={nextMonth}>
-          <button>{` > `}</button>
+          <button>
+            <SlArrowRight />
+          </button>
         </div>
       </div>
       <div className={styles.DateContainer}>
@@ -71,7 +117,8 @@ export const Calendar = ({ schedules, onDateClick }) => {
       <div className={styles.DayContainer}>
         {records.map(({ date, currentMonth }, index) => {
           const isToday = dayjs(date).isToday();
-          const isSelected = selectedDate === date.$d; // 클릭된 날짜인지 확인
+          const isSelected =
+            selectedDate && dayjs(selectedDate).isSame(date, "day"); // 클릭된 날짜인지 확인
 
           const classNames = [
             styles.DateLabel,

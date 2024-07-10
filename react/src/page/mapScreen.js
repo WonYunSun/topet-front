@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import BottomSheet from "../component/BottomSheet";
 import axios from "axios";
 
-import NavBar from "../component/NavBarComp/NavBar";
 
 const MapScreen = () => {
   let screenH = window.innerHeight;
   let arr = ["동물병원", "반려동물동반", "산책"];
-
+  const apiKey = "b09ec8730de391ab294f4a9848831c2c";
 
   const [position, setPosition] = useState(null);
   const [showBottomSheet, setShowBottomSheet] = useState(false);
@@ -24,56 +23,41 @@ const MapScreen = () => {
     setShowBottomSheet(false);
   };
 
-  
+
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((nowPosition) => {
-      setPosition({
-        latitude: nowPosition.coords.latitude,
-        longitude: nowPosition.coords.longitude,
-        accuracy: nowPosition.coords.accuracy,
+
+  }, []);
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=0a5f90aad179112a10005dc19a414e8a&autoload=false&libraries=services,clusterer,drawing`;
+    document.head.appendChild(script);
+
+    script.addEventListener("load", () => {
+
+      navigator.geolocation.getCurrentPosition((nowPosition) => {
+        setPosition({
+          latitude: nowPosition.coords.latitude,
+          longitude: nowPosition.coords.longitude,
+          accuracy: nowPosition.coords.accuracy,
+        });
+      });
+
+      window.kakao.maps.load(() => {
+        const container = document.getElementById("map");
+        const options = {
+          center: new window.kakao.maps.LatLng(position.latitude, position.longitude), // 초기 중심 좌표 (위도, 경도)
+          level: 3, // 지도 확대 레벨
+        };
+        new window.kakao.maps.Map(container, options);
       });
     });
   }, []);
 
-  const initMap = () => {
-    if (!position) return;
-
-    const map = new window.naver.maps.Map("map", {
-      center: new window.naver.maps.LatLng(
-        position.latitude,
-        position.longitude
-      ),
-      zoom: 15,
-    });
-
-    new window.naver.maps.Marker({
-      position: new window.naver.maps.LatLng(
-        position.latitude,
-        position.longitude
-      ),
-      map: map,
-    });
-  };
-
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src =
-      "https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=bdskcjy9wf";
-    script.async = true;
-    script.onload = () => {
-      if (window.naver) {
-        initMap();
-      } else {
-        console.error("네이버 지도 API를 로드할 수 없습니다.");
-      }
-    };
-    document.head.appendChild(script);
-  }, [position]);
-
   const CustomButton = ({ num }) => {
     const isSelected = selectedButton === num; // 현재 버튼이 선택된 버튼인지 확인합니다.
     
-  const CustomButton = ({ num }) => {
     return (
       <div
         onClick={() => {setSelectedButton(isSelected ? null : num); setSeleceted(isSelected);}}  // 동일한 버튼 클릭 시 선택 해제합니다.
@@ -105,48 +89,57 @@ const MapScreen = () => {
   };
 
 
-  
+  // const initMap = () => {
+  //   if (!position) return;
 
+  //   var container = document.getElementById('map');
+	// 	var options = {
+	// 		center: new kakao.maps.LatLng(33.450701, 126.570667),
+	// 		level: 3
+	// 	};
+
+	// 	var map = new kakao.maps.Map(container, options);
+  // };
+// style={{ position: 'relative', width: '100%', height: screenH }}
   return (
     
-    <div style={{ position: 'relative', width: '100%', height: screenH }}>
+    <div>
+        <div id="map" style={{ width: '100%', height: screenH, zIndex: 0 }}></div>
+        {/* 여기도 누가 스타일좀 뺴주셈  + height가 js로 받아온거라 얘도 잘 모르겠음*/}
+        <div>
+          <button 
+            style={{
+              position: 'absolute',
+              top: '10px',
+              left: '10px',
+              zIndex: 10,
+              backgroundColor: 'white',
+              padding: '5px',
+              borderRadius: '5px',
+              boxShadow: '0px 0px 5px rgba(0,0,0,0.3)',
+            }}
+          >
+            뒤로가기
+          </button>
+          <input style={{
+              position: 'absolute',
+              top: '10px',
+              left: '100px',
+              zIndex: 10,
+              backgroundColor: 'white',
+              padding: '5px',
+              borderRadius: '5px',
+              boxShadow: '0px 0px 5px rgba(0,0,0,0.3)',
+            }}/>
+      {/* 여기도 누가 스타일좀 뺴주셈 */}
 
+      
 
-
-
-
-      {/* 여기도 누가 스타일좀 뺴주셈  + height가 js로 받아온거라 얘도 잘 모르겠음*/}
-      <button 
-        style={{
-          position: 'absolute',
-          top: '10px',
-          left: '10px',
-          zIndex: 10,
-          backgroundColor: 'white',
-          padding: '5px',
-          borderRadius: '5px',
-          boxShadow: '0px 0px 5px rgba(0,0,0,0.3)',
-        }}
-      >
-        뒤로가기
-      </button>
-      <input style={{
-          position: 'absolute',
-          top: '10px',
-          left: '100px',
-          zIndex: 10,
-          backgroundColor: 'white',
-          padding: '5px',
-          borderRadius: '5px',
-          boxShadow: '0px 0px 5px rgba(0,0,0,0.3)',
-        }}/>
-    {/* 여기도 누가 스타일좀 뺴주셈 */}
-
-
-
-      {arr.map((item, index) => (
-      <CustomButton key={index} num={index} />
-      ))}
+          {arr.map((item, index) => (
+          <CustomButton key={index} num={index} />
+          ))}
+      </div>
+      <div>
       {selected? '' :  <button style={{
           position: 'absolute',
           bottom: '10px',
@@ -164,10 +157,9 @@ const MapScreen = () => {
         onClose={handleBottomSheetClose}
         type={bottomSheetType}
       />
-      <div id="map" style={{ width: '100%', height: '100%', zIndex: 0 }}></div>
+      </div>
     </div>
   );
 };
-}
 
 export default MapScreen;

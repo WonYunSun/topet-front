@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import dayjs from "dayjs";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -10,8 +10,12 @@ import ScheduleService from "../../api/scheduleApi";
 
 registerLocale("ko", ko);
 
+const colors = ["#DE496E", "#5C60ED", "#4BAFDA", "#F4A5B5"];
+
 export default function AddSchedule({ selectedDate, onClose }) {
-  const initialDate = dayjs(selectedDate).isValid() ? selectedDate : new Date();
+  const initialDate = dayjs(selectedDate).isValid()
+    ? dayjs(selectedDate).toDate()
+    : new Date();
   const [startDate, setStartDate] = useState(initialDate);
   const [endDate, setEndDate] = useState(initialDate);
   const [title, setTitle] = useState("");
@@ -19,12 +23,13 @@ export default function AddSchedule({ selectedDate, onClose }) {
   const [isComplete, setIsComplete] = useState(false);
   const [isAllDay, setIsAllDay] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [color, setColor] = useState("#000000");
+  const [color, setColor] = useState("#DE496E");
 
   const handleStartDateChange = (date) => {
-    setStartDate(date);
-    if (dayjs(date).isAfter(endDate)) {
-      setEndDate(date);
+    const newDate = dayjs(date).toDate();
+    setStartDate(newDate);
+    if (dayjs(newDate).isAfter(endDate)) {
+      setEndDate(newDate);
     }
   };
 
@@ -46,6 +51,10 @@ export default function AddSchedule({ selectedDate, onClose }) {
 
   const handleRemovePhoto = () => {
     setSelectedPhoto(null);
+  };
+
+  const handleColorClick = (selectedColor) => {
+    setColor(selectedColor);
   };
 
   const postScheduleData = async () => {
@@ -111,7 +120,7 @@ export default function AddSchedule({ selectedDate, onClose }) {
           >
             <DatePicker
               selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              onChange={(date) => setStartDate(dayjs(date).toDate())}
               showTimeSelect
               showTimeSelectOnly
               timeIntervals={15}
@@ -125,7 +134,7 @@ export default function AddSchedule({ selectedDate, onClose }) {
         <div className={styles.DatepickerBoxWrap}>
           <DatePicker
             selected={endDate}
-            onChange={setEndDate}
+            onChange={(date) => setEndDate(dayjs(date).toDate())}
             minDate={startDate}
             locale="ko"
             openToDate={startDate}
@@ -139,7 +148,7 @@ export default function AddSchedule({ selectedDate, onClose }) {
           >
             <DatePicker
               selected={endDate}
-              onChange={(date) => setEndDate(date)}
+              onChange={(date) => setEndDate(dayjs(date).toDate())}
               showTimeSelect
               showTimeSelectOnly
               timeIntervals={15}
@@ -154,7 +163,7 @@ export default function AddSchedule({ selectedDate, onClose }) {
           onClick={handleAllDay}
           className={isAllDay ? styles.AlldayBtn : styles.AlldayBtnReverse}
         >
-          하루 종일
+          하루종일
         </button>
       </div>
       <div className={styles.radiobtn}>
@@ -180,13 +189,21 @@ export default function AddSchedule({ selectedDate, onClose }) {
           <div>미완료</div>
         </label>
       </div>
-      <div>
+      <div className={styles.colorPicker}>
         <span>색상</span>
-        <input
-          type="color"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-        />
+        <div className={styles.colorOptions}>
+          {colors.map((colorOption) => (
+            <div
+              key={colorOption}
+              className={styles.colorOption}
+              style={{
+                backgroundColor: colorOption,
+                boxShadow: color === colorOption ? "0 0 0 1px #333" : "none",
+              }}
+              onClick={() => handleColorClick(colorOption)}
+            ></div>
+          ))}
+        </div>
       </div>
       <div>
         <span>메모</span>
