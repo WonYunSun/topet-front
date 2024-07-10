@@ -12,6 +12,7 @@ import "../css/bottomsheet.css";
 import FloatingBtn from "../component/ButtonComp/FloatingBtn";
 import isBetween from "dayjs/plugin/isBetween";
 import NavBar from "../component/NavBarComp/NavBar";
+import CancleCheckModal from "../component/CancleCheckModal";
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
 dayjs.extend(isBetween);
@@ -26,7 +27,6 @@ export const Calendarscreen = () => {
       startDate: "2024-07-10T00:00:00",
       endDate: "2024-07-13T23:59:59",
       scheduleTitle: "병원 진료(건강검진)",
-      scheduleContent: "test1",
       isComplete: false,
       color: "#DE496E",
       scheduleWriter: "A",
@@ -137,7 +137,15 @@ export const Calendarscreen = () => {
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(null);
   const [selectedDate, setSelectedDate] = useState(now); // 선택된 날짜 관리할것
-
+  const [showCancleModal, setShowCancleModal] = useState(false);
+  const [initialAddScheduleValues, setInitialAddScheduleValues] = useState({
+    startDate: selectedDate,
+    endDate: selectedDate,
+    title: "",
+    content: "",
+    isComplete: false,
+    color: "#DE496E",
+  });
   const handleOpenPetBottomSheet = () => {
     setBottomSheetType("pet");
     setShowBottomSheet(true);
@@ -145,11 +153,17 @@ export const Calendarscreen = () => {
 
   const handleCloseBottomSheet = () => {
     setShowBottomSheet(false);
+    setTimeout(() => setShowCancleModal(true), 0); // 상태 업데이트를 비동기적으로 처리
   };
 
-  const handleSelectPet = (pet) => {
-    setSelectedPet(pet);
-    handleCloseBottomSheet();
+  const handleContinueWriting = () => {
+    setShowCancleModal(false);
+    setShowBottomSheet(true);
+    setTimeout(() => setBottomSheetType("addSchedule"), 0);
+  };
+
+  const handleCloseCancleModal = () => {
+    setShowCancleModal(false);
   };
 
   const handleDateClick = (date) => {
@@ -176,9 +190,16 @@ export const Calendarscreen = () => {
         initialTags={[]}
         selectedDate={selectedDate}
         setSelectedPet={setSelectedPet}
+        initialAddScheduleValues={initialAddScheduleValues}
         //setSelectedTags={setSelectedTags}
         //selectedTags={selectedTags}
       />
+      {showCancleModal && (
+        <CancleCheckModal
+          onClose={handleCloseCancleModal}
+          onContinue={handleContinueWriting}
+        />
+      )}
       <ScheduleBottom
         schedules={schedules}
         selectedDate={selectedDate}

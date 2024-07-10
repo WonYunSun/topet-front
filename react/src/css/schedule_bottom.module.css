@@ -57,6 +57,7 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
+  overflow: hidden;
 }
 
 .ScheduleBoxCheckBoxWrap {
@@ -71,6 +72,9 @@
 .ScheduleTitle {
   font-weight: 500;
   font-size: 17px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 .verticalDivider {
   width: 1.9px; /* 너비 */
