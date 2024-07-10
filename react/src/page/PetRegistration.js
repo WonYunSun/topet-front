@@ -318,7 +318,7 @@ const PetRegistration = () => {
                         checkedGender = {checkedGender}
                         setCheckedGender={setCheckedGender}
 
-                        nextPossible={nextPossible}
+                       
                         setNextPossible={setNextPossible}
                     />
                     <NextPossibleComp/>

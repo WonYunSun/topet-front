@@ -9,7 +9,7 @@ import PetRegistration from "./page/PetRegistration";
 import KakaoLogin from "./page/kakaoLogin";
 import MapScreen from "./page/mapScreen";
 import CommunityDetail from "./component/CommunityComp/CommunityDetail";
-import Temp from "./page/temp";
+
 
 function App() {
 
@@ -21,7 +21,7 @@ function App() {
         <Route path="/community/community/:animalType/:category" element={<Community />} />
         <Route path="/api/community/community/:comid" element={<CommunityDetail />} />
         <Route path="/api/community/communitywrite" element={<CommunityWrite />}/>
-        <Route path="/api/temp" element={<Temp/>}/>
+
         <Route path="/api/schedule" element={<Calendarscreen />} />
         <Route path="/api/petregistration" element={<PetRegistration />} />
         {/* <Route path='/api/kakaoLogin' element={<KakaoLogin/>} /> */}

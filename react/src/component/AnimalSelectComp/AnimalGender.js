@@ -12,6 +12,7 @@ const AnimalGender = ({
     setSelectedNeuterd,
     selectedType,
     checkedGender,
+    setNextPossible,
     setCheckedGender,
 }) => {
     const [neuToggle, setNeuToggle] = useState(selectedNeutered=='중성화');
@@ -19,10 +20,16 @@ const AnimalGender = ({
     //()?setNeuToggle(true):setNeuToggle(false);
     useEffect(() => {
         setGenderToggle(selectedGender === '성별모름');
+        if(selectedGender==null || selectedGender == ''){
+            setNextPossible(false);
+        }
     }, [selectedGender]);
 
     
     const ShowGender = ({ genderIcon, gender, value }) => {
+        if(selectedGender==null || selectedGender == ''){
+            setNextPossible(false);
+        }
        return (
             <div
                 className={`${styles.genderIconWrapper} ${
