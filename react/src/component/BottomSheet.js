@@ -1,3 +1,4 @@
+// bottomsheet.js
 import React, { useEffect, useState } from "react";
 import PetList from "./AnimalProfileComp/PetList";
 import HashTagContent from "./HashTagComp/HashTagContent";
@@ -7,7 +8,6 @@ import "../css/bottomsheet.css";
 const BottomSheet = ({
   show,
   onClose,
-  onSelectPet,
   type,
   onCompleteTags,
   initialTags,
@@ -130,7 +130,6 @@ const BottomSheet = ({
   return (
     <>
       {show && <div className="overlay" onClick={handleCloseBottomSheet}></div>}
-
       <div className={`bottom-sheet ${show ? "show" : ""}`}>
         <div className="bottom-sheet-title">{getTypeText(type)}</div>
         <div className="bottom-sheet-content">{getSheetContent(type)}</div>

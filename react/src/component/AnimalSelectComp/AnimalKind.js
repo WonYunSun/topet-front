@@ -5,18 +5,25 @@ import catList from '../../data/catList';
 import exoticPetList from '../../data/exoticPetList';
 import styles from '../../css/animal_kind.module.css';
 
-const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange }) => {
+const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange, setNextPossible }) => {
     const [searchKind, setSearchKind] = useState([]);
     const [searchResult, setSearchResult] = useState(0);
-    const [localSelectedKind, setLocalSelectedKind] = useState(selectedKind || '');
+    const [localSelectedKind, setLocalSelectedKind] = useState('');
 
     useEffect(() => {
-        ShowKindList();
-    }, [searchResult, searchKind, selectedType]);
+        setLocalSelectedKind(selectedKind || '');
+    }, [selectedKind]);
 
     const onSearch = (e) => {
         const userSearchWord = e.target.value.trim();
         setLocalSelectedKind(userSearchWord);
+        
+        if(userSearchWord != localSelectedKind){
+            setNextPossible(false);
+            setSearchKind('');
+        }
+
+
         if (userSearchWord === '') {
             setSearchResult(0);
             setSearchKind([]);
@@ -52,35 +59,12 @@ const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange }) =>
     };
 
     const onClickedKind = (kind) => {
+        console.log(kind);
         handleSelectedKindChange(kind);
+        
         setLocalSelectedKind(kind);
-        setSearchResult(0); // 검색 결과 목록을 초기화
+        setSearchResult(1); // 검색 결과 목록을 초기화
         setSearchKind([]); // 검색 결과 목록을 초기화
-    };
-
-    const ShowKindList = () => {
-        const list = showList();
-        if (localSelectedKind !== '' && searchResult === 0) {
-            return <div className={styles.emptyList}></div>;
-        } else if (list.length === 0) {
-            return (
-                <div className={styles.kindwrapper}>
-                    <div onClick={() => onClickedKind('기타')} className={styles.kind}>
-                        기타
-                    </div>
-                </div>
-            );
-        } else {
-            return (
-                <div className={styles.kindwrapper}>
-                    {list.map((kind, index) => (
-                        <div onClick={() => onClickedKind(kind)} className={styles.kind} key={index}>
-                            {kind}
-                        </div>
-                    ))}
-                </div>
-            );
-        }
     };
 
     return (
@@ -97,7 +81,23 @@ const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange }) =>
                 />
             </div>
             <div className={styles.kindListContainer}>
-                {localSelectedKind === '' ? <ShowKindList /> : null} {/* 검색어가 비어있을 때만 목록을 보여줌 */}
+                {searchResult === 0 ? (
+                    <div className={styles.kindwrapper}>
+                        {showList().map((kind, index) => (
+                            <div onClick={() => onClickedKind(kind)} className={styles.kind} key={index}>
+                                {kind}
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className={styles.kindwrapper}>
+                        {searchKind.map((kind, index) => (
+                            <div onClick={() => onClickedKind(kind)} className={styles.kind} key={index}>
+                                {kind}
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaCamera } from 'react-icons/fa';
 import styles from '../../css/animal_photoandname.module.css';
 
-const AnimalPhotoandName = ({ name, setName, selectedPhoto, setSelectedPhoto, handleSelectedProfilePhotoChange }) => {
+const AnimalPhotoandName = ({ name, setName, selectedPhoto, setSelectedPhoto, handleSelectedProfilePhotoChange, handleNameChange }) => {
     const fileInputRef = useRef(null);
     const photoSelect = () => {
         fileInputRef.current.click();
@@ -15,20 +15,9 @@ const AnimalPhotoandName = ({ name, setName, selectedPhoto, setSelectedPhoto, ha
 
     console.log(selectedPhoto);
 
-    const onChange = (e) => {
-        setName(e.target.value.trim());
-    };
-
     const ProfileName = () => {
         return (
-            <div className={styles.profilename_bar_wrapper}>
-                <input
-                    className={styles.profilename_bar}
-                    type="text"
-                    onChange={onChange}
-                    placeholder="반려동물의 이름을 입력해주세요!"
-                ></input>
-            </div>
+            <div></div>
         );
     };
 
@@ -64,7 +53,15 @@ const AnimalPhotoandName = ({ name, setName, selectedPhoto, setSelectedPhoto, ha
         <div>
             <ProfilePhoto />
             <SelectingPhoto />
-            <ProfileName />
+            <div className={styles.profilename_bar_wrapper}
+            >
+                <input
+                    className={styles.profilename_bar}
+                    value={name || ''}
+                    onChange={handleNameChange}
+                    placeholder="반려동물의 이름을 입력해주세요"
+                />
+            </div>
         </div>
     );
 };

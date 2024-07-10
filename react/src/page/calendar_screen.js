@@ -1,8 +1,8 @@
+// calendar_screen.js
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import isToday from "dayjs/plugin/isToday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
-// import styles from "../css/calendar.module.css";
 import { Calendar } from "../component/CalendarComp/Calendar";
 import TopBar from "../component/TopBar";
 import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
@@ -12,16 +12,15 @@ import "../css/bottomsheet.css";
 import FloatingBtn from "../component/ButtonComp/FloatingBtn";
 import isBetween from "dayjs/plugin/isBetween";
 import NavBar from "../component/NavBarComp/NavBar";
-import CancleCheckModal from "../component/CancleCheckModal";
+import CheckModal from "../component/CheckModal";
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
 dayjs.extend(isBetween);
 
 export const Calendarscreen = () => {
-  const now = dayjs().format("YYYY/MM/DD");
-  let screenH = window.innerHeight;
-  // 더미데이터 넣어놓은겁니다
+  // const now = dayjs().format("YYYY-MM-DD");
   const [schedules, setSchedules] = useState([
+    // 더미데이터 넣어놓은겁니다
     {
       scheduleId: 1,
       startDate: "2024-07-10T00:00:00",
@@ -136,16 +135,17 @@ export const Calendarscreen = () => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(now); // 선택된 날짜 관리할것
+  const [selectedDate, setSelectedDate] = useState(dayjs()); // 선택된 날짜 관리할것
   const [showCancleModal, setShowCancleModal] = useState(false);
   const [initialAddScheduleValues, setInitialAddScheduleValues] = useState({
-    startDate: selectedDate,
-    endDate: selectedDate,
+    startDate: dayjs().toDate(),
+    endDate: dayjs().toDate(),
     title: "",
     content: "",
     isComplete: false,
     color: "#DE496E",
   });
+
   const handleOpenPetBottomSheet = () => {
     setBottomSheetType("pet");
     setShowBottomSheet(true);
@@ -167,11 +167,25 @@ export const Calendarscreen = () => {
   };
 
   const handleDateClick = (date) => {
-    setSelectedDate(date); // 선택된 날짜 업데이트
+    const formattedDate = dayjs(date).format("YYYY-MM-DD");
+    setSelectedDate(formattedDate); // 선택된 날짜 업데이트
+    setInitialAddScheduleValues((prev) => ({
+      ...prev,
+      startDate: dayjs(date).toDate(),
+      endDate: dayjs(date).toDate(),
+    }));
   };
 
   const handleFloatingBtnClick = () => {
     setBottomSheetType("addSchedule");
+    setInitialAddScheduleValues({
+      startDate: dayjs(selectedDate).toDate(),
+      endDate: dayjs(selectedDate).toDate(),
+      title: "",
+      content: "",
+      isComplete: false,
+      color: "#DE496E",
+    });
     setShowBottomSheet(true);
   };
 
@@ -191,11 +205,12 @@ export const Calendarscreen = () => {
         selectedDate={selectedDate}
         setSelectedPet={setSelectedPet}
         initialAddScheduleValues={initialAddScheduleValues}
-        //setSelectedTags={setSelectedTags}
-        //selectedTags={selectedTags}
       />
-      {showCancleModal && (
-        <CancleCheckModal
+      {showCancleModal && bottomSheetType === "addSchedule" && (
+        <CheckModal
+          Content="작성한 일정을 폐기하시겠습니까?"
+          ContinueBtnContent="계속 작성"
+          CancleBtnContent="작성 취소"
           onClose={handleCloseCancleModal}
           onContinue={handleContinueWriting}
         />
