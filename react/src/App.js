@@ -13,7 +13,7 @@ import CommunityDetail from "./component/CommunityComp/CommunityDetail";
 
 function App() {
 
-  return (
+  return ( 
     <div className="App">
       <Routes>
         <Route path="/api" element={<Home />} />

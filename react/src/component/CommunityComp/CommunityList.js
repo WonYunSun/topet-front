@@ -53,34 +53,60 @@ const CommunityList = ({ selectedAnimal }) => {
   };
 
   const formatHashtags = hashtagString => {
-    const tags = hashtagString.split(',');
-    const formattedTags = tags.filter(tag => isNaN(tag)).map(tag => `#${tag}`);
-    return formattedTags.join(' ');
+    const tags = hashtagString.split(',')
+      .map(tag => tag.trim().replace(/^\d+/, '')) // 문자열 시작 부분의 숫자를 제거
+      .filter(tag => tag !== ''); // 빈 문자열 제거
+  
+    const visibleTags = tags.slice(0, 3); // 처음 3개의 해시태그만 표시
+    const remainingTagsCount = tags.length - visibleTags.length;
+  
+    return (
+      <>
+        {visibleTags.map((tag, index) => (
+          <span key={index} className={styles.hashtag}>#{tag}</span>
+        ))}
+        {remainingTagsCount > 0 && (
+          <span className={styles.hashtag}>+{remainingTagsCount}</span>
+        )}
+      </>
+    );
   };
 
   return (
     <div>
-
       <div className={styles.category_buttons_area}>
         <button className={styles.category_button} onClick={() => handleCategoryChange('freedomAndDaily')} disabled={category === 'freedomAndDaily'}>#자유/일상</button>
         <button className={styles.category_button} onClick={() => handleCategoryChange('curious')} disabled={category === 'curious'}>#궁금해요</button>
         <button className={styles.category_button} onClick={() => handleCategoryChange('sharingInformation')} disabled={category === 'sharingInformation'}>#정보공유</button>
       </div>
-      
+
       <div className={styles.category_text}>
         {currentCategory}
       </div>
 
-      <div className={styles.community_content_area}>
+      <div className={styles.communities_content_area}>
         {communityPosts.map((item, index) => (
           <div
             key={item.comid}
             onClick={() => handlePostClick(item.comid)}
             ref={communityPosts.length === index + 1 ? lastPostElementRef : null}
           >
-            <h3>{item.title}</h3>
-            <p>{item.content}</p>
-            <p>{formatHashtags(item.hashtag)}</p>
+            <div className={styles.each_community_area}>
+         
+              <div className={styles.titleContentHashWrap}>
+                <div className={styles.community_title}>{item.title}</div>
+                <div className={styles.community_content}>{item.content}</div>
+                <div className={styles.community_hashtags}>{formatHashtags(item.hashtag)}</div>
+              </div>
+              <div className={styles.content_and_photo_area}>
+                {item.photos && item.photos.length > 0 && (
+                  <div className={styles.community_photo}>
+                    <img src={item.photos[0]} alt="community" />
+                  </div>
+                )}
+              </div>
+              
+            </div>
           </div>
         ))}
       </div>

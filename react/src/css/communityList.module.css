@@ -1,45 +1,129 @@
+.category_buttons_area {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start; /* 좌측 정렬 */
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.titleContentHashWrap{
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.category_button {
+  border: 1px solid orange;
+  background-color: white;
+  color: orange;
+  padding: 5px 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 20px;
+}
 
-.community_content_area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: calc(100vh - 171px); /*TopBar의 높이를 계산해서 props 전달해준 다음에 윈도우 높이에서 빼야하는 로직 구현 필요 */
-    overflow-y: auto;
-  }
+.category_button:disabled {
+  border-color: orange;
+  background-color: orange;
+  color: white;
+}
 
-  .category_buttons_area {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start; /* 좌측 정렬 */
-    margin-left: 10px;
-    margin-top: 10px;
-  }
-  
-  .category_button {
-    border: 1px solid orange;
-    background-color: white;
-    color: orange;
-    padding: 5px 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    cursor: pointer;
-    font-size: 12px;
-    border-radius: 20px;
-  }
-  
-  .category_button:disabled {
-    border-color: orange;
-    background-color: orange;
-    color: white;
-  }
+.category_text {
+  text-align: left;
+  color: orange;
+  margin: 20px 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
 
-  .category_text {
-    text-align: left;
-    color: orange;
-    margin: 20px 20px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
+.communities_content_area {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100vh - 171px); /* TopBar의 높이를 계산해서 props 전달해준 다음에 윈도우 높이에서 빼야하는 로직 구현 필요 */
+  overflow-y: auto;
+}
+
+.each_community_area {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  align-items: center;
+  padding: 15px;
+
+
+  box-sizing: border-box;
+}
+
+.community_title {
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+  text-align: left;
+  white-space: nowrap; /* 텍스트를 한 줄로 유지 */
+  overflow: hidden; /* 넘치는 텍스트를 숨김 */
+  text-overflow: ellipsis; /* 넘치는 텍스트를 ...으로 표시 */
+}
+
+/* .content_and_photo_area {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-bottom: 10px;
+} */
+
+.community_content {
+  min-height: 76px;
+  font-size: 15px;
+  color: #555;
+  flex: 1;
+  text-align: left;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* 최대 4줄까지만 표시 */
+  -webkit-box-orient: vertical;
+  line-clamp: 4; /* 표준 속성 (아직 대부분의 브라우저에서 지원되지 않음) */
+  box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
+.community_photo {
+  width: 80px;
+  height: 80px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.community_photo img {
+  width: 100%;
+  height: 100%;
+  margin-left: 10px;
+  border-radius: 10px;
+  object-fit:cover;
+}
+
+.community_hashtags {
+  font-size: 12px;
+  color: #999;
+display: flex;
+flex-direction: row;
+align-items: center;
+gap: 5px;
+
+}
+
+.hashtag {
+  font-size: 12px;
+  color: orange; /* 글씨 주황색 */
+  background-color: white; /* 배경 하얀색 */
+  border: 1px solid orange; /* 테두리 주황색 */
+  padding: 3px 10px; /* 글씨와 테두리 사이 간격 */
+
+  border-radius: 20px; /* 모서리를 조금 둥글게 */
+  display: inline-block;
+  text-align: left;
+}

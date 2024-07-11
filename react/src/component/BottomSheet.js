@@ -7,7 +7,7 @@ import EditDeleteBottomSheet from './SubBottomSheet';
 import ScheduleEdit from './CalendarComp/ScheduleEdit';
 import '../css/bottomsheet.css';
 
-const BottomSheet = ({
+const BottomSheet = ({ 
   show,
   onClose,
   type,
@@ -20,11 +20,11 @@ const BottomSheet = ({
   setSelectedTags,
   selectedTags,
   onDotsClick,
-  onEditClick, // 추가된 부분
-  selectedSchedule, // 추가된 부분
+  onEditClick, 
+  selectedSchedule,
 }) => {
   const [tempTags, setTempTags] = useState([]);
-
+  
   useEffect(() => {
     if (!show && type === 'tag') {
       setTempTags([]);
