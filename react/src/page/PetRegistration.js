@@ -9,12 +9,21 @@ import AnimalWeightandHealth from '../component/AnimalSelectComp/AnimalWeightand
 
 const PetRegistration = () => {
     const [stepNum, setStepNum] = useState(1);
-    const [selectedType, setSelectedType] = useState();
+    const [selectedType, setSelectedType] = useState('');
+    
     const [selectedKind, setSelectedKind] = useState('');
-    const [selectedGender, setSelectedGender] = useState();
+
+    const [selectedGender, setSelectedGender] = useState();//남or여
+
+    const [selectedNeutered, setSelectedNeuterd] = useState('');//중성화
+    const [checkedGender, setCheckedGender] = useState(false);//몰라요
+
+
     const [selectedBirth, setSelectedBirth] = useState();
-    const [selectedNeutered, setSelectedNeuterd] = useState('');
-    const [checkedGender, setCheckedGender] = useState(false);
+    const [year, setYear] = useState('');
+    const [month, setMonth] = useState('');
+    const [day, setDay] = useState('');
+
     const [name, setName] = useState();
     const [weight, setWeight] = useState();
     const [allergy, setAllergy] = useState();
@@ -23,10 +32,12 @@ const PetRegistration = () => {
     const [nextPossible, setNextPossible] = useState(false);
 
     const [petData, setPetData] = useState({
+        petType: '',
+        petKind: '',
+
         petGender: '',
         petNeutered: '',
-        petKind: '',
-        petType: '',
+        
         petName: '',
         petBirth: '',
         petWeight: '',
@@ -36,23 +47,45 @@ const PetRegistration = () => {
     });
 
     useEffect(() => {
-        setCheckedGender(!checkedGender);
-        setSelectedPhoto();
-        nextPossibleFunction(stepNum);
-        show1();
-        NextPossibleComp();
-        consoleLog();
-    }, [selectedType, selectedKind, selectedBirth, nextPossible, stepNum]);
+        //setCheckedGender(!checkedGender);
+        
+    }, [selectedType, selectedKind, selectedBirth ]);
+
+    useEffect(() => { show1(); 
+                    consoleLog();
+                    nextPossibleFunction(stepNum) 
+                    }, 
+                    [stepNum]);
+
+    useEffect(() => { NextPossibleComp(); }, [nextPossible]);
+
 
     const handleSelectedTypeChange = (value) => {
-        setSelectedType(value);
-        setSelectedKind('');
-        setNextPossible(selectedType>=1 && selectedType <= 3 || value != ''); // 선택된 타입이 있을 때만 다음 단계로 진행 가능하도록 설정
-        setPetData({
-            ...petData,
-            petType: value,
-            petKind: '',
-        });
+
+        if(selectedType != '' &&selectedType != value){
+            console.log('이전 선택과 다릅니다!');
+            ResetForm();
+            setSelectedType(value);
+            setNextPossible(selectedType>=1 && selectedType <= 3 || value != '');
+            setPetData({
+                ...petData,
+                petType: value,
+                petKind: '',
+            });
+            consoleLog();
+        }else{
+            console.log('이전 선택과 같습니다!');
+            setSelectedType(value);
+            setNextPossible(selectedType>=1 && selectedType <= 3 || value != ''); // 선택된 타입이 있을 때만 다음 단계로 진행 가능하도록 설정
+            setPetData({
+                ...petData,
+                petType: value,
+                petKind: '',
+            });
+            consoleLog();
+
+        }
+        
     };
     
     
@@ -70,14 +103,34 @@ const PetRegistration = () => {
             setNextPossible(false); 
         }
     };
+
+
     const handleSelectedGenderChange = (value) => {
-        setSelectedGender(value);
-        setNextPossible(value != '');
-        setPetData({
-            ...petData,
-            petGender: value,
-        });
-        setNextPossible(value != ''); // 선택된 종류가 있을 때만 다음 단계로 진행 가능하도록 설정
+       
+        
+        if(value == '중성화'){
+            console.log('중성화 콘솔')
+            setSelectedNeuterd('중성화');
+            setNextPossible(true);
+        }else if(value == '성별모름'){
+            
+            setCheckedGender(true);
+            setNextPossible(true);
+            
+        }else if(value == ''){
+            setNextPossible(false);
+        }else{//암컷수컷
+            setSelectedGender(value);
+            setPetData({
+                ...petData,
+                petGender: value,
+            });
+            setNextPossible(true);
+        }
+
+
+        
+        
     };
     const handleNameChange = (e) => {
         const tempName = e.target.value;
@@ -86,8 +139,9 @@ const PetRegistration = () => {
             ...petData,
             petName: tempName,
         });
-        setNextPossible(tempName != ''); // 선택된 종류가 있을 때만 다음 단계로 진행 가능하도록 설정
+        setNextPossible(tempName != ''); // change가 일어날때마다 하지말고, 값을 저장하고, 저장된값을 검증해서, 유효하면 nextPossible이 바뀌게 하면 되겠다.
     };
+
 
     const handleSelectedProfilePhotoChange = (value) => {
         setSelectedPhoto(value);
@@ -95,7 +149,6 @@ const PetRegistration = () => {
             ...petData,
             petProfilePhoto: value,
         });
-        setNextPossible(value != ''); // 선택된 종류가 있을 때만 다음 단계로 진행 가능하도록 설정
     };
     
     const handleSelectedBirthChange = (value) => {
@@ -104,7 +157,7 @@ const PetRegistration = () => {
             ...petData,
             petBirth: value,
         });
-        // setNextPossible(value != ''); // 선택된 종류가 있을 때만 다음 단계로 진행 가능하도록 설정
+        setNextPossible(value != ''); // 선택된 종류가 있을 때만 다음 단계로 진행 가능하도록 설정
     };
 
     const handleWeightChange = (value) => {
@@ -145,18 +198,42 @@ const PetRegistration = () => {
     };
 
     const prevStep = () => {
+        
+        if(stepNum == 1){
+            
+            //아니면 continue를 해야함
+        }
+
         if (stepNum > 1) {
             setStepNum(stepNum - 1);
         } else {
             setStepNum(1);
         }
 
-        switch(stepNum){
-            case 2 :
-                setSelectedKind('');
-            return;
-        }
+        
+            
+        
     };
+
+    const ResetForm = () => {
+        console.log('resetForm 작동됐음')
+        setSelectedType('');
+        setSelectedKind('');
+        setSelectedGender('');
+        setSelectedNeuterd('');
+        setCheckedGender('');
+        setSelectedBirth('');
+        setYear('');
+        setMonth('');
+        setDay('');
+        setName('');
+        setWeight('');
+        setAllergy('');
+        setHealth('');
+        setSelectedPhoto(null);
+        consoleLog();
+    };
+
     function nextPossibleFunction(stepNum){
         switch(stepNum){
             case 1 :
@@ -181,52 +258,56 @@ const PetRegistration = () => {
         return (
             <div>            
             <button onClick={prevStep}>이전</button>
-            {nextPossible ? <button onClick={nextStep}>다음</button> : <button style={{ backgroundColor: 'gray' }}>다음</button>}
+            {nextPossible ? <button onClick={nextStep}>{(stepNum < 6) ? '다음' : '완료'}</button> : <button style={{ backgroundColor: 'gray' }}>{(stepNum < 6) ? '다음' : '완료'}</button>}
             </div>
         )
     }
 
     function consoleLog(){
         console.log("-------------------------------------------------")
-        console.log("toggle : ", nextPossible);
-        console.log('Type: ', petData.petType);
-        console.log('Kind: ', petData.petKind);
-        console.log('Gender: ', petData.petGender);
-        console.log('name: ', petData.petName);
-        console.log('birth: ', petData.petBirth);
-        console.log('weight: ', petData.petWeight);
-        console.log('allergy: ', petData.petAllergy);
-        console.log('health: ', petData.petHealth);
-        console.log('setSelectedNeuterd :' , selectedNeutered);
+        
+        console.log('Type: ', selectedType);
+        console.log('Kind: ', selectedKind);
+        console.log('Gender: ', selectedGender);
+        console.log('name: ', name);
+        console.log('birth: ', selectedBirth);
+        console.log('weight: ', weight);
+        console.log('allergy: ', allergy);
+        console.log('health: ', health);
+        
+        console.log('setSelectedNeuterd :', selectedNeutered);
+        console.log('checkedGender :' , checkedGender);
+        console.log('nextPossible', nextPossible)
         console.log("-------------------------------------------------")
     }
     const show1 = () => {
         switch (stepNum) {
             case 1:
+                
                 return (
-                        <div>
+                    
+                       <div>
                         <AnimalType
                             setSelectedType={setSelectedType}
                             handleSelectedTypeChange={handleSelectedTypeChange}
                             setSelectedKind={setSelectedKind}
                             petData={petData}
                         />
-                        <NextPossibleComp/>
+                        <NextPossibleComp />
                         </div>
-
                 );
             case 2:
-                
                 return (
-                    
                     <div>
                     <AnimalKind
                         handleSelectedKindChange={handleSelectedKindChange}
                         selectedType={selectedType}
                         selectedKind={selectedKind}
+
+                        nextPossible={nextPossible}
                         setNextPossible={setNextPossible}
                     />
-                    <NextPossibleComp/>
+                    <NextPossibleComp />
                         </div>
                 );
             case 3:
@@ -239,11 +320,14 @@ const PetRegistration = () => {
                         selectedNeutered={selectedNeutered}
                         setSelectedNeuterd={setSelectedNeuterd}
                         selectedType={selectedType}
-                        
+                        checkedGender = {checkedGender}
+                        setCheckedGender={setCheckedGender}
+
+                       
                         setNextPossible={setNextPossible}
                     />
-                    <NextPossibleComp/>
-                        </div>
+                    <NextPossibleComp />
+                    </div>
                 );
             case 4:
                 return (
@@ -255,31 +339,48 @@ const PetRegistration = () => {
                         name={name}
                         setName={setName}
                         handleNameChange={handleNameChange}
+                        setNextPossible={setNextPossible}
                     />
-                    <NextPossibleComp/>
+                    <NextPossibleComp />
                         </div>
                 );
             case 5:
-                return (<div><AnimalBirth selectedBirth={selectedBirth} setSelectedBirth={setSelectedBirth} /> <NextPossibleComp/></div>);
+                return (
+                    <div>
+                        <AnimalBirth 
+                            selectedBirth={selectedBirth} 
+                            setSelectedBirth={setSelectedBirth}
+                            setNextPossible={setNextPossible}
+                            year={year}
+                            month={month}
+                            day={day}
+                            setYear={setYear}
+                            setMonth={setMonth}
+                            setDay={setDay}
+                            /> 
+                        <NextPossibleComp />
+                    </div>
+                    );
             case 6:
                 return (
-                    <AnimalWeightandHealth
-                        weight={weight}
-                        allergy={allergy}
-                        health={health}
-                        setWeight={setWeight}
-                        handleWeightChange={handleWeightChange}
-                        handleAllergyChange={handleAllergyChange}
-                        handleHealthChange={handleHealthChange}
-                    />
+                    <div>
+                        <AnimalWeightandHealth
+                            weight={weight}
+                            allergy={allergy}
+                            health={health}
+                            setWeight={setWeight}
+                            handleWeightChange={handleWeightChange}
+                            handleAllergyChange={handleAllergyChange}
+                            handleHealthChange={handleHealthChange}
+                            />
+                        <NextPossibleComp />
+                    </div>
                 );
             default:
                 return null;
         }
     };
-    function reRender() {
-        
-    }
+    
 
     return (
         <div>

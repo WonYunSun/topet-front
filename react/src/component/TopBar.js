@@ -6,6 +6,7 @@ import styles from '../css/topbar.module.css';
 
 const TopBar = ({ centerChange, handleBottomSheetOpen }) => {
   const navigate = useNavigate();
+  console.log(centerChange)
 
   const goBack = () => {
     navigate(-1); // 뒤로가기

@@ -1,52 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../../css/communityList.module.css';
-import { baseURLs } from '../../api/baseURLs';
+import { fetchCommunityPosts } from '../../api/baseURLs';
 
 const CommunityList = ({ selectedAnimal }) => {
+  const { category } = useParams();
   const navigate = useNavigate();
-  const [category, setCategory] = useState('freedomAndDaily');
   const [communityPosts, setCommunityPosts] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const OFFSET = useRef(0);
+  const observer = useRef();
+  const LIMIT = 20;
 
   const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
   const currentAnimalType = animalTypeMap[selectedAnimal] || 'dog';
 
+  const fetchPosts = async () => {
+    const newPosts = await fetchCommunityPosts(currentAnimalType, category, LIMIT, OFFSET.current);
+    setCommunityPosts(prevPosts => [...prevPosts, ...newPosts]);
+    OFFSET.current += LIMIT;
+    if (newPosts.length < LIMIT) setHasMore(false);
+  };
+
   useEffect(() => {
-    const fetchData = async (type, category) => {
-      try {
-        const response = await axios.get(`${baseURLs[type]}/${category}`);
-        setCommunityPosts(response.data);
-        console.log(response.data)
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+    fetchPosts();
+  }, [selectedAnimal, category]);
 
-    fetchData(currentAnimalType, 'freedomAndDaily');
-  }, [selectedAnimal]);
-
-  const handleCategoryChange = async (newCategory) => {
-    setCategory(newCategory);
-    try {
-      const response = await axios.get(`${baseURLs[currentAnimalType]}/${newCategory}`);
-      setCommunityPosts(response.data);
-      console.log(response.data)
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+  const handleCategoryChange = newCategory => {
+    navigate(`/community/community/${currentAnimalType}/${newCategory}`, { replace: true });
+    setCommunityPosts([]);
+    OFFSET.current = 0;
+    setHasMore(true);
   };
 
-  const formatHashtags = (hashtagString) => {
-    const tags = hashtagString.split(',');
-    const formattedTags = tags
-      .filter(tag => isNaN(tag))
-      .map(tag => `#${tag}`);
-    return formattedTags.join(' ');
-  };
-
-  const handlePostClick = (comid) => {
+  const handlePostClick = comid => {
     navigate(`/api/community/community/${comid}`);
+  };
+
+  const lastPostElementRef = node => {
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        fetchPosts();
+      }
+    });
+    if (node) observer.current.observe(node);
+  };
+
+  const formatHashtags = hashtagString => {
+    const tags = hashtagString.split(',');
+    const formattedTags = tags.filter(tag => isNaN(tag)).map(tag => `#${tag}`);
+    return formattedTags.join(' ');
   };
 
   return (
@@ -57,8 +61,13 @@ const CommunityList = ({ selectedAnimal }) => {
         <button onClick={() => handleCategoryChange('sharingInformation')}>정보공유</button>
       </div>
       <div className={styles.community_content_area}>
-        {communityPosts.map(item => (
-          <div className={styles.community_preview} key={item.comid} onClick={() => handlePostClick(item.comid)}>
+        {communityPosts.map((item, index) => (
+          <div
+            className={styles.community_preview}
+            key={item.comid}
+            onClick={() => handlePostClick(item.comid)}
+            ref={communityPosts.length === index + 1 ? lastPostElementRef : null}
+          >
             <h3>{item.comid}</h3>
             <h3>{item.title}</h3>
             <p>{item.content}</p>
