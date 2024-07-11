@@ -1,4 +1,3 @@
-// bottomsheet.js
 import React, { useEffect, useState } from "react";
 import PetList from "./AnimalProfileComp/PetList";
 import HashTagContent from "./HashTagComp/HashTagContent";
@@ -15,6 +14,7 @@ const BottomSheet = ({
   selectedDate,
   schedule,
   initialAddScheduleValues,
+  scheduleEditonClick,
   setSelectedPet,
   setSelectedTags,
   selectedTags,
@@ -53,6 +53,10 @@ const BottomSheet = ({
         return "일정 상세";
       case "map":
         return "지도";
+      case "editDeleteSchedule":
+        return "더보기";
+      case "editSchedule":
+        return "더보기";
       case "강아지":
       case "고양이":
       case "특수동물":
@@ -83,9 +87,15 @@ const BottomSheet = ({
         );
       case "scheduleDetail":
         return <ScheduleDetail schedule={schedule} />;
-
       case "map":
         return <h1>지도리스트</h1>;
+      case "editDeleteSchedule":
+        return (
+          <div>
+            <div onClick={scheduleEditonClick}>수정하기</div>
+            <div>삭제하기</div>
+          </div>
+        );
       case "강아지":
       case "고양이":
       case "특수동물":
@@ -111,7 +121,6 @@ const BottomSheet = ({
             </button>
           </div>
         );
-
       default:
         return "";
     }

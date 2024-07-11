@@ -62,7 +62,8 @@ input:active {
   align-items: center;
   gap: 5px;
 }
-.DatepickerBox {
+.DatepickerBoxWrap .customInput {
+  padding: 0;
   width: 13ch;
   text-align: center;
   font-size: 12px;
@@ -70,16 +71,21 @@ input:active {
   caret-color: transparent; /* 커서 숨김 */
 }
 .TimepickerBox {
+  max-height: 100px;
+  transition: max-height 0.5s ease-in, opacity 0.5s ease-out;
+}
+.TimepickerBox .customInput {
+  padding: 0;
   width: 8ch;
   caret-color: transparent; /* 커서 숨김 */
   text-align: center;
   font-weight: 500;
   font-size: 16px;
-  transition: max-height 0.5s ease-in, opacity 0.5s ease-out;
-  max-height: 100px;
+
   opacity: 1;
   overflow: hidden;
 }
+
 .TimepickerBox.hidden {
   max-height: 0;
   opacity: 0;

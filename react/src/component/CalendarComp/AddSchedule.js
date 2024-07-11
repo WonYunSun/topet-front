@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import dayjs from "dayjs";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -158,6 +158,12 @@ export default function AddSchedule({
     }
   };
 
+  const CustomInput = forwardRef(({ value, onClick }, ref) => (
+    <button className={styles.customInput} onClick={onClick} ref={ref}>
+      {value}
+    </button>
+  ));
+
   return (
     <div className={styles.AddScheduleWrap}>
       <input
@@ -177,6 +183,7 @@ export default function AddSchedule({
             locale="ko"
             dateFormat="yyyy년 MM월 dd일"
             className={styles.DatepickerBox}
+            customInput={<CustomInput />}
           />
           <div
             className={`${styles.TimepickerBox} ${
@@ -193,6 +200,7 @@ export default function AddSchedule({
               timeCaption="Time"
               dateFormat="aa h:mm"
               className={styles.TimepickerBox}
+              customInput={<CustomInput />}
             />
           </div>
         </div>
@@ -206,6 +214,7 @@ export default function AddSchedule({
             openToDate={startDate}
             dateFormat="yyyy년 MM월 dd일"
             className={styles.DatepickerBox}
+            customInput={<CustomInput />}
           />
           <div
             className={`${styles.TimepickerBox} ${
@@ -222,6 +231,7 @@ export default function AddSchedule({
               timeCaption="Time"
               dateFormat="aa h:mm"
               className={styles.TimepickerBox}
+              customInput={<CustomInput />}
             />
           </div>
         </div>
