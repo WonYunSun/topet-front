@@ -13,17 +13,22 @@ const CommunityList = ({ selectedAnimal }) => {
   const LIMIT = 20;
 
   const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
+  const categoryMap = { 'freedomAndDaily': '#자유/일상', 'curious': '#궁금해요', 'sharingInformation': '#정보공유' };
   const currentAnimalType = animalTypeMap[selectedAnimal] || 'dog';
+  const currentCategory = categoryMap[category] || '자유/일상';
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (reset = false) => {
     const newPosts = await fetchCommunityPosts(currentAnimalType, category, LIMIT, OFFSET.current);
-    setCommunityPosts(prevPosts => [...prevPosts, ...newPosts]);
+    setCommunityPosts(prevPosts => reset ? newPosts : [...prevPosts, ...newPosts]);
     OFFSET.current += LIMIT;
     if (newPosts.length < LIMIT) setHasMore(false);
   };
 
   useEffect(() => {
-    fetchPosts();
+    OFFSET.current = 0;
+    setCommunityPosts([]);
+    setHasMore(true);
+    fetchPosts(true);
   }, [selectedAnimal, category]);
 
   const handleCategoryChange = newCategory => {
@@ -55,20 +60,24 @@ const CommunityList = ({ selectedAnimal }) => {
 
   return (
     <div>
-      <div>
-        <button onClick={() => handleCategoryChange('freedomAndDaily')}>자유/일상</button>
-        <button onClick={() => handleCategoryChange('curious')}>궁금해요</button>
-        <button onClick={() => handleCategoryChange('sharingInformation')}>정보공유</button>
+
+      <div className={styles.category_buttons_area}>
+        <button className={styles.category_button} onClick={() => handleCategoryChange('freedomAndDaily')} disabled={category === 'freedomAndDaily'}>#자유/일상</button>
+        <button className={styles.category_button} onClick={() => handleCategoryChange('curious')} disabled={category === 'curious'}>#궁금해요</button>
+        <button className={styles.category_button} onClick={() => handleCategoryChange('sharingInformation')} disabled={category === 'sharingInformation'}>#정보공유</button>
       </div>
+      
+      <div className={styles.category_text}>
+        {currentCategory}
+      </div>
+
       <div className={styles.community_content_area}>
         {communityPosts.map((item, index) => (
           <div
-            className={styles.community_preview}
             key={item.comid}
             onClick={() => handlePostClick(item.comid)}
             ref={communityPosts.length === index + 1 ? lastPostElementRef : null}
           >
-            <h3>{item.comid}</h3>
             <h3>{item.title}</h3>
             <p>{item.content}</p>
             <p>{formatHashtags(item.hashtag)}</p>
