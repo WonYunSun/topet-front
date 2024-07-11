@@ -3,35 +3,40 @@ import dayjs from "dayjs";
 import styles from "../../css/scheduleDetails.module.css";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 
-const ScheduleDetail = ({ schedule }) => {
-  const isComplete = schedule?.isComplete;
-  const isAllDay =
-    dayjs(schedule.startDate).format("a hh:mm") === "오전 00:00" ||
-    dayjs(schedule.endDate).format("a hh:mm") === "오후 11:59";
+const ScheduleDetail = ({ onDotsClick, selectedSchedule }) => {
+  //   console.log("스케쥴잘오는지확인:", selectedSchedule);
 
-  return schedule ? (
+  const isComplete = selectedSchedule.isComplete;
+  const isAllDay =
+    dayjs(selectedSchedule.startDate).format("a hh:mm") === "오전 00:00" ||
+    dayjs(selectedSchedule.endDate).format("a hh:mm") === "오후 11:59";
+
+  return (
     <div className={styles.scheduleDetailWrap}>
       <div className={styles.titleWrap}>
-        <div className={styles.title}>{schedule.scheduleTitle}</div>
-        <HiOutlineDotsVertical size={18} />
+        <div className={styles.title}>{selectedSchedule.scheduleTitle}</div>
+        <HiOutlineDotsVertical
+          size={18}
+          onClick={() => onDotsClick(selectedSchedule)}
+        />
       </div>
       <div className={styles.dateWrap}>
         <span>일자</span>
         <div className={styles.dateBox}>
           <div className={styles.date}>
-            {dayjs(schedule.startDate).format("YYYY년 MM월 DD일")}
+            {dayjs(selectedSchedule.startDate).format("YYYY년 MM월 DD일")}
           </div>
           <div className={`${styles.TimeBox} ${isAllDay ? styles.hidden : ""}`}>
-            <div>{dayjs(schedule.startDate).format("A HH:mm")}</div>
+            <div>{dayjs(selectedSchedule.startDate).format("A HH:mm")}</div>
           </div>
         </div>
         <div> - </div>
         <div className={styles.dateBox}>
           <div className={styles.date}>
-            {dayjs(schedule.endDate).format("YYYY년 MM월 DD일")}
+            {dayjs(selectedSchedule.endDate).format("YYYY년 MM월 DD일")}
           </div>
           <div className={`${styles.TimeBox} ${isAllDay ? styles.hidden : ""}`}>
-            <div>{dayjs(schedule.endDate).format("A HH:mm")}</div>
+            <div>{dayjs(selectedSchedule.endDate).format("A HH:mm")}</div>
           </div>
         </div>
       </div>
@@ -60,22 +65,20 @@ const ScheduleDetail = ({ schedule }) => {
       </div>
       <div className={styles.memoArea}>
         <span>메모</span>
-        <div>{schedule.scheduleContent}</div>
+        <div>{selectedSchedule.scheduleContent}</div>
       </div>
       <div className={styles.scheduleImg}></div>
       <div className={styles.WritEditWrap}>
         <div className={styles.scheduleWriterWrap}>
           <span>작성자</span>
-          {schedule.scheduleWriter}
+          {selectedSchedule.scheduleWriter}
         </div>
         <div className={styles.scheduleEditerWrap}>
           <span>수정자</span>
-          {schedule.scheduleEditer}
+          {selectedSchedule.scheduleEditer}
         </div>
       </div>
     </div>
-  ) : (
-    <div></div>
   );
 };
 

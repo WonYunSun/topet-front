@@ -3,6 +3,8 @@ import PetList from "./AnimalProfileComp/PetList";
 import HashTagContent from "./HashTagComp/HashTagContent";
 import AddSchedule from "./CalendarComp/AddSchedule";
 import ScheduleDetail from "./CalendarComp/ScheduleDetail";
+import EditDeleteBottomSheet from "./EditDeleteBottomSheet";
+import ScheduleEdit from "./CalendarComp/ScheduleEdit";
 import "../css/bottomsheet.css";
 
 const BottomSheet = ({
@@ -14,10 +16,12 @@ const BottomSheet = ({
   selectedDate,
   schedule,
   initialAddScheduleValues,
-  scheduleEditonClick,
   setSelectedPet,
   setSelectedTags,
   selectedTags,
+  onDotsClick,
+  onEditClick, // 추가된 부분
+  selectedSchedule, // 추가된 부분
 }) => {
   const [tempTags, setTempTags] = useState([]);
 
@@ -53,7 +57,6 @@ const BottomSheet = ({
         return "일정 상세";
       case "map":
         return "지도";
-
       case "강아지":
       case "고양이":
       case "특수동물":
@@ -83,10 +86,30 @@ const BottomSheet = ({
           />
         );
       case "scheduleDetail":
-        return <ScheduleDetail schedule={schedule} />;
+        return (
+          <ScheduleDetail
+            onDotsClick={onDotsClick}
+            selectedSchedule={selectedSchedule}
+          />
+        );
+      case "editDelete":
+        return (
+          <EditDeleteBottomSheet
+            show={true}
+            onClose={handleCloseBottomSheet}
+            onEditClick={onEditClick}
+          />
+        );
+
+      case "editSchedule":
+        return (
+          <ScheduleEdit
+            schedule={selectedSchedule}
+            onClose={handleCloseBottomSheet}
+          />
+        );
       case "map":
         return <h1>지도리스트</h1>;
-
       case "강아지":
       case "고양이":
       case "특수동물":
