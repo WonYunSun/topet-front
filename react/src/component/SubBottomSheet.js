@@ -1,7 +1,13 @@
 import React from "react";
-import styles from "../css/editBottomSheet.module.css";
-
-const EditDeleteBottomSheet = ({ show, onClose, type }) => {
+import styles from "../css/subBottomSheet.module.css";
+import EditDelete from "../component/EditDelete";
+const EditDeleteBottomSheet = ({
+  show,
+  onClose,
+  type,
+  onEditClick,
+  selectedSchedule,
+}) => {
   const handleCloseBottomSheet = () => {
     onClose();
   };
@@ -18,7 +24,14 @@ const EditDeleteBottomSheet = ({ show, onClose, type }) => {
   function getSheetContent(type) {
     switch (type) {
       case "EditDelete":
-        return null; // 콘텐츠를 여기에 추가하세요.
+        return (
+          <>
+            <EditDelete
+              onEditClick={onEditClick}
+              selectedSchedule={selectedSchedule}
+            />
+          </>
+        ); // 콘텐츠를 여기에 추가하세요.
       default:
         return "";
     }

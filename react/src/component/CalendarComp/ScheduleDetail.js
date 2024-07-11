@@ -17,7 +17,9 @@ const ScheduleDetail = ({ onDotsClick, selectedSchedule }) => {
         <div className={styles.title}>{selectedSchedule.scheduleTitle}</div>
         <HiOutlineDotsVertical
           size={18}
-          onClick={() => onDotsClick(selectedSchedule)}
+          onClick={() => {
+            onDotsClick(selectedSchedule);
+          }}
         />
       </div>
       <div className={styles.dateWrap}>

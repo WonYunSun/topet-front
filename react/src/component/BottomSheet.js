@@ -3,7 +3,7 @@ import PetList from "./AnimalProfileComp/PetList";
 import HashTagContent from "./HashTagComp/HashTagContent";
 import AddSchedule from "./CalendarComp/AddSchedule";
 import ScheduleDetail from "./CalendarComp/ScheduleDetail";
-import EditDeleteBottomSheet from "./EditDeleteBottomSheet";
+import EditDeleteBottomSheet from "./SubBottomSheet";
 import ScheduleEdit from "./CalendarComp/ScheduleEdit";
 import "../css/bottomsheet.css";
 

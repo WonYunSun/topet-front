@@ -14,7 +14,7 @@ import NavBar from "../component/NavBarComp/NavBar";
 import CheckModal from "../component/CheckModal";
 import ScheduleDetail from "../component/CalendarComp/ScheduleDetail";
 import ScheduleEdit from "../component/CalendarComp/ScheduleEdit";
-import EditDeleteBottomSheet from "../component/EditDeleteBottomSheet";
+import SubBottomSheet from "../component/SubBottomSheet";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
@@ -71,14 +71,21 @@ export const Calendarscreen = () => {
   });
   const [bottomSheetContent, setBottomSheetContent] = useState(null);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
+  const [showEditDeleteBottomSheet, setEditDeleteBottomSheet] = useState(false);
+  const [editDeleteBottomSheettype, setEditDeleteBottomSheettype] =
+    useState(null);
 
   const handleDotsClick = (schedule) => {
     setSelectedSchedule(schedule);
-    setBottomSheetContent("editDelete");
-    setShowBottomSheet(true);
+    setEditDeleteBottomSheettype("EditDelete");
+    setEditDeleteBottomSheet(true);
+  };
+  const handleCloseshowEditDeleteBottomSheet = () => {
+    setEditDeleteBottomSheet(false);
   };
 
-  const handleEditClick = () => {
+  const handleEditClick = (schedule) => {
+    setSelectedSchedule(schedule);
     setBottomSheetContent("editSchedule");
   };
 
@@ -137,13 +144,6 @@ export const Calendarscreen = () => {
     setShowBottomSheet(true);
   };
 
-  // useEffect(() => {
-  //   console.log("selectedSchedule has changed: ", selectedSchedule);
-  //   if (selectedSchedule) {
-  //     setBottomSheetContent(selectedSchedule);
-  //   }
-  // }, [selectedSchedule]);
-
   return (
     <div>
       <TopBar />
@@ -185,6 +185,13 @@ export const Calendarscreen = () => {
       />
       <FloatingBtn onClick={handleFloatingBtnClick} />
       <NavBar />
+      <SubBottomSheet
+        show={showEditDeleteBottomSheet}
+        onClose={handleCloseshowEditDeleteBottomSheet}
+        type={editDeleteBottomSheettype}
+        onEditClick={handleEditClick}
+        selectedSchedule={selectedSchedule}
+      />
     </div>
   );
 };
