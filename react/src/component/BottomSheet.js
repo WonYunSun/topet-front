@@ -53,10 +53,7 @@ const BottomSheet = ({
         return "일정 상세";
       case "map":
         return "지도";
-      case "editDeleteSchedule":
-        return "더보기";
-      case "editSchedule":
-        return "더보기";
+
       case "강아지":
       case "고양이":
       case "특수동물":
@@ -89,13 +86,7 @@ const BottomSheet = ({
         return <ScheduleDetail schedule={schedule} />;
       case "map":
         return <h1>지도리스트</h1>;
-      case "editDeleteSchedule":
-        return (
-          <div>
-            <div onClick={scheduleEditonClick}>수정하기</div>
-            <div>삭제하기</div>
-          </div>
-        );
+
       case "강아지":
       case "고양이":
       case "특수동물":

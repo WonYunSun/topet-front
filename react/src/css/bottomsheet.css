@@ -20,7 +20,7 @@
   bottom: 0;
   left: 0;
   transform: translateY(100%);
-  transition: bottom 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   z-index: 1001; /* overlay 위에 오도록 설정 */

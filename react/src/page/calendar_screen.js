@@ -1,4 +1,3 @@
-// calendar_screen.js
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import isToday from "dayjs/plugin/isToday";
@@ -18,7 +17,6 @@ dayjs.extend(isToday);
 dayjs.extend(isBetween);
 
 export const Calendarscreen = () => {
-  // const now = dayjs().format("YYYY-MM-DD");
   const [schedules, setSchedules] = useState([
     // 더미데이터 넣어놓은겁니다
     {
@@ -146,6 +144,7 @@ export const Calendarscreen = () => {
     isComplete: false,
     color: "#DE496E",
   });
+  const [bottomSheetContent, setBottomSheetContent] = useState(null); // 추가된 상태
 
   const handleOpenPetBottomSheet = () => {
     setBottomSheetType("pet");
@@ -154,13 +153,17 @@ export const Calendarscreen = () => {
 
   const handleCloseBottomSheet = () => {
     setShowBottomSheet(false);
-    setTimeout(() => setShowCancleModal(true), 0); // 상태 업데이트를 비동기적으로 처리
+  };
+
+  const handleAddScheduleBottomSheetClose = () => {
+    setShowBottomSheet(false);
+    setTimeout(() => setShowCancleModal(true), 100); // BottomSheet가 닫히고 나서 Modal을 띄움
   };
 
   const handleContinueWriting = () => {
     setShowCancleModal(false);
+    setBottomSheetType("addSchedule");
     setShowBottomSheet(true);
-    setTimeout(() => setBottomSheetType("addSchedule"), 0);
   };
 
   const handleCloseCancleModal = () => {
@@ -190,6 +193,12 @@ export const Calendarscreen = () => {
     setShowBottomSheet(true);
   };
 
+  const handleScheduleClick = (schedule) => {
+    setBottomSheetContent(schedule); // 선택된 스케줄 설정
+    setBottomSheetType("scheduleDetail"); // BottomSheet의 타입을 설정
+    setShowBottomSheet(true);
+  };
+
   return (
     <div>
       <TopBar />
@@ -200,12 +209,17 @@ export const Calendarscreen = () => {
       <Calendar schedules={schedules} onDateClick={handleDateClick} />
       <BottomSheet
         show={showBottomSheet}
-        onClose={handleCloseBottomSheet}
+        onClose={
+          bottomSheetType === "addSchedule"
+            ? handleAddScheduleBottomSheetClose
+            : handleCloseBottomSheet
+        }
         type={bottomSheetType}
         initialTags={[]}
         selectedDate={selectedDate}
         setSelectedPet={setSelectedPet}
         initialAddScheduleValues={initialAddScheduleValues}
+        schedule={bottomSheetContent} // 선택된 스케줄을 전달
       />
       {showCancleModal && bottomSheetType === "addSchedule" && (
         <CheckModal
@@ -219,7 +233,7 @@ export const Calendarscreen = () => {
       <ScheduleBottom
         schedules={schedules}
         selectedDate={selectedDate}
-        onClose={handleCloseBottomSheet}
+        onScheduleClick={handleScheduleClick} // 스케줄 클릭 핸들러를 전달
       />
       <FloatingBtn onClick={handleFloatingBtnClick} />
       <NavBar />

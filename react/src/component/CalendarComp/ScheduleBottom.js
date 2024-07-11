@@ -4,17 +4,15 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import styles from "../../css/schedule_bottom.module.css";
 import "dayjs/locale/ko";
-import BottomSheet from "../BottomSheet";
 import { GoCircle } from "react-icons/go";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import ScheduleService from "../../api/scheduleApi"; // postApi
+
 dayjs.extend(customParseFormat);
 dayjs.extend(localizedFormat);
 dayjs.locale("ko");
 
-const ScheduleBottom = ({ schedules, selectedDate }) => {
-  const [showBottomSheet, setShowBottomSheet] = useState(false);
-  const [bottomSheetContent, setBottomSheetContent] = useState(null);
+const ScheduleBottom = ({ schedules, selectedDate, onScheduleClick }) => {
   const [updatedSchedules, setUpdatedSchedules] = useState(schedules);
 
   useEffect(() => {
@@ -35,15 +33,6 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
     },
     [updatedSchedules]
   );
-
-  const handleScheduleClick = (schedule) => {
-    setBottomSheetContent(schedule);
-    setShowBottomSheet(true);
-  };
-
-  const handleCloseBottomSheet = () => {
-    setShowBottomSheet(false);
-  };
 
   const handleCheckBoxClick = async (scheduleId) => {
     try {
@@ -76,7 +65,7 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
                   className={styles.ScheduleBox}
                   key={index}
                   style={{ backgroundColor: item.color }}
-                  onClick={() => handleScheduleClick(item)}
+                  onClick={() => onScheduleClick(item)} // 스케줄 클릭 핸들러 호출
                 >
                   <div className={styles.ScheduleBoxContent}>
                     <div className={styles.ScheduleContent}>
@@ -124,14 +113,6 @@ const ScheduleBottom = ({ schedules, selectedDate }) => {
             )}
           </div>
         </div>
-      )}
-      {showBottomSheet && (
-        <BottomSheet
-          show={showBottomSheet}
-          onClose={handleCloseBottomSheet}
-          type="scheduleDetail"
-          schedule={bottomSheetContent}
-        />
       )}
     </div>
   );
