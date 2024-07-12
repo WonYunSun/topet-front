@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import TopBar from '../component/TopBar';
 import BottomSheet from '../component/BottomSheet';
 import styles from '../css/community.module.css';
@@ -19,7 +19,7 @@ const Community = () => {
 
   const goCommunityWrite = () => {
     navigate('/api/community/communityWrite');
-  }
+  };
 
   const handleBottomSheetOpen = (type) => {
     setBottomSheetType(type);
@@ -34,13 +34,17 @@ const Community = () => {
     setSelectedCenter(pet);
     const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
     const newAnimalType = animalTypeMap[pet] || 'dog';
-    navigate(`/community/community/${newAnimalType}/freedomAndDaily`, { replace: true });
+    navigate(`/community/preview/${newAnimalType}/freedomAndDaily`, { replace: true });
   };
+
+  useEffect(() => {
+    // Fetch data whenever selectedCenter or category changes
+  }, [selectedCenter, category]);
 
   return (
     <div className={styles.community}>
       <TopBar centerChange={selectedCenter} handleBottomSheetOpen={handleBottomSheetOpen} />
-      <CommunityList selectedAnimal={selectedCenter} category={category} />
+      <CommunityList selectedAnimal={selectedCenter} />
       <FloatingBtn onClick={goCommunityWrite} />
       <BottomSheet
         show={showBottomSheet}
@@ -54,6 +58,6 @@ const Community = () => {
       />
     </div>
   );
-}
+};
 
 export default Community;

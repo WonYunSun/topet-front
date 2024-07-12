@@ -20,8 +20,8 @@ const BottomSheet = ({
   setSelectedTags,
   selectedTags,
   onDotsClick,
-  onEditClick, // 추가된 부분
-  selectedSchedule, // 추가된 부분
+  onEditClick,
+  selectedSchedule,
 }) => {
   const [tempTags, setTempTags] = useState([]);
 
@@ -102,7 +102,6 @@ const BottomSheet = ({
             onEditClick={onEditClick}
           />
         );
-
       case "editSchedule":
         return (
           <ScheduleEdit

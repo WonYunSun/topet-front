@@ -14,7 +14,7 @@ const Home = () => {
   const goCommunity = () => {
     const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
     const currentAnimalType = animalTypeMap[animalType] || 'dog';
-    navigate(`/community/community/${currentAnimalType}/freedomAndDaily`);
+    navigate(`/community/preview/${currentAnimalType}/freedomAndDaily`);
   };
 
 
