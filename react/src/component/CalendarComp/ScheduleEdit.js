@@ -1,3 +1,4 @@
+// ScheduleEdit.js
 import React, { useState, useEffect, forwardRef } from "react";
 import dayjs from "dayjs";
 import DatePicker, { registerLocale } from "react-datepicker";
@@ -6,66 +7,46 @@ import Button from "../../component/ButtonComp/Button";
 import ko from "date-fns/locale/ko";
 import SchedulePhotoSelectArea from "./SchedulePhotoSelectArea";
 import styles from "../../css/addSchedule.module.css";
-import ScheduleApi from "../../api/scheduleApi";
+import ScheduleService from "../../api/scheduleApi";
 import CheckModal from "../CheckModal";
-
 registerLocale("ko", ko);
 
 const colors = ["#DE496E", "#5C60ED", "#4BAFDA", "#F4A5B5"];
 
-export default function AddSchedule({
-  selectedDate,
-  onClose,
-  initialValues = {},
-}) {
-  const initialDate = dayjs(selectedDate).isValid()
-    ? dayjs(selectedDate).toDate()
+export default function ScheduleEdit({ selectedSchedule, onClose }) {
+  const initialDate = dayjs(selectedSchedule.startDate).isValid()
+    ? dayjs(selectedSchedule.startDate).toDate()
     : new Date();
+
   const defaultValues = {
     startDate: initialDate,
-    endDate: initialDate,
-    title: "",
-    content: "",
-    isComplete: false,
-    color: "#000000",
+    endDate: dayjs(selectedSchedule.endDate).toDate(),
+    title: selectedSchedule.scheduleTitle || "",
+    content: selectedSchedule.scheduleContent || "",
+    isComplete: selectedSchedule.isComplete || false,
+    color: selectedSchedule.color || "#DE496E",
   };
 
-  const [startDate, setStartDate] = useState(
-    initialValues.startDate || defaultValues.startDate
-  );
-  const [endDate, setEndDate] = useState(
-    initialValues.endDate || defaultValues.endDate
-  );
-  const [title, setTitle] = useState(
-    initialValues.title || defaultValues.title
-  );
-  const [content, setContent] = useState(
-    initialValues.content || defaultValues.content
-  );
-  const [isComplete, setIsComplete] = useState(
-    initialValues.isComplete || defaultValues.isComplete
-  );
-  const [color, setColor] = useState(
-    initialValues.color || defaultValues.color
-  );
+  const [startDate, setStartDate] = useState(defaultValues.startDate);
+  const [endDate, setEndDate] = useState(defaultValues.endDate);
+  const [title, setTitle] = useState(defaultValues.title);
+  const [content, setContent] = useState(defaultValues.content);
+  const [isComplete, setIsComplete] = useState(defaultValues.isComplete);
+  const [color, setColor] = useState(defaultValues.color);
 
   const [isAllDay, setIsAllDay] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [showCheckModal, setShowCheckModal] = useState(false);
-  // 모달 상태 추가
-  // 버튼 상태 추가
   const [btnStyle, setBtnStyle] = useState("gray");
-
+  const [showCheckModal, setShowCheckModal] = useState(false);
   useEffect(() => {
-    setStartDate(initialValues.startDate || defaultValues.startDate);
-    setEndDate(initialValues.endDate || defaultValues.endDate);
-    setTitle(initialValues.title || defaultValues.title);
-    setContent(initialValues.content || defaultValues.content);
-    setIsComplete(initialValues.isComplete || defaultValues.isComplete);
-    setColor(initialValues.color || defaultValues.color);
-  }, [initialValues]);
+    setStartDate(defaultValues.startDate);
+    setEndDate(defaultValues.endDate);
+    setTitle(defaultValues.title);
+    setContent(defaultValues.content);
+    setIsComplete(defaultValues.isComplete);
+    setColor(defaultValues.color);
+  }, [selectedSchedule]);
 
-  // title 값이 변경될 때마다 버튼 상태 업데이트
   useEffect(() => {
     if (title.trim() === "") {
       setBtnStyle("gray");
@@ -119,7 +100,7 @@ export default function AddSchedule({
     setColor(selectedColor);
   };
 
-  const postScheduleData = async () => {
+  const updateScheduleData = async () => {
     const formData = new FormData();
     formData.append(
       "startDate",
@@ -130,29 +111,32 @@ export default function AddSchedule({
     formData.append("scheduleContent", content);
     formData.append("isComplete", isComplete);
     formData.append("color", color);
-    formData.append("scheduleWriter", "WriterName");
+    formData.append("scheduleWriter", selectedSchedule.scheduleWriter);
     formData.append("scheduleEditer", "EditorName");
 
-    await ScheduleApi.postSchedule(formData); // ScheduleService 호출 //post로직
+    await ScheduleService.updateSche(selectedSchedule.scheduleId, formData);
   };
 
-  const postSchedulePhoto = async () => {
+  const updateSchedulePhoto = async () => {
     if (!selectedPhoto) return;
 
     const formData = new FormData();
     formData.append("photo", selectedPhoto);
 
-    await ScheduleApi.postSche(formData); // ScheduleService 호출
+    await ScheduleService.updateSchePhoto(
+      selectedSchedule.scheduleId,
+      formData
+    );
   };
 
   const handleButtonClick = async () => {
     if (title !== "") {
       try {
-        await postScheduleData();
-        await postSchedulePhoto();
-        onClose(); // 두 요청 모두 성공 후 onClose 호출
+        await updateScheduleData();
+        await updateSchedulePhoto();
+        onClose();
       } catch (error) {
-        console.error("스케줄 저장 중 오류 발생:", error);
+        console.error("스케줄 수정 중 오류 발생:", error);
       }
     } else {
       setShowCheckModal(true); // 타이틀이 빈 문자열일 경우 모달 표시
@@ -306,8 +290,8 @@ export default function AddSchedule({
         type="submit"
         text="완료"
         btnstyle={btnStyle}
-        postServer_withoutPhotos={postScheduleData}
-        postServer_withPhotos={postSchedulePhoto}
+        postServer_withoutPhotos={updateScheduleData}
+        postServer_withPhotos={updateSchedulePhoto}
         onClick={handleButtonClick}
       />
       {showCheckModal && (

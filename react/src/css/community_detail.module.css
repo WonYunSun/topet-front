@@ -1,0 +1,122 @@
+.profile {
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+    padding-left: 10px;
+  }
+  
+  .profileImg {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .profileDetails {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .profileName {
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .profileInfo {
+    font-size: 14px;
+    color: #999;
+  }
+  
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0 10px;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  .content {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  .content img {
+    width: 350px;
+    height: 200px;
+    border-radius: 10px;
+    margin: 20px auto;
+    display: block;
+  }
+
+  .images_container {
+    display: flex;
+    overflow-x: scroll;
+    gap: 10px;
+    padding: 10px 10px;
+  }
+
+  /* .images_container::-webkit-scrollbar {
+    display: none;
+  } */
+  
+  .images_container img {
+    width: 300px;
+    height: 200px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .hashtags {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+  }
+  
+  .hashtag {
+    font-size: 14px;
+    color: orange;
+    background-color: white;
+    border: 1px solid orange;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    text-align: left;
+  }
+
+  .like_and_coment {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    gap: 10px; /* 아이콘 그룹 간의 간격 */
+    margin-top: 15px;
+    margin-left: 10px;
+  }
+  
+  .like_and_coment .icon-group {
+    display: flex;
+    align-items: center;
+  
+  }
+  
+  .icon{
+    color: rgb(173, 173, 173);
+  }
+
+  /*여기는 댓글 css*/
+
+  .coment_area{
+    height: 100%;
+    max-height: fit-content;
+    border: 1px solid rgb(190, 190, 190);
+    margin-top: 20px;
+  }
