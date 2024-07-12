@@ -13,6 +13,7 @@
 }
 
 .bottom-sheet {
+  overflow: hidden;
   min-height: max-content;
   width: 100vw;
   background-color: white;

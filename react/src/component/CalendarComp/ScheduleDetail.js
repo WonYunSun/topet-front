@@ -4,8 +4,6 @@ import styles from "../../css/scheduleDetails.module.css";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 
 const ScheduleDetail = ({ onDotsClick, selectedSchedule }) => {
-  //   console.log("스케쥴잘오는지확인:", selectedSchedule);
-
   const isComplete = selectedSchedule.isComplete;
   const isAllDay =
     dayjs(selectedSchedule.startDate).format("a hh:mm") === "오전 00:00" ||

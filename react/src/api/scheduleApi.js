@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_BASE_URL = "http://175.45.202.131:8081/api";
 
-class ScheduleService {
+class scheduleApi {
   constructor(baseURL) {
     this.client = axios.create({
       baseURL: baseURL,
@@ -27,7 +27,7 @@ class ScheduleService {
     }
   }
 
-  async postSche(formData) {
+  async postSchedule(formData) {
     try {
       const response = await this.client.post("/schedule/post", formData, {
         headers: {
@@ -41,4 +41,4 @@ class ScheduleService {
   }
 }
 
-export default new ScheduleService(API_BASE_URL);
+export default new scheduleApi(API_BASE_URL);
