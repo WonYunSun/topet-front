@@ -7,6 +7,7 @@ const EditDeleteBottomSheet = ({
   type,
   onEditClick,
   selectedSchedule,
+  onDeleteClick,
 }) => {
   const handleCloseBottomSheet = () => {
     onClose();
@@ -29,9 +30,10 @@ const EditDeleteBottomSheet = ({
             <EditDelete
               onEditClick={onEditClick}
               selectedSchedule={selectedSchedule}
+              onDeleteClick={onDeleteClick}
             />
           </>
-        ); // 콘텐츠를 여기에 추가하세요.
+        );
       default:
         return "";
     }

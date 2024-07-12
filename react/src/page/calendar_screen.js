@@ -12,8 +12,7 @@ import FloatingBtn from "../component/ButtonComp/FloatingBtn";
 import isBetween from "dayjs/plugin/isBetween";
 import NavBar from "../component/NavBarComp/NavBar";
 import CheckModal from "../component/CheckModal";
-import ScheduleDetail from "../component/CalendarComp/ScheduleDetail";
-import ScheduleEdit from "../component/CalendarComp/ScheduleEdit";
+
 import SubBottomSheet from "../component/SubBottomSheet";
 
 dayjs.extend(localizedFormat);
@@ -74,7 +73,7 @@ export const Calendarscreen = () => {
   const [showEditDeleteBottomSheet, setEditDeleteBottomSheet] = useState(false);
   const [editDeleteBottomSheettype, setEditDeleteBottomSheettype] =
     useState(null);
-
+  const [ScheduleDelete, setScheduleDelete] = useState(false); //스케쥴 삭제 상태
   const handleDotsClick = (schedule) => {
     setSelectedSchedule(schedule);
     setEditDeleteBottomSheettype("EditDelete");
@@ -86,7 +85,13 @@ export const Calendarscreen = () => {
 
   const handleEditClick = (schedule) => {
     setSelectedSchedule(schedule);
-    setBottomSheetContent("editSchedule");
+    setBottomSheetType("editSchedule");
+    setEditDeleteBottomSheet(false);
+  };
+  const handleDeleteClick = (schedule) => {
+    setEditDeleteBottomSheet(false);
+    setShowBottomSheet(false);
+    setScheduleDelete(true);
   };
 
   const handleOpenPetBottomSheet = () => {
@@ -106,12 +111,22 @@ export const Calendarscreen = () => {
 
   const handleContinueWriting = () => {
     setShowCancleModal(false);
-    setBottomSheetType("addSchedule");
+    if (bottomSheetType == "addSchedule") {
+      setBottomSheetType("addSchedule");
+    } else if (bottomSheetType == "scheduleDetail") {
+      setBottomSheetType("scheduleDetail");
+      setScheduleDelete(false);
+    } else {
+      setBottomSheetType("editSchedule");
+    }
+
     setShowBottomSheet(true);
+    setShowCancleModal(false);
   };
 
   const handleCloseCancleModal = () => {
     setShowCancleModal(false);
+    setScheduleDelete(false);
   };
 
   const handleDateClick = (date) => {
@@ -155,7 +170,8 @@ export const Calendarscreen = () => {
       <BottomSheet
         show={showBottomSheet}
         onClose={
-          bottomSheetType === "addSchedule"
+          bottomSheetType === "addSchedule" ||
+          bottomSheetType === "editSchedule"
             ? handleAddScheduleBottomSheetClose
             : handleCloseBottomSheet
         }
@@ -169,15 +185,27 @@ export const Calendarscreen = () => {
         onEditClick={handleEditClick} // 추가된 부분
         selectedSchedule={selectedSchedule} // 추가된 부분
       />
-      {showCancleModal && bottomSheetType === "addSchedule" && (
+      {showCancleModal &&
+        (bottomSheetType === "addSchedule" ||
+          bottomSheetType === "editSchedule") && (
+          <CheckModal
+            Content="일정 작성을 취소하시겠어요?"
+            CancleBtnContent="작성 취소"
+            ContinueBtnContent="계속 작성"
+            onClose={handleCloseCancleModal}
+            onContinue={handleContinueWriting}
+          />
+        )}
+      {ScheduleDelete && (
         <CheckModal
-          Content="작성한 일정을 폐기하시겠습니까?"
-          ContinueBtnContent="계속 작성"
-          CancleBtnContent="작성 취소"
+          Content="일정을 삭제하시겠어요?"
+          CancleBtnContent="삭제"
+          ContinueBtnContent="삭제 취소"
           onClose={handleCloseCancleModal}
           onContinue={handleContinueWriting}
         />
       )}
+
       <ScheduleBottom
         schedules={schedules}
         selectedDate={selectedDate}
@@ -191,6 +219,7 @@ export const Calendarscreen = () => {
         type={editDeleteBottomSheettype}
         onEditClick={handleEditClick}
         selectedSchedule={selectedSchedule}
+        onDeleteClick={handleDeleteClick}
       />
     </div>
   );
