@@ -44,7 +44,7 @@ const TopBar = ({ centerChange, handleBottomSheetOpen }) => {
           <div className={styles.topbar}>
             <GoArrowLeft className={styles.icon} onClick={goBack} />
             <div className={styles.logo}>투펫</div>
-            <GoHome className={styles.icon} />
+            <GoHome className={styles.icon} onClick={goHome} />
           </div>
         );
     }

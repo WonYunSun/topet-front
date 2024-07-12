@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../../css/communityList.module.css';
 import { fetchCommunityPosts } from '../../api/baseURLs';
+import { BsChatFill } from "react-icons/bs";
+import { BiSolidLike } from "react-icons/bi";
 
-const CommunityList = ({ selectedAnimal }) => {
+const  CommunityList = ({ selectedAnimal }) => {
   const { category } = useParams();
   const navigate = useNavigate();
   const [communityPosts, setCommunityPosts] = useState([]);
@@ -32,14 +34,14 @@ const CommunityList = ({ selectedAnimal }) => {
   }, [selectedAnimal, category]);
 
   const handleCategoryChange = newCategory => {
-    navigate(`/community/community/${currentAnimalType}/${newCategory}`, { replace: true });
+    navigate(`/community/preview/${currentAnimalType}/${newCategory}`, { replace: true });
     setCommunityPosts([]);
     OFFSET.current = 0;
     setHasMore(true);
   };
 
   const handlePostClick = comid => {
-    navigate(`/api/community/community/${comid}`);
+    navigate(`/api/community/detail/${comid}`);
   };
 
   const lastPostElementRef = node => {
@@ -92,20 +94,30 @@ const CommunityList = ({ selectedAnimal }) => {
             ref={communityPosts.length === index + 1 ? lastPostElementRef : null}
           >
             <div className={styles.each_community_area}>
-         
-              <div className={styles.titleContentHashWrap}>
-                <div className={styles.community_title}>{item.title}</div>
-                <div className={styles.community_content}>{item.content}</div>
-                <div className={styles.community_hashtags}>{formatHashtags(item.hashtag)}</div>
-              </div>
-              <div className={styles.content_and_photo_area}>
+              <div className={styles.content_and_photo_container}>
+                <div className={styles.titleContentWrap}>
+                  <div className={styles.community_title}>{item.title}</div>
+                  <div className={styles.community_content}>{item.content}</div>
+                </div>
                 {item.photos && item.photos.length > 0 && (
                   <div className={styles.community_photo}>
                     <img src={item.photos[0]} alt="community" />
                   </div>
                 )}
               </div>
-              
+              <div className={styles.community_hashtags}>
+                {formatHashtags(item.hashtag)} {/* 해시태그는 5~6글자로 제한해야 될 듯 */}
+              </div>
+              <div className={styles.like_and_coment}>
+                <div className="icon-group">
+                  <BiSolidLike className={styles.icon}/>
+                  <span> 10</span> {/* 여기 나중에 받아온 값으로 변경 */}
+                </div>
+                <div className="icon-group">
+                  <BsChatFill className={styles.icon}/>
+                  <span> 5</span> {/* 여기 나중에 받아온 값으로 변경 */}
+                </div>
+              </div>
             </div>
           </div>
         ))}

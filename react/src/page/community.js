@@ -34,7 +34,7 @@ const Community = () => {
     setSelectedCenter(pet);
     const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
     const newAnimalType = animalTypeMap[pet] || 'dog';
-    navigate(`/community/community/${newAnimalType}/freedomAndDaily`, { replace: true });
+    navigate(`/community/preview/${newAnimalType}/freedomAndDaily`, { replace: true });
   };
 
   useEffect(() => {
