@@ -6,7 +6,14 @@ import NavBar from "../component/NavBarComp/NavBar";
 import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
 import { SlArrowRight } from "react-icons/sl";
+
+import { PiGear } from "react-icons/pi";
+import { IoChatbubbles } from "react-icons/io5";
+import { IoChatbubbleEllipses } from "react-icons/io5";
+import { FaQuestion } from "react-icons/fa6";
+import ShortsList from "../component/ShortsComp/ShortsList";
 import styles from "../css/homescreen.module.css";
+// import CommunityList from "../component/CommunityComp/CommunityList"; //작업 연기
 
 const Home = () => {
   const navigate = useNavigate();
@@ -32,13 +39,50 @@ const Home = () => {
   const handleCloseBottomSheet = () => {
     setShowBottomSheet(false);
   };
-
+  const dummyShortsData = [
+    {
+      id: 1,
+      videoUrl: "https://dummyvideo1.com",
+      thumbnailUrl: "https://dummyimage1.com",
+      title: "Dummy Video 1",
+      author: "Author 1",
+    },
+    {
+      id: 2,
+      videoUrl: "https://dummyvideo2.com",
+      thumbnailUrl: "https://dummyimage2.com",
+      title: "Dummy Video 2",
+      author: "Author 2",
+    },
+    {
+      id: 3,
+      videoUrl: "https://dummyvideo3.com",
+      thumbnailUrl: "https://dummyimage3.com",
+      title: "Dummy Video 3",
+      author: "Author 3",
+    },
+    {
+      id: 4,
+      videoUrl: "https://dummyvideo4.com",
+      thumbnailUrl: "https://dummyimage4.com",
+      title: "Dummy Video 4",
+      author: "Author 4",
+    },
+    {
+      id: 5,
+      videoUrl: "https://dummyvideo5.com",
+      thumbnailUrl: "https://dummyimage5.com",
+      title: "Dummy Video 5",
+      author: "Author 5",
+    },
+  ];
   return (
     <div>
       <TopBar />
       <AnimalSelect
         onClick={handleOpenPetBottomSheet}
         selectedPet={selectedPet}
+        isHome={true}
       />
       <BottomSheet
         show={showBottomSheet}
@@ -49,13 +93,31 @@ const Home = () => {
       />
       <div className={styles.animalProfileImgArea}>
         <div className={styles.animalProfileImg}>
-          <div className={styles.animalProfileImgEditBtn}></div>
+          <div className={styles.animalProfileImgEditBtn}>
+            <PiGear size={18} />
+            {/* 마이페이지의 동물 수정 페이지로 이동하도록 */}
+          </div>
         </div>
       </div>
       <div className={styles.homeMenuArea}>
-        <div className={styles.communityMenu}></div>
-        <div className={styles.promptyMenu}></div>
-        <div className={styles.anyMenu}></div>
+        <div className={styles.communityMenu}>
+          <div className={styles.Navdiv} onClick={goCommunity}>
+            <IoChatbubbles />
+            <span>커뮤니티</span>
+          </div>
+        </div>
+        <div className={styles.promptyMenu}>
+          <div className={styles.Navdiv}>
+            <IoChatbubbleEllipses />
+            <span>투펫AI</span>
+          </div>
+        </div>
+        <div className={styles.anyMenu}>
+          <div className={styles.Navdiv}>
+            <FaQuestion />
+            <span>뭐넣지</span>
+          </div>
+        </div>
       </div>
       <div className={styles.shortsPreivewArea}>
         <div className={styles.areaTitleWrap}>
@@ -63,19 +125,15 @@ const Home = () => {
           <SlArrowRight />
         </div>
         <div className={styles.shortsWrap}>
-          <div className={styles.shortItem}></div>
-          <div className={styles.shortItem}></div>
-          <div className={styles.shortItem}></div>
-          <div className={styles.shortItem}></div>
-          <div className={styles.shortItem}></div>
-          <div className={styles.seeMore}>커뮤니티 더보기</div>
+          <ShortsList shortsData={dummyShortsData} />
         </div>
       </div>
       <div className={styles.communityPreivewArea}>
         <div className={styles.areaTitleWrap}>
           <div className={styles.areaTitle}>커뮤니티</div>
-          <SlArrowRight />
+          <SlArrowRight onClick={goCommunity} />
         </div>
+        <div></div>
       </div>
       <NavBar />
     </div>
