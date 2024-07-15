@@ -4,16 +4,18 @@ import axios from "axios";
 
 const MapScreen = () => {
   let screenH = window.innerHeight;
-  let arr = ["동물병원", "반려동물동반", "산책"];
+  let arr = ["동물병원", "반려동물동반", "반려동물산책"];
   const apiKey = "b09ec8730de391ab294f4a9848831c2c";
   
 
 
-  const [position, setPosition] = useState(null);
+  const [position, setPosition] = useState({ latitude: null, longitude: null });
+  
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedButton, setSelectedButton] = useState(null);
-  
+  const [thisNum, setThisNum] = useState();
+
   const [map, setMap] = useState();
   const [infowindow, setInfoWindow] = useState();
 
@@ -27,13 +29,13 @@ const MapScreen = () => {
   };
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((nowPosition) => {
-      setPosition({
-        latitude: nowPosition.coords.latitude,
-        longitude: nowPosition.coords.longitude,
-        accuracy: nowPosition.coords.accuracy,
+    navigator.geolocation.getCurrentPosition(
+      (position1) => {
+        setPosition({
+          latitude: position1.coords.latitude,
+          longitude: position1.coords.longitude,
+        });
       });
-    });
   }, []);
 
   useEffect(() => {
@@ -41,55 +43,38 @@ const MapScreen = () => {
     script.async = true;
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=0a5f90aad179112a10005dc19a414e8a&autoload=false&libraries=services`;//,clusterer,drawing
     document.head.appendChild(script);
-
     script.addEventListener("load", () => {
+
       window.kakao.maps.load(() => {
         const container = document.getElementById("map");
+        navigator.geolocation.getCurrentPosition(
+          (position1) => {
+            setPosition({
+              latitude: position1.coords.latitude,
+              longitude: position1.coords.longitude,
+            });
+          });
         const options = {
-          center: new window.kakao.maps.LatLng(37, 122),
-          level: 3,
+          center: new window.kakao.maps.LatLng(position.latitude, position.longitude),
+          level: 4,
         };
         setMap(new window.kakao.maps.Map(container, options));
         setInfoWindow(new window.kakao.maps.InfoWindow({zIndex:2}));
       });
     });
-  }, []);
+   }, []);
 
-  const CustomButton = ({ num }) => {
-    const isSelected = selectedButton === num;
-    
-    return (
-      <div
-        onClick={() => setSelectedButton(isSelected ? null : num)}
-        style={{
-          ...styles.button,
-          left: (150 * num) + num + 'px',
-          backgroundColor: isSelected ? 'orange' : 'white',
-        }}
-      >
-        #{arr[num]}
-      </div>
-    );
-  };
-  /*
-  const getQueryMap = async () => {
-    try {
-      const response = await axios.get("/api/getMapInfo");
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-*/
-  function searchPlace(){
+ 
+  function searchPlace(num){
     var ps = new window.kakao.maps.services.Places(); 
-    ps.keywordSearch('이태원 맛집', placesSearchCB); 
+    ps.keywordSearch(arr[num], placesSearchCB); 
   }
   function placesSearchCB (data, status, pagination) {
     if (status === window.kakao.maps.services.Status.OK) {
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
+
         var bounds = new window.kakao.maps.LatLngBounds();
         console.log(bounds);
         for (var i=0; i<data.length; i++) {
@@ -114,7 +99,32 @@ const MapScreen = () => {
         infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
         infowindow.open(map, marker);
     });
-}
+  }
+    const CustomButton = ({ num }) => {
+      const isSelected = selectedButton === num;
+      useEffect(() => {
+        if (isSelected) {
+          setThisNum(num);
+          console.log(thisNum)
+        }
+      }, [isSelected, num]);
+  
+
+      return (
+        <div
+          onClick={() => {setSelectedButton(isSelected ? null : num);
+                          searchPlace(thisNum);
+          }}
+          style={{
+            ...styles.button,
+            left: (150 * num) + num + 'px',
+            backgroundColor: isSelected ? 'orange' : 'white',
+          }}
+        >
+          #{arr[num]}
+        </div>
+      );
+    };
   
 
 
@@ -135,7 +145,6 @@ const MapScreen = () => {
             style={styles.listButton}
             onClick={() => { 
               handleBottomSheetOpen("map"); 
-              //getQueryMap(); 
               searchPlace();
             }}
           >

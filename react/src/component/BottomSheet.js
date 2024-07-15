@@ -17,8 +17,12 @@ const BottomSheet = ({
   schedule,
   initialAddScheduleValues,
   setSelectedPet,
-  setSelectedTags,
+
   selectedTags,
+  setSelectedTags,
+
+  selectedCategory,
+  setSelectedCategory,
   onDotsClick,
   onEditClick,
   selectedSchedule,
@@ -40,9 +44,9 @@ const BottomSheet = ({
     handleCloseBottomSheet();
   };
 
-  const handleCompleteTags = (requiredTag, optionalTags) => {
-    setSelectedTags([requiredTag, ...optionalTags]);
-    handleCloseBottomSheet();
+  const handleCompleteTags = ( optionalTags) => {
+    setSelectedTags([ ...optionalTags]);
+    handleCloseBottomSheet(); 
   };
 
   function getTypeText(type) {
@@ -77,6 +81,10 @@ const BottomSheet = ({
           <HashTagContent
             onComplete={handleCompleteTags}
             initialTags={tempTags}
+            setSelectedCategory = {setSelectedCategory}
+            selectedCategory = {selectedCategory}
+            selectedTags = {selectedTags}
+            setSelectedTags = {setSelectedTags}
           />
         );
       case "addSchedule":
