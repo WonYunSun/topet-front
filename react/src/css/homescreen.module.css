@@ -1,0 +1,126 @@
+.animalProfileImgArea {
+  display: grid;
+  width: 100%;
+  height: fit-content;
+  box-sizing: border-box;
+  background-color: darkslategrey;
+  padding: 1.5em;
+  box-sizing: border-box;
+}
+
+.animalProfileImg {
+  position: relative;
+  justify-self: flex-end;
+  width: 22vh; /* 원하는 너비 */
+  background-color: pink;
+  border-radius: 50%;
+}
+.animalProfileImgEditBtn {
+  position: absolute;
+  bottom: 7px;
+  right: 5px;
+  width: 4vh; /* 원하는 너비 */
+  background-color: #fff;
+  border-radius: 50%;
+}
+.homeMenuArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+.communityMenu,
+.promptyMenu,
+.anyMenu {
+  width: 12vh; /* 원하는 너비 */
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 0px 8px;
+}
+.communityMenu:before,
+.promptyMenu:before,
+.anyMenu:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+.animalProfileImg:before {
+  content: "";
+  display: block;
+  padding-top: 100%; /* 1:1 비율 */
+}
+.animalProfileImgEditBtn:before {
+  content: "";
+  display: block;
+  padding-top: 100%; /* 1:1 비율 */
+}
+
+.homeMenuArea {
+  width: 100%;
+  height: 20vh;
+  /* background-color: dodgerblue; */
+}
+.shortsPreivewArea {
+  width: 100%;
+  height: max-content;
+  background-color: olivedrab;
+}
+.communityPreivewArea {
+  width: 100%;
+  height: 60vh;
+}
+.areaTitleWrap {
+  padding: 1em 1.2em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.areaTitle {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/*  */
+/* homescreen.module.css */
+.shortsWrap {
+  margin: 0 auto;
+  display: flex;
+  overflow-x: auto;
+  padding: 1em;
+}
+
+.shortItem {
+  flex: 0 0 auto;
+  width: 45%; /* 각 아이템이 차지하는 너비를 조정 */
+  margin-right: 1em;
+  background-color: azure;
+  position: relative;
+}
+
+.shortItem::before {
+  content: "";
+  display: block;
+  padding-top: 177.78%; /* 16:9 비율 유지 */
+}
+
+.shortItemContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.seeMore {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20%;
+  background-color: lightgrey;
+  margin-right: 1em;
+  cursor: pointer;
+}
