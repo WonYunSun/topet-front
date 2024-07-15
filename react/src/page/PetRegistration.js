@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styles from '../css/pet_registration.module.css';
 import RegisterTopBar from '../component/RegisterTopBar';
 import AnimalType from '../component/AnimalSelectComp/AnimalType';
 import AnimalKind from '../component/AnimalSelectComp/AnimalKind';
@@ -50,10 +51,9 @@ const PetRegistration = () => {
 
     useEffect(() => {
         //setCheckedGender(!checkedGender);
-        
     }, [selectedType, selectedKind, selectedBirth ]);
 
-    useEffect(() => { show1(); 
+    useEffect(() => { showStepNum(); 
                     consoleLog();
                     nextPossibleFunction(stepNum) 
                     }, 
@@ -252,7 +252,7 @@ const PetRegistration = () => {
         console.log('nextPossible', nextPossible)
         console.log("-------------------------------------------------")
     }
-    const show1 = () => {
+    const showStepNum = () => {
         switch (stepNum) {
             case 1:
                 return (
@@ -358,7 +358,7 @@ const PetRegistration = () => {
     return (
         <div>
             <RegisterTopBar stepNum={stepNum} />
-            {show1(stepNum)}
+            {showStepNum(stepNum)}
         </div>
     );
 };
