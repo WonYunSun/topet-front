@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../css/hashtag.css';
 
-const HashTagContent = ({ onComplete, initialTags }) => {
+const HashTagContent = ({ onComplete, initialTags, selectedCategory, setSelectedCategory, selecetedTags, setSelectedTags }) => {
   const [requiredTag, setRequiredTag] = useState('');
   const [optionalTags, setOptionalTags] = useState([]);
   const [inputValue, setInputValue] = useState('');
@@ -17,13 +17,16 @@ const HashTagContent = ({ onComplete, initialTags }) => {
   useEffect(() => {
     if (initialTags.length > 1) {
       setOptionalTags(initialTags.slice(1));
-    } else {
-      setOptionalTags([]);
-    }
+    } 
+    //else {
+    //   setOptionalTags([]);
+    // }
   }, [initialTags]);
 
   const handleRequiredTagClick = (tag) => {
+    
     setRequiredTag(tag);
+    setSelectedCategory(tag);
   };
 
   const handleRegisterTag = () => {
@@ -39,10 +42,16 @@ const HashTagContent = ({ onComplete, initialTags }) => {
   };
 
   const handleComplete = () => {
-    onComplete(requiredTag, optionalTags);
+
+    if(selectedCategory == null || selectedCategory == ''){
+      setSelectedCategory("자유/일상");
+    }
+
+    onComplete(optionalTags);
   };
 
   const handleRemoveTag = (tagToRemove) => {
+
     setOptionalTags(optionalTags.filter(tag => tag !== tagToRemove));
   };
 

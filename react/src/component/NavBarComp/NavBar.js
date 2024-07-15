@@ -29,7 +29,7 @@ function NavBar() {
       </NavLink>
       {/* 홈 화면 이동 */}
       <NavLink
-        to=""
+        to="/api/home"
         end
         className={({ isActive }) =>
           isActive ? styles.activeNavItem : styles.navItem
