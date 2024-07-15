@@ -1,0 +1,23 @@
+.managebox_wrapper{
+    width: 100vw;
+    height: 60px;
+    display: flex;
+    float: left;
+    background-color: #ffffff;
+    border-style: solid;
+    border-left: 0px;
+    border-top: 1px;
+    /* transform: scaleY(0.5); */
+    border-color: gray;
+}
+
+.icon{
+    margin: 10px;
+    font-size: 24px;
+    display: flex;
+}
+
+.management_item_title{
+    font-size: 18px;
+    display: flex;
+}

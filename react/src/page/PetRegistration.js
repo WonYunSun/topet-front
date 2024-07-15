@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styles from '../css/pet_registration.module.css';
 import RegisterTopBar from '../component/RegisterTopBar';
 import AnimalType from '../component/AnimalSelectComp/AnimalType';
 import AnimalKind from '../component/AnimalSelectComp/AnimalKind';
@@ -48,10 +49,9 @@ const PetRegistration = () => {
 
     useEffect(() => {
         //setCheckedGender(!checkedGender);
-        
     }, [selectedType, selectedKind, selectedBirth ]);
 
-    useEffect(() => { show1(); 
+    useEffect(() => { showStepNum(); 
                     consoleLog();
                     nextPossibleFunction(stepNum) 
                     }, 
@@ -257,8 +257,8 @@ const PetRegistration = () => {
     const NextPossibleComp = () => {
         return (
             <div>            
-            <button onClick={prevStep}>이전</button>
-            {nextPossible ? <button onClick={nextStep}>{(stepNum < 6) ? '다음' : '완료'}</button> : <button style={{ backgroundColor: 'gray' }}>{(stepNum < 6) ? '다음' : '완료'}</button>}
+            <button className={styles.prevstep} onClick={prevStep}>이전</button>
+            {nextPossible ? <button className={styles.nextstep} onClick={nextStep}>{(stepNum < 6) ? '다음' : '완료'}</button> : <button style={{ backgroundColor: 'gray' }}>{(stepNum < 6) ? '다음' : '완료'}</button>}
             </div>
         )
     }
@@ -280,12 +280,10 @@ const PetRegistration = () => {
         console.log('nextPossible', nextPossible)
         console.log("-------------------------------------------------")
     }
-    const show1 = () => {
+    const showStepNum = () => {
         switch (stepNum) {
             case 1:
-                
                 return (
-                    
                        <div>
                         <AnimalType
                             setSelectedType={setSelectedType}
@@ -385,7 +383,7 @@ const PetRegistration = () => {
     return (
         <div>
             <RegisterTopBar stepNum={stepNum} />
-            {show1(stepNum)}
+            {showStepNum(stepNum)}
             
         </div>
     );

@@ -9,6 +9,8 @@ import PetRegistration from "./page/PetRegistration";
 import KakaoLogin from "./page/kakaoLogin";
 import MapScreen from "./page/mapScreen";
 import CommunityDetail from "./page/CommunityDetail";
+import MyPage from "./page/myPage";
+import ChoicePetRegister from "./page/ChoicePetRegister"
 
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
         <Route path="/api/community/communitywrite" element={<CommunityWrite />}/>
         <Route path="/api/schedule" element={<Calendarscreen />} />
         <Route path="/api/petregistration" element={<PetRegistration />} />
+        <Route path="/api/mypage" element={<MyPage />} />
+        <Route path="/api/choicepetregister" element={<ChoicePetRegister />} />
         {/* <Route path='/api/kakaoLogin' element={<KakaoLogin/>} /> */}
         <Route path="https://kauth.kakao.com/oauth/authorize?client_id=${3494afad7131fc9645ae9b08ed0dfda6}&redirect_uri=${localhost:8081/api/kakaoLogin}&response_type=code"></Route>
       </Routes>
