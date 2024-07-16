@@ -33,6 +33,10 @@ const HashTagContent = ({ show, initialSelectedCategory, initialSelectedHashTag,
     }
   };
 
+  const handleTagRemove = (tagToRemove) => {
+    setSelectedTags(selectedTags.filter(tag => tag !== tagToRemove));
+  };
+
   const handleComplete = () => {
     handleCompleteTags(requiredTag, selectedTags);
   };
@@ -69,7 +73,10 @@ const HashTagContent = ({ show, initialSelectedCategory, initialSelectedHashTag,
       <div className={styles.selectedTagsContainer}>
         {requiredTag && <span className={styles.tag}>#{requiredTag}</span>}
         {selectedTags.map((tag, index) => (
-          <span key={index} className={styles.tag}>#{tag}</span>
+          <span key={index} className={styles.tag}>
+            #{tag}
+            <button className={styles.removeButton} onClick={() => handleTagRemove(tag)}>x</button>
+          </span>
         ))}
       </div>
 
