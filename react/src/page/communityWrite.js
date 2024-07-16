@@ -10,17 +10,18 @@ import PhotoSelectArea from "../component/PhotoSelectComp/PhotoSelectArea";
 import Button from "../component/ButtonComp/Button";
 import communityApi from "../api/communityApi";
 import CheckModal from "../component/CheckModal";
+import HashTag from "../component/HashTagComp/HashTag";
 
 const CommunityWrite = () => {
   const navigate = useNavigate();
 
-  const [selectedPet, setSelectedPet] = useState(null);
   const [titleText, setTitleText] = useState("");
   const [contentText, setContentText] = useState("");
   const [selectedPhotos, setSelectedPhotos] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedHashTag, setSelectedHashTag] = useState([]);
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
-
   const [showWriteCancleModal, setShowWriteCancleModal] = useState(false);
   const [showWriteNullCheckModal, setShowWriteNullCheckModal] = useState(false);
 
@@ -40,7 +41,6 @@ const CommunityWrite = () => {
         )
     );
     const updatedPhotos = [...selectedPhotos, ...newPhotos].slice(0, 5);
-
     setSelectedPhotos(updatedPhotos);
   };
 
@@ -48,14 +48,12 @@ const CommunityWrite = () => {
     setSelectedPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
   };
 
-
-  const handleSubmit = () => { // 서버 전송 함수
+  const handleSubmit = () => {
     const formData = new FormData();
-    formData.append("title", titleText)
+    formData.append("title", titleText);
     formData.append("content", contentText);
-    //여기에 카테고리랑, 해시태그 보내는 거 적어야 함.
+    // 여기에 카테고리랑, 해시태그 보내는 거 적어야 함.
     communityApi.postCommunity(selectedPhotos, formData);
-    
   };
 
   const handleBottomSheetOpen = (type) => {
@@ -90,24 +88,23 @@ const CommunityWrite = () => {
     navigate(-1);
   };
 
-  console.log('------------------------')
-  console.log('제목 : ',titleText)
-  console.log('본문 : ',contentText)
-  console.log('사진 : ',selectedPhotos)
-  console.log('------------------------')
+  const handleCompleteTags = (category, tags) => {
+    setSelectedCategory(category);
+    setSelectedHashTag(tags);
+    handleBottomSheetClose();
+  };
+
+  console.log(titleText)
+  console.log(contentText)
+  console.log(selectedPhotos)
+  console.log(selectedCategory)
+  console.log(selectedHashTag)
 
   return (
     <div>
       <TopBar />
-      {/* <AnimalSelect
-        onClick={() => handleBottomSheetOpen("pet")}
-        selectedPet={selectedPet}
-      /> */}
       <Title value={titleText} handleTitleTextChange={handleTitleTextChange} />
-      <Content
-        value={contentText}
-        handleContentTextChange={handleContentTextChange}
-      />
+      <Content value={contentText} handleContentTextChange={handleContentTextChange} />
       <br />
       <PhotoSelectArea
         selectedPhotos={selectedPhotos}
@@ -116,35 +113,39 @@ const CommunityWrite = () => {
         cnt={5}
       />
       <br />
-      {/* 해시태그 자리 */}
+      <HashTag
+        selectedCategory={selectedCategory}
+        selectedHashTag={selectedHashTag}
+        handleBottomSheetOpen={handleBottomSheetOpen}
+      />
       <div>
         <Button text={"취소"} btnstyle="white" onClick={handleShowCheckModal} />
         <Button text={"작성 완료"} btnstyle="white" onClick={isSubmitDisabled ? handleShowNullCheckModal : handleSubmit} />
       </div>
-      {showWriteCancleModal &&
-        (
-          <CheckModal
-            Content="게시물 작성을 취소하시겠어요?"
-            CancleBtnContent="작성 취소"
-            ContinueBtnContent="계속 작성"
-            onClose={handleWriteCancleModal}
-            onContinue={handleCloseCancleModal}
-          />
-        )}
-        {showWriteNullCheckModal &&
-        (
-          <CheckModal
-            Content="제목, 본문, 해시태그는 필수 항목입니다."
-            onClose={handleNullCheckModal}
-            oneBtn={true}
-          />
-        )}
+      {showWriteCancleModal && (
+        <CheckModal
+          Content="게시물 작성을 취소하시겠어요?"
+          CancleBtnContent="작성 취소"
+          ContinueBtnContent="계속 작성"
+          onClose={handleWriteCancleModal}
+          onContinue={handleCloseCancleModal}
+        />
+      )}
+      {showWriteNullCheckModal && (
+        <CheckModal
+          Content="제목, 본문, 해시태그는 필수 항목입니다."
+          onClose={handleNullCheckModal}
+          oneBtn={true}
+        />
+      )}
       <BottomSheet
         show={showBottomSheet}
         onClose={handleBottomSheetClose}
         type={bottomSheetType}
-        setSelectedPet={setSelectedPet}
         selectedDate={new Date()}
+        handleCompleteTags={handleCompleteTags}
+        initialSelectedCategory={selectedCategory}
+        initialSelectedHashTag={selectedHashTag}
       />
     </div>
   );
