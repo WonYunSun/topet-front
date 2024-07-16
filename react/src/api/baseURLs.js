@@ -1,49 +1,42 @@
 // import axios from "axios";
 
-// const DOG_API_BASE_URL = "http://localhost:5001";
-// const CAT_API_BASE_URL = "http://localhost:5002";
-// const EXOTICPET_API_BASE_URL = "http://localhost:5003";
-
-// const baseURLs = {
-//   dog: DOG_API_BASE_URL,
-//   cat: CAT_API_BASE_URL,
-//   exoticpet: EXOTICPET_API_BASE_URL
-// };
+// const BASE_URL = "http://localhost:8081/api/community";
 
 // const fetchCommunityPosts = async (type, category) => {
 //   try {
-//     const response = await axios.get(`${baseURLs[type]}/${category}`);
-//     return response.data; // 데이터를 반환
+//     const response = await axios.get(`${BASE_URL}/${type}/${category}`);
+//     return response.data;
 //   } catch (error) {
 //     console.error("서버 오류:", error);
-//     throw error; // 오류를 던짐
+//     throw error;
 //   }
 // };
 
-// export { baseURLs, fetchCommunityPosts };
+// export { BASE_URL, fetchCommunityPosts };
 
 
 import axios from "axios";
 
-const DOG_API_BASE_URL = "http://localhost:5001";
-const CAT_API_BASE_URL = "http://localhost:5002";
-const EXOTICPET_API_BASE_URL = "http://localhost:5003";
+const BASE_URL = "http://175.45.202.131:8081/api/community";
 
-const baseURLs = {
-  dog: DOG_API_BASE_URL,
-  cat: CAT_API_BASE_URL,
-  exoticpet: EXOTICPET_API_BASE_URL
-};
-
-const fetchCommunityPosts = async (type, category, limit, start) => {
+const fetchCommunityPosts = async (type, category) => {
   try {
-    const response = await axios.get(`${baseURLs[type]}/${category}?_limit=${limit}&_start=${start}`);
+    const response = await axios.get(`${BASE_URL}/${type}/${category}`);
     return response.data;
   } catch (error) {
-    console.error("서버 오류:", error);
+    if (error.response) {
+      // 서버가 상태 코드로 응답했지만, 2xx 범위는 아닌 경우
+      console.error("서버 응답 오류:", error.response.data);
+    } else if (error.request) {
+      // 요청이 만들어졌으나 응답을 받지 못한 경우
+      console.error("서버로부터 응답을 받지 못함:", error.request);
+    } else {
+      // 요청을 설정하는 중에 오류가 발생한 경우
+      console.error("요청 설정 오류:", error.message);
+    }
     throw error;
   }
 };
 
-export { baseURLs, fetchCommunityPosts };
 
+export { BASE_URL, fetchCommunityPosts };

@@ -1,24 +1,16 @@
-import React from 'react'
-import '../../css/hashtag.css'
+import React from 'react';
+import styles from '../../css/HashTag.module.css';
 
-const HashTag = ({ onClick, selectedTags, selectedCategory  }) => {
+const HashTag = ({ selectedCategory, selectedHashTag, handleBottomSheetOpen }) => {
   return (
-    <div className='hashtag-box'>
-      <div className='hashtag-label'>태그 (1개 이상 선택해 주세요)</div>
-      <div className='selected-tags'>
-        {
-        (selectedCategory != '' && selectedCategory != null)? 
-            <span className='tag' >#{selectedCategory}</span> : 
-            <></>
-          }
-        {selectedTags.map(tag => (
-          <span className='tag' key={tag}>#{tag}</span>
-        ))}
-        <button className='hashtag-button' onClick={onClick}>+선택하기</button>
-      </div>
-      
+    <div className={styles.tagContainer}>
+      {selectedCategory && <span className={styles.tag}>#{selectedCategory}</span>}
+      {selectedHashTag && selectedHashTag.length > 0 && selectedHashTag.map((tag, index) => (
+        <span key={index} className={styles.tag}>#{tag}</span>
+      ))}
+      <button className={styles.button} onClick={() => handleBottomSheetOpen('tag')}>+선택하기</button>
     </div>
-  )
-}
+  );
+};
 
-export default HashTag
+export default HashTag;

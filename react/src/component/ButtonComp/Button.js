@@ -4,14 +4,13 @@ import style from "../../css/button.module.css";
 const Button = ({
   text,
   btnstyle,
-  onClick, // 외부에서 전달받은 onClick 핸들러 추가
-  disabled, // 버튼 disbaled 속성 받기
-  postServer_withoutPhotos,
-  postServer_withPhotos,
+  onClick,
+  disabled,
 }) => {
   const textVerification = () => {
-    // 정확한 조건 검사
     if (text === "작성 완료" || text === "완료") {
+      onClick();
+    } else if(text === "취소") {
       onClick();
     }
   };
@@ -20,7 +19,7 @@ const Button = ({
     <button
       className={style[btnstyle]}
       onClick={textVerification}
-      // disabled={disabled}
+      disabled={disabled}
     >
       {text}
     </button>

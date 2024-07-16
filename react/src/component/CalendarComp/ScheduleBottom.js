@@ -2,10 +2,9 @@ import React, { useCallback, useState, useEffect } from "react";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import ScheduleBox from "./scheduleBox";
 import styles from "../../css/schedule_bottom.module.css";
 import "dayjs/locale/ko";
-import { GoCircle } from "react-icons/go";
-import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import ScheduleService from "../../api/scheduleApi"; // postApi
 
 dayjs.extend(customParseFormat);
@@ -61,52 +60,12 @@ const ScheduleBottom = ({ schedules, selectedDate, onScheduleClick }) => {
           <div className={styles.ScheduleBoxWrap}>
             {getSchedule(selectedDate).length > 0 ? (
               getSchedule(selectedDate).map((item, index) => (
-                <div
-                  className={styles.ScheduleBox}
+                <ScheduleBox
                   key={index}
-                  style={{ backgroundColor: item.color }}
-                  onClick={() => onScheduleClick(item)} // 스케줄 클릭 핸들러 호출
-                >
-                  <div className={styles.ScheduleBoxContent}>
-                    <div className={styles.ScheduleContent}>
-                      <div className={styles.ScheduleDate}>
-                        {dayjs(item.startDate).format("h:mm a") ===
-                          "12:00 오전" &&
-                        dayjs(item.endDate).format("h:mm a") ===
-                          "11:59 오후" ? (
-                          "하루 종일"
-                        ) : (
-                          <>
-                            {dayjs(item.startDate).format("h:mm a")} -{" "}
-                            {dayjs(item.endDate).format("h:mm a")}
-                          </>
-                        )}
-                      </div>
-                      <div className={styles.ScheduleTitle}>
-                        {item.scheduleTitle}
-                      </div>
-                    </div>
-                    <div className={styles.ScheduleBoxCheckBoxWrap}>
-                      <div className={styles.verticalDivider} />
-                      <div
-                        className={styles.ScheduleBoxCheckBox}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleCheckBoxClick(item.scheduleId);
-                        }}
-                      >
-                        {item.isComplete ? (
-                          <IoCheckmarkCircleOutline color="#fff" size={28} />
-                        ) : (
-                          <GoCircle
-                            color="rgba(255, 255, 255, 0.3)"
-                            size={25}
-                          />
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  item={item}
+                  onScheduleClick={onScheduleClick}
+                  handleCheckBoxClick={handleCheckBoxClick}
+                />
               ))
             ) : (
               <p className={styles.Noschedule}>일정이 없습니다.</p>

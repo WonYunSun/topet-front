@@ -1,0 +1,75 @@
+.container {
+    padding: 20px;
+  }
+  
+  .title {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .buttonContainer, .selectedTagsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .button, .tag {
+    border: 2px solid orange;
+    border-radius: 15px;
+    color: orange;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: white;
+    display: flex;
+    align-items: center;
+  }
+  
+  .selectedButton {
+    border: 2px solid orange;
+    border-radius: 15px;
+    background-color: orange;
+    color: white;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .inputContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .input {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+  }
+  
+  .submitButton, .completeButton {
+    border: none;
+    border-radius: 15px;
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: orange;
+  }
+  
+  .completeButton {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .removeButton {
+    background: none;
+    border: none;
+    color: rgb(124, 124, 124);
+    font-size: 14px;
+    cursor: pointer;
+  }
+  

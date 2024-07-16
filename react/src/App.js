@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
-import Home from "./page/Home";
+
 import Community from "./page/community";
 import CommunityWrite from "./page/communityWrite";
 import { Calendarscreen } from "./page/calendar_screen";
@@ -10,11 +14,25 @@ import KakaoLogin from "./page/kakaoLogin";
 import MapScreen from "./page/mapScreen";
 import CommunityDetail from "./page/CommunityDetail";
 import MyPage from "./page/myPage";
-import ChoicePetRegister from "./page/ChoicePetRegister"
+import ChoicePetRegister from "./page/ChoicePetRegister";
+//navbar.js
+import NavBar from "./component/NavBarComp/NavBar";
+//네비게이션바 띄울 화면 import 필요
+import Home from "./page/Home";
+import Schedule from "./page/calendar_screen";
+import Map from "./page/mapScreen";
 
 function App() {
+  const location = useLocation();
+  const showNavbarPaths = [
+    "/api/home",
+    "/api/schedule",
+    "/api/map",
+    "/api/mypage",
+  ];
   return (
     <div className="App">
+      {showNavbarPaths.includes(location.pathname) && <NavBar />}
       <Routes>
         <Route path="/api/home" element={<Home />} />
         <Route path="/api/map" element={<MapScreen />} />
