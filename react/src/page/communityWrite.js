@@ -5,7 +5,6 @@ import Title from "../component/Title";
 import Content from "../component/Content";
 import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
-import HashTag from "../component/HashTagComp/HashTag";
 import "../css/bottomsheet.css";
 import PhotoSelectArea from "../component/PhotoSelectComp/PhotoSelectArea";
 import Button from "../component/ButtonComp/Button";
@@ -18,8 +17,6 @@ const CommunityWrite = () => {
   const [selectedPet, setSelectedPet] = useState(null);
   const [titleText, setTitleText] = useState("");
   const [contentText, setContentText] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedTags, setSelectedTags] = useState([]);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
@@ -56,8 +53,7 @@ const CommunityWrite = () => {
     const formData = new FormData();
     formData.append("title", titleText)
     formData.append("content", contentText);
-    formData.append("category" , selectedCategory);
-    formData.append("hashtag", selectedTags);
+    //여기에 카테고리랑, 해시태그 보내는 거 적어야 함.
     communityApi.postCommunity(selectedPhotos, formData);
     
   };
@@ -71,7 +67,7 @@ const CommunityWrite = () => {
     setShowBottomSheet(false);
   };
 
-  const isSubmitDisabled = !titleText || !contentText || selectedTags.length === 0;
+  const isSubmitDisabled = !titleText || !contentText;
 
   const handleShowCheckModal = () => {
     setShowWriteCancleModal(true);
@@ -93,15 +89,20 @@ const CommunityWrite = () => {
     setShowWriteCancleModal(false);
     navigate(-1);
   };
-  
+
+  console.log('------------------------')
+  console.log('제목 : ',titleText)
+  console.log('본문 : ',contentText)
+  console.log('사진 : ',selectedPhotos)
+  console.log('------------------------')
 
   return (
     <div>
       <TopBar />
-      <AnimalSelect
+      {/* <AnimalSelect
         onClick={() => handleBottomSheetOpen("pet")}
         selectedPet={selectedPet}
-      />
+      /> */}
       <Title value={titleText} handleTitleTextChange={handleTitleTextChange} />
       <Content
         value={contentText}
@@ -115,12 +116,7 @@ const CommunityWrite = () => {
         cnt={5}
       />
       <br />
-      <HashTag
-        onClick={() => handleBottomSheetOpen("tag")}
-        selectedTags={selectedTags}
-        selectedCategory = {selectedCategory}
-        
-      />
+      {/* 해시태그 자리 */}
       <div>
         <Button text={"취소"} btnstyle="white" onClick={handleShowCheckModal} />
         <Button text={"작성 완료"} btnstyle="white" onClick={isSubmitDisabled ? handleShowNullCheckModal : handleSubmit} />
@@ -140,7 +136,6 @@ const CommunityWrite = () => {
           <CheckModal
             Content="제목, 본문, 해시태그는 필수 항목입니다."
             onClose={handleNullCheckModal}
-            // onContinue={handleCloseCancleModal}
             oneBtn={true}
           />
         )}
@@ -148,12 +143,7 @@ const CommunityWrite = () => {
         show={showBottomSheet}
         onClose={handleBottomSheetClose}
         type={bottomSheetType}
-        initialTags={selectedTags}
-        setSelectedTags={setSelectedTags}
         setSelectedPet={setSelectedPet}
-        selectedTags={selectedTags}
-        selectedCategory ={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
         selectedDate={new Date()}
       />
     </div>

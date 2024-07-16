@@ -7,7 +7,7 @@ import TopBar from "../component/TopBar";
 import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
 import ScheduleBottom from "../component/CalendarComp/ScheduleBottom";
-import "../css/bottomsheet.css";
+import styles from "../css/bottomsheet.css";
 import FloatingBtn from "../component/ButtonComp/FloatingBtn";
 import isBetween from "dayjs/plugin/isBetween";
 import NavBar from "../component/NavBarComp/NavBar";

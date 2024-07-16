@@ -17,7 +17,7 @@
 
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8081/api/community";
+const BASE_URL = "http://175.45.202.131:8081/api/community";
 
 const fetchCommunityPosts = async (type, category) => {
   try {

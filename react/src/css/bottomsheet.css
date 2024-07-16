@@ -12,7 +12,7 @@
   z-index: 500;
 }
 
-.bottom-sheet {
+.bottom_sheet {
   overflow: hidden;
   min-height: max-content;
   width: 100vw;
@@ -27,28 +27,28 @@
   z-index: 600; /* overlay 위에 오도록 설정 */
 }
 
-.bottom-sheet.show {
+.bottom_sheet.show {
   bottom: 0;
   transform: translateY(0);
 }
 
-.bottom-sheet-content {
+.bottom_sheet_content {
   padding: 20px;
 }
 
-.bottom-sheet-title {
+.bottom_sheet_title {
   margin: 20px;
   font-size: 16px; /* 텍스트 크기 설정 */
   font-weight: bold; /* 텍스트 굵기 설정 */
 }
 
-.bottom-sheet-buttons {
+.bottom_sheet_buttons {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.bottom-sheet-button {
+.bottom_sheet_button {
   font-size: 20px; /* 글씨 크기 */
   font-weight: bold;
   color: black; /* 글씨 색깔 */
