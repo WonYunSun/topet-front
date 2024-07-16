@@ -20,6 +20,7 @@ const CommunityWrite = () => {
   const [selectedPhotos, setSelectedPhotos] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedHashTag, setSelectedHashTag] = useState([]);
+  const [conversionStringHashTag, setConversionStringHashTag] = useState("");
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [showWriteCancleModal, setShowWriteCancleModal] = useState(false);
@@ -48,11 +49,18 @@ const CommunityWrite = () => {
     setSelectedPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
   };
 
+  const conversionHashTag = () => {
+    const conversion = selectedHashTag.join(',');
+    setConversionStringHashTag(conversion);
+    
+  }
+
   const handleSubmit = () => {
     const formData = new FormData();
     formData.append("title", titleText);
     formData.append("content", contentText);
-    // 여기에 카테고리랑, 해시태그 보내는 거 적어야 함.
+    formData.append('category', selectedCategory);
+    formData.append('hashtag', conversionStringHashTag);
     communityApi.postCommunity(selectedPhotos, formData);
   };
 
