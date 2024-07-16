@@ -11,7 +11,6 @@ const BottomSheet = ({
   show,
   onClose,
   type,
-  onCompleteTags,
   initialTags,
   selectedDate,
   schedule,
@@ -23,16 +22,23 @@ const BottomSheet = ({
   onEditClick,
   selectedSchedule,
 }) => {
+
+
   const [tempTags, setTempTags] = useState([]);
 
   useEffect(() => {
     if (!show && type === "tag") {
-      setTempTags([]);
+      setTempTags(initialTags);
+    } else if (!show) {
+      setTempTags([]); // BottomSheet가 닫힐 때 tempTags 초기화
     }
-  }, [show, type]);
+  }, [show, type, initialTags]);
+
+  
 
   const handleCloseBottomSheet = () => {
     onClose();
+    setTempTags([]);
   };
 
   const handleSelectPet = (pet) => {

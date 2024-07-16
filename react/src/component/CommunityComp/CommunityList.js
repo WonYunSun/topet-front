@@ -1,67 +1,55 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../../css/communityList.module.css';
 import { fetchCommunityPosts } from '../../api/baseURLs';
 import { BsChatFill } from "react-icons/bs";
 import { BiSolidLike } from "react-icons/bi";
 
-const  CommunityList = ({ selectedAnimal }) => {
+const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
+const categoryMap = { 'freedomAndDaily': '자유/일상', 'curious': '궁금해요', 'sharingInformation': '정보공유' };
+
+const CommunityList = ({ selectedAnimal }) => {
   const { category } = useParams();
   const navigate = useNavigate();
   const [communityPosts, setCommunityPosts] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
-  const OFFSET = useRef(0);
-  const observer = useRef();
-  const LIMIT = 20;
+  const [currentAnimalType, setCurrentAnimalType] = useState(animalTypeMap[selectedAnimal] || 'dog');
+  const [currentCategory, setCurrentCategory] = useState(categoryMap[category] || '자유/일상');
 
-  const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
-  const categoryMap = { 'freedomAndDaily': '#자유/일상', 'curious': '#궁금해요', 'sharingInformation': '#정보공유' };
-  const currentAnimalType = animalTypeMap[selectedAnimal] || 'dog';
-  const currentCategory = categoryMap[category] || '자유/일상';
+  useEffect(() => {
+    setCurrentAnimalType(animalTypeMap[selectedAnimal] || 'dog');
+    setCurrentCategory(categoryMap[category] || '자유/일상');
+  }, [selectedAnimal, category]);
 
-  const fetchPosts = async (reset = false) => {
-    const newPosts = await fetchCommunityPosts(currentAnimalType, category, LIMIT, OFFSET.current);
-    setCommunityPosts(prevPosts => reset ? newPosts : [...prevPosts, ...newPosts]);
-    OFFSET.current += LIMIT;
-    if (newPosts.length < LIMIT) setHasMore(false);
+  const fetchPosts = async () => {
+    try {
+      const newPosts = await fetchCommunityPosts(currentAnimalType, currentCategory);
+      setCommunityPosts(newPosts);
+    } catch (error) {
+      console.error("Failed to fetch posts:", error);
+    }
   };
 
   useEffect(() => {
-    OFFSET.current = 0;
     setCommunityPosts([]);
-    setHasMore(true);
-    fetchPosts(true);
-  }, [selectedAnimal, category]);
+    fetchPosts();
+  }, [currentAnimalType, currentCategory]);
 
   const handleCategoryChange = newCategory => {
     navigate(`/community/preview/${currentAnimalType}/${newCategory}`, { replace: true });
-    setCommunityPosts([]);
-    OFFSET.current = 0;
-    setHasMore(true);
   };
 
   const handlePostClick = comid => {
     navigate(`/api/community/detail/${comid}`);
   };
 
-  const lastPostElementRef = node => {
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasMore) {
-        fetchPosts();
-      }
-    });
-    if (node) observer.current.observe(node);
-  };
-
   const formatHashtags = hashtagString => {
     const tags = hashtagString.split(',')
-      .map(tag => tag.trim().replace(/^\d+/, '')) // 문자열 시작 부분의 숫자를 제거
-      .filter(tag => tag !== ''); // 빈 문자열 제거
-  
-    const visibleTags = tags.slice(0, 3); // 처음 3개의 해시태그만 표시
+      .map(tag => tag.trim())
+      .filter(tag => tag !== '');
+
+    const visibleTags = tags.slice(0, 3);
     const remainingTagsCount = tags.length - visibleTags.length;
-  
+
     return (
       <>
         {visibleTags.map((tag, index) => (
@@ -83,15 +71,14 @@ const  CommunityList = ({ selectedAnimal }) => {
       </div>
 
       <div className={styles.category_text}>
-        {currentCategory}
+        #{currentCategory}
       </div>
 
       <div className={styles.communities_content_area}>
         {communityPosts.map((item, index) => (
           <div
-            key={item.comid}
-            onClick={() => handlePostClick(item.comid)}
-            ref={communityPosts.length === index + 1 ? lastPostElementRef : null}
+            key={item.id}
+            onClick={() => handlePostClick(item.id)}
           >
             <div className={styles.each_community_area}>
               <div className={styles.content_and_photo_container}>
@@ -99,14 +86,14 @@ const  CommunityList = ({ selectedAnimal }) => {
                   <div className={styles.community_title}>{item.title}</div>
                   <div className={styles.community_content}>{item.content}</div>
                 </div>
-                {item.photos && item.photos.length > 0 && (
+                {item.images && item.images.length > 0 && (
                   <div className={styles.community_photo}>
-                    <img src={item.photos[0]} alt="community" />
+                    <img src={`/${item.images[0].filePath}`} alt={item.images[0].origFileName} />
                   </div>
                 )}
               </div>
               <div className={styles.community_hashtags}>
-                {formatHashtags(item.hashtag)} {/* 해시태그는 5~6글자로 제한해야 될 듯 */}
+                {formatHashtags(item.hashtag)}
               </div>
               <div className={styles.like_and_coment}>
                 <div className="icon-group">

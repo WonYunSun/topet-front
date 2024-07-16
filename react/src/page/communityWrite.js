@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import TopBar from "../component/TopBar";
 import Title from "../component/Title";
 import Content from "../component/Content";
@@ -9,8 +10,11 @@ import "../css/bottomsheet.css";
 import PhotoSelectArea from "../component/PhotoSelectComp/PhotoSelectArea";
 import Button from "../component/ButtonComp/Button";
 import communityApi from "../api/communityApi";
+import CheckModal from "../component/CheckModal";
 
 const CommunityWrite = () => {
+  const navigate = useNavigate();
+
   const [selectedPet, setSelectedPet] = useState(null);
   const [selectedTags, setSelectedTags] = useState([]);
   const [titleText, setTitleText] = useState("");
@@ -18,6 +22,9 @@ const CommunityWrite = () => {
   const [selectedPhotos, setSelectedPhotos] = useState([]);
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
+
+  const [showWriteCancleModal, setShowWriteCancleModal] = useState(false);
+  const [showWriteNullCheckModal, setShowWriteNullCheckModal] = useState(false);
 
   const handleTitleTextChange = (e) => {
     setTitleText(e.target.value);
@@ -34,7 +41,7 @@ const CommunityWrite = () => {
           (selectedPhoto) => selectedPhoto.name === photo.name
         )
     );
-    const updatedPhotos = [...selectedPhotos, ...newPhotos].slice(0, 10);
+    const updatedPhotos = [...selectedPhotos, ...newPhotos].slice(0, 5);
 
     setSelectedPhotos(updatedPhotos);
   };
@@ -62,6 +69,30 @@ const CommunityWrite = () => {
     setShowBottomSheet(false);
   };
 
+  const isSubmitDisabled = !titleText || !contentText || selectedTags.length === 0;
+
+  const handleShowCheckModal = () => {
+    setShowWriteCancleModal(true);
+  };
+
+  const handleShowNullCheckModal = () => {
+    setShowWriteNullCheckModal(true);
+  };
+
+  const handleCloseCancleModal = () => {
+    setShowWriteCancleModal(false);
+  };
+
+  const handleNullCheckModal = () => {
+    setShowWriteNullCheckModal(false);
+  };
+
+  const handleWriteCancleModal = () => {
+    setShowWriteCancleModal(false);
+    navigate(-1);
+  };
+  
+
   return (
     <div>
       <TopBar />
@@ -69,9 +100,7 @@ const CommunityWrite = () => {
         onClick={() => handleBottomSheetOpen("pet")}
         selectedPet={selectedPet}
       />
-      <div style={{ height: "10px" }}></div>
       <Title value={titleText} handleTitleTextChange={handleTitleTextChange} />
-      <div style={{ height: "20px" }}></div>
       <Content
         value={contentText}
         handleContentTextChange={handleContentTextChange}
@@ -81,7 +110,7 @@ const CommunityWrite = () => {
         selectedPhotos={selectedPhotos}
         onPhotosSelected={handlePhotosSelected}
         onRemovePhoto={handleRemovePhoto}
-        cnt={10}
+        cnt={5}
       />
       <br />
       <HashTag
@@ -89,16 +118,35 @@ const CommunityWrite = () => {
         selectedTags={selectedTags}
       />
       <div>
-        <Button text={"취소"} btnstyle="white" />
-        <Button text={"작성 완료"} btnstyle="white" onClick={handleSubmit} />
+        <Button text={"취소"} btnstyle="white" onClick={handleShowCheckModal} />
+        <Button text={"작성 완료"} btnstyle="white" onClick={isSubmitDisabled ? handleShowNullCheckModal : handleSubmit} />
       </div>
+      {showWriteCancleModal &&
+        (
+          <CheckModal
+            Content="게시물 작성을 취소하시겠어요?"
+            CancleBtnContent="작성 취소"
+            ContinueBtnContent="계속 작성"
+            onClose={handleWriteCancleModal}
+            onContinue={handleCloseCancleModal}
+          />
+        )}
+        {showWriteNullCheckModal &&
+        (
+          <CheckModal
+            Content="제목, 본문, 해시태그는 필수 항목입니다."
+            onClose={handleNullCheckModal}
+            // onContinue={handleCloseCancleModal}
+            oneBtn={true}
+          />
+        )}
       <BottomSheet
         show={showBottomSheet}
         onClose={handleBottomSheetClose}
         type={bottomSheetType}
         initialTags={selectedTags}
-        setSelectedPet={setSelectedPet}
         setSelectedTags={setSelectedTags}
+        setSelectedPet={setSelectedPet}
         selectedTags={selectedTags}
         selectedDate={new Date()}
       />
