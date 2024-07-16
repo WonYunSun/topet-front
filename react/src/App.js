@@ -10,7 +10,8 @@ import KakaoLogin from "./page/kakaoLogin";
 import MapScreen from "./page/mapScreen";
 import CommunityDetail from "./page/CommunityDetail";
 import MyPage from "./page/myPage";
-import ChoicePetRegister from "./page/ChoicePetRegister"
+import ChoicePetRegister from "./page/ChoicePetRegister";
+import NavBar from "./component/NavBarComp/NavBar";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         {/* <Route path='/api/kakaoLogin' element={<KakaoLogin/>} /> */}
         <Route path="https://kauth.kakao.com/oauth/authorize?client_id=${3494afad7131fc9645ae9b08ed0dfda6}&redirect_uri=${localhost:8081/api/kakaoLogin}&response_type=code"></Route>
       </Routes>
+      <NavBar />
     </div>
   );
 }

@@ -166,9 +166,7 @@ export const Calendarscreen = () => {
         onClick={handleOpenPetBottomSheet}
         selectedPet={selectedPet}
       />
-      <Calendar 
-        schedules={schedules} 
-        onDateClick={handleDateClick} />
+      <Calendar schedules={schedules} onDateClick={handleDateClick} />
       <BottomSheet
         show={showBottomSheet}
         onClose={
@@ -214,7 +212,7 @@ export const Calendarscreen = () => {
         onScheduleClick={handleScheduleClick}
       />
       <FloatingBtn onClick={handleFloatingBtnClick} />
-      <NavBar />
+
       <SubBottomSheet
         show={showEditDeleteBottomSheet}
         onClose={handleCloseshowEditDeleteBottomSheet}
