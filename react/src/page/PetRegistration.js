@@ -224,14 +224,14 @@ const PetRegistration = () => {
     const NextPossibleComp = () => {
         return (
             <div>            
-                <button onClick={prevStep}>이전</button>
+                <button className={styles.prevstep_button} onClick={prevStep}>이전</button>
                 {
                     nextPossible ? 
                         (stepNum == 6) ?
-                            <button onClick={submitForm}>{ '완료' }</button> : 
-                            <button onClick={nextStep}>{ '다음' }</button> 
+                            <button className={styles.nextstep_button} onClick={submitForm}>{ '완료' }</button> : 
+                            <button className={styles.nextstep_button} onClick={nextStep}>{ '다음' }</button> 
                         : 
-                        <button style={{ backgroundColor: 'gray' }}>{(stepNum < 6) ? '다음' : '완료'}</button>
+                        <button className={styles.disabled_nextstep_button}>{(stepNum < 6) ? '다음' : '완료'}</button>
                 }
             </div>
         )            
@@ -263,7 +263,7 @@ const PetRegistration = () => {
                             setSelectedKind={setSelectedKind}
                             petData={petData}
                         />
-                        <NextPossibleComp />
+                        <div className={styles.stepbutton_wrapper}><NextPossibleComp /></div>
                     </div>
                 );
             case 2:
@@ -276,7 +276,7 @@ const PetRegistration = () => {
                             nextPossible={nextPossible}
                             setNextPossible={setNextPossible}
                         />
-                        <NextPossibleComp />
+                        <div className={styles.stepbutton_wrapper}><NextPossibleComp /></div>
                     </div>
                 );
             case 3:
@@ -293,7 +293,7 @@ const PetRegistration = () => {
                             setCheckedGender={setCheckedGender}
                             setNextPossible={setNextPossible}
                         />
-                        <NextPossibleComp />
+                        <div className={styles.stepbutton_wrapper}><NextPossibleComp /></div>
                     </div>
                 );
             case 4:
@@ -308,8 +308,8 @@ const PetRegistration = () => {
                             handleNameChange={handleNameChange}
                             setNextPossible={setNextPossible}
                         />
-                        <NextPossibleComp />
-                        </div>
+                        <div className={styles.stepbutton_wrapper}><NextPossibleComp /></div>
+                    </div>
                 );
             case 5:
                 return (
@@ -327,7 +327,7 @@ const PetRegistration = () => {
                             birthDontKnow={birthDontKnow}
                             setBirthDontKnow={setBirthDontKnow}
                             /> 
-                        <NextPossibleComp />
+                        <div className={styles.stepbutton_wrapper}><NextPossibleComp /></div>
                 </div>
                 );
             case 6:
@@ -346,7 +346,7 @@ const PetRegistration = () => {
                             weightDontKnow={weightDontKnow}
                             setWeightDontKnow={setWeightDontKnow}
                             />
-                        <NextPossibleComp />
+                        <div className={styles.stepbutton_wrapper}><NextPossibleComp /></div>
                     </div>
                 );
             default:

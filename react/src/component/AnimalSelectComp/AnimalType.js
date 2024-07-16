@@ -4,7 +4,7 @@ import styles from '../../css/animal_type.module.css';
 const AnimalType = ({ handleSelectedTypeChange, petData, setSelectedType, setSelectedKind }) => {
     const SelectPet = ({ petImg, petType, value }) => {
         return (
-            <div className={styles.AnimalTypeWrapper}>
+            <div className={styles.animal_type_wrapper}>
                 <div
                     className={`${styles.type} ${petData.petType === value ? styles.selected : ''}`}
                     onClick={() => {
@@ -13,7 +13,7 @@ const AnimalType = ({ handleSelectedTypeChange, petData, setSelectedType, setSel
                         setSelectedKind(''); // 종류 초기화
                     }}
                 >
-                    <div className={styles.Imgcontainer}>
+                    <div className={styles.img_container}>
                         <img src={petImg} className={`${styles.typeimg} `} alt={petType}></img>
                     </div>
                 </div>
@@ -23,10 +23,10 @@ const AnimalType = ({ handleSelectedTypeChange, petData, setSelectedType, setSel
     };
 
     return (
-        <div>
+        <div style={{marginTop: '7%', marginBottom: '6%'}}>
             <SelectPet
                 petImg={
-                    'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202310/24/bemypet/20231024090024806qbul.jpg'
+                    'https://i.pinimg.com/564x/43/87/90/438790c04a883bf01071479103f86676.jpg'
                 }
                 petType={'강아지'}
                 value={1}
