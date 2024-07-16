@@ -1,7 +1,7 @@
 import axios from "axios";
 
+//const API_BASE_URL = "http://175.45.202.131:8081/api";
 const API_BASE_URL = "http://localhost:8081/api";
-
 
 class CommunityApi {
 
@@ -17,9 +17,11 @@ class CommunityApi {
       });
   
       return  await axios
-        .post(`${this.baseURL}/community/communityPost`, formData, {
+        //.post(`${this.baseURL}/community/communityPost`, formData, {
+        .post(`/api/community/communityPost`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            credentials: 'include'
           },
         })
         .then((response) => {

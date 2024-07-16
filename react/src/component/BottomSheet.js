@@ -1,40 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PetList from "./AnimalProfileComp/PetList";
-import HashTagContent from "./HashTagComp/HashTagContent";
 import AddSchedule from "./CalendarComp/AddSchedule";
 import ScheduleDetail from "./CalendarComp/ScheduleDetail";
 import EditDeleteBottomSheet from "./SubBottomSheet";
 import ScheduleEdit from "./CalendarComp/ScheduleEdit";
 import "../css/bottomsheet.css";
+import HashTagContent from "./HashTagComp/HashTagContent";
 
 const BottomSheet = ({
   show,
   onClose,
   type,
-  onCompleteTags,
-  initialTags,
   selectedDate,
   schedule,
   initialAddScheduleValues,
   setSelectedPet,
-
-  selectedTags,
-  setSelectedTags,
-
-  selectedCategory,
-  setSelectedCategory,
   onDotsClick,
   onEditClick,
   selectedSchedule,
+  handleCompleteTags,
+  initialSelectedCategory,
+  initialSelectedHashTag,
 }) => {
-  const [tempTags, setTempTags] = useState([]);
-
-  useEffect(() => {
-    if (!show && type === "tag") {
-      setTempTags([]);
-    }
-  }, [show, type]);
-
   const handleCloseBottomSheet = () => {
     onClose();
   };
@@ -42,11 +29,6 @@ const BottomSheet = ({
   const handleSelectPet = (pet) => {
     setSelectedPet(pet);
     handleCloseBottomSheet();
-  };
-
-  const handleCompleteTags = ( optionalTags) => {
-    setSelectedTags([ ...optionalTags]);
-    handleCloseBottomSheet(); 
   };
 
   function getTypeText(type) {
@@ -79,12 +61,10 @@ const BottomSheet = ({
       case "tag":
         return (
           <HashTagContent
-            onComplete={handleCompleteTags}
-            initialTags={tempTags}
-            setSelectedCategory = {setSelectedCategory}
-            selectedCategory = {selectedCategory}
-            selectedTags = {selectedTags}
-            setSelectedTags = {setSelectedTags}
+            show={show}
+            initialSelectedCategory={initialSelectedCategory}
+            initialSelectedHashTag={initialSelectedHashTag}
+            handleCompleteTags={handleCompleteTags}
           />
         );
       case "addSchedule":
@@ -123,21 +103,21 @@ const BottomSheet = ({
       case "고양이":
       case "특수동물":
         return (
-          <div className="bottom-sheet-buttons">
+          <div className="bottom_sheet_buttons">
             <button
-              className="bottom-sheet-button"
+              className="bottom_sheet_button"
               onClick={() => handleSelectPet("강아지")}
             >
               강아지
             </button>
             <button
-              className="bottom-sheet-button"
+              className="bottom_sheet_button"
               onClick={() => handleSelectPet("고양이")}
             >
               고양이
             </button>
             <button
-              className="bottom-sheet-button"
+              className="bottom_sheet_button"
               onClick={() => handleSelectPet("특수동물")}
             >
               특수동물
@@ -152,9 +132,9 @@ const BottomSheet = ({
   return (
     <>
       {show && <div className="overlay" onClick={handleCloseBottomSheet}></div>}
-      <div className={`bottom-sheet ${show ? "show" : ""}`}>
-        <div className="bottom-sheet-title">{getTypeText(type)}</div>
-        <div className="bottom-sheet-content">{getSheetContent(type)}</div>
+      <div className={`bottom_sheet ${show ? "show" : ""}`}>
+        <div className="bottom_sheet_title">{getTypeText(type)}</div>
+        <div className="bottom_sheet_content">{getSheetContent(type)}</div>
       </div>
     </>
   );

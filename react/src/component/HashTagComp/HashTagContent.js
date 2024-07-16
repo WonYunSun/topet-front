@@ -1,85 +1,79 @@
 import React, { useState, useEffect } from 'react';
-import '../../css/hashtag.css';
+import styles from '../../css/HashTagContent.module.css';
 
-const HashTagContent = ({ onComplete, initialTags, selectedCategory, setSelectedCategory, selecetedTags, setSelectedTags }) => {
-  const [requiredTag, setRequiredTag] = useState('');
-  const [optionalTags, setOptionalTags] = useState([]);
+const HashTagContent = ({ show, initialSelectedCategory, initialSelectedHashTag, handleCompleteTags }) => {
+  const [selectedTags, setSelectedTags] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [requiredTag, setRequiredTag] = useState('');
+
+  const predefinedTags = ['자유/일상', '궁금해요', '정보공유'];
 
   useEffect(() => {
-    if (initialTags.length > 0) {
-      setRequiredTag(initialTags[0]);
+    if (show) {
+      setRequiredTag(initialSelectedCategory || '자유/일상');
+      setSelectedTags(initialSelectedHashTag || []);
     } else {
-      setRequiredTag('자유/일상');
+      setRequiredTag('');
+      setSelectedTags([]);
     }
-  }, []);
+  }, [show, initialSelectedCategory, initialSelectedHashTag]);
 
-  useEffect(() => {
-    if (initialTags.length > 1) {
-      setOptionalTags(initialTags.slice(1));
-    } 
-    //else {
-    //   setOptionalTags([]);
-    // }
-  }, [initialTags]);
-
-  const handleRequiredTagClick = (tag) => {
-    
+  const handlePredefinedTagClick = (tag) => {
     setRequiredTag(tag);
-    setSelectedCategory(tag);
   };
 
-  const handleRegisterTag = () => {
-    if (inputValue && !optionalTags.includes(inputValue)) {
-      setOptionalTags([...optionalTags, inputValue]);
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleTagSubmit = () => {
+    if (inputValue && !selectedTags.includes(inputValue)) {
+      setSelectedTags([...selectedTags, inputValue]);
       setInputValue('');
     }
   };
 
-  const handleInputChange = (e) => {
-    const value = e.target.value.replace(/#/g, '');
-    setInputValue(value);
-  };
-
   const handleComplete = () => {
-
-    if(selectedCategory == null || selectedCategory == ''){
-      setSelectedCategory("자유/일상");
-    }
-
-    onComplete(optionalTags);
-  };
-
-  const handleRemoveTag = (tagToRemove) => {
-
-    setOptionalTags(optionalTags.filter(tag => tag !== tagToRemove));
+    handleCompleteTags(requiredTag, selectedTags);
   };
 
   return (
-    <div className="hashtag-content">
-      <div className="hashtag-title">필수 태그(1개만 선택해 주세요)</div>
-      <div className="hashtag-buttons">
-        <button className={`hashtag-button ${requiredTag === '자유/일상' ? 'selected' : ''}`} onClick={() => handleRequiredTagClick('자유/일상')}>#자유/일상</button>
-        <button className={`hashtag-button ${requiredTag === '궁금해요' ? 'selected' : ''}`} onClick={() => handleRequiredTagClick('궁금해요')}>#궁금해요</button>
-        <button className={`hashtag-button ${requiredTag === '정보공유' ? 'selected' : ''}`} onClick={() => handleRequiredTagClick('정보공유')}>#정보공유</button>
-      </div>
-
-      <div className="hashtag-subtitle">선택 태그</div>
-      <div className="hashtag-input-container">
-        <input className="hashtag-input" value={inputValue} onChange={handleInputChange} placeholder="태그를 입력해 주세요" />
-        <button className="register-button" onClick={handleRegisterTag}>등록</button>
-      </div>
-      <div className="selected-tags">
-        {requiredTag && <div className='tag'>#{requiredTag}</div>}
-        {optionalTags.map(tag => (
-          <div className='tag' key={tag}>
+    <div className={styles.container}>
+      <div className={styles.title}>필수 태그 (1개만 선택해 주세요)</div>
+      <div className={styles.buttonContainer}>
+        {predefinedTags.map((tag, index) => (
+          <button
+            key={index}
+            className={requiredTag === tag ? styles.selectedButton : styles.button}
+            onClick={() => handlePredefinedTagClick(tag)}
+          >
             #{tag}
-            <div className='hashtag-remove-button'><button onClick={() => handleRemoveTag(tag)}>x</button></div>
-          </div>
+          </button>
         ))}
       </div>
 
-      <button className="complete-button" onClick={handleComplete}>완료</button>
+      <div className={styles.title}>선택 태그</div>
+      <div className={styles.inputContainer}>
+        <input
+          className={styles.input}
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          placeholder="태그를 입력해 주세요"
+        />
+        <button className={styles.submitButton} onClick={handleTagSubmit}>
+          등록
+        </button>
+      </div>
+
+      <div className={styles.selectedTagsContainer}>
+        {requiredTag && <span className={styles.tag}>#{requiredTag}</span>}
+        {selectedTags.map((tag, index) => (
+          <span key={index} className={styles.tag}>#{tag}</span>
+        ))}
+      </div>
+
+      <button className={styles.completeButton} onClick={handleComplete}>완료</button>
     </div>
   );
 };

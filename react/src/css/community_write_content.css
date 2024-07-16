@@ -1,10 +1,9 @@
-/**content*/
-
 .contentwrite{
     height: 60vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    position: relative;
   }
   
   .contentwrite textarea {
@@ -21,4 +20,13 @@
   
   .contentwrite textarea::placeholder {
     color: #aaa;
+  }
+
+  .contentcount {
+    position:absolute;
+    bottom: 5px;
+    right: 10px;
+    font-size: 12px;
+    color: #555;
+    text-align: right;
   }
