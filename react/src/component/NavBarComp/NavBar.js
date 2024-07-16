@@ -1,32 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styles from "../../css/navBar.module.css";
-import { TbCalendar } from "react-icons/tb";
-import { TbHome } from "react-icons/tb";
-import { TbUserCircle } from "react-icons/tb";
-import { TbMovie } from "react-icons/tb";
-import { TbMap } from "react-icons/tb";
+import { TbCalendar, TbHome, TbUserCircle, TbMap } from "react-icons/tb";
+
 function NavBar() {
   return (
     <nav className={styles.navbar}>
-      {/* 지도 화면 이동 */}
-      <NavLink
-        to="/search"
-        className={({ isActive }) =>
-          isActive ? styles.activeNavItem : styles.navItem
-        }
-      >
-        <TbMap size={30} />
-      </NavLink>
-      {/* 쇼츠 화면 이동 */}
-      <NavLink
-        to="/add"
-        className={({ isActive }) =>
-          isActive ? styles.activeNavItem : styles.navItem
-        }
-      >
-        <TbMovie size={30} />
-      </NavLink>
       {/* 홈 화면 이동 */}
       <NavLink
         to="/api/home"
@@ -35,7 +14,8 @@ function NavBar() {
           isActive ? styles.activeNavItem : styles.navItem
         }
       >
-        <TbHome size={30} />
+        <TbHome size={25} />
+        <div>홈</div>
       </NavLink>
       {/* 캘린더 화면 이동 */}
       <NavLink
@@ -44,7 +24,18 @@ function NavBar() {
           isActive ? styles.activeNavItem : styles.navItem
         }
       >
-        <TbCalendar size={30} />
+        <TbCalendar size={25} />
+        <div>캘린더</div>
+      </NavLink>
+      {/* 지도 화면 이동 */}
+      <NavLink
+        to="/search"
+        className={({ isActive }) =>
+          isActive ? styles.activeNavItem : styles.navItem
+        }
+      >
+        <TbMap size={25} />
+        <div>지도</div>
       </NavLink>
       {/* 마이페이지 화면 이동 */}
       <NavLink
@@ -53,7 +44,8 @@ function NavBar() {
           isActive ? styles.activeNavItem : styles.navItem
         }
       >
-        <TbUserCircle size={30} />
+        <TbUserCircle size={25} />
+        <div>마이페이지</div>
       </NavLink>
     </nav>
   );

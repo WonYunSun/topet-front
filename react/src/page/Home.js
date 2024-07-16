@@ -7,10 +7,11 @@ import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
 import { SlArrowRight } from "react-icons/sl";
 
+import { HiPlayCircle } from "react-icons/hi2";
 import { PiGear } from "react-icons/pi";
 import { IoChatbubbles } from "react-icons/io5";
 import { IoChatbubbleEllipses } from "react-icons/io5";
-import { FaQuestion } from "react-icons/fa6";
+import { ReactComponent as AiIcon } from "../asset/icon/ai.svg";
 import ShortsList from "../component/ShortsComp/ShortsList";
 import styles from "../css/homescreen.module.css";
 // import CommunityList from "../component/CommunityComp/CommunityList"; //작업 연기
@@ -106,16 +107,16 @@ const Home = () => {
             <span>커뮤니티</span>
           </div>
         </div>
-        <div className={styles.promptyMenu}>
-          <div className={styles.Navdiv}>
-            <IoChatbubbleEllipses />
-            <span>투펫AI</span>
-          </div>
-        </div>
         <div className={styles.anyMenu}>
           <div className={styles.Navdiv}>
-            <FaQuestion />
-            <span>뭐넣지</span>
+            <HiPlayCircle />
+            <span>쇼츠</span>
+          </div>
+        </div>
+        <div className={styles.promptyMenu}>
+          <div className={styles.Navdiv}>
+            <AiIcon fill="orange" />
+            <span>투펫AI</span>
           </div>
         </div>
       </div>
@@ -135,7 +136,7 @@ const Home = () => {
         </div>
         <div></div>
       </div>
-      <NavBar />
+      {/* <NavBar /> */}
     </div>
   );
 };
