@@ -13,7 +13,7 @@ const TopBar = ({ centerChange, handleBottomSheetOpen }) => {
   };
 
   const goHome = () => {
-    navigate("/api"); // 홈으로 이동
+    navigate("/api/home"); // 홈으로 이동
   };
 
   const handleAnimalSelectClick = () => {

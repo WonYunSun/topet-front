@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GoArrowLeft } from 'react-icons/go';
-import { MdOutlineCancel } from 'react-icons/md';
+import { IoArrowBackOutline } from "react-icons/io5";
+import { RxCross2 } from "react-icons/rx";
 import styles from '../css/registertopbar.module.css';
 
 const RegisterTopBar = ({ stepNum }) => {
@@ -16,23 +16,21 @@ const RegisterTopBar = ({ stepNum }) => {
         navigate(-1); // 뒤로가기
     };
     const cancel = () => {
-        navigate('/'); // 홈으로 이동
+        navigate('/api'); // 홈으로 이동
     };
 
     return (
         <div>
             <div className={styles.registertopBar}>
-                <GoArrowLeft className={styles.icon} onClick={goBack} />
-                <div onChange={Sequence}>{stepNum}/6</div>
-                <MdOutlineCancel className={styles.icon} onClick={cancel} />
+                <IoArrowBackOutline className={styles.icon} onClick={goBack} />
+                <div className={styles.sequence} onChange={Sequence}>{stepNum}/6</div>
+                <RxCross2 className={styles.icon} onClick={cancel} />
             </div>
             <div
                 style={{
                     width: (100 * stepNum) / 6 + '%',
-                    height: '6px',
-                    backgroundColor: 'orange',
-                    borderTopRightRadius: '15%',
-                    borderBottomRightRadius: '15%',
+                    height: '5px',
+                    backgroundColor: "#ffa62f",
                 }}
             ></div>
         </div>

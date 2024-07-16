@@ -16,9 +16,10 @@ const CommunityWrite = () => {
   const navigate = useNavigate();
 
   const [selectedPet, setSelectedPet] = useState(null);
-  const [selectedTags, setSelectedTags] = useState([]);
   const [titleText, setTitleText] = useState("");
   const [contentText, setContentText] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedTags, setSelectedTags] = useState([]);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
@@ -52,12 +53,13 @@ const CommunityWrite = () => {
 
 
   const handleSubmit = () => { // 서버 전송 함수
-    if (selectedPhotos.length > 0) {
-      communityApi.postServerWithPhotos(selectedPhotos);
-      communityApi.postServerWithoutPhotos(titleText, contentText, selectedTags);
-    } else {
-      communityApi.postServerWithoutPhotos(titleText, contentText, selectedTags);
-    }
+    const formData = new FormData();
+    formData.append("title", titleText)
+    formData.append("content", contentText);
+    formData.append("category" , selectedCategory);
+    formData.append("hashtag", selectedTags);
+    communityApi.postCommunity(selectedPhotos, formData);
+    
   };
 
   const handleBottomSheetOpen = (type) => {
@@ -116,6 +118,8 @@ const CommunityWrite = () => {
       <HashTag
         onClick={() => handleBottomSheetOpen("tag")}
         selectedTags={selectedTags}
+        selectedCategory = {selectedCategory}
+        
       />
       <div>
         <Button text={"취소"} btnstyle="white" onClick={handleShowCheckModal} />
@@ -148,6 +152,8 @@ const CommunityWrite = () => {
         setSelectedTags={setSelectedTags}
         setSelectedPet={setSelectedPet}
         selectedTags={selectedTags}
+        selectedCategory ={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
         selectedDate={new Date()}
       />
     </div>

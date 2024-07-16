@@ -1,6 +1,6 @@
 .type {
-    width: 200px;
-    height: 200px; /* height를 명시적으로 설정 */
+    width: 130px;
+    height: 130px; /* height를 명시적으로 설정 */
     border-radius: 70%;
     overflow: hidden;
     margin: 10px auto;
@@ -14,9 +14,9 @@
 }
 
 .typename {
-    font-size: 18px;
-    font-weight: bold;
-    padding: 12px 0px 20px 0px;
+    font-size: 17.5px;
+    font-weight: 800;
+    padding: 6px 0px 18px 0px;
 }
 
 .typeimg {
@@ -26,14 +26,14 @@
     display: block; /* 이미지 주위의 공백을 제거 */
 }
 .Imgcontainer {
-    width: 200px;
-    height: 200px;
+    width: 130px;
+    height: 130px;
     box-sizing: border-box;
 }
 
 .selected {
-    outline: 6px solid orange;
-    outline-offset: -6px;
+    outline: 5px solid #ffa62f;
+    outline-offset: -5px;
 }
 
 .ImgWrapper {

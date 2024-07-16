@@ -1,61 +1,143 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+
+import { useNavigate } from "react-router-dom";
+import TopBar from "../component/TopBar";
 import NavBar from "../component/NavBarComp/NavBar";
-//import { GoogleLogin, GoogleOAuthProvider  } from '@react-oauth/google';
+import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
+import BottomSheet from "../component/BottomSheet";
+import { SlArrowRight } from "react-icons/sl";
+
+import { PiGear } from "react-icons/pi";
+import { IoChatbubbles } from "react-icons/io5";
+import { IoChatbubbleEllipses } from "react-icons/io5";
+import { FaQuestion } from "react-icons/fa6";
+import ShortsList from "../component/ShortsComp/ShortsList";
+import styles from "../css/homescreen.module.css";
+// import CommunityList from "../component/CommunityComp/CommunityList"; //작업 연기
 
 const Home = () => {
-  const [animalType, setAnimalType] = useState("강아지"); //이거 활용해서 현재 유저가 선택한 동물 유형 저장해야 됨.
-
   const navigate = useNavigate();
-  const link =
-    "https://kauth.kakao.com/oauth/authorize?client_id=3494afad7131fc9645ae9b08ed0dfda6&redirect_uri=http://localhost:8081/api/kakaoLogin/OAuth&response_type=code";
-
+  const [animalType, setAnimalType] = useState("강아지");
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
+  const [bottomSheetType, setBottomSheetType] = useState(null);
+  const [selectedPet, setSelectedPet] = useState(null);
 
   const goCommunity = () => {
-    const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
-    const currentAnimalType = animalTypeMap[animalType] || 'dog';
+    const animalTypeMap = {
+      강아지: "dog",
+      고양이: "cat",
+      특수동물: "exoticpet",
+    };
+    const currentAnimalType = animalTypeMap[animalType] || "dog";
     navigate(`/community/preview/${currentAnimalType}/freedomAndDaily`);
   };
 
-
-  const goKaKaoLogin = () => {
-    window.location.href = link;
+  const handleOpenPetBottomSheet = () => {
+    setBottomSheetType("pet");
+    setShowBottomSheet(true);
   };
-  const goCalendar = () => {
-    navigate("/api/schedule");
+  const handleCloseBottomSheet = () => {
+    setShowBottomSheet(false);
   };
-  const goPetRegistration = () => {
-    navigate("/api/petregistration");
-  };
-  const goMyPage = () => {
-    navigate("/api/mypage");
-  };
-
-  const goMap = () => {
-    navigate("/api/map");
-  };
-
-
-
+  const dummyShortsData = [
+    {
+      id: 1,
+      videoUrl: "https://dummyvideo1.com",
+      thumbnailUrl: "https://dummyimage1.com",
+      title: "Dummy Video 1",
+      author: "Author 1",
+    },
+    {
+      id: 2,
+      videoUrl: "https://dummyvideo2.com",
+      thumbnailUrl: "https://dummyimage2.com",
+      title: "Dummy Video 2",
+      author: "Author 2",
+    },
+    {
+      id: 3,
+      videoUrl: "https://dummyvideo3.com",
+      thumbnailUrl: "https://dummyimage3.com",
+      title: "Dummy Video 3",
+      author: "Author 3",
+    },
+    {
+      id: 4,
+      videoUrl: "https://dummyvideo4.com",
+      thumbnailUrl: "https://dummyimage4.com",
+      title: "Dummy Video 4",
+      author: "Author 4",
+    },
+    {
+      id: 5,
+      videoUrl: "https://dummyvideo5.com",
+      thumbnailUrl: "https://dummyimage5.com",
+      title: "Dummy Video 5",
+      author: "Author 5",
+    },
+  ];
   return (
     <div>
-      <img src="/img/kakao_login_large_narrow.png" onClick={goKaKaoLogin} />
-      {/* <GoogleLogin
-onSuccess={credentialResponse => {
-  console.log(credentialResponse);
-}}
-onError={() => {
-  console.log('Login Failed');
-}}
-/>; */}
-      <button onClick={goCommunity}>커뮤니티 이동</button>
-      <button onClick={goPetRegistration}>반려동물 등록</button>
-      <button onClick={goKaKaoLogin}>카카오로그인 이동</button>
-      <button onClick={goCalendar}>캘린더 이동</button>
-      <button onClick={goMyPage}>마이페이지 이동</button>
+      <TopBar />
+      <AnimalSelect
+        onClick={handleOpenPetBottomSheet}
+        selectedPet={selectedPet}
+        isHome={true}
+      />
+      <BottomSheet
+        show={showBottomSheet}
+        onClose={handleCloseBottomSheet}
+        type={bottomSheetType}
+        initialTags={[]}
+        setSelectedPet={setSelectedPet}
+      />
+      <div className={styles.animalProfileImgArea}>
+        <div className={styles.animalProfileImg}>
+          <div className={styles.animalProfileImgEditBtn}>
+            <PiGear size={18} />
+            {/* 마이페이지의 동물 수정 페이지로 이동하도록 */}
+          </div>
+        </div>
+      </div>
+      <div className={styles.homeMenuArea}>
+        <div className={styles.communityMenu}>
+          <div className={styles.Navdiv} onClick={goCommunity}>
+            <IoChatbubbles />
+            <span>커뮤니티</span>
+          </div>
+        </div>
+        <div className={styles.promptyMenu}>
+          <div className={styles.Navdiv}>
+            <IoChatbubbleEllipses />
+            <span>투펫AI</span>
+          </div>
+        </div>
+        <div className={styles.anyMenu}>
+          <div className={styles.Navdiv}>
+            <FaQuestion />
+            <span>뭐넣지</span>
+          </div>
+        </div>
+      </div>
+      <div className={styles.shortsPreivewArea}>
+        <div className={styles.areaTitleWrap}>
+          <div className={styles.areaTitle}>쇼츠</div>
+          <SlArrowRight />
+        </div>
+        <div className={styles.shortsWrap}>
+          <ShortsList shortsData={dummyShortsData} />
+        </div>
+      </div>
+      <div className={styles.communityPreivewArea}>
+        <div className={styles.areaTitleWrap}>
+          <div className={styles.areaTitle}>커뮤니티</div>
+          <SlArrowRight onClick={goCommunity} />
+        </div>
+        <div></div>
+      </div>
       <NavBar />
     </div>
   );
 };
-//<Route path='https://kauth.kakao.com/oauth/authorize?client_id=${3494afad7131fc9645ae9b08ed0dfda6}&redirect_uri=${localhost:8081/api/kakaoLogin}&response_type=code'></Route>
+
 export default Home;

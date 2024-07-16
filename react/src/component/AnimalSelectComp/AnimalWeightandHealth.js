@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const InputPetHealth = ({ value, onChange, title, inputText }) => {
+const InputPetHealth = ({ value, onChange, title, inputText}) => {
     const handleInputChange = (e) => {
         onChange(e.target.value); // 입력 값이 변경될 때 onChange 콜백을 호출합니다.
     };
@@ -19,7 +19,7 @@ const InputPetHealth = ({ value, onChange, title, inputText }) => {
     );
 };
 
-const InputWeight = ({ weight, setWeight}) => {
+const InputWeight = ({ weight, setWeight, weightDontKnow, setWeightDontKnow, setNextPossible}) => {
     const [weightValue, setWeightValue] = useState(''); // 체중 값을 개별 상태로 관리합니다.
     const [selectedUnit, setSelectedUnit] = useState('kg'); // 초기값을 'kg'로 설정합니다.
 
@@ -31,36 +31,66 @@ const InputWeight = ({ weight, setWeight}) => {
 
     const handleWeightInputChange = (e) => {
         const newValue = e.target.value;
+        console.log(newValue);
         setWeightValue(newValue); // 입력 값을 상태로 설정합니다.
         setWeight(`${newValue}${selectedUnit}`); // 입력 값과 현재 선택된 단위를 결합합니다.
+        if(newValue != null){
+            setNextPossible(true);
+        }
     };
+
+    const handleWeightDontKnow = () => {
+        setWeightDontKnow(!weightDontKnow);
+        
+        if(!weightDontKnow){
+            setNextPossible(true);
+            document.getElementById('petWeight').value=''
+        }else{
+            setNextPossible(false);
+        }
+    }
 
     return (
         <div>
             <div>체중</div>
             <div>
                 <input
+                    id='petWeight'
                     type="number"
                     value={weight}
                     onChange={handleWeightInputChange} // 입력 값이 변경될 때 handleInputChange 함수를 호출합니다.
                     placeholder={'체중을 알려주세요'}
+                    disabled={weightDontKnow}
                 />
-                <select value={selectedUnit} onChange={handleWeightUnitChange}>
+
+                <span></span>
+                
+                <select value={selectedUnit} onChange={handleWeightUnitChange} disabled={weightDontKnow}>
                     <option value='kg'>kg</option>
                     <option value='g'>g</option>
                 </select>
+                <br></br>
+                <span>체중을 몰라요</span>
+                <input type='checkBox' checked={weightDontKnow} onChange={handleWeightDontKnow}/>
             </div>
         </div>
     );
 };
 
-const AnimalWeightandHealth = ({ allergy, health, handleAllergyChange, handleHealthChange,  setWeight  }) => {
-    
+const AnimalWeightandHealth = ({ allergy, health, handleAllergyChange, handleHealthChange,  setWeight  , weightDontKnow, setWeightDontKnow, setNextPossible}) => {
+    if(weightDontKnow){
+        setNextPossible(true);
+    }
 
     return (
         <div>
             <h2>반려동물의 건강상태를 알려주세요</h2>
-            <InputWeight setWeight={setWeight}/>
+            <InputWeight 
+                setWeight={setWeight}
+                weightDontKnow={weightDontKnow}
+                setWeightDontKnow={setWeightDontKnow}
+                setNextPossible={setNextPossible}
+            />
             <InputPetHealth
                 title={'알레르기(선택)'}
                 value={allergy}
