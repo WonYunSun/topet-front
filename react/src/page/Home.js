@@ -10,7 +10,7 @@ import { SlArrowRight } from "react-icons/sl";
 import { HiPlayCircle } from "react-icons/hi2";
 import { PiGear } from "react-icons/pi";
 import { IoChatbubbles } from "react-icons/io5";
-import { IoChatbubbleEllipses } from "react-icons/io5";
+import ScheduleToday from "../component/HomeComp/ScheduleToday";
 import { ReactComponent as AiIcon } from "../asset/icon/ai.svg";
 import ShortsList from "../component/ShortsComp/ShortsList";
 import styles from "../css/homescreen.module.css";
@@ -26,6 +26,52 @@ const Home = () => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(null);
+  // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
+  const [schedules, setSchedule] = useState([
+    {
+      scheduleId: 1,
+      startDate: "2024-07-10T00:00:00",
+      endDate: "2024-07-13T23:59:59",
+      scheduleTitle: "병원 진료(건강검진)",
+      isComplete: false,
+      color: "#DE496E",
+      scheduleWriter: "A",
+      scheduleEditer: "B",
+    },
+    {
+      scheduleId: 2,
+      startDate: "2024-07-10T09:00:00",
+      endDate: "2024-07-10T10:00:00",
+      scheduleTitle: "코코 아침 산책",
+      scheduleContent: "test1",
+      isComplete: true,
+      color: "#2F9ABA",
+      scheduleWriter: "A",
+      scheduleEditer: "B",
+    },
+    {
+      scheduleId: 3,
+      startDate: "2024-07-20T09:00:00",
+      endDate: "2024-07-23T10:00:00",
+      scheduleTitle: "드디어됐네이시발거",
+      scheduleContent: "test1",
+      isComplete: true,
+      color: "#2F9ABA",
+      scheduleWriter: "A",
+      scheduleEditer: "B",
+    },
+    {
+      scheduleId: 4,
+      startDate: "2024-07-20T09:00:00",
+      endDate: "2024-07-23T10:00:00",
+      scheduleTitle: "드디어됐네이시발거",
+      scheduleContent: "test1",
+      isComplete: true,
+      color: "#DE496E",
+      scheduleWriter: "A",
+      scheduleEditer: "B",
+    },
+  ]);
 
   const goCommunity = () => {
     const animalTypeMap = {
@@ -36,6 +82,9 @@ const Home = () => {
   
     const currentAnimalType = animalTypeMap[animalType] || "dog";
     navigate(`/community/preview/${currentAnimalType}/freedomAndDaily`);
+  };
+  const goCalendar = () => {
+    navigate(`/api/schedule`);
   };
 
   const handleOpenPetBottomSheet = () => {
@@ -49,7 +98,8 @@ const Home = () => {
     {
       id: 1,
       videoUrl: "https://dummyvideo1.com",
-      thumbnailUrl: "https://dummyimage1.com",
+      thumbnailUrl:
+        "https://images.unsplash.com/photo-1505628346881-b72b27e84530?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       title: "Dummy Video 1",
       author: "Author 1",
     },
@@ -127,11 +177,19 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <div>
+        <div className={styles.areaTitleWrap}>
+          <div className={styles.areaTitle}>오늘의 일정</div>
+          <SlArrowRight onClick={goCalendar} />
+        </div>
+        <ScheduleToday schedules={schedules} />
+      </div>
       <div className={styles.shortsPreivewArea}>
         <div className={styles.areaTitleWrap}>
           <div className={styles.areaTitle}>쇼츠</div>
           <SlArrowRight />
         </div>
+
         <div className={styles.shortsWrap}>
           <ShortsList shortsData={dummyShortsData} />
         </div>

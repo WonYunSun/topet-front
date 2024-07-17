@@ -29,7 +29,7 @@ function NavBar() {
       </NavLink>
       {/* 지도 화면 이동 */}
       <NavLink
-        to="/search"
+        to="/api/map"
         className={({ isActive }) =>
           isActive ? styles.activeNavItem : styles.navItem
         }

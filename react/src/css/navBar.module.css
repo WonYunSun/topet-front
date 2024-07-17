@@ -11,6 +11,7 @@
 }
 
 .navItem {
+  width: 50px;
   color: #999;
   text-decoration: none;
   display: flex;
@@ -27,6 +28,7 @@
 }
 
 .activeNavItem {
+  width: 50px;
   color: #ffa62f;
   text-decoration: none;
   transform: translateY(0); /* 활성 상태에서 원래 위치 */

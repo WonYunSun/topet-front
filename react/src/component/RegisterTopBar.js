@@ -30,6 +30,8 @@ const RegisterTopBar = ({ stepNum }) => {
                 style={{
                     width: (100 * stepNum) / 6 + '%',
                     height: '5px',
+                    borderTopRightRadius: '10px',
+                    borderBottomRightRadius: '10px',
                     backgroundColor: "#ffa62f",
                 }}
             ></div>

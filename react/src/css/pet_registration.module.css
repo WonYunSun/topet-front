@@ -1,7 +1,40 @@
-.prevstep{
-    font-size: 18px;
+.stepbutton_wrapper{
+    min-height: 50px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 8px;
 }
 
-.nextstep{
-    font-size: 18px;
+.prevstep_button{
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    width: 28%;
+    height: 45px;
+    border-radius: 10px;
+    background-color: #DADADA;
+    margin: 5px;
+}
+
+.nextstep_button{
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    width: 63%;
+    height: 45px;
+    margin: 5px;
+    border-radius: 10px;
+    background-color: #FFA62F;
+}
+
+.disabled_nextstep_button{
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    width: 63%;
+    height: 45px;
+    margin: 5px;
+    border-radius: 10px;
+    background-color: #DADADA;
 }
