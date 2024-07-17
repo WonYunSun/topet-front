@@ -108,7 +108,7 @@ const Home = () => {
       id: 2,
       videoUrl: "https://dummyvideo2.com",
       thumbnailUrl:
-        "https://images.unsplash.com/photo-1646114912835-e2be522603c8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       title: "Dummy Video 2",
       author: "Author 2",
     },
@@ -183,6 +183,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+
       <div className={styles.scheduleTodayWrap}>
         <div className={styles.areaTitleWrap}>
           <div className={styles.areaTitle}>오늘의 일정</div>
@@ -190,6 +191,7 @@ const Home = () => {
         </div>
         <ScheduleToday schedules={schedules} />
       </div>
+
       <div className={styles.shortsPreivewArea}>
         <div className={styles.areaTitleWrap}>
           <div className={styles.areaTitle}>쇼츠</div>
@@ -200,6 +202,7 @@ const Home = () => {
           <ShortsList shortsData={dummyShortsData} />
         </div>
       </div>
+
       <div className={styles.communityPreivewArea}>
         <div className={styles.areaTitleWrap}>
           <div className={styles.areaTitle}>커뮤니티</div>

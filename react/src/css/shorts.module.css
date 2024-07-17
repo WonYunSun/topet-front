@@ -34,7 +34,7 @@
   position: absolute;
   bottom: 0; /* 하단에 위치 */
   width: 100%; /* 부모의 너비에 맞춤 */
-  background: rgba(0, 0, 0, 0.6); /* 반투명 검정 배경 */
+  /* background: rgba(0, 0, 0, 0.6); */
   color: white; /* 텍스트 색상 */
   padding: 8px;
   box-sizing: border-box;
