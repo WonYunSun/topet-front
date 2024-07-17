@@ -6,9 +6,9 @@ import {
 } from "react-router-dom";
 import "./App.css";
 
-import Community from "./page/community";
-import CommunityWrite from "./page/communityWrite";
-import { Calendarscreen } from "./page/calendar_screen";
+import Community from "./page/Community.js";
+import CommunityWrite from "./page/CommunityWrite.js";
+import { Calendarscreen } from "./page/Calendarscreen";
 import PetRegistration from "./page/PetRegistration";
 import KakaoLogin from "./page/kakaoLogin";
 import MapScreen from "./page/mapScreen";
@@ -19,7 +19,7 @@ import ChoicePetRegister from "./page/ChoicePetRegister";
 import NavBar from "./component/NavBarComp/NavBar";
 //네비게이션바 띄울 화면 import 필요
 import Home from "./page/Home";
-import Schedule from "./page/calendar_screen";
+import Schedule from "./page/Calendarscreen";
 import Map from "./page/mapScreen";
 
 function App() {
