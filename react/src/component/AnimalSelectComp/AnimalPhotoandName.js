@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { FaCamera } from 'react-icons/fa';
+import { TbPhoto } from "react-icons/tb";
 import styles from '../../css/animal_photoandname.module.css';
 
 const AnimalPhotoandName = ({ name, setName, setNextPossible, selectedPhoto, setSelectedPhoto, handleSelectedProfilePhotoChange, handleNameChange }) => {
@@ -21,7 +22,7 @@ const AnimalPhotoandName = ({ name, setName, setNextPossible, selectedPhoto, set
         return (
             <div className={styles.photo_wrapper} onChange={handleSelectedProfilePhotoChange}>
                 {selectedPhoto == null ? (
-                    <div className={styles.empty_profile_photo}>사진없음</div>
+                    <div className={styles.empty_profile_photo}></div>
                 ) : (
                     <div className={styles.selected_profile_photo_box} >
                         <img src={URL.createObjectURL(selectedPhoto)} className={styles.selected_profile_photo} />
@@ -41,7 +42,7 @@ const AnimalPhotoandName = ({ name, setName, setNextPossible, selectedPhoto, set
                     onChange={handleFileChange}
                     accept="image/*"
                 />
-                <FaCamera className={styles.selecting_photo_icon} />
+                <TbPhoto className={styles.selecting_photo_icon} />
             </div>
         );
     }, [photoSelect, handleFileChange]);
