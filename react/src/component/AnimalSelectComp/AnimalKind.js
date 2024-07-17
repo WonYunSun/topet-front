@@ -4,6 +4,7 @@ import dogList from '../../data/dogList';
 import catList from '../../data/catList';
 import exoticPetList from '../../data/exoticPetList';
 import styles from '../../css/animal_kind.module.css';
+import { MdEdit } from "react-icons/md";
 
 const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange, setNextPossible, nextPossible }) => {
     const [searchKind, setSearchKind] = useState([]);
@@ -90,7 +91,12 @@ const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange, setN
         <div className={styles.container}>
             <h1 className={styles.title}>품종을 알려주세요</h1>
             {IsKindSelected ? 
-            <div onClick={onSearch}>{localSelectedKind}</div> 
+            <div className={styles.selected_searchbar_wrapper} onClick={onSearch}>
+                    <div className={styles.searchbar_selected_text}>
+                        {localSelectedKind}
+                    </div>
+                    <MdEdit className={styles.selected_searchbar_edit_icon}/>
+                </div>
             :
             <div className={styles.searchbar_wrapper}>
             <IoSearch className={styles.searchbar_icon} />

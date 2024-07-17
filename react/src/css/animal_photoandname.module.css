@@ -1,20 +1,26 @@
-.selecting_photo_button {
-    width: 35px;
-    height: 35px;
-    border-radius: 70%;
-    border-style: solid;
-    border-color: gray;
-    border-width: 1px;
-    background-color: #ffffff;
+.wrapper{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
 }
 
-.selecting_photo_icon {
-    width: 20px;
-    height: 20px;
-    color: gray;
+.title{
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 62px;
+    margin-bottom: 42px;
+}
+
+.photo_wrapper{
+    background-color: gainsboro;
+}
+
+.empty_profile_photo{
+    background-color: aliceblue;
+    width: 138px;
+    height: 138px;
+    border-radius: 70%;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .selected_profile_photo {
@@ -29,18 +35,50 @@
     width: 80px;
 }
 
+.selecting_photo_button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border : 1.5px #A6A6A6 solid;
+    border-radius: 70%;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.selecting_photo_icon {
+    width: 20px;
+    height: 20px;
+    color: #A6A6A6;
+}
+
 .profilename_bar {
-    border: none;
-    width: 80%;
-    height: 38px;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 0.02;
+}
+
+.profilename_bar::placeholder{
     font-size: 16px;
+    font-weight: 400;
+    color: #727272;
 }
 
 .profilename_bar_wrapper {
-    color: gray;
-    box-shadow: 0 0 3px;
-    border-style: solid;
-    border-radius: 20px;
-    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 15px;
+    width: 88%;
+    height: 51px;
     display: flex;
 }

@@ -19,11 +19,13 @@ const AnimalPhotoandName = ({ name, setName, setNextPossible, selectedPhoto, set
 
     const ProfilePhoto = useMemo(() => {
         return (
-            <div className={styles.selected_profile_photo_box} onChange={handleSelectedProfilePhotoChange}>
+            <div className={styles.photo_wrapper} onChange={handleSelectedProfilePhotoChange}>
                 {selectedPhoto == null ? (
-                    <div></div>
+                    <div className={styles.empty_profile_photo}>사진없음</div>
                 ) : (
-                    <img src={URL.createObjectURL(selectedPhoto)} className={styles.selected_profile_photo} />
+                    <div className={styles.selected_profile_photo_box} >
+                        <img src={URL.createObjectURL(selectedPhoto)} className={styles.selected_profile_photo} />
+                    </div>
                 )}
             </div>
         );
@@ -45,9 +47,12 @@ const AnimalPhotoandName = ({ name, setName, setNextPossible, selectedPhoto, set
     }, [photoSelect, handleFileChange]);
 
     return (
-        <div>
-            {ProfilePhoto}
-            {SelectingPhoto}
+        <div className={styles.wrapper}>
+            <div className={styles.title}>이름을 알려주세요</div>
+            <div className={styles.photo_wrapper}>
+                {ProfilePhoto}
+                {SelectingPhoto}
+            </div>
             <div className={styles.profilename_bar_wrapper}>
                 <input
                     className={styles.profilename_bar}
