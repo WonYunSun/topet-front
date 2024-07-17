@@ -17,9 +17,10 @@ import styles from "../css/homescreen.module.css";
 // import CommunityList from "../component/CommunityComp/CommunityList"; //작업 연기
 
 const Home = () => {
-  const link = "https://kauth.kakao.com/oauth/authorize?client_id=3494afad7131fc9645ae9b08ed0dfda6&redirect_uri=http://localhost:8081/api/kakaoLogin/OAuth&response_type=code";
+  const link =
+    "https://kauth.kakao.com/oauth/authorize?client_id=3494afad7131fc9645ae9b08ed0dfda6&redirect_uri=http://localhost:8081/api/kakaoLogin/OAuth&response_type=code";
   const goKaKaoLogin = () => {
-      window.location.href = link;
+    window.location.href = link;
   };
   const navigate = useNavigate();
   const [animalType, setAnimalType] = useState("강아지");
@@ -79,7 +80,7 @@ const Home = () => {
       고양이: "cat",
       특수동물: "exoticpet",
     };
-  
+
     const currentAnimalType = animalTypeMap[animalType] || "dog";
     navigate(`/community/preview/${currentAnimalType}/freedomAndDaily`);
   };
@@ -106,7 +107,8 @@ const Home = () => {
     {
       id: 2,
       videoUrl: "https://dummyvideo2.com",
-      thumbnailUrl: "https://dummyimage2.com",
+      thumbnailUrl:
+        "https://images.unsplash.com/photo-1646114912835-e2be522603c8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       title: "Dummy Video 2",
       author: "Author 2",
     },
