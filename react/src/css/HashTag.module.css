@@ -1,3 +1,10 @@
+.hashtag_guide_text{
+    text-align: left;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
 .tagContainer {
     display: flex;
     align-items: center;
@@ -6,21 +13,23 @@
   }
   
   .tag {
-    border: 2px solid orange;
+    border: 1.5px solid orange;
     border-radius: 15px;
     color: orange;
     padding: 5px 10px;
     margin-right: 10px;
     font-weight: bold;
+    font-size: 12px;
   }
   
   .button {
-    border: 2px solid orange;
+    border: 1.5px dashed  orange;
     border-radius: 15px;
     background-color: white;
     color: orange;
     padding: 5px 10px;
     font-weight: bold;
     cursor: pointer;
+    font-size: 12px;
   }
   

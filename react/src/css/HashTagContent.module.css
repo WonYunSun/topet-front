@@ -1,10 +1,12 @@
 .container {
-    padding: 20px;
+    padding: 10px;
   }
   
   .title {
     margin-bottom: 10px;
     font-weight: bold;
+    text-align: left;
+    font-size: 16px;
   }
   
   .buttonContainer, .selectedTagsContainer {
@@ -15,7 +17,7 @@
   }
   
   .button, .tag {
-    border: 2px solid orange;
+    border: 1.5px solid orange;
     border-radius: 15px;
     color: orange;
     padding: 5px 10px;
@@ -24,16 +26,32 @@
     background-color: white;
     display: flex;
     align-items: center;
+    font-size: 12px;
   }
+
+  .tag {
+    border: 1.5px solid orange;
+    border-radius: 15px;
+    color: orange;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+  }
+
   
   .selectedButton {
-    border: 2px solid orange;
+    border: 1.5px solid orange;
     border-radius: 15px;
     background-color: orange;
     color: white;
     padding: 5px 10px;
     font-weight: bold;
     cursor: pointer;
+    font-size: 12px;
   }
   
   .inputContainer {
@@ -71,5 +89,6 @@
     color: rgb(124, 124, 124);
     font-size: 14px;
     cursor: pointer;
+    
   }
   
