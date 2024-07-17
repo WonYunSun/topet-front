@@ -53,6 +53,7 @@ const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange, setN
             }
             setSearchResult(1);
         }
+
     };
 
     const searchList = (value) => {
@@ -63,6 +64,7 @@ const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange, setN
         } else {
             return exoticPetList;
         }
+    
     };
 
     const showList = () => {
@@ -95,7 +97,7 @@ const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange, setN
                 <input
                     className={styles.searchbar}
                     type="text"
-                    value={localSelectedKind}
+                    value={selectedKind}
                     onChange={onSearch}
                     placeholder="검색해보세요!"
                 />
