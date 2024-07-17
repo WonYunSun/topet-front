@@ -9,27 +9,42 @@ const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange, setN
     const [searchKind, setSearchKind] = useState([]);
     const [searchResult, setSearchResult] = useState(0);
     const [localSelectedKind, setLocalSelectedKind] = useState('');
+    const [userSearchWord, setuUserSearchWord] = useState('');
+    const [IsKindSelected, setIsKindSelected] = useState(false);
+
+    
 
     useEffect(() => {
         setLocalSelectedKind(selectedKind || '');
     }, [selectedKind]);
 
     const onSearch = (e) => {
-        const userSearchWord = e.target.value.trim();
-        setLocalSelectedKind(userSearchWord);
         
-        if(userSearchWord != localSelectedKind){
+        console.log(selectedKind);
+        console.log(localSelectedKind);
+
+        setIsKindSelected(false);
+
+        let TempUserSearchWord = e.target.value;
+        if(TempUserSearchWord === undefined ) {
+            TempUserSearchWord = "";
+        }
+        
+        
+
+        setLocalSelectedKind(TempUserSearchWord);
+        if(TempUserSearchWord != localSelectedKind){
             setNextPossible(false);
             setSearchKind('');
         }
 
 
-        if (userSearchWord === '') {
+        if (TempUserSearchWord === '') {
             setSearchResult(0);
             setSearchKind([]);
         } else {
             const list = searchList(selectedType);
-            const results = list.filter((kind) => kind.includes(userSearchWord));
+            const results = list.filter((kind) => kind.includes(TempUserSearchWord));
 
             if (results.length === 0) {
                 setSearchKind(['기타']);
@@ -59,19 +74,22 @@ const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange, setN
     };
 
     const onClickedKind = (kind) => {
-        console.log(kind);
         handleSelectedKindChange(kind);
-        
         setLocalSelectedKind(kind);
         setSearchResult(1); // 검색 결과 목록을 초기화
         setSearchKind([]); // 검색 결과 목록을 초기화
+        setIsKindSelected(true);
     };
+
 
     
 
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>품종을 알려주세요</h1>
+            {IsKindSelected ? 
+            <div onClick={onSearch}>{localSelectedKind}</div> 
+            :
             <div className={styles.searchbar_wrapper}>
             <IoSearch className={styles.searchbar_icon} />
                 <input
@@ -81,7 +99,8 @@ const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange, setN
                     onChange={onSearch}
                     placeholder="검색해보세요!"
                 />
-            </div>
+            </div> }
+            
             <div className={styles.kind_list_container}>
                 {searchResult === 0 ? (
                     <div className={styles.kind_wrapper}>
