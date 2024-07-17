@@ -73,7 +73,8 @@ const CommunityWrite = () => {
     setShowBottomSheet(false);
   };
 
-  const isSubmitDisabled = !titleText || !contentText;
+  const isSubmitDisabled = !titleText || !contentText || !selectedCategory;
+
 
   const handleShowCheckModal = () => {
     setShowWriteCancleModal(true);

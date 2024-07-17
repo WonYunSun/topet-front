@@ -59,6 +59,21 @@ function ScheduleToday({ schedules }) {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    appendDots: (dots) => (
+      <div style={{ position: "static" }}>
+        <ul
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            padding: "0",
+            margin: "0",
+          }}
+        >
+          {" "}
+          {dots}{" "}
+        </ul>
+      </div>
+    ),
   };
 
   return (
