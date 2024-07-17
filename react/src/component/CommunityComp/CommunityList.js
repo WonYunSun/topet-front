@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../../css/communityList.module.css';
-import { fetchCommunityPosts } from '../../api/baseURLs';
+import CommunityApi from '../../api/communityApi';
 import { BsChatFill } from "react-icons/bs";
 import { BiSolidLike } from "react-icons/bi";
+import { FaSpinner } from "react-icons/fa";
 
 const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
 const categoryMap = { 'freedomAndDaily': '자유/일상', 'curious': '궁금해요', 'sharingInformation': '정보공유' };
@@ -14,6 +15,8 @@ const CommunityList = ({ selectedAnimal }) => {
   const [communityPosts, setCommunityPosts] = useState([]);
   const [currentAnimalType, setCurrentAnimalType] = useState(animalTypeMap[selectedAnimal] || 'dog');
   const [currentCategory, setCurrentCategory] = useState(categoryMap[category] || '자유/일상');
+  const [error, setError] = useState(null); // 에러 상태 추가
+  const [loading, setLoading] = useState(false); // 로딩 상태 추가
 
   useEffect(() => {
     setCurrentAnimalType(animalTypeMap[selectedAnimal] || 'dog');
@@ -21,11 +24,16 @@ const CommunityList = ({ selectedAnimal }) => {
   }, [selectedAnimal, category]);
 
   const fetchPosts = async () => {
+    setLoading(true); // 로딩 상태 시작
     try {
-      const newPosts = await fetchCommunityPosts(currentAnimalType, currentCategory);
+      const newPosts = await CommunityApi.fetchCommunityPosts(currentAnimalType, category);
       setCommunityPosts(newPosts);
+      setError(null); // 성공적으로 데이터를 받아오면 에러 상태를 초기화합니다.
     } catch (error) {
       console.error("Failed to fetch posts:", error);
+      setError(error.message); // 오류 메시지를 상태에 저장합니다.
+    } finally {
+      setLoading(false); // 로딩 상태 종료
     }
   };
 
@@ -75,7 +83,22 @@ const CommunityList = ({ selectedAnimal }) => {
       </div>
 
       <div className={styles.communities_content_area}>
-        {communityPosts.map((item, index) => (
+        {loading && (
+          <div className={styles.loading}>
+            <FaSpinner className={styles.spinner} />
+          </div>
+        )}
+        {error && !loading && (
+          <div className={styles.error_message}>
+            게시물을 불러오는 중 오류가 발생했습니다 새로고침 해주세요.
+          </div>
+        )}
+        {!loading && !error && communityPosts.length === 0 && (
+          <div className={styles.no_posts_message}>
+            게시물이 없습니다.
+          </div>
+        )}
+        {!loading && !error && communityPosts.length > 0 && communityPosts.map((item, index) => (
           <div
             key={item.id}
             onClick={() => handlePostClick(item.id)}

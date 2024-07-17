@@ -67,11 +67,13 @@ const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange, setN
         setSearchKind([]); // 검색 결과 목록을 초기화
     };
 
+    
+
     return (
-        <div>
+        <div className={styles.container}>
             <h1 className={styles.title}>품종을 알려주세요</h1>
-            <div className="searchBarWrapper">
-                <IoSearch className={styles.icon} />
+            <div className={styles.searchbar_wrapper}>
+            <IoSearch className={styles.searchbar_icon} />
                 <input
                     className={styles.searchbar}
                     type="text"
@@ -80,9 +82,9 @@ const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange, setN
                     placeholder="검색해보세요!"
                 />
             </div>
-            <div className={styles.kindListContainer}>
+            <div className={styles.kind_list_container}>
                 {searchResult === 0 ? (
-                    <div className={styles.kindwrapper}>
+                    <div className={styles.kind_wrapper}>
                         {showList().map((kind, index) => (
                             <div onClick={() => onClickedKind(kind)} className={styles.kind} key={index}>
                                 {kind}
@@ -90,7 +92,7 @@ const AnimalKind = ({ selectedType, selectedKind, handleSelectedKindChange, setN
                         ))}
                     </div>
                 ) : (
-                    <div className={styles.kindwrapper}>
+                    <div className={styles.kind_wrapper}>
                         {searchKind.map((kind, index) => (
                             <div onClick={() => onClickedKind(kind)} className={styles.kind} key={index}>
                                 {kind}

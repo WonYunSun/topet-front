@@ -1,35 +1,56 @@
-.kindwrapper {
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.kind_wrapper {
     margin-top: 30px;
     margin-left: 30px;
     margin-bottom: 70px;
-    height: 450px;
+    height: 420px;
     overflow-y: scroll;
     text-align: left;
+
 }
 
-.searchBarWrapper {
-    border-radius: 10%;
+.searchbar_wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: white;
+    height: 52px;
+    border-radius: 15px;
+    width: 88%;
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.10);
 }
+
 
 .title {
     font-size: 27px;
+    margin: 30px;
 }
 
 .kind {
     font-size: 16px;
+    font-weight: 400;
     margin-bottom: 24px;
 }
 
-.icon {
-    font-size: 27px;
-    margin-left: 15px;
-    margin-right: 15px;
+.searchbar_icon {
+    font-size: 24px;
+    margin: 20px;
+    color: #727272;
 }
 
 .searchbar {
     border: none;
     width: 280px;
-    height: 33px;
+    font-size: 16px;
+}
+.searchbar::placeholder {
+    color: #727272;
     font-size: 16px;
 }
 
@@ -37,6 +58,7 @@
     height: 520px;
 }
 
-.kindListContainer {
+.kind_list_container {
+    width: 100%;
     height: 520px;
 }

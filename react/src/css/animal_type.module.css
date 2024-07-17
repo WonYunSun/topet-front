@@ -7,7 +7,7 @@
     box-sizing: border-box;
 }
 
-.AnimalTypeWrapper {
+.animal_type_wrapper {
     overflow: hidden;
     height: max-content;
     margin: 10px;
@@ -25,7 +25,7 @@
     object-fit: cover;
     display: block; /* 이미지 주위의 공백을 제거 */
 }
-.Imgcontainer {
+.img_container {
     width: 130px;
     height: 130px;
     box-sizing: border-box;
