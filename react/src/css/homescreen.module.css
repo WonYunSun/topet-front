@@ -128,7 +128,8 @@
   flex-direction: row;
   gap: 16px;
   padding: 16px;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
+  overflow: hidden;
 }
 
 .seeMore {
@@ -144,4 +145,9 @@
 
 .shortsWrap::-webkit-scrollbar {
   display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
+
+.scheduleTodayWrap {
+  width: 100%;
+  box-sizing: border-box;
 }

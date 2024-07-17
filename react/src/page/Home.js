@@ -137,7 +137,11 @@ const Home = () => {
   return (
     <div>
       <TopBar />
-      <img src="/img/kakao_login_large_narrow.png" onClick={goKaKaoLogin} />
+      <img
+        src="/img/kakao_login_large_narrow.png"
+        onClick={goKaKaoLogin}
+        width={"100%"}
+      />
 
       <AnimalSelect
         onClick={handleOpenPetBottomSheet}
@@ -179,7 +183,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div>
+      <div className={styles.scheduleTodayWrap}>
         <div className={styles.areaTitleWrap}>
           <div className={styles.areaTitle}>오늘의 일정</div>
           <SlArrowRight onClick={goCalendar} />
