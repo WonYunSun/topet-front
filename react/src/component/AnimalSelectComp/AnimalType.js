@@ -26,20 +26,20 @@ const AnimalType = ({ handleSelectedTypeChange, petData, setSelectedType, setSel
         <div style={{marginTop: '7%', marginBottom: '6%'}}>
             <SelectPet
                 petImg={
-                    'https://i.pinimg.com/564x/43/87/90/438790c04a883bf01071479103f86676.jpg'
+                    'https://st.depositphotos.com/1007566/52420/v/600/depositphotos_524205590-stock-illustration-brown-dog-animal.jpg'
                 }
                 petType={'강아지'}
                 value={1}
             ></SelectPet>
             <SelectPet
                 petImg={
-                    'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQC5qNvtQUdFvFdOVhurco8HcIQZzM7VzZ6aJZ9JoysBIlkcGeZ'
+                    'https://st.depositphotos.com/2585479/54977/v/600/depositphotos_549774432-stock-illustration-isolated-happy-cute-cat-domestic.jpg'
                 }
                 petType={'고양이'}
                 value={2}
             ></SelectPet>
             <SelectPet
-                petImg={'https://img.seoul.co.kr//img/upload/2024/02/15/SSC_20240215002627.jpg'}
+                petImg={'https://st4.depositphotos.com/1742172/22214/v/450/depositphotos_222142380-stock-illustration-flat-color-illustration-parrot.jpg'}
                 petType={'특수동물'}
                 value={3}
             ></SelectPet>
