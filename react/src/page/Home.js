@@ -15,6 +15,7 @@ import { ReactComponent as AiIcon } from "../asset/icon/ai.svg";
 import ShortsList from "../component/ShortsComp/ShortsList";
 import styles from "../css/homescreen.module.css";
 // import CommunityList from "../component/CommunityComp/CommunityList"; //작업 연기
+import { IoIosLogOut } from "react-icons/io";
 
 const Home = () => {
   const link =
@@ -228,11 +229,10 @@ const Home = () => {
   return (
     <div>
       <TopBar />
-      {/* <img
-        src="/img/kakao_login_large_narrow.png"
-        onClick={goKaKaoLogin}
-        width={"100%"}
-      /> */}
+      <div className={styles.tempWrap}>
+        <img src="/img/kakao_login_large_narrow.png" onClick={goKaKaoLogin} />
+        <IoIosLogOut size={20} />
+      </div>
 
       <AnimalSelect
         onClick={handleOpenPetBottomSheet}
