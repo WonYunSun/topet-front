@@ -22,7 +22,7 @@ const Home = () => {
       window.location.href = link;
   };
   const navigate = useNavigate();
-  const [animalType, setAnimalType] = useState("강아지");
+  const [animalType, setAnimalType] = useState("강아지"); // 유저가 선택한 동물 타입 저장
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(null);
