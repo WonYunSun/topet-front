@@ -4,7 +4,7 @@ import { CiSearch } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import styles from "../css/topbar.module.css";
 
-const TopBar = ({ centerChange, handleBottomSheetOpen }) => {
+const TopBar = ({ centerChange, handleBottomSheetOpen, Ishome }) => {
   const navigate = useNavigate();
   // console.log(centerChange)
 

@@ -1,6 +1,8 @@
 .scheduleContainer {
-  margin: 30px 0;
+  margin: 10px 0;
+  overflow: hidden;
 }
+
 .noSchedule {
   color: #999;
   text-align: center;
@@ -13,7 +15,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.slick-dots {
+  width: 100%; /* 슬라이드 아이템의 너비를 부모 요소의 너비로 설정 */
 }

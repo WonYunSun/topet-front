@@ -9,13 +9,6 @@ import "dayjs/locale/ko";
 import ScheduleService from "../../api/scheduleApi"; // postApi
 
 function ScheduleToday({ schedules }) {
-  //   useEffect(() => {
-  //     // Fetch today's schedule
-  //     fetch("/api/schedule/today")
-  //       .then((response) => response.json())
-  //       .then((data) => setSchedule(data))
-  //       .catch((error) => console.error("Error fetching schedule:", error));
-  //   }, []);
   const [updatedSchedules, setUpdatedSchedules] = useState(schedules);
   const [selectedDate, setSelectedDate] = useState(dayjs());
 
@@ -59,6 +52,25 @@ function ScheduleToday({ schedules }) {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    appendDots: (dots) => {
+      const maxDots = 10;
+      const displayedDots = dots.slice(0, maxDots);
+      return (
+        <div style={{ position: "static" }}>
+          <ul
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              padding: "0",
+              margin: "0",
+            }}
+          >
+            {displayedDots}
+            {dots.length > maxDots && <li>...</li>}
+          </ul>
+        </div>
+      );
+    },
   };
 
   return (

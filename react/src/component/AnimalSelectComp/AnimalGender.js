@@ -31,27 +31,27 @@ const AnimalGender = ({
             setNextPossible(false);
         }
        return (
-            <div
-                className={`${styles.genderIconWrapper} ${
+            <div className={styles.gender_wrapper}>
+                <div
+                className={`${styles.gender_icon_wrapper} ${
                     genderToggle ? setSelectedGender('성별모름')
                     : 
                     selectedGender === value
-                        ? styles.selectedIconWrapper
+                        ? styles.selected_icon_wrapper
                         : ''
                 }`}
-            >
-                <div>
-                    <div
-                        onClick={() => {
-                            selectedGender === '성별모름' ? handleSelectedGenderChange('성별모름') : handleSelectedGenderChange(value);
+                >
+                <div
+                    onClick={() => {
+                        selectedGender === '성별모름' ? handleSelectedGenderChange('성별모름') : handleSelectedGenderChange(value);
                             setSelectedGender(value);
                         }}
-                        className={styles.genderIcon}
-                    >
-                        {genderIcon}
-                    </div>
+                    className={styles.gender_icon}
+                >
+                {genderIcon}
                 </div>
-                <div className={styles.genderText}>{gender}</div>
+                </div>
+                <div className={styles.gender_text}>{gender}</div>
             </div>
         );
     };
@@ -80,20 +80,22 @@ const AnimalGender = ({
         };
 
         return (
-            <div>
-                <div>{label}</div>
+            <div className={styles.checkbox_wrapper}>
+                <div className={styles.checkbox_text}>{label}</div>
                 <div>
-                    <input type="checkbox" onChange={handleCheckboxChange} checked={type == 'gender' ? genderToggle : neuToggle} />
+                    <input className={styles.checkbox} type="checkbox" onChange={handleCheckboxChange} checked={type == 'gender' ? genderToggle : neuToggle} />
                 </div>
             </div>
         );
     };
 
     return (
-        <div>
+        <div className={styles.wrapper}>
             <h1 className={styles.title}>성별을 알려주세요</h1>
-            <ShowGender value={'남아'} genderIcon={<PiGenderMaleBold />} gender={'남아'} />
-            <ShowGender value={'여아'} genderIcon={<PiGenderFemaleBold />} gender={'여아'} />
+            <div className={styles.container}>
+                <ShowGender value={'남아'} genderIcon={<PiGenderMaleBold />} gender={'남아'} />
+                <ShowGender value={'여아'} genderIcon={<PiGenderFemaleBold />} gender={'여아'} />
+            </div>
 
             {selectedType == 3 ? (
                 <CheckboxOption

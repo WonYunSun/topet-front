@@ -224,14 +224,14 @@ const PetRegistration = () => {
     const NextPossibleComp = () => {
         return (
             <div>            
-                <button className={styles.prevstep_button} onClick={prevStep}>이전</button>
+                {stepNum == 1 ? '' : <button className={styles.prevstep_button} onClick={prevStep}>이전</button>}
                 {
                     nextPossible ? 
                         (stepNum == 6) ?
                             <button className={styles.nextstep_button} onClick={submitForm}>{ '완료' }</button> : 
-                            <button className={styles.nextstep_button} onClick={nextStep}>{ '다음' }</button> 
+                            <button className={`${stepNum == 1 ? styles.first_nextstep_button : styles.nextstep_button}`} onClick={nextStep}>{ '다음' }</button> 
                         : 
-                        <button className={styles.disabled_nextstep_button}>{(stepNum < 6) ? '다음' : '완료'}</button>
+                        <button className={`${stepNum == 1 ? styles.disabled_first_nextstep_button : styles.disabled_nextstep_button}`}>{(stepNum < 6) ? '다음' : '완료'}</button>
                 }
             </div>
         )            
