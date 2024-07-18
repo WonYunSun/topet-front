@@ -15,14 +15,9 @@ import { ReactComponent as AiIcon } from "../asset/icon/ai.svg";
 import ShortsList from "../component/ShortsComp/ShortsList";
 import styles from "../css/homescreen.module.css";
 // import CommunityList from "../component/CommunityComp/CommunityList"; //작업 연기
-import { IoIosLogOut } from "react-icons/io";
+
 
 const Home = () => {
-  const link =
-    "https://kauth.kakao.com/oauth/authorize?client_id=3494afad7131fc9645ae9b08ed0dfda6&redirect_uri=http://localhost:8081/api/kakaoLogin/OAuth&response_type=code";
-  const goKaKaoLogin = () => {
-    window.location.href = link;
-  };
   const navigate = useNavigate();
   const [animalType, setAnimalType] = useState("강아지");
   const [showBottomSheet, setShowBottomSheet] = useState(false);
@@ -229,10 +224,7 @@ const Home = () => {
   return (
     <div>
       <TopBar />
-      <div className={styles.tempWrap}>
-        <img src="/img/kakao_login_large_narrow.png" onClick={goKaKaoLogin} />
-        <IoIosLogOut size={20} />
-      </div>
+     
 
       <AnimalSelect
         onClick={handleOpenPetBottomSheet}
