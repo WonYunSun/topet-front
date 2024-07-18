@@ -36,10 +36,14 @@ const AnimalProfile = ({ selectedPet, isHome }) => {
     }
   }, [selectedPet]);
 
+  const profileClass = `animal-profile ${isHome ? "homeComp" : ""}`;
+  const imgClass = `animal-img ${isHome ? "homeComp" : ""}`;
+  const nameClass = `animal-name ${isHome ? "homeComp" : ""}`;
+
   return (
-    <div className="animal-profile">
-      <img src={animalProfileSrc} alt={animalName} className="animal-img" />
-      <p className="animal-name">{animalName}</p>
+    <div className={profileClass}>
+      <img src={animalProfileSrc} alt={animalName} className={imgClass} />
+      <p className={nameClass}>{animalName}</p>
     </div>
   );
 };
