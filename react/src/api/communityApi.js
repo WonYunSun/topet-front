@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const API_BASE_URL = "http://175.45.202.131:8081/api";
-// const API_BASE_URL = "http://localhost:8081/api";
 
 class CommunityApi {
     constructor(baseURL) {
@@ -36,13 +35,13 @@ class CommunityApi {
         }
     }
 
-    async postCommunity(selectedPhotos, formData) {
+    async postCommunity(selectedPhotos, formData) { // 게시물 보내기
         selectedPhotos.slice(0, 5).forEach((photo, index) => {
             formData.append("photos", photo);
         });
 
         try {
-            const response = await axios.post(`/api/community/communityPost`, formData, {
+            const response = await axios.post(`${this.baseURL}/community/communityPost`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     credentials: 'include'
@@ -54,23 +53,37 @@ class CommunityApi {
         }
     }
 
-    async fetchCommunityDetail(comid) {
+    async fetchCommunityPosts(type, category) { //게시물 리스트 불러오기
+      try {
+          const response = await axios.get(`${this.baseURL}/community/${type}/${category}`);
+          return this.handleResponse(response);
+      } catch (error) {
+          this.handleError(error);
+      }
+  }
+
+    async fetchCommunityDetail(comid) { //게시물 디테일 불러오기
         try {
-            const response = await axios.get(`http://localhost:5004/detail?comid=${comid}`);
+            const response = await axios.get(`${this.baseURL}/community/detail/${comid}`);
             return this.handleResponse(response);
         } catch (error) {
             this.handleError(error);
         }
     }
 
-    async fetchCommunityPosts(type, category) {
-        try {
-            const response = await axios.get(`${this.baseURL}/community/${type}/${category}`);
-            return this.handleResponse(response);
-        } catch (error) {
-            this.handleError(error);
-        }
-    }
+    async postComment(comid, formData) { // 댓글 보내기
+      try {
+          const response = await axios.post(`${this.baseURL}/${comid}/comentPost`, formData, {
+              headers: {
+                  "Content-Type": "multipart/form-data",
+                  credentials: 'include'
+              },
+          });
+          return this.handleResponse(response);
+      } catch (error) {
+          this.handleError(error);
+      }
+  }
 }
 
 export default new CommunityApi(API_BASE_URL);

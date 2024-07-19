@@ -148,25 +148,25 @@ export default function AddSchedule({
   //   await ScheduleApi.postSche(formData); // ScheduleService 호출
   // };
 
-  // const handleButtonClick = async () => {
-  //   if (title !== "") {
-  //     try {
-  //       await postScheduleData();
-  //       await postSchedulePhoto();
-  //       setScheduleSubmittedSuccessfully(true);
-  //       onClose();
-  //     } catch (error) {
-  //       onClose();
-  //     }
-  //   } else {
-  //     setShowCheckModal(true); // 타이틀이 빈 문자열일 경우 모달 표시
-  //   }
-  // };
+  const handleButtonClick = async () => {
+    if (title !== "") {
+      try {
+        await postScheduleData();
 
-  const handleButtonClick = () => {
-    setScheduleSubmittedSuccessfully(true);
-    onClose();
+        setScheduleSubmittedSuccessfully(true);
+        onClose();
+      } catch (error) {
+        onClose();
+      }
+    } else {
+      setShowCheckModal(true); // 타이틀이 빈 문자열일 경우 모달 표시
+    }
   };
+
+  // const handleButtonClick = () => {
+  //   setScheduleSubmittedSuccessfully(false);
+  //   onClose();
+  // };
 
   const CustomInput = forwardRef(({ value, onClick }, ref) => (
     <button className={styles.customInput} onClick={onClick} ref={ref}>

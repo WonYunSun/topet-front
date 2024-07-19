@@ -19,7 +19,7 @@
   .button, .tag {
     border: 1.5px solid orange;
     border-radius: 15px;
-    color: orange;
+    color: #FFA62F;
     padding: 5px 10px;
     font-weight: bold;
     cursor: pointer;
@@ -30,9 +30,9 @@
   }
 
   .tag {
-    border: 1.5px solid orange;
+    border: 1.5px solid #FFA62F;
     border-radius: 15px;
-    color: orange;
+    color: #FFA62F;
     padding: 5px 10px;
     font-weight: bold;
     cursor: pointer;
@@ -44,9 +44,9 @@
 
   
   .selectedButton {
-    border: 1.5px solid orange;
+    border: 1.5px solid #FFA62F;
     border-radius: 15px;
-    background-color: orange;
+    background-color: #FFA62F;
     color: white;
     padding: 5px 10px;
     font-weight: bold;
@@ -75,7 +75,7 @@
     padding: 10px 20px;
     font-weight: bold;
     cursor: pointer;
-    background-color: orange;
+    background-color: #FFA62F;
   }
   
   .completeButton {

@@ -55,13 +55,14 @@ const CommunityWrite = () => {
     
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const formData = new FormData();
     formData.append("title", titleText);
     formData.append("content", contentText);
     formData.append('category', selectedCategory);
     formData.append('hashtag', conversionStringHashTag);
-    communityApi.postCommunity(selectedPhotos, formData);
+    await communityApi.postCommunity(selectedPhotos, formData);
+    navigate(-1);
   };
 
   const handleBottomSheetOpen = (type) => {
