@@ -13,6 +13,10 @@
     font-weight: 700;
 }
 
+.registertopBar::after{
+    content: "";
+}
+
 .icon {
     font-size: 24px;
     cursor: pointer;

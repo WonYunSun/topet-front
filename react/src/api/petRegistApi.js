@@ -15,7 +15,9 @@ class petRegistApi {
             this.client.post("/petRegistration", petDomain, {
                 headers: {
                     "Content-Type": "multipart/form-data",
-                },
+                    
+                },  
+                withCredentials: true,
             }).then((response) => {
                 console.log("서버 응답:", response.data);
                 return response.data;
@@ -26,11 +28,3 @@ class petRegistApi {
         }
     }
 export default new petRegistApi(API_BASE_URL);
-
-
-
-
-        
-
-
-

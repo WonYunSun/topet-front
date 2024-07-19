@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import years from '../../data/year';
 import dayjs from 'dayjs';
+import styles from '../../css/animal_birth.module.css';
 
 const AnimalBirth = ({ year, month, day, setYear, setMonth, setDay, selectedBirth, setSelectedBirth, setNextPossible, birthDontKnow, setBirthDontKnow }) => {
     const today = dayjs(); // 현재 날짜를 가져옵니다
@@ -26,15 +27,15 @@ const AnimalBirth = ({ year, month, day, setYear, setMonth, setDay, selectedBirt
     };
 
     const renderYearOptions = () => {
-        return years
-            .filter((year) => year <= currentYear)
-            .sort((a, b) => b - a)
-            .map((year, index) => (
-                <option key={index} value={year}>
-                    {year}
-                </option>
-            ));
-    };
+    return years
+        .filter((year) => year <= currentYear)
+        .sort((a, b) => b - a)
+        .map((year, index) => (
+            <option key={index} value={year}>
+                {year}년
+            </option>
+        ));
+};
 
     const handleMonthChange = (e) => {
         const newMonth = e.target.value;
@@ -48,7 +49,7 @@ const AnimalBirth = ({ year, month, day, setYear, setMonth, setDay, selectedBirt
         const months = Array.from({ length: year == currentYear ? currentMonth : 12 }, (_, i) => i + 1);
         return months.map((month) => (
             <option key={month} value={month}>
-                {month}
+                {month}월
             </option>
         ));
     };
@@ -77,14 +78,14 @@ const AnimalBirth = ({ year, month, day, setYear, setMonth, setDay, selectedBirt
         );
 
         return days.map((day) => (
-            <option key={day} value={day}>
-                {day}
+            <option key={day} value={day} disabled={day === ''}>
+                {day}일
             </option>
         ));
     };
 
     const dontKnowToggle = () => {
-        if (birthDontKnow) {
+        /*if (birthDontKnow) {
             setBirthDontKnow(false);
             setNextPossible(false);
         } else {
@@ -94,31 +95,45 @@ const AnimalBirth = ({ year, month, day, setYear, setMonth, setDay, selectedBirt
             setMonth('');
             setDay('');
             setSelectedBirth('');
-        }
+        } */
+
+            setBirthDontKnow(prev => !prev);
+            setNextPossible(!birthDontKnow);
+        
+            if (!birthDontKnow) {
+                setYear('');
+                setMonth('');
+                setDay('');
+                setSelectedBirth('');
+            }
     }
 
     return (
-        <div>
-            <h1>반려동물의 생일을 알려주세요</h1>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <select value={year} onChange={handleYearChange} disabled={birthDontKnow}>
-                    <option value="">{(year === '') ? '년' : year}</option>
+        <div className={styles.wrapper}>
+            <h1 className={styles.title}>생일을 알려주세요</h1>
+            <div className={styles.birth_wrapper}>
+                <div className={styles.year_wrapper}>
+                <select className={styles.birth_select} value={year} onChange={handleYearChange} disabled={birthDontKnow}>
+                    <option className={styles.birth_select_option} value="">{(year === '') ? currentYear + '년' : year}</option>
                     {renderYearOptions()}
                 </select>
-                <span>년</span>
-                <select value={month} onChange={handleMonthChange} disabled={!year || birthDontKnow}>
-                    <option value="">{(month === '') ? '월' : month}</option>
+                </div>
+                <div className={styles.month_day_wrapper}>
+                <select className={styles.birth_select} value={month} onChange={handleMonthChange} disabled={!year || birthDontKnow}>
+                    <option value="">{(month === '') ? currentMonth + '월' : month}</option>
                     {renderMonthOptions()}
                 </select>
-                <span>월</span>
-                <select value={day} onChange={handleDayChange} disabled={!month || birthDontKnow}>
-                    <option value="">{(day === '') ? '일' : day}</option>
+                </div>
+                <div className={styles.month_day_wrapper}>
+                <select className={styles.birth_select} value={day} onChange={handleDayChange} disabled={!month || birthDontKnow}>
+                    <option value="">{(day === '') ? currentDay + '일' : day}</option>
                     {renderDayOptions()}
                 </select>
-                <span>일</span>
-
-                <span style={{ marginLeft: '30px' }}>생일을 몰라요 </span>
-                <input type='checkbox' onChange={dontKnowToggle} checked={birthDontKnow} />
+                </div>
+            </div>
+            <div className={styles.dontknowbirth_wrapper}>
+                    <span className={styles.dontknowbirth_text}>생일을 몰라요 </span>
+                    <input className={styles.dontknowbirth_checkbox} type='checkbox' onChange={dontKnowToggle} checked={birthDontKnow} />
             </div>
         </div>
     );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { FaCamera } from 'react-icons/fa';
+import { TbPhoto } from "react-icons/tb";
 import styles from '../../css/animal_photoandname.module.css';
 
 const AnimalPhotoandName = ({ name, setName, setNextPossible, selectedPhoto, setSelectedPhoto, handleSelectedProfilePhotoChange, handleNameChange }) => {
@@ -19,11 +20,13 @@ const AnimalPhotoandName = ({ name, setName, setNextPossible, selectedPhoto, set
 
     const ProfilePhoto = useMemo(() => {
         return (
-            <div className={styles.selected_profile_photo_box} onChange={handleSelectedProfilePhotoChange}>
+            <div className={styles.photo_wrapper} onChange={handleSelectedProfilePhotoChange}>
                 {selectedPhoto == null ? (
-                    <div></div>
+                    <div className={styles.empty_profile_photo}></div>
                 ) : (
-                    <img src={URL.createObjectURL(selectedPhoto)} className={styles.selected_profile_photo} />
+                    <div className={styles.selected_profile_photo_box} >
+                        <img src={URL.createObjectURL(selectedPhoto)} className={styles.selected_profile_photo} />
+                    </div>
                 )}
             </div>
         );
@@ -39,15 +42,18 @@ const AnimalPhotoandName = ({ name, setName, setNextPossible, selectedPhoto, set
                     onChange={handleFileChange}
                     accept="image/*"
                 />
-                <FaCamera className={styles.selecting_photo_icon} />
+                <TbPhoto className={styles.selecting_photo_icon} />
             </div>
         );
     }, [photoSelect, handleFileChange]);
 
     return (
-        <div>
-            {ProfilePhoto}
-            {SelectingPhoto}
+        <div className={styles.wrapper}>
+            <div className={styles.title}>이름을 알려주세요</div>
+            <div className={styles.photo_wrapper}>
+                {ProfilePhoto}
+                {SelectingPhoto}
+            </div>
             <div className={styles.profilename_bar_wrapper}>
                 <input
                     className={styles.profilename_bar}

@@ -16,7 +16,6 @@ const KakaoLogin = () => {
     return(
         <div>
             <h1>카카오로그인</h1>
-
         </div>
         
     )
