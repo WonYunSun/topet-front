@@ -1,10 +1,12 @@
+// src/components/CommunityList.js
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../../css/communityList.module.css';
 import CommunityApi from '../../api/communityApi';
-import { BsChatFill } from "react-icons/bs";
-import { BiSolidLike } from "react-icons/bi";
 import { FaSpinner } from "react-icons/fa";
+import CheckModal from '../../component/CheckModal';
+import CommunityListData from './CommunityListData'; // CommunityPost 컴포넌트를 import 합니다.
 
 const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
 const categoryMap = { 'freedomAndDaily': '자유/일상', 'curious': '궁금해요', 'sharingInformation': '정보공유' };
@@ -15,8 +17,11 @@ const CommunityList = ({ selectedAnimal }) => {
   const [communityPosts, setCommunityPosts] = useState([]);
   const [currentAnimalType, setCurrentAnimalType] = useState(animalTypeMap[selectedAnimal] || 'dog');
   const [currentCategory, setCurrentCategory] = useState(categoryMap[category] || '자유/일상');
-  const [error, setError] = useState(null); // 에러 상태 추가
-  const [loading, setLoading] = useState(false); // 로딩 상태 추가
+  
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
   useEffect(() => {
     setCurrentAnimalType(animalTypeMap[selectedAnimal] || 'dog');
@@ -24,16 +29,16 @@ const CommunityList = ({ selectedAnimal }) => {
   }, [selectedAnimal, category]);
 
   const fetchPosts = async () => {
-    setLoading(true); // 로딩 상태 시작
+    setLoading(true);
     try {
       const newPosts = await CommunityApi.fetchCommunityPosts(currentAnimalType, category);
       setCommunityPosts(newPosts);
-      setError(null); // 성공적으로 데이터를 받아오면 에러 상태를 초기화합니다.
+      setError(null);
     } catch (error) {
       console.error("Failed to fetch posts:", error);
-      setError(error.message); // 오류 메시지를 상태에 저장합니다.
+      setError(error.message);
     } finally {
-      setLoading(false); // 로딩 상태 종료
+      setLoading(false);
     }
   };
 
@@ -46,28 +51,22 @@ const CommunityList = ({ selectedAnimal }) => {
     navigate(`/community/preview/${currentAnimalType}/${newCategory}`, { replace: true });
   };
 
-  const handlePostClick = comid => {
-    navigate(`/api/community/detail/${comid}`);
+  const handlePostClick = async (comid) => {
+    try {
+      await CommunityApi.fetchCommunityDetail(comid);
+      navigate(`/api/community/detail/${comid}`);
+    } catch (error) {
+      if (error.message.includes('404')) {
+        setModalMessage('게시물이 없습니다.');
+      } else {
+        setModalMessage('게시물을 불러오는 데 실패했습니다.');
+      }
+      setModalIsOpen(true);
+    }
   };
 
-  const formatHashtags = hashtagString => {
-    const tags = hashtagString.split(',')
-      .map(tag => tag.trim())
-      .filter(tag => tag !== '');
-
-    const visibleTags = tags.slice(0, 3);
-    const remainingTagsCount = tags.length - visibleTags.length;
-
-    return (
-      <>
-        {visibleTags.map((tag, index) => (
-          <span key={index} className={styles.hashtag}>#{tag}</span>
-        ))}
-        {remainingTagsCount > 0 && (
-          <span className={styles.hashtag}>+{remainingTagsCount}</span>
-        )}
-      </>
-    );
+  const closeModal = () => {
+    setModalIsOpen(false);
   };
 
   return (
@@ -90,7 +89,8 @@ const CommunityList = ({ selectedAnimal }) => {
         )}
         {error && !loading && (
           <div className={styles.error_message}>
-            게시물을 불러오는 중 오류가 발생했습니다 새로고침 해주세요.
+            게시물을 불러오는 중 오류가 발생했습니다<br />
+            다시 시도 해주세요.
           </div>
         )}
         {!loading && !error && communityPosts.length === 0 && (
@@ -99,39 +99,21 @@ const CommunityList = ({ selectedAnimal }) => {
           </div>
         )}
         {!loading && !error && communityPosts.length > 0 && communityPosts.map((item, index) => (
-          <div
-            key={item.id}
-            onClick={() => handlePostClick(item.id)}
-          >
-            <div className={styles.each_community_area}>
-              <div className={styles.content_and_photo_container}>
-                <div className={styles.titleContentWrap}>
-                  <div className={styles.community_title}>{item.title}</div>
-                  <div className={styles.community_content}>{item.content}</div>
-                </div>
-                {item.images && item.images.length > 0 && (
-                  <div className={styles.community_photo}>
-                    <img src={`/${item.images[0].filePath}`} alt={item.images[0].origFileName} />
-                  </div>
-                )}
-              </div>
-              <div className={styles.community_hashtags}>
-                {formatHashtags(item.hashtag)}
-              </div>
-              <div className={styles.like_and_coment}>
-                <div className="icon-group">
-                  <BiSolidLike className={styles.icon}/>
-                  <span> 10</span> {/* 여기 나중에 받아온 값으로 변경 */}
-                </div>
-                <div className="icon-group">
-                  <BsChatFill className={styles.icon}/>
-                  <span> 5</span> {/* 여기 나중에 받아온 값으로 변경 */}
-                </div>
-              </div>
-            </div>
-          </div>
+          <CommunityListData 
+            key={item.id} 
+            item={item} 
+            onClick={() => handlePostClick(item.id)} 
+          />
         ))}
       </div>
+
+      {modalIsOpen && (
+        <CheckModal
+          onClose={closeModal}
+          Content={modalMessage}
+          oneBtn={true}
+        />
+      )}
     </div>
   );
 };

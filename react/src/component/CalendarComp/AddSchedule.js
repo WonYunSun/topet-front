@@ -17,6 +17,8 @@ export default function AddSchedule({
   selectedDate,
   onClose,
   initialValues = {},
+  setScheduleSubmittedSuccessfully,
+  scheduleSubmittedSuccessfully,
 }) {
   const initialDate = dayjs(selectedDate).isValid()
     ? dayjs(selectedDate).toDate()
@@ -52,8 +54,6 @@ export default function AddSchedule({
   const [isAllDay, setIsAllDay] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [showCheckModal, setShowCheckModal] = useState(false);
-  // 모달 상태 추가
-  // 버튼 상태 추가
   const [btnStyle, setBtnStyle] = useState("gray");
 
   useEffect(() => {
@@ -65,7 +65,6 @@ export default function AddSchedule({
     setColor(initialValues.color || defaultValues.color);
   }, [initialValues]);
 
-  // title 값이 변경될 때마다 버튼 상태 업데이트
   useEffect(() => {
     if (title.trim() === "") {
       setBtnStyle("gray");
@@ -132,32 +131,33 @@ export default function AddSchedule({
     formData.append("color", color);
     formData.append("scheduleWriter", "WriterName");
     formData.append("scheduleEditer", "EditorName");
-
+    if (selectedPhoto) formData.append("photo", selectedPhoto);
+    console.log("postSchedule 호출");
     await ScheduleApi.postSchedule(formData); // ScheduleService 호출 //post로직
-  };
-
-  const postSchedulePhoto = async () => {
-    if (!selectedPhoto) return;
-
-    const formData = new FormData();
-    formData.append("photo", selectedPhoto);
-
-    await ScheduleApi.postSche(formData); // ScheduleService 호출
+    console.log("postSchedule 호출끝");
   };
 
   const handleButtonClick = async () => {
     if (title !== "") {
       try {
         await postScheduleData();
-        await postSchedulePhoto();
-        onClose(); // 두 요청 모두 성공 후 onClose 호출
+        setScheduleSubmittedSuccessfully(true);
       } catch (error) {
         console.error("스케줄 저장 중 오류 발생:", error);
+        setScheduleSubmittedSuccessfully(false);
+        onClose();
+        console.log("ScheduleSubmittedSuccessfully set to false");
       }
     } else {
-      setShowCheckModal(true); // 타이틀이 빈 문자열일 경우 모달 표시
+      setShowCheckModal(true);
     }
   };
+
+  useEffect(() => {
+    if (scheduleSubmittedSuccessfully) {
+      onClose();
+    }
+  }, [scheduleSubmittedSuccessfully, onClose]);
 
   const CustomInput = forwardRef(({ value, onClick }, ref) => (
     <button className={styles.customInput} onClick={onClick} ref={ref}>
@@ -293,7 +293,6 @@ export default function AddSchedule({
           onChange={(e) => setContent(e.target.value)}
         />
       </div>
-
       <div className={styles.imagepickerBox}>
         <span>사진</span>
         <SchedulePhotoSelectArea
@@ -306,8 +305,6 @@ export default function AddSchedule({
         type="submit"
         text="완료"
         btnstyle={btnStyle}
-        postServer_withoutPhotos={postScheduleData}
-        postServer_withPhotos={postSchedulePhoto}
         onClick={handleButtonClick}
       />
       {showCheckModal && (

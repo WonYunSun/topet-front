@@ -5,8 +5,11 @@ import "../../css/animal_profile.css";
 
 const AnimalSelect = ({ onClick, selectedPet, isHome }) => {
   return (
-    <div className={`animal-select ${isHome ? "home" : ""}`} onClick={onClick}>
-      <AnimalProfile selectedPet={selectedPet} />
+    <div
+      className={`animal-select ${isHome ? "homeComp" : ""}`}
+      onClick={onClick}
+    >
+      <AnimalProfile selectedPet={selectedPet} isHome={isHome} />
       <GoChevronDown className="arrow-bottom" />
     </div>
   );

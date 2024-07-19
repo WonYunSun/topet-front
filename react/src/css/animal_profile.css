@@ -61,7 +61,21 @@
   z-index: 10; /* 기본 z-index */
 }
 
-.animal-select.home {
+.animal-select.homeComp {
+  margin-top: 0.5em;
+  padding-left: 0.5em;
+  height: 2.5em;
   position: relative;
   z-index: 100; /* 더 높은 z-index */
+  border: none;
+  display: flex;
+  justify-content: left;
+  gap: 0.5em;
+}
+.animal-img.homeComp {
+  display: none;
+}
+.animal-name.homeComp {
+  font-size: 1.2rem;
+  font-weight: bold;
 }

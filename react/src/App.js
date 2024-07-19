@@ -10,7 +10,7 @@ import Community from "./page/Community";
 import CommunityWrite from "./page/CommunityWrite";
 import { Calendarscreen } from "./page/Calendarscreen";
 import PetRegistration from "./page/PetRegistration";
-import KakaoLogin from "./page/KakaoLogin";
+
 import MapScreen from "./page/MapScreen";
 import CommunityDetail from "./page/CommunityDetail";
 import MyPage from "./page/MyPage";
@@ -19,6 +19,8 @@ import ChoicePetRegister from "./page/ChoicePetRegister";
 import NavBar from "./component/NavBarComp/NavBar";
 //네비게이션바 띄울 화면 import 필요
 import Home from "./page/Home";
+import CommunitySearch from "./page/CommunitySearch";
+import LoginPage from "./page/LoginPage";
 // import Schedule from "./page/Calendarscreen";
 // import Map from "./page/MapScreen";
 
@@ -40,6 +42,7 @@ function App() {
           path="/community/preview/:animalType/:category"
           element={<Community />}
         />
+        <Route path="/api/community/search" element={<CommunitySearch />}/>
         <Route
           path="/api/community/detail/:comid"
           element={<CommunityDetail />}

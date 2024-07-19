@@ -1,7 +1,7 @@
 .shortsList {
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: 12px;
   overflow-x: auto;
 }
 .shortsList::-webkit-scrollbar {

@@ -13,7 +13,7 @@ function CheckModal({
     <>
       <div className={styles.ModalOverlay} />
       <div className={styles.CancleCheckWrap}>
-        <div>{Content}</div>
+        <div className={styles.Content}>{Content}</div>
         <div className={styles.CancleBtnWrap}>
           {oneBtn ? (
             <button className={styles.ConfirmBtn} onClick={onClose}>

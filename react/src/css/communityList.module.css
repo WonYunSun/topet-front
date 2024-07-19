@@ -174,15 +174,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100px; /* 로딩 써클의 높이를 조절합니다 */
+  height: 100px;
 }
 
 .spinner {
-  font-size: 24px; /* 로딩 써클의 크기를 조절합니다 */
-  animation: spin 1s linear infinite; /* 로딩 써클에 회전 애니메이션을 추가합니다 */
+  font-size: 24px;
+  animation: spin 1s linear infinite;
+  color: orange;
 }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.error_message {
+  white-space: pre-line;
 }
