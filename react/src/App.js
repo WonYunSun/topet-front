@@ -19,6 +19,7 @@ import ChoicePetRegister from "./page/ChoicePetRegister";
 import NavBar from "./component/NavBarComp/NavBar";
 //네비게이션바 띄울 화면 import 필요
 import Home from "./page/Home";
+import CommunitySearch from "./page/CommunitySearch";
 import LoginPage from "./page/LoginPage";
 // import Schedule from "./page/Calendarscreen";
 // import Map from "./page/MapScreen";
@@ -41,6 +42,7 @@ function App() {
           path="/community/preview/:animalType/:category"
           element={<Community />}
         />
+        <Route path="/api/community/search" element={<CommunitySearch />}/>
         <Route
           path="/api/community/detail/:comid"
           element={<CommunityDetail />}
@@ -53,7 +55,6 @@ function App() {
         <Route path="/api/petregistration" element={<PetRegistration />} />
         <Route path="/api/mypage" element={<MyPage />} />
         <Route path="/api/choicepetregister" element={<ChoicePetRegister />} />
-        <Route path="/api" element={<LoginPage />} />
         {/* <Route path='/api/kakaoLogin' element={<KakaoLogin/>} /> */}
         <Route path="https://kauth.kakao.com/oauth/authorize?client_id=${3494afad7131fc9645ae9b08ed0dfda6}&redirect_uri=${localhost:8081/api/kakaoLogin}&response_type=code"></Route>
       </Routes>

@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { GoArrowLeft, GoHome, GoChevronDown } from "react-icons/go";
 import { CiSearch } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import { IoMdArrowDropdown } from "react-icons/io";
 import styles from "../css/topbar.module.css";
 
-const TopBar = ({ centerChange, handleBottomSheetOpen, Ishome }) => {
+const TopBar = ({ centerChange, selectedSearchType, searchText, setSearchText, handleBottomSheetOpen }) => {
   const navigate = useNavigate();
-  // console.log(centerChange)
 
   const goBack = () => {
     navigate(-1); // 뒤로가기
@@ -20,6 +20,14 @@ const TopBar = ({ centerChange, handleBottomSheetOpen, Ishome }) => {
     handleBottomSheetOpen(centerChange);
   };
 
+  const goSearch = () => {
+    navigate("/api/community/search", { state: { centerChange: "검색" } });
+  };
+
+  const handleSearchTextChange = (e) => {
+    setSearchText(e.target.value); // 입력값을 상태로 업데이트
+  };
+
   const renderTopBar = () => {
     switch (centerChange) {
       case "강아지":
@@ -28,14 +36,30 @@ const TopBar = ({ centerChange, handleBottomSheetOpen, Ishome }) => {
         return (
           <div className={styles.topbar}>
             <GoArrowLeft className={styles.icon} onClick={goBack} />
-            <div
-              className={styles.animalSelectBox}
-              onClick={handleAnimalSelectClick}
-            >
+            <div className={styles.animalSelectBox} onClick={handleAnimalSelectClick}>
               {centerChange}
               <GoChevronDown className="arrow-bottom" />
             </div>
-            <CiSearch className={styles.icon} />
+            <CiSearch className={styles.icon} onClick={goSearch} />
+          </div>
+        );
+      case "검색":
+        return (
+          <div className={styles.topbar}>
+            <GoArrowLeft className={styles.icon} onClick={goBack} />
+            <div className={styles.searchContainer}>
+              <input 
+                className={styles.searchInput} 
+                placeholder="검색어를 입력하세요" 
+                value={searchText}
+                onChange={handleSearchTextChange}
+              />
+              <button className={styles.dropdownButton} onClick={() => handleBottomSheetOpen("검색")}>
+                {selectedSearchType}
+                <IoMdArrowDropdown className={styles.dropdownIcon} />
+              </button>
+            </div>
+            <button className={styles.searchButton}>검색</button>
           </div>
         );
       case "로고":

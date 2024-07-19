@@ -21,6 +21,7 @@ const BottomSheet = ({
   handleCompleteTags,
   initialSelectedCategory,
   initialSelectedHashTag,
+  setSelectedSearchType,
   setScheduleSubmittedSuccessfully,
   scheduleSubmittedSuccessfully,
 }) => {
@@ -31,6 +32,12 @@ const BottomSheet = ({
   const handleSelectPet = (pet) => {
     setSelectedPet(pet);
     handleCloseBottomSheet();
+  };
+
+  const handleSelectSearchType = (type) => {
+    setSelectedSearchType(type);
+    handleCloseBottomSheet();
+    console.log(type);
   };
 
   function getTypeText(type) {
@@ -51,6 +58,8 @@ const BottomSheet = ({
       case "고양이":
       case "특수동물":
         return "게시판 선택";
+      case "검색":
+        return "검색";
       default:
         return "";
     }
@@ -126,6 +135,13 @@ const BottomSheet = ({
             >
               특수동물
             </button>
+          </div>
+        );
+      case "검색":
+        return (
+          <div className="bottom_sheet_buttons">
+            <button className="bottom_sheet_button" onClick={() => handleSelectSearchType("제목+본문")}>제목+본문</button>
+            <button className="bottom_sheet_button" onClick={() => handleSelectSearchType("해시태그")}>해시태그</button>
           </div>
         );
       default:

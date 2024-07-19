@@ -23,7 +23,8 @@ const HashTagContent = ({ show, initialSelectedCategory, initialSelectedHashTag,
   };
 
   const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+    const value = e.target.value.replace(/[#\s]/g, ''); // #과 공백 제거
+    setInputValue(value);
   };
 
   const handleTagSubmit = () => {

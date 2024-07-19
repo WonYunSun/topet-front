@@ -5,13 +5,8 @@ const API_BASE_URL = "http://localhost:8081/api";
 
 class scheduleApi {
   constructor(baseURL) {
-    this.client = axios.create({
-      baseURL: baseURL,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  }
+    this.baseURL = baseURL;
+}
 
   async updateScheduleStatus(scheduleId) {
     try {
@@ -30,7 +25,7 @@ class scheduleApi {
 
   async postSchedule(formData) {
     try {
-      const response = await this.client.post("/schedule/post", formData, {
+      const response = await this.client.post(`${this.baseURL}/schedule/post`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
