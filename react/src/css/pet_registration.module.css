@@ -48,6 +48,7 @@
     margin: 5px;
     border-radius: 10px;
     background-color: #DADADA;
+    pointer-events: none;
 }
 
 .disabled_nextstep_button{
@@ -59,4 +60,5 @@
     margin: 5px;
     border-radius: 10px;
     background-color: #DADADA;
+    pointer-events: none;
 }
