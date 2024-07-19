@@ -21,6 +21,7 @@ const BottomSheet = ({
   handleCompleteTags,
   initialSelectedCategory,
   initialSelectedHashTag,
+  setScheduleSubmittedSuccessfully,
 }) => {
   const handleCloseBottomSheet = () => {
     onClose();
@@ -73,6 +74,7 @@ const BottomSheet = ({
             selectedDate={selectedDate}
             onClose={handleCloseBottomSheet}
             initialValues={initialAddScheduleValues}
+            setScheduleSubmittedSuccessfully={setScheduleSubmittedSuccessfully}
           />
         );
       case "scheduleDetail":

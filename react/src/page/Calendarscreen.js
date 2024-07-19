@@ -12,7 +12,6 @@ import FloatingBtn from "../component/ButtonComp/FloatingBtn";
 import isBetween from "dayjs/plugin/isBetween";
 import NavBar from "../component/NavBarComp/NavBar";
 import CheckModal from "../component/CheckModal";
-
 import SubBottomSheet from "../component/SubBottomSheet";
 
 dayjs.extend(localizedFormat);
@@ -21,38 +20,7 @@ dayjs.extend(isBetween);
 
 export const Calendarscreen = () => {
   const [schedules, setSchedules] = useState([
-    {
-      scheduleId: 1,
-      startDate: "2024-07-10T00:00:00",
-      endDate: "2024-07-13T23:59:59",
-      scheduleTitle: "병원 진료(건강검진)",
-      isComplete: false,
-      color: "#DE496E",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
-    {
-      scheduleId: 2,
-      startDate: "2024-07-10T09:00:00",
-      endDate: "2024-07-10T10:00:00",
-      scheduleTitle: "코코 아침 산책",
-      scheduleContent: "test1",
-      isComplete: true,
-      color: "#2F9ABA",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
-    {
-      scheduleId: 3,
-      startDate: "2024-07-20T09:00:00",
-      endDate: "2024-07-23T10:00:00",
-      scheduleTitle: "드디어됐네이시발거",
-      scheduleContent: "test1",
-      isComplete: true,
-      color: "#2F9ABA",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
+    // ... your initial schedules
   ]);
 
   const [showBottomSheet, setShowBottomSheet] = useState(false);
@@ -73,12 +41,17 @@ export const Calendarscreen = () => {
   const [showEditDeleteBottomSheet, setEditDeleteBottomSheet] = useState(false);
   const [editDeleteBottomSheettype, setEditDeleteBottomSheettype] =
     useState(null);
-  const [ScheduleDelete, setScheduleDelete] = useState(false); //스케쥴 삭제 상태
+  const [ScheduleDelete, setScheduleDelete] = useState(false); // 스케줄 삭제 상태
+
+  const [scheduleSubmittedSuccessfully, setScheduleSubmittedSuccessfully] =
+    useState(false);
+
   const handleDotsClick = (schedule) => {
     setSelectedSchedule(schedule);
     setEditDeleteBottomSheettype("EditDelete");
     setEditDeleteBottomSheet(true);
   };
+
   const handleCloseshowEditDeleteBottomSheet = () => {
     setEditDeleteBottomSheet(false);
   };
@@ -88,6 +61,7 @@ export const Calendarscreen = () => {
     setBottomSheetType("editSchedule");
     setEditDeleteBottomSheet(false);
   };
+
   const handleDeleteClick = (schedule) => {
     setEditDeleteBottomSheet(false);
     setShowBottomSheet(false);
@@ -106,8 +80,20 @@ export const Calendarscreen = () => {
 
   const handleAddScheduleBottomSheetClose = () => {
     setShowBottomSheet(false);
-    setTimeout(() => setShowCancleModal(true), 200);
+
+    if (!scheduleSubmittedSuccessfully) {
+      setTimeout(() => setShowCancleModal(true), 200);
+    } else {
+      setScheduleSubmittedSuccessfully(false);
+    }
   };
+
+  useEffect(() => {
+    if (scheduleSubmittedSuccessfully) {
+      setScheduleSubmittedSuccessfully(false);
+      handleAddScheduleBottomSheetClose();
+    }
+  }, [scheduleSubmittedSuccessfully]);
 
   const handleContinueWriting = () => {
     setShowCancleModal(false);
@@ -125,8 +111,8 @@ export const Calendarscreen = () => {
   };
 
   const handleCloseCancleModal = () => {
-    setShowCancleModal(false);
     setScheduleDelete(false);
+    setShowCancleModal(false);
   };
 
   const handleDateClick = (date) => {
@@ -182,8 +168,9 @@ export const Calendarscreen = () => {
         initialAddScheduleValues={initialAddScheduleValues}
         schedule={bottomSheetContent}
         onDotsClick={handleDotsClick}
-        onEditClick={handleEditClick} // 추가된 부분
-        selectedSchedule={selectedSchedule} // 추가된 부분
+        onEditClick={handleEditClick}
+        selectedSchedule={selectedSchedule}
+        setScheduleSubmittedSuccessfully={setScheduleSubmittedSuccessfully} // 전달된 부분
       />
       {showCancleModal &&
         (bottomSheetType === "addSchedule" ||
@@ -196,6 +183,7 @@ export const Calendarscreen = () => {
             onContinue={handleContinueWriting}
           />
         )}
+
       {ScheduleDelete && (
         <CheckModal
           Content="일정을 삭제하시겠어요?"

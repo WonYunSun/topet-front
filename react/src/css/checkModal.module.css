@@ -22,7 +22,8 @@
   flex-direction: column;
   align-items: center;
 }
-
+.Content {
+}
 .CancleBtnWrap {
   width: 100%;
   display: flex;

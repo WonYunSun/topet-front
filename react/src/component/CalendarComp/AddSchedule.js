@@ -17,6 +17,7 @@ export default function AddSchedule({
   selectedDate,
   onClose,
   initialValues = {},
+  setScheduleSubmittedSuccessfully,
 }) {
   const initialDate = dayjs(selectedDate).isValid()
     ? dayjs(selectedDate).toDate()
@@ -145,18 +146,24 @@ export default function AddSchedule({
     await ScheduleApi.postSche(formData); // ScheduleService 호출
   };
 
-  const handleButtonClick = async () => {
-    if (title !== "") {
-      try {
-        await postScheduleData();
-        await postSchedulePhoto();
-        onClose(); // 두 요청 모두 성공 후 onClose 호출
-      } catch (error) {
-        console.error("스케줄 저장 중 오류 발생:", error);
-      }
-    } else {
-      setShowCheckModal(true); // 타이틀이 빈 문자열일 경우 모달 표시
-    }
+  // const handleButtonClick = async () => {
+  //   if (title !== "") {
+  //     try {
+  //       await postScheduleData();
+  //       await postSchedulePhoto();
+  //       setScheduleSubmittedSuccessfully(true);
+  //       onClose();
+  //     } catch (error) {
+  //       onClose();
+  //     }
+  //   } else {
+  //     setShowCheckModal(true); // 타이틀이 빈 문자열일 경우 모달 표시
+  //   }
+  // };
+
+  const handleButtonClick = () => {
+    setScheduleSubmittedSuccessfully(true);
+    onClose();
   };
 
   const CustomInput = forwardRef(({ value, onClick }, ref) => (
