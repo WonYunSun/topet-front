@@ -38,6 +38,7 @@ class scheduleApi {
       console.log("서버 응답:", response.data);
     } catch (error) {
       console.error("서버 오류:", error);
+      throw error; // 에러를 다시 던집니다
     }
   }
 }
