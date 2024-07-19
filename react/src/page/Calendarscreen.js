@@ -81,19 +81,12 @@ export const Calendarscreen = () => {
   const handleAddScheduleBottomSheetClose = () => {
     setShowBottomSheet(false);
 
-    if (!scheduleSubmittedSuccessfully) {
-      setTimeout(() => setShowCancleModal(true), 200);
-    } else {
-      setScheduleSubmittedSuccessfully(false);
-    }
-  };
-
-  useEffect(() => {
     if (scheduleSubmittedSuccessfully) {
       setScheduleSubmittedSuccessfully(false);
-      handleAddScheduleBottomSheetClose();
+    } else {
+      setTimeout(() => setShowCancleModal(true), 200);
     }
-  }, [scheduleSubmittedSuccessfully]);
+  };
 
   const handleContinueWriting = () => {
     setShowCancleModal(false);
