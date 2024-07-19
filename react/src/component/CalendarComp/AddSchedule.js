@@ -132,24 +132,24 @@ export default function AddSchedule({
     formData.append("color", color);
     formData.append("scheduleWriter", "WriterName");
     formData.append("scheduleEditer", "EditorName");
-
+    if (selectedPhoto) formData.append("photo", selectedPhoto);
     await ScheduleApi.postSchedule(formData); // ScheduleService 호출 //post로직
   };
 
-  const postSchedulePhoto = async () => {
-    if (!selectedPhoto) return;
+  // const postSchedulePhoto = async () => {
+  //   if (!selectedPhoto) return;
 
-    const formData = new FormData();
-    formData.append("photo", selectedPhoto);
+  //   const formData = new FormData();
+  //   formData.append("photo", selectedPhoto);
 
-    await ScheduleApi.postSche(formData); // ScheduleService 호출
-  };
+  //   await ScheduleApi.postSche(formData); // ScheduleService 호출
+  // };
 
   const handleButtonClick = async () => {
     if (title !== "") {
       try {
         await postScheduleData();
-        await postSchedulePhoto();
+        // await postSchedulePhoto();
         onClose(); // 두 요청 모두 성공 후 onClose 호출
       } catch (error) {
         console.error("스케줄 저장 중 오류 발생:", error);
@@ -307,7 +307,7 @@ export default function AddSchedule({
         text="완료"
         btnstyle={btnStyle}
         postServer_withoutPhotos={postScheduleData}
-        postServer_withPhotos={postSchedulePhoto}
+        //postServer_withPhotos={postSchedulePhoto}
         onClick={handleButtonClick}
       />
       {showCheckModal && (
