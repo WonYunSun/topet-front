@@ -130,7 +130,7 @@ const CommunityDetail = () => {
       </div>
       <div className={styles.coment_area}>
         <ComentCreate comid={comid} />
-        <ComentList />
+        <ComentList comid={comid} />
       </div>
 
       {modalIsOpen && (

@@ -84,6 +84,15 @@ class CommunityApi {
           this.handleError(error);
       }
   }
+
+  async fetchComment(comid) { // 댓글 불러오기
+    try {
+        const response = await axios.get(`${this.baseURL}/comment/${comid}`);
+        return this.handleResponse(response);
+    } catch (error) {
+        this.handleError(error);
+    }
+  }
 }
 
 export default new CommunityApi(API_BASE_URL);
