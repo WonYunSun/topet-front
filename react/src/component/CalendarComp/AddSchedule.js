@@ -150,7 +150,7 @@ export default function AddSchedule({
     if (title !== "") {
       try {
         await postScheduleData();
-        await postSchedulePhoto();
+
         setScheduleSubmittedSuccessfully(true);
         onClose();
       } catch (error) {
