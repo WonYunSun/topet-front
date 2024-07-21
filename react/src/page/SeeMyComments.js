@@ -1,12 +1,12 @@
 import React from "react";
 import MyPageCommonTopBar from '../component/MyPageComp/MyPageCommonTopBar'
 
-const SeeMyShorts = () => {
+const SeeMyComments = () => {
     return (
         <div>
-            <MyPageCommonTopBar title={'내 쇼츠'} />
+            <MyPageCommonTopBar title={'내 댓글'} />
         </div>
     )
 }
 
-export default SeeMyShorts;
+export default SeeMyComments;
