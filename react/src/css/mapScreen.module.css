@@ -125,3 +125,39 @@
   align-items: center;
   gap: 5px;
 }
+/* 선택된 장소 정보를 표시하는 div 스타일 */
+.placeInfo {
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px); /* 처음에 아래쪽에 위치 */
+  z-index: 20;
+  background-color: white;
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: var(--box-shadow);
+  width: 80%;
+  max-width: 400px;
+  transition: transform 0.3s ease; /* transform 트랜지션만 정의 */
+}
+
+.placeInfo.show {
+  transform: translateX(-50%) translateY(0); /* 위로 올라오는 효과 */
+}
+.placeInfoContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.placeInfoContent h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: var(--main-color);
+}
+
+.placeInfoContent p {
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: #666;
+}

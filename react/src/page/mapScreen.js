@@ -205,6 +205,8 @@ const MapScreen = () => {
 
   const [map, setMap] = useState();
   const [infowindow, setInfoWindow] = useState();
+  const [selectedPlace, setSelectedPlace] = useState(null); // 선택된 장소 정보를 저장할 상태
+  const [isVisible, setIsVisible] = useState(false); // 트랜지션을 위한 상태
 
   const handleBottomSheetOpen = (type) => {
     setBottomSheetType(type);
@@ -251,6 +253,21 @@ const MapScreen = () => {
     });
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (event.target.closest(`.${styles.placeInfo}`) !== null) return;
+      setIsVisible(false); // 트랜지션 효과를 주기 위해 isVisible을 false로 설정
+      setTimeout(() => {
+        setSelectedPlace(null); // 트랜지션이 끝난 후에 selectedPlace를 null로 설정
+      }, 300); // 트랜지션 시간 (300ms)과 동일하게 설정
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   function searchPlace(num) {
     var ps = new window.kakao.maps.services.Places();
     ps.keywordSearch(arr[num], placesSearchCB);
@@ -271,21 +288,16 @@ const MapScreen = () => {
     }
   }
   function displayMarker(place) {
-    // 마커를 생성하고 지도에 표시합니다
     var marker = new window.kakao.maps.Marker({
       map: map,
       position: new window.kakao.maps.LatLng(place.y, place.x),
     });
 
-    // 마커에 클릭이벤트를 등록합니다
     window.kakao.maps.event.addListener(marker, "click", function () {
-      // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-      infowindow.setContent(
-        '<div style="padding:5px;font-size:12px;">' +
-          place.place_name +
-          "</div>"
-      );
-      infowindow.open(map, marker);
+      setSelectedPlace(place);
+      setTimeout(() => {
+        setIsVisible(true); // placeInfo를 보이도록 설정
+      }, 10); // 약간의 지연을 두어 트랜지션을 시작합니다.
     });
   }
   const CustomButton = ({ num }) => {
@@ -355,6 +367,15 @@ const MapScreen = () => {
           type={bottomSheetType}
         />
       </div>
+      {selectedPlace && (
+        <div className={`${styles.placeInfo} ${isVisible ? styles.show : ""}`}>
+          <div className={styles.placeInfoContent}>
+            <h3>{selectedPlace.place_name}</h3>
+            <p>{selectedPlace.address_name}</p>
+            <p>{selectedPlace.phone}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
