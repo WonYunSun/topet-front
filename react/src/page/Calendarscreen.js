@@ -153,12 +153,14 @@ export const Calendarscreen = () => {
 
   const [scheduleSubmittedSuccessfully, setScheduleSubmittedSuccessfully] =
     useState();
+
   useEffect(() => {
     // handleAddScheduleBottomSheetClose();
     handleCloseBottomSheet();
     // modal();
     console.log("scheduleSubmittedSuccessfully", scheduleSubmittedSuccessfully);
   }, [scheduleSubmittedSuccessfully]);
+
   const handleDotsClick = (schedule) => {
     setSelectedSchedule(schedule);
     setEditDeleteBottomSheettype("EditDelete");

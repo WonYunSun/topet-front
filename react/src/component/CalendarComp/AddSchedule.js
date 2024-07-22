@@ -146,7 +146,6 @@ export default function AddSchedule({
         console.error("스케줄 저장 중 오류 발생:", error);
         setScheduleSubmittedSuccessfully(false);
         onClose();
-        console.log("ScheduleSubmittedSuccessfully set to false");
       }
     } else {
       setShowCheckModal(true);

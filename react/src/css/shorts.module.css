@@ -53,10 +53,19 @@
 }
 
 .seeMore {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   flex: 0 0 auto;
   width: 50px; /* 원하는 너비 */
-  background-color: lightgrey;
   border-radius: 8px;
-  margin: 0 20px;
+  margin: 0 10px;
   cursor: pointer;
+  color: #949494c0;
+  gap: 5px;
+}
+.seeMore :first-child {
+  font-size: 13px;
+  font-weight: 700;
 }
