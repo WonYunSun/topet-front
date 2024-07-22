@@ -1,0 +1,44 @@
+/* MyPetItem css */
+.profile_container {
+    width: 100%;
+}
+
+.profile_wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: azure;
+}
+
+.photo_container {
+    height: 65px;
+    width: 65px;
+    margin-bottom: 30px;
+}
+
+.photo {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 70%;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.name {
+
+}
+
+.profile_span {
+    width: 50%;
+}
+
+.profile_icon{
+
+}
+
+/* MyPetList css */
+
+
+/* ManageMyPets css */
+

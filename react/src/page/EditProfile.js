@@ -2,6 +2,7 @@ import React, { useRef, useMemo, useCallback, useState } from "react";
 import MyPageCommonTopBar from '../component/MyPageComp/MyPageCommonTopBar'
 import styles from '../css/mypage_editprofile.module.css'
 import { TbPhoto } from "react-icons/tb";
+import { TiDelete } from "react-icons/ti";
 
 const EditProfile = () => {
     const [profilePhoto, setProfilePhoto] = useState();
@@ -55,6 +56,10 @@ const EditProfile = () => {
         );
     }, [photoSelect, handleFileChange]);
 
+    const DeleteInputText = () => {
+        setProfileName('');
+    }
+    
     const Secession = () => {
         console.log('회원탈퇴')
     }
@@ -80,7 +85,7 @@ const EditProfile = () => {
                         onChange={handleProfileNameChange}
                         placeholder="닉네임을 작성해주세요"
                     />
-
+                    <TiDelete className={styles.input_delete_icon} onClick={DeleteInputText} />
                 </div>
             </div>
             <div className={styles.secession_wrapper}>
@@ -88,7 +93,7 @@ const EditProfile = () => {
                 <div className={styles.secession_button} onClick={Secession}>회원탈퇴</div>
             </div>
             <div className={styles.save_button_wrapper}>
-                <button className={styles.save_button} onClick={SaveProfile}>{ '저장' }</button>
+                <button className={`${profileName == '' ? styles.disabled : styles.save_button}`} onClick={SaveProfile}>{ '저장' }</button>
             </div>
         </div>
     )
