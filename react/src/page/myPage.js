@@ -8,6 +8,10 @@ import { useNavigate } from 'react-router-dom';
 const MyPage = () => {
   const navigate = useNavigate();
 
+  const goEditProfile = () => {
+    navigate(`/api/editprofile`)
+  }
+
   const goManageMyPets = () => {
     navigate(`/api/managemypets`)
   }
@@ -28,6 +32,10 @@ const MyPage = () => {
     navigate(`/api/myshorts`)
   }
 
+  const goSeeLikedShorts = () => {
+    navigate(`/api/likedshorts`)
+  }
+
   const Profile = () => {
     return (
       <div>
@@ -39,7 +47,7 @@ const MyPage = () => {
               </div>
               <div className={styles.username}>사용자이름</div>
             </div>
-            <MdEdit className={styles.edit_icon} />
+            <MdEdit className={styles.edit_icon} onClick={goEditProfile} />
           </div>
         </div>
       </div>
@@ -57,13 +65,8 @@ const MyPage = () => {
       />
       <ManageBox 
         icon={<MdOutlinePets />} 
-        managementItemTitle={"내 글 보기"} 
+        managementItemTitle={"내 게시글 보기"} 
         pageRoute={goSeeMyPosts}
-      />
-      <ManageBox
-        icon={<MdOutlinePets />}
-        managementItemTitle={"내 댓글 보기"}
-        pageRoute={goSeeMyComments}
       />
       <ManageBox
         icon={<MdOutlinePets />}
@@ -72,8 +75,18 @@ const MyPage = () => {
       />
       <ManageBox
         icon={<MdOutlinePets />}
+        managementItemTitle={"내 댓글 보기"}
+        pageRoute={goSeeMyComments}
+      />
+      <ManageBox
+        icon={<MdOutlinePets />}
         managementItemTitle={"내 쇼츠 보기"}
         pageRoute={goSeeMyShorts}
+      />
+      <ManageBox
+        icon={<MdOutlinePets />}
+        managementItemTitle={"좋아요 한 쇼츠 보기"}
+        pageRoute={goSeeLikedShorts}
       />
     </div>
   );

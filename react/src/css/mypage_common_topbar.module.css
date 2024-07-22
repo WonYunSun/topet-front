@@ -1,5 +1,5 @@
 .wrapper {
-    width: 100%;
+    width: 92%;
     height: 60px;
     display: flex;
     flex-direction: row;
@@ -9,7 +9,7 @@
 
 .wrapper::after {
     content: "";
-    margin: 20px;
+    padding-left: 20px;
 }
 
 .back_icon {

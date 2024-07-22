@@ -35,18 +35,19 @@ const PetRegistration = () => {
 
     const [nextPossible, setNextPossible] = useState(false);    //다음단계 가능한가?
 
+    // 동물 등록 정보
     const [petData, setPetData] = useState({
-        type: '',
-        kind: '',
-        gender: '',
-        name: '',
-        petProfilePhoto: '',
-        birth: '',
-        weight: '',
-        allergy: '',
-        health: '',
-        neutered: '',
-        genderDontKnow :'',
+        type: '', // 동물 타입(강아지, 고양이, 특수동물)
+        kind: '', // 동물 품종
+        gender: '', // 동물 성별
+        genderDontKnow :'', // 성별을 몰라요
+        neutered: '', // 동물 중성화 여부
+        name: '', // 동물 이름
+        petProfilePhoto: '', // 동물 프로필 사진
+        birth: '', // 동물 생일
+        weight: '', // 동물 체중
+        allergy: '', // 동물 알레르기
+        health: '', // 동물 건강상태
     });
 
     useEffect(() => {
