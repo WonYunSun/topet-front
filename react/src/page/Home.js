@@ -15,7 +15,7 @@ import { ReactComponent as AiIcon } from "../asset/icon/ai.svg";
 import ShortsList from "../component/ShortsComp/ShortsList";
 import styles from "../css/homescreen.module.css";
 // import CommunityList from "../component/CommunityComp/CommunityList"; //작업 연기
-
+import CommunityListData from "../component/CommunityComp/CommunityListData";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -35,77 +35,7 @@ const Home = () => {
       scheduleWriter: "A",
       scheduleEditer: "B",
     },
-    {
-      scheduleId: 1,
-      startDate: "2024-07-10T00:00:00",
-      endDate: "2024-07-13T23:59:59",
-      scheduleTitle: "병원 진료(건강검진)",
-      isComplete: false,
-      color: "#DE496E",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
-    {
-      scheduleId: 1,
-      startDate: "2024-07-10T00:00:00",
-      endDate: "2024-07-13T23:59:59",
-      scheduleTitle: "병원 진료(건강검진)",
-      isComplete: false,
-      color: "#DE496E",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
-    {
-      scheduleId: 1,
-      startDate: "2024-07-10T00:00:00",
-      endDate: "2024-07-13T23:59:59",
-      scheduleTitle: "병원 진료(건강검진)",
-      isComplete: false,
-      color: "#DE496E",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
-    {
-      scheduleId: 1,
-      startDate: "2024-07-10T00:00:00",
-      endDate: "2024-07-13T23:59:59",
-      scheduleTitle: "병원 진료(건강검진)",
-      isComplete: false,
-      color: "#DE496E",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
-    {
-      scheduleId: 1,
-      startDate: "2024-07-10T00:00:00",
-      endDate: "2024-07-13T23:59:59",
-      scheduleTitle: "병원 진료(건강검진)",
-      isComplete: false,
-      color: "#DE496E",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
-    {
-      scheduleId: 1,
-      startDate: "2024-07-10T00:00:00",
-      endDate: "2024-07-13T23:59:59",
-      scheduleTitle: "병원 진료(건강검진)",
-      isComplete: false,
-      color: "#DE496E",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
 
-    {
-      scheduleId: 1,
-      startDate: "2024-07-10T00:00:00",
-      endDate: "2024-07-13T23:59:59",
-      scheduleTitle: "병원 진료(건강검진)",
-      isComplete: false,
-      color: "#DE496E",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
     {
       scheduleId: 2,
       startDate: "2024-07-10T09:00:00",
@@ -214,6 +144,38 @@ const Home = () => {
     weight: "5kg",
     health: "예방접종 완료, 알러지 없음",
   };
+  const dummyCommmuData = [
+    {
+      title: "First Post",
+      content: "This is the content of the first post.",
+      images: [],
+      hashtag: "react, development, coding, coding",
+    },
+    {
+      title: "Second Post",
+      content: "Content for the second post goes here.",
+      images: [{ filePath: "path/to/image2.jpg", origFileName: "image2.jpg" }],
+      hashtag: "javascript, frontend, webdev",
+    },
+    {
+      title: "Third Post",
+      content: "Here is the third post content.",
+      images: [{ filePath: "path/to/image3.jpg", origFileName: "image3.jpg" }],
+      hashtag: "css, design, ui",
+    },
+    {
+      title: "Fourth Post",
+      content: "Fourth post with some different content.",
+      images: [{ filePath: "path/to/image4.jpg", origFileName: "image4.jpg" }],
+      hashtag: "html, markup, web",
+    },
+    {
+      title: "Fifth Post",
+      content: "Content for the fifth post is right here.",
+      images: [{ filePath: "path/to/image5.jpg", origFileName: "image5.jpg" }],
+      hashtag: "nodejs, backend, server",
+    },
+  ];
 
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -222,9 +184,8 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className={styles.homeWrap}>
       <TopBar />
-     
 
       <AnimalSelect
         onClick={handleOpenPetBottomSheet}
@@ -315,12 +276,19 @@ const Home = () => {
 
       <div className={styles.communityPreivewArea}>
         <div className={styles.areaTitleWrap}>
-          <div className={styles.areaTitle}>커뮤니티</div>
+          <div className={styles.areaTitle}>커뮤니티 인기글</div>
           <SlArrowRight onClick={goCommunity} />
         </div>
-        <div></div>
+        <div className={styles.communityList}>
+          {dummyCommmuData.map((item, index) => (
+            <CommunityListData
+              key={index}
+              item={item}
+              onClick={() => console.log(`Post ${index + 1} clicked`)}
+            />
+          ))}
+        </div>
       </div>
-      {/* <NavBar /> */}
     </div>
   );
 };

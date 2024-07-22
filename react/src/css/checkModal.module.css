@@ -36,6 +36,7 @@
 .CancleBtn,
 .ConfirmBtn {
   font-weight: 600;
+  cursor: pointer;
 }
 .CancleBtn {
   color: red;

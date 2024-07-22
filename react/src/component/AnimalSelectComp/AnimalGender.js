@@ -30,7 +30,7 @@ const AnimalGender = ({
         if(selectedGender==null || selectedGender == ''){
             setNextPossible(false);
         }
-       return (
+        return (
             <div className={styles.gender_wrapper}>
                 <div
                 className={`${styles.gender_icon_wrapper} ${
@@ -55,7 +55,7 @@ const AnimalGender = ({
             </div>
         );
     };
-   const CheckboxOption = ({ label, type, 
+    const CheckboxOption = ({ label, type, 
         //toggleState, setToggleState, 
         selectedValue, setSelectedValue }) => {
         const handleCheckboxChange = () => {

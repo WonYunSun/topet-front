@@ -1,16 +1,17 @@
-.wrapper{
+/* 수정된 CSS */
+.wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.title{
+.title {
     font-size: 25px;
     margin-top: 62px;
 }
 
-.birth_wrapper{
+.birth_wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -18,65 +19,89 @@
     margin-top: 45px;
 }
 
-.year_wrapper{
+.custom_select {
+    position: relative;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
-    width: 103px;
-    height: 36px;
-    margin-left: 5px;
-    margin-right: 5px;
-    background-color: bisque;
+    align-items: center;
+    height: 40px;
+    margin: 0 5px;
+    padding-left: 5px;
     border-radius: 10px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
-.month_day_wrapper{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+.year_select {
+    width: 108px;
+}
+
+.month_day_select {
     width: 72px;
-    height: 36px;
-    margin-left: 5px;
-    margin-right: 5px;
-    border-radius: 10px;
-    background-color: rosybrown;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
-.birth_select_option{
-    background-color: cadetblue;
+.dropdown_icon {    
+    color: #a5a5a5;
+    font-size: 9px;
+    margin: 1px 1px 1px 10px;
 }
 
-.birth_select{
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-}
-
-.birth_select:disabled{
-    font-size: 16px;
-    font-weight: 600;
-    color: #B5B5B5;
-}
-
-/**.birth_select:focus{
-    height: 100px;
-    overflow-y: scroll;
-}**/
-
-.dontknowbirth_wrapper{
+.selected_option {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-top: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 10px;
 }
 
-.dontknowbirth_text{
-    color: #B5B5B5;
+.options {
+    display: none;
+    position: absolute;
+    width: 99%;
+    top: 100%;
+    margin-top: 1.5px;
+    max-height: 173px;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
+    z-index: 1000;
+    scrollbar-width: thin;
+    scrollbar-color: #b5b5b5;
+}
+
+.option {
+    padding: 12px;
+    cursor: pointer;
+}
+
+.option:hover {
+    background-color: #f0f0f0;
+}
+
+.show {
+    display: block;
+}
+
+.disabled .selected_option {
+    color: #b5b5b5;    
+    pointer-events: none;
+}
+
+.dontknowbirth_wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 65px;
+}
+
+.dontknowbirth_text {
+    color: #b5b5b5;
     font-size: 14px;
     margin-right: 15px;
 }
@@ -85,7 +110,7 @@
     appearance: none;
     width: 20px;
     height: 20px;
-    border: 2px solid #B5B5B5;
+    border: 2px solid #b5b5b5;
     border-radius: 50%;
     cursor: pointer;
     position: relative;
@@ -93,12 +118,12 @@
 }
 
 .dontknowbirth_checkbox:checked {
-    background-color: #FFA62F;
+    background-color: #ffa62f;
     border: none;
 }
 
 .dontknowbirth_checkbox:not(:checked):focus {
-    outline: 2px solid #B5B5B5;
+    outline: 2px solid #b5b5b5;
     outline-offset: -2px;
 }
 
@@ -106,7 +131,7 @@
     outline: none;
 }
 
-.dontknowbirth_checkbox:checked::before{
+.dontknowbirth_checkbox:checked::before {
     content: '✓';
     font-weight: 800;
     position: absolute;

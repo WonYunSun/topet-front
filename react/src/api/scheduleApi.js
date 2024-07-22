@@ -6,7 +6,7 @@ const API_BASE_URL = "http://localhost:8081/api";
 class scheduleApi {
   constructor(baseURL) {
     this.baseURL = baseURL;
-}
+  }
 
   async updateScheduleStatus(scheduleId) {
     try {
@@ -25,14 +25,19 @@ class scheduleApi {
 
   async postSchedule(formData) {
     try {
-      const response = await this.client.post(`${this.baseURL}/schedule/post`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await this.client.post(
+        `${this.baseURL}/schedule/post`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       console.log("서버 응답:", response.data);
     } catch (error) {
       console.error("서버 오류:", error);
+      throw error; // 에러를 다시 던집니다
     }
   }
 }

@@ -1,0 +1,163 @@
+/* src/css/styles.module.css */
+:root {
+  --main-color: #ffa62f;
+  --sub-color: #ff7c02;
+  --top-size: 2.3em;
+  --box-shadow: rgba(0, 0, 0, 0.075) 0px 3px 6px,
+    rgba(0, 0, 0, 0.123) 0px 3px 6px;
+}
+
+.map {
+  width: 100%;
+  height: 100vh;
+  min-height: fit-content;
+  z-index: 1;
+}
+
+.mapTopWrap {
+  width: 100%;
+  position: absolute;
+  top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  box-sizing: border-box;
+  padding: 1em;
+  z-index: 10;
+}
+
+.topBtnWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em;
+}
+
+.inputWrap {
+  position: relative;
+  flex-grow: 1;
+}
+
+.CutsomBtnWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.backButton,
+.Mapinput {
+  box-shadow: var(--box-shadow);
+}
+
+.backButton {
+  width: calc(var(--top-size) + 10px);
+  height: calc(var(--top-size) + 10px);
+  flex-grow: 0;
+  z-index: 10;
+  background-color: white;
+  padding: 5px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.Mapinput {
+  width: 100%;
+  height: calc(var(--top-size) + 10px);
+  background-color: white;
+  padding: 5px 1em;
+  padding-right: 2.5em; /* 아이콘 공간 확보 */
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+
+.Mapinput::placeholder {
+  color: #999;
+}
+
+.searchbar_icon {
+  font-size: 20px;
+  color: var(--main-color);
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.button,
+.selectedButton {
+  font-weight: 600;
+  color: var(--sub-color);
+  box-shadow: var(--box-shadow);
+}
+
+.button {
+  padding: 8px;
+  background-color: white;
+  outline: #ffa62f 1px solid;
+  border-radius: 20px;
+  cursor: pointer;
+  z-index: 140;
+}
+
+.selectedButton {
+  background-color: orange;
+  color: #fff;
+}
+
+.listButton {
+  position: absolute;
+  bottom: 75px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background-color: white;
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: var(--box-shadow);
+}
+.listinnerDiv {
+  font-size: 14px;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+/* 선택된 장소 정보를 표시하는 div 스타일 */
+.placeInfo {
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px); /* 처음에 아래쪽에 위치 */
+  z-index: 20;
+  background-color: white;
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: var(--box-shadow);
+  width: 80%;
+  max-width: 400px;
+  transition: transform 0.3s ease; /* transform 트랜지션만 정의 */
+}
+
+.placeInfo.show {
+  transform: translateX(-50%) translateY(0); /* 위로 올라오는 효과 */
+}
+.placeInfoContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.placeInfoContent h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: var(--main-color);
+}
+
+.placeInfoContent p {
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: #666;
+}

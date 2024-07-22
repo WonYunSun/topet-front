@@ -23,6 +23,7 @@ const BottomSheet = ({
   initialSelectedHashTag,
   setSelectedSearchType,
   setScheduleSubmittedSuccessfully,
+  scheduleSubmittedSuccessfully,
 }) => {
   const handleCloseBottomSheet = () => {
     onClose();
@@ -83,6 +84,7 @@ const BottomSheet = ({
             selectedDate={selectedDate}
             onClose={handleCloseBottomSheet}
             initialValues={initialAddScheduleValues}
+            scheduleSubmittedSuccessfully={scheduleSubmittedSuccessfully}
             setScheduleSubmittedSuccessfully={setScheduleSubmittedSuccessfully}
           />
         );
@@ -138,8 +140,18 @@ const BottomSheet = ({
       case "검색":
         return (
           <div className="bottom_sheet_buttons">
-            <button className="bottom_sheet_button" onClick={() => handleSelectSearchType("제목+본문")}>제목+본문</button>
-            <button className="bottom_sheet_button" onClick={() => handleSelectSearchType("해시태그")}>해시태그</button>
+            <button
+              className="bottom_sheet_button"
+              onClick={() => handleSelectSearchType("제목+본문")}
+            >
+              제목+본문
+            </button>
+            <button
+              className="bottom_sheet_button"
+              onClick={() => handleSelectSearchType("해시태그")}
+            >
+              해시태그
+            </button>
           </div>
         );
       default:
