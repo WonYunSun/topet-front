@@ -4,6 +4,7 @@ import "../asset/font/font.css";
 const GlobalStyle = createGlobalStyle`
 body {
     font-family: "SUIT Variable", sans-serif;
+
 }
 
 input{
