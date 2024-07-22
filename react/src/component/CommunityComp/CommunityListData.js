@@ -1,5 +1,3 @@
-// src/components/CommunityPost.js
-
 import React from 'react';
 import { BiSolidLike } from "react-icons/bi";
 import { BsChatFill } from "react-icons/bs";

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import TopBar from "../component/TopBar";
 import Title from "../component/Title";
 import Content from "../component/Content";
@@ -14,7 +14,13 @@ import HashTag from "../component/HashTagComp/HashTag";
 
 const CommunityWrite = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { state } = location;
 
+  const [edit, setEdit] = useState(false);
+  const [comid, setComid] = useState(null);
+
+  const [animal, setAnimal] = useState(""); // 나중에 들어온 게시판으로 바꿔야 함.
   const [titleText, setTitleText] = useState("");
   const [contentText, setContentText] = useState("");
   const [selectedPhotos, setSelectedPhotos] = useState([]);
@@ -25,6 +31,29 @@ const CommunityWrite = () => {
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [showWriteCancleModal, setShowWriteCancleModal] = useState(false);
   const [showWriteNullCheckModal, setShowWriteNullCheckModal] = useState(false);
+
+  useEffect(() => { // 수정 시 변수 값 세팅
+    if (state?.edit) {
+      setEdit(true);
+      setTitleText(state.title);
+      setContentText(state.content);
+      setSelectedPhotos(state.images);
+      setSelectedCategory(state.category);
+      setComid(state.comid);
+    }
+    if (state?.hashtag) {
+      const hashtagsArray = state.hashtag.split(',').map(tag => tag.trim());
+      setSelectedHashTag(hashtagsArray);
+    }
+    if (state?.animal) {
+      setAnimal(state.animal);
+    }
+  }, []);
+
+  useEffect(() => {
+    conversionHashTag();
+  }, [selectedHashTag]);
+  
 
   const handleTitleTextChange = (e) => {
     setTitleText(e.target.value);
@@ -52,18 +81,29 @@ const CommunityWrite = () => {
   const conversionHashTag = () => {
     const conversion = selectedHashTag.join(',');
     setConversionStringHashTag(conversion);
-    
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async () => { // 게시물 생성
+    const formData = new FormData();
+    formData.append("animal", animal);
+    formData.append("title", titleText);
+    formData.append("content", contentText);
+    formData.append('category', selectedCategory);
+    formData.append('hashtag', conversionStringHashTag);
+    console.log(conversionStringHashTag)
+    await communityApi.postCommunity(selectedPhotos, formData);
+    navigate(-1);
+  };
+
+  const handleUpdate = async (comid) => { // 게시물 수정
     const formData = new FormData();
     formData.append("title", titleText);
     formData.append("content", contentText);
     formData.append('category', selectedCategory);
     formData.append('hashtag', conversionStringHashTag);
-    await communityApi.postCommunity(selectedPhotos, formData);
+    await communityApi.editCommunity(selectedPhotos, formData, comid);
     navigate(-1);
-  };
+  }
 
   const handleBottomSheetOpen = (type) => {
     setBottomSheetType(type);
@@ -104,11 +144,7 @@ const CommunityWrite = () => {
     handleBottomSheetClose();
   };
 
-  console.log(titleText)
-  console.log(contentText)
-  console.log(selectedPhotos)
-  console.log(selectedCategory)
-  console.log(selectedHashTag)
+console.log(animal);
 
   return (
     <div>
@@ -130,7 +166,11 @@ const CommunityWrite = () => {
       />
       <div>
         <Button text={"취소"} btnstyle="white" onClick={handleShowCheckModal} />
-        <Button text={"작성 완료"} btnstyle="white" onClick={isSubmitDisabled ? handleShowNullCheckModal : handleSubmit} />
+        <Button 
+          text={edit ? "수정 완료" : "작성 완료"} 
+          btnstyle={isSubmitDisabled ? "white_disabled" : "white"} 
+          onClick={isSubmitDisabled ? handleShowNullCheckModal : (edit ? () => handleUpdate(comid) : handleSubmit)} 
+        />
       </div>
       {showWriteCancleModal && (
         <CheckModal

@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8081/api";
+const API_BASE_URL = "http://175.45.202.131:8081/api";
+//http://localhost:8081/api
 
 class CommunityApi {
     constructor(baseURL) {
@@ -47,6 +48,33 @@ class CommunityApi {
                     credentials: 'include'
                 },
             });
+            return this.handleResponse(response);
+        } catch (error) {
+            this.handleError(error);
+        }
+    }
+
+    async editCommunity(selectedPhotos, formData, comid) { // 게시물 수정
+        selectedPhotos.slice(0, 5).forEach((photo, index) => {
+            formData.append("photos", photo);
+        });
+
+        try {
+            const response = await axios.post(`${this.baseURL}/community/update/${(comid)}`, formData, {
+                headers: {
+                    "Content-Type" : "application/json",
+                    credentials: 'include'
+                },
+            });
+            return this.handleResponse(response);
+        } catch (error) {
+            this.handleError(error);
+        }
+    }
+
+    async deleteCommunity(comid) { // 게시물 삭제
+        try {
+            const response = await axios.post(`${this.baseURL}/community/delete/${comid}`);
             return this.handleResponse(response);
         } catch (error) {
             this.handleError(error);

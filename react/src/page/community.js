@@ -17,12 +17,19 @@ const Community = () => {
   };
   const selectedAnimalType = animalTypeMapReverse[animalType] || "강아지";
 
+  const animalTypeMap = {
+    강아지: "dog",
+    고양이: "cat",
+    특수동물: "exoticpet",
+  };
+
   const [selectedCenter, setSelectedCenter] = useState(selectedAnimalType);
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState("");
 
   const goCommunityWrite = () => {
-    navigate("/api/community/communityWrite");
+    const animalKey = animalTypeMap[selectedAnimalType] || "dog";
+    navigate("/api/community/communityWrite", { state: { animal: animalKey } });
   };
 
   const handleBottomSheetOpen = (type) => {
@@ -36,11 +43,6 @@ const Community = () => {
 
   const handleSelectPet = (pet) => {
     setSelectedCenter(pet);
-    const animalTypeMap = {
-      강아지: "dog",
-      고양이: "cat",
-      특수동물: "exoticpet",
-    };
     const newAnimalType = animalTypeMap[pet] || "dog";
     navigate(`/community/preview/${newAnimalType}/freedomAndDaily`, {
       replace: true,
