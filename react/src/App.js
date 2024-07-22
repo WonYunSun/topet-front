@@ -14,6 +14,11 @@ import PetRegistration from "./page/PetRegistration";
 import MapScreen from "./page/MapScreen";
 import CommunityDetail from "./page/CommunityDetail";
 import MyPage from "./page/MyPage";
+import ManageMyPets from "./page/ManageMyPets";
+import SeeMyPosts from "./page/SeeMyPosts";
+import SeeMyComments from "./page/SeeMyComments";
+import SeeLikedPosts from "./page/SeeLikedPosts";
+import SeeMyShorts from "./page/SeeMyShorts";
 import ChoicePetRegister from "./page/ChoicePetRegister";
 //navbar.js
 import NavBar from "./component/NavBarComp/NavBar";
@@ -54,6 +59,11 @@ function App() {
         <Route path="/api/schedule" element={<Calendarscreen />} />
         <Route path="/api/petregistration" element={<PetRegistration />} />
         <Route path="/api/mypage" element={<MyPage />} />
+        <Route path="/api/managemypets" element={<ManageMyPets />} />
+        <Route path="/api/myposts" element={<SeeMyPosts />} />
+        <Route path="/api/mycomments" element={<SeeMyComments />} />
+        <Route path="/api/likedposts" element={<SeeLikedPosts />} />
+        <Route path="/api/myshorts" element={<SeeMyShorts />} />
         <Route path="/api/choicepetregister" element={<ChoicePetRegister />} />
         {/* <Route path='/api/kakaoLogin' element={<KakaoLogin/>} /> */}
         <Route path="https://kauth.kakao.com/oauth/authorize?client_id=${3494afad7131fc9645ae9b08ed0dfda6}&redirect_uri=${localhost:8081/api/kakaoLogin}&response_type=code"></Route>
