@@ -28,8 +28,11 @@
 }
 
 .bottom_sheet.show {
+  /* max-height랑 overflow-y 부분 캘린더스크린때문에 적용해놨습니다 문제있으면 말해주세요 */
+  max-height: 90%;
   bottom: 0;
   transform: translateY(0);
+  overflow-y: auto;
 }
 
 .bottom_sheet_content {
