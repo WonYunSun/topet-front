@@ -1,5 +1,5 @@
 import React from "react";
-import MyPageCommonTopBar from '../component/MyPageComp/MyPageCommonTopBar'
+import MyPageCommonTopBar from '../../component/MyPageComp/MyPageCommonTopBar'
 
 const SeeMyPosts = () => {
     return (

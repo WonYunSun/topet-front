@@ -6,6 +6,7 @@ import EditDeleteBottomSheet from "./SubBottomSheet";
 import ScheduleEdit from "./CalendarComp/ScheduleEdit";
 import "../css/bottomsheet.css";
 import HashTagContent from "./HashTagComp/HashTagContent";
+import RegisterMyPetBottomSheet from "../component/MyPageComp/RegisterMyPetBottomSheet";
 
 const BottomSheet = ({
   show,
@@ -60,6 +61,8 @@ const BottomSheet = ({
         return "게시판 선택";
       case "검색":
         return "검색";
+      case "petRegister":
+        return "등록";
       default:
         return "";
     }
@@ -152,6 +155,12 @@ const BottomSheet = ({
             >
               해시태그
             </button>
+          </div>
+        );
+      case "petRegister":
+        return (
+          <div>
+            <RegisterMyPetBottomSheet />
           </div>
         );
       default:

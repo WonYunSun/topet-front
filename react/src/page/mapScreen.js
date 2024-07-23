@@ -1,213 +1,41 @@
-// import React, { useEffect, useState } from "react";
-// import BottomSheet from "../component/BottomSheet";
-// import styles from "../css/mapScreen.module.css";
-// import axios from "axios";
-
-// const MapScreen = () => {
-//   let screenH = window.innerHeight;
-//   let arr = ["동물병원", "반려동물동반", "반려동물산책"];
-//   const apiKey = "b09ec8730de391ab294f4a9848831c2c";
-
-//   const [position, setPosition] = useState({ latitude: null, longitude: null });
-
-//   const [showBottomSheet, setShowBottomSheet] = useState(false);
-//   const [bottomSheetType, setBottomSheetType] = useState(null);
-//   const [selectedButton, setSelectedButton] = useState(null);
-//   const [thisNum, setThisNum] = useState();
-
-//   const [map, setMap] = useState();
-//   const [infowindow, setInfoWindow] = useState();
-
-//   const handleBottomSheetOpen = (type) => {
-//     setBottomSheetType(type);
-//     setShowBottomSheet(true);
-//   };
-
-//   const handleBottomSheetClose = () => {
-//     setShowBottomSheet(false);
-//   };
-
-//   useEffect(() => {
-//     navigator.geolocation.getCurrentPosition((position1) => {
-//       setPosition({
-//         latitude: position1.coords.latitude,
-//         longitude: position1.coords.longitude,
-//       });
-//     });
-//   }, []);
-
-//   useEffect(() => {
-//     const script = document.createElement("script");
-//     script.async = true;
-//     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=0a5f90aad179112a10005dc19a414e8a&autoload=false&libraries=services`; //,clusterer,drawing
-//     document.head.appendChild(script);
-//     script.addEventListener("load", () => {
-//       window.kakao.maps.load(() => {
-//         const container = document.getElementById("map");
-//         navigator.geolocation.getCurrentPosition((position1) => {
-//           setPosition({
-//             latitude: position1.coords.latitude,
-//             longitude: position1.coords.longitude,
-//           });
-//         });
-//         const options = {
-//           center: new window.kakao.maps.LatLng(
-//             position.latitude,
-//             position.longitude
-//           ),
-//           level: 4,
-//         };
-//         setMap(new window.kakao.maps.Map(container, options));
-//         setInfoWindow(new window.kakao.maps.InfoWindow({ zIndex: 2 }));
-//       });
-//     });
-//   }, []);
-
-//   function searchPlace(num) {
-//     var ps = new window.kakao.maps.services.Places();
-//     ps.keywordSearch(arr[num], placesSearchCB);
-//   }
-//   function placesSearchCB(data, status, pagination) {
-//     if (status === window.kakao.maps.services.Status.OK) {
-//       // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-//       // LatLngBounds 객체에 좌표를 추가합니다
-
-//       var bounds = new window.kakao.maps.LatLngBounds();
-//       console.log(bounds);
-//       for (var i = 0; i < data.length; i++) {
-//         displayMarker(data[i]);
-//         bounds.extend(new window.kakao.maps.LatLng(data[i].y, data[i].x));
-//       }
-//       map.setBounds(bounds);
-//       // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-//     }
-//   }
-//   function displayMarker(place) {
-//     // 마커를 생성하고 지도에 표시합니다
-//     var marker = new window.kakao.maps.Marker({
-//       map: map,
-//       position: new window.kakao.maps.LatLng(place.y, place.x),
-//     });
-
-//     // 마커에 클릭이벤트를 등록합니다
-//     window.kakao.maps.event.addListener(marker, "click", function () {
-//       // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-//       infowindow.setContent(
-//         '<div style="padding:5px;font-size:12px;">' +
-//           place.place_name +
-//           "</div>"
-//       );
-//       infowindow.open(map, marker);
-//     });
-//   }
-//   // const CustomButton = ({ num }) => {
-//   //   const isSelected = selectedButton === num;
-//   //   useEffect(() => {
-//   //     if (isSelected) {
-//   //       setThisNum(num);
-//   //       console.log(thisNum);
-//   //     }
-//   //   }, [isSelected, num]);
-
-//   //   return (
-//   //     <div
-//   //       onClick={() => {
-//   //         setSelectedButton(isSelected ? null : num);
-//   //         searchPlace(thisNum);
-//   //       }}
-//   //       style={{
-//   //         ...styles.button,
-//   //         left: 150 * num + num + "px",
-//   //         backgroundColor: isSelected ? "orange" : "white",
-//   //       }}
-//   //     >
-//   //       #{arr[num]}
-//   //     </div>
-//   //   );
-//   // };
-//   const CustomButton = ({ num }) => {
-//     const isSelected = selectedButton === num;
-//     useEffect(() => {
-//       if (isSelected) {
-//         setThisNum(num);
-//         console.log(thisNum);
-//       }
-//     }, [isSelected, num]);
-
-//     return (
-//       <div
-//         onClick={() => {
-//           setSelectedButton(isSelected ? null : num);
-//           searchPlace(thisNum);
-//         }}
-//         className={`${styles.button} ${
-//           isSelected ? styles.selectedButton : ""
-//         }`}
-//         style={{ left: 150 * num + num + "px" }}
-//       >
-//         #{arr[num]}
-//       </div>
-//     );
-//   };
-
-//   return (
-//     <div>
-//       <div id="map" style={styles.map}></div>
-//       <div>
-//         <button style={styles.backButton}>뒤로가기</button>
-//         <input style={styles.input} />
-//         {arr.map((item, index) => (
-//           <CustomButton key={index} num={index} />
-//         ))}
-//       </div>
-//       <div>
-//         {selectedButton !== null && (
-//           <button
-//             style={styles.listButton}
-//             onClick={() => {
-//               handleBottomSheetOpen("map");
-//               searchPlace();
-//             }}
-//           >
-//             목록보기
-//           </button>
-//         )}
-//         <BottomSheet
-//           show={showBottomSheet}
-//           onClose={handleBottomSheetClose}
-//           type={bottomSheetType}
-//         />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default MapScreen;
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import BottomSheet from "../component/BottomSheet";
 import styles from "../css/mapScreen.module.css";
 import { FiArrowLeft } from "react-icons/fi";
 import { IoSearch } from "react-icons/io5";
 import { IoIosList } from "react-icons/io";
-import axios from "axios";
+import useKakaoLoader from "../component/MapComp/UseKakaoLoader";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 const MapScreen = () => {
-  let screenH = window.innerHeight;
-  let arr = ["동물병원", "반려동물동반", "반려동물산책"];
-  const apiKey = "b09ec8730de391ab294f4a9848831c2c";
+  const isLoaded = useKakaoLoader();
+  const mapRef = useRef(null);
 
-  const [position, setPosition] = useState({ latitude: null, longitude: null });
+  const arr = ["동물병원", "반려동물동반", "반려동물산책"];
+
+  const [position, setPosition] = useState({
+    latitude: 33.450701,
+    longitude: 126.570667,
+  });
 
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedButton, setSelectedButton] = useState(null);
   const [thisNum, setThisNum] = useState();
-
-  const [map, setMap] = useState();
-  const [infowindow, setInfoWindow] = useState();
   const [selectedPlace, setSelectedPlace] = useState(null); // 선택된 장소 정보를 저장할 상태
   const [isVisible, setIsVisible] = useState(false); // 트랜지션을 위한 상태
+  const [places, setPlaces] = useState([]); // 검색된 장소들을 저장할 상태
+  const [map, setMap] = useState(null); // Kakao 지도 객체를 저장할 상태
+
+  // 기본 위치 상태
+  const [state, setState] = useState({
+    center: {
+      lat: 33.450701,
+      lng: 126.570667,
+    },
+    errMsg: null,
+    isLoading: true,
+  });
 
   const handleBottomSheetOpen = (type) => {
     setBottomSheetType(type);
@@ -218,41 +46,107 @@ const MapScreen = () => {
     setShowBottomSheet(false);
   };
 
+  // 현재 사용자 위치 받아오기 (geolocation)
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position1) => {
-      setPosition({
-        latitude: position1.coords.latitude,
-        longitude: position1.coords.longitude,
-      });
-    });
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setState({
+            center: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            },
+            errMsg: null,
+            isLoading: false,
+          });
+        },
+        (err) => {
+          setState((prev) => ({
+            ...prev,
+            errMsg: err.message,
+            isLoading: false,
+          }));
+        }
+      );
+    } else {
+      setState((prev) => ({
+        ...prev,
+        errMsg: "geolocation을 사용할 수 없어요..",
+        isLoading: false,
+      }));
+    }
   }, []);
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=0a5f90aad179112a10005dc19a414e8a&autoload=false&libraries=services`; //,clusterer,drawing
-    document.head.appendChild(script);
-    script.addEventListener("load", () => {
-      window.kakao.maps.load(() => {
-        const container = document.getElementById("map");
-        navigator.geolocation.getCurrentPosition((position1) => {
-          setPosition({
-            latitude: position1.coords.latitude,
-            longitude: position1.coords.longitude,
-          });
-        });
-        const options = {
-          center: new window.kakao.maps.LatLng(
-            position.latitude,
-            position.longitude
-          ),
-          level: 4,
-        };
-        setMap(new window.kakao.maps.Map(container, options));
-        setInfoWindow(new window.kakao.maps.InfoWindow({ zIndex: 2 }));
-      });
+    if (isLoaded && !state.isLoading) {
+      const container = document.getElementById("map");
+      const options = {
+        center: new window.kakao.maps.LatLng(
+          state.center.lat,
+          state.center.lng
+        ),
+        level: 4,
+      };
+      const map = new window.kakao.maps.Map(container, options);
+      mapRef.current = map; // mapRef에 지도 객체 저장
+      setMap(map);
+    }
+  }, [isLoaded, state.isLoading, state.center]);
+
+  const searchPlace = (num) => {
+    if (!isLoaded || !window.kakao || !map) return;
+
+    const ps = new window.kakao.maps.services.Places();
+    ps.keywordSearch(arr[num], (data, status) => {
+      if (status === window.kakao.maps.services.Status.OK) {
+        setPlaces(data);
+        displayMarkers(data);
+      }
     });
-  }, []);
+  };
+
+  const displayMarkers = (places) => {
+    if (!map) return;
+
+    const markers = places.map((place) => {
+      const marker = new window.kakao.maps.Marker({
+        position: new window.kakao.maps.LatLng(place.y, place.x),
+      });
+
+      window.kakao.maps.event.addListener(marker, "click", () => {
+        setSelectedPlace(place);
+        setIsVisible(true);
+      });
+
+      return marker;
+    });
+
+    markers.forEach((marker) => marker.setMap(map));
+  };
+
+  const CustomButton = ({ num }) => {
+    const isSelected = selectedButton === num;
+    useEffect(() => {
+      if (isSelected) {
+        setThisNum(num);
+        searchPlace(num);
+      }
+    }, [isSelected, num]);
+
+    return (
+      <div
+        onClick={() => {
+          setSelectedButton(isSelected ? null : num);
+          searchPlace(num);
+        }}
+        className={`${styles.button} ${
+          isSelected ? styles.selectedButton : ""
+        }`}
+      >
+        #{arr[num]}
+      </div>
+    );
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -269,65 +163,82 @@ const MapScreen = () => {
     };
   }, []);
 
-  function searchPlace(num) {
-    var ps = new window.kakao.maps.services.Places();
-    ps.keywordSearch(arr[num], placesSearchCB);
-  }
-  function placesSearchCB(data, status, pagination) {
-    if (status === window.kakao.maps.services.Status.OK) {
-      // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-      // LatLngBounds 객체에 좌표를 추가합니다
-
-      var bounds = new window.kakao.maps.LatLngBounds();
-      console.log(bounds);
-      for (var i = 0; i < data.length; i++) {
-        displayMarker(data[i]);
-        bounds.extend(new window.kakao.maps.LatLng(data[i].y, data[i].x));
-      }
-      map.setBounds(bounds);
-      // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-    }
-  }
-  function displayMarker(place) {
-    var marker = new window.kakao.maps.Marker({
-      map: map,
-      position: new window.kakao.maps.LatLng(place.y, place.x),
-    });
-
-    window.kakao.maps.event.addListener(marker, "click", function () {
-      setSelectedPlace(place);
-      setTimeout(() => {
-        setIsVisible(true); // placeInfo를 보이도록 설정
-      }, 10); // 약간의 지연을 두어 트랜지션을 시작합니다.
-    });
-  }
-  const CustomButton = ({ num }) => {
-    const isSelected = selectedButton === num;
-    useEffect(() => {
-      if (isSelected) {
-        setThisNum(num);
-        console.log(thisNum);
-      }
-    }, [isSelected, num]);
-
-    return (
-      <div
-        onClick={() => {
-          setSelectedButton(isSelected ? null : num);
-          searchPlace(thisNum);
-        }}
-        className={`${styles.button} ${
-          isSelected ? styles.selectedButton : ""
-        }`}
-      >
-        #{arr[num]}
-      </div>
-    );
+  const zoomIn = () => {
+    const map = mapRef.current;
+    if (!map) return;
+    map.setLevel(map.getLevel() - 1);
   };
+
+  const zoomOut = () => {
+    const map = mapRef.current;
+    if (!map) return;
+    map.setLevel(map.getLevel() + 1);
+  };
+
+  if (state.isLoading) {
+    return <div>Loading map...</div>;
+  }
 
   return (
     <div className={styles.MapscreenWrap}>
-      <div id="map" className={styles.map}></div>
+      <Map
+        id="map"
+        center={{
+          lat: state.center.lat,
+          lng: state.center.lng,
+        }}
+        style={{
+          width: "100%",
+          height: "calc(100vh - 40px)",
+        }}
+        level={3}
+        ref={mapRef}
+      >
+        {/* 현재 위치 마커 표시 */}
+        <MapMarker
+          position={state.center}
+          image={{
+            src: "https://cdn-icons-png.flaticon.com/128/7124/7124723.png",
+            size: {
+              width: 50,
+              height: 50,
+            },
+            options: {
+              zIndex: 9999, // z-index 설정
+            },
+          }}
+        />
+        {places.map((place) => (
+          <MapMarker
+            key={place.id}
+            position={{
+              lat: place.y,
+              lng: place.x,
+            }}
+            onClick={() => {
+              setSelectedPlace(place);
+              setIsVisible(true);
+              console.log("Marker clicked: ", place);
+            }}
+          />
+        ))}
+      </Map>
+
+      <div className={`${styles.custom_zoomcontrol} ${styles.radius_border}`}>
+        <span onClick={zoomIn}>
+          <img
+            src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
+            alt="확대"
+          />
+        </span>
+        <span onClick={zoomOut}>
+          <img
+            src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png"
+            alt="축소"
+          />
+        </span>
+      </div>
+
       <div className={styles.mapTopWrap}>
         <div className={styles.topBtnWrap}>
           <button className={styles.backButton}>
@@ -353,7 +264,7 @@ const MapScreen = () => {
             className={styles.listButton}
             onClick={() => {
               handleBottomSheetOpen("map");
-              searchPlace();
+              searchPlace(selectedButton);
             }}
           >
             <div className={styles.listinnerDiv}>

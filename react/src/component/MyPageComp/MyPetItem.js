@@ -1,6 +1,6 @@
 import React from "react";
 import styles from '../../css/mypage_managemypets.module.css';
-import { RxShare2 } from "react-icons/rx";
+import { GoShare } from "react-icons/go";
 import { MdEdit } from "react-icons/md";
 
 const MyPetItem = ({ photoUrl, name }) => {
@@ -12,7 +12,7 @@ const MyPetItem = ({ photoUrl, name }) => {
                 </div>
                 <div className={styles.name}>{name}</div>
                 <span className={styles.profile_span}></span>
-                <RxShare2 className={styles.profile_icon} />
+                <GoShare className={styles.profile_icon} />
                 <MdEdit className={styles.profile_icon} />
             </div>
         </div>

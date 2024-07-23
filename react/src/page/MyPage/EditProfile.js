@@ -1,13 +1,37 @@
-import React, { useRef, useMemo, useCallback, useState } from "react";
-import MyPageCommonTopBar from '../component/MyPageComp/MyPageCommonTopBar'
-import styles from '../css/mypage_editprofile.module.css'
+import React, { useRef, useMemo, useCallback, useState, useEffect } from "react";
+import MyPageCommonTopBar from '../../component/MyPageComp/MyPageCommonTopBar';
+import styles from "../../css/mypage_editprofile.module.css";
 import { TbPhoto } from "react-icons/tb";
 import { TiDelete } from "react-icons/ti";
 
 const EditProfile = () => {
-    const [profilePhoto, setProfilePhoto] = useState();
-    const [profileName, setProfileName] = useState();
+    const defaultProfileImage = 'https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg';
+    const [profilePhoto, setProfilePhoto] = useState(defaultProfileImage);
+    const [profileName, setProfileName] = useState('반려동물1');
+    const [canSave, setCanSave] = useState();
     const fileInputRef = useRef(null);
+    const currentProfilePhoto = defaultProfileImage; // 기존 사진
+    const currentProfileName = '반려동물1'; // 기존 닉네임
+
+    useEffect(() => {
+
+        if(profileName == '' || profileName == currentProfileName){
+            // 닉네임이 비었거나 기존 닉네임이랑 같을 경우
+            setCanSave(false);
+        } else {
+            setCanSave(true);
+        }
+
+        if(profilePhoto == currentProfilePhoto){
+            setCanSave(false);
+        } else {
+            setCanSave(true);
+        }
+
+        if(profilePhoto == '' || profilePhoto == undefined) {
+            setProfilePhoto(defaultProfileImage);
+        }
+    },[canSave, profileName, profilePhoto]);
 
     const photoSelect = useCallback(() => {
         fileInputRef.current.click();
@@ -15,7 +39,7 @@ const EditProfile = () => {
 
     const handleFileChange = useCallback((event) => {
         const photo = event.target.files[0];
-        setProfilePhoto(photo);
+            setProfilePhoto(photo);
     }, [setProfilePhoto]);
 
     const handleProfilePhotoChange = (value) => {
@@ -24,19 +48,24 @@ const EditProfile = () => {
 
     const handleProfileNameChange = (e) => {
         const tempname = e.target.value;
-        setProfileName(tempname);
+        if (tempname.length <= 25) {
+            setProfileName(tempname);
+        }
     }
 
     const ProfilePhoto = useMemo(() => {
         return (
             <div className={styles.profile_photo_wrapper} onChange={handleProfilePhotoChange}>
-                {profilePhoto == null ? (
-                    <div className={styles.empty_profile_photo}></div>
-                ) : (
-                    <div className={styles.selected_profile_photo_container} >
-                        <img src={URL.createObjectURL(profilePhoto)} className={styles.selected_profile_photo} />
+                {profilePhoto && typeof profilePhoto === 'object' ? (
+                    <div className={styles.selected_profile_photo_container}>
+                        <img src={URL.createObjectURL(profilePhoto)} className={styles.selected_profile_photo} alt="Profile" />
                     </div>
-                )}
+                ) : 
+                    (
+                        <div className={styles.selected_profile_photo_container}>
+                            <img src={profilePhoto} className={styles.selected_profile_photo} alt="Profile" />
+                        </div>
+                    )}
             </div>
         );    
     }, [setProfilePhoto, handleProfilePhotoChange]);
@@ -81,19 +110,21 @@ const EditProfile = () => {
                 <div className={styles.profile_name_inputbar_wrapper}>
                     <input
                         className={styles.profile_name_inputbar}
-                        value={profileName || ''}
+                        value={profileName}
+                        maxLength={25}
                         onChange={handleProfileNameChange}
                         placeholder="닉네임을 작성해주세요"
                     />
                     <TiDelete className={styles.input_delete_icon} onClick={DeleteInputText} />
                 </div>
+                <div className={styles.profile_name_length}>{profileName.length}/25</div>
             </div>
             <div className={styles.secession_wrapper}>
                 <div className={styles.secession_phrase}>회원을 탈퇴하시겠습니까?</div>
                 <div className={styles.secession_button} onClick={Secession}>회원탈퇴</div>
             </div>
             <div className={styles.save_button_wrapper}>
-                <button className={`${profileName == '' ? styles.disabled : styles.save_button}`} onClick={SaveProfile}>{ '저장' }</button>
+                <button className={`${!canSave ? styles.disabled : styles.save_button}`} onClick={SaveProfile}>{ '저장' }</button>
             </div>
         </div>
     )
