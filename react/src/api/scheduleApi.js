@@ -25,10 +25,11 @@ class scheduleApi {
 
   async postSchedule(formData) {
     try {
-      const response = await this.client.post(`${this.baseURL}/schedule/post`, formData, {
+      const response = await axios.post('http://localhost:8081/api/schedule/post', formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
+        withCredentials: true,
       });
       console.log("서버 응답:", response.data);
     } catch (error) {
