@@ -90,7 +90,6 @@ const CommunityWrite = () => {
     formData.append("content", contentText);
     formData.append('category', selectedCategory);
     formData.append('hashtag', conversionStringHashTag);
-    console.log(conversionStringHashTag)
     await communityApi.postCommunity(selectedPhotos, formData);
     navigate(-1);
   };
