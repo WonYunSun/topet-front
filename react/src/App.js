@@ -13,14 +13,14 @@ import PetRegistration from "./page/PetRegistration";
 
 import MapScreen from "./page/MapScreen";
 import CommunityDetail from "./page/CommunityDetail";
-import MyPage from "./page/MyPage";
-import EditProfile from "./page/EditProfile";
-import ManageMyPets from "./page/ManageMyPets";
-import SeeMyPosts from "./page/SeeMyPosts";
-import SeeMyComments from "./page/SeeMyComments";
-import SeeLikedPosts from "./page/SeeLikedPosts";
-import SeeMyShorts from "./page/SeeMyShorts";
-import SeeLikedShorts from "./page/SeeLikedShorts";
+import MyPage from "./page/MyPage/MyPage";
+import EditProfile from "./page/MyPage/EditProfile";
+import ManageMyPets from "./page/MyPage/ManageMyPets";
+import SeeMyPosts from "./page/MyPage/SeeMyPosts";
+import SeeMyComments from "./page/MyPage/SeeMyComments";
+import SeeLikedPosts from "./page/MyPage/SeeLikedPosts";
+import SeeMyShorts from "./page/MyPage/SeeMyShorts";
+import SeeLikedShorts from "./page/MyPage/SeeLikedShorts";
 import ChoicePetRegister from "./page/ChoicePetRegister";
 //navbar.js
 import NavBar from "./component/NavBarComp/NavBar";
