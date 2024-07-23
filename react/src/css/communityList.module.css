@@ -42,7 +42,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100vh - 171px); /* TopBar의 높이를 계산해서 props 전달해준 다음에 윈도우 높이에서 빼야하는 로직 구현 필요 */
+  height: calc(100vh - 181px); /* TopBar의 높이를 계산해서 props 전달해준 다음에 윈도우 높이에서 빼야하는 로직 구현 필요 */
   overflow-y: auto;
 }
 

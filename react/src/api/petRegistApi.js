@@ -15,7 +15,6 @@ class petRegistApi {
             this.client.post("/petRegistration", petDomain, {
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    
                 },  
                 withCredentials: true,
             }).then((response) => {

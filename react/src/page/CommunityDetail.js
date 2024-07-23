@@ -29,7 +29,6 @@ const CommunityDetail = () => {
   const [profileName, setProfileName] = useState("강아지");
   const [showSubBottomSheet, setShowSubBottomSheet] = useState(false);
   const [writer, setWriter] = useState(true); // 글 쓴 사람인지 아닌지, 나중에 로직 바꿔야 할 듯
-  const [deleteError, setDeleteError] = useState(false);
 
   useEffect(() => {
     const fetchPostDetail = async () => {
