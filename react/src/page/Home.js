@@ -16,6 +16,8 @@ import ShortsList from "../component/ShortsComp/ShortsList";
 import styles from "../css/homescreen.module.css";
 // import CommunityList from "../component/CommunityComp/CommunityList"; //작업 연기
 import CommunityListData from "../component/CommunityComp/CommunityListData";
+import homeApi from "../api/homeApi";
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -70,7 +72,9 @@ const Home = () => {
       scheduleEditer: "B",
     },
   ]);
-
+  useEffect(() => {
+      getHome();
+  },[])
   const goCommunity = () => {
     const animalTypeMap = {
       강아지: "dog",
@@ -182,6 +186,10 @@ const Home = () => {
   const handleClick = () => {
     setIsFlipped(!isFlipped);
   };
+
+  const getHome=()=>{
+    homeApi.getHomeData();
+  }
 
   return (
     <div className={styles.homeWrap}>

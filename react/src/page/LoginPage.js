@@ -8,7 +8,6 @@ import axios from "axios";
 const LoginPage = () => {
 
 const goKaKaoLogin = () => {
-    
     axios.get('http://localhost:8081/api/kakaoLogin')
         .then((response) => {
             window.location.href = response.data;
