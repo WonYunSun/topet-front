@@ -6,10 +6,12 @@ import styles from '../css/community_detail.module.css';
 import { BsChatFill } from "react-icons/bs";
 import { BiSolidLike } from "react-icons/bi";
 import { FaSpinner } from "react-icons/fa";
+import { FiMoreVertical } from "react-icons/fi";
 import CommunityApi from '../api/communityApi';
 import CheckModal from '../component/CheckModal';
-import ComentCreate from '../component/CommunityComp/ComentCreate';
-import ComentList from '../component/CommunityComp/ComentList';
+import CommentCreate from '../component/CommunityComp/CommentCreate';
+import CommentList from '../component/CommunityComp/CommentList';
+import EditDeleteBottomSheet from '../component/SubBottomSheet';
 
 const CommunityDetail = () => {
   const navigate = useNavigate()
@@ -25,6 +27,9 @@ const CommunityDetail = () => {
   const [likes, setLikes] = useState(0);
   const [profileImg, setProfileImg] = useState('https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzBfNjUg%2FMDAxNzE3MDY0NDY1OTE5.RuUuUb2erFc8zs-8wC10KGxHyKOlSCxZM72R5K_PWCkg.7h8cC7tzZrwM8sIWQVuO1tjjpnTX013k2E5OKtE2dWYg.PNG%2Fimage.png&type=sc960_832');
   const [profileName, setProfileName] = useState("강아지");
+  const [showSubBottomSheet, setShowSubBottomSheet] = useState(false);
+  const [writer, setWriter] = useState(true); // 글 쓴 사람인지 아닌지, 나중에 로직 바꿔야 할 듯
+  const [deleteError, setDeleteError] = useState(false);
 
   useEffect(() => {
     const fetchPostDetail = async () => {
@@ -33,9 +38,8 @@ const CommunityDetail = () => {
         const detail = await CommunityApi.fetchCommunityDetail(comid);
         console.log("서버에서 받은 데이터:", detail); // 서버에서 받은 데이터를 콘솔에 출력
         setItem(detail);
-        setLikes(detail.likeCount); // 초기 likeCount 설정
+        setLikes(detail.likeCount);
 
-        // 해시태그를 배열로 변환
         if (detail.hashtag) {
           setHashtags(detail.hashtag.split(',').map(tag => tag.trim()));
         }
@@ -89,7 +93,32 @@ const CommunityDetail = () => {
     return <div>Loading...</div>;
   }
 
-  const { title, content, images, commentCount } = item;
+  const {animal, title, content, images, category, hashtag, photos, commentCount } = item;
+
+  const navigateWithParams = () => { // 여기 추가
+    const params = {
+      title: item.title,
+      content: item.content,
+      images: item.images,
+      category : item.category,
+      hashtag : item.hashtag,
+      animal : item.animal,
+      edit: true,
+      comid: comid,
+    };
+    navigate(`/api/community/communitywrite`, { state: params });
+  };
+
+  const handleDeleteClick = async () => {
+    try {
+      await CommunityApi.deleteCommunity(comid);
+      navigate(-1); // 삭제 성공 시 이전 페이지로 이동
+    } catch (error) {
+      setModalMessage('게시물 삭제에 실패했습니다.');
+      setModalIsOpen(true);
+    }
+  };
+
 
   return (
     <div>
@@ -114,6 +143,7 @@ const CommunityDetail = () => {
           <span key={index} className={styles.hashtag}>#{hashtag}</span>
         ))}
       </div>
+
       <div className={styles.like_and_coment}>
         <div className="icon-group">
           <BiSolidLike 
@@ -127,10 +157,14 @@ const CommunityDetail = () => {
           <BsChatFill className={styles.icon}/>
           <span> {commentCount}</span>
         </div>
+        <div className={styles.moreIconContainer}>
+          <FiMoreVertical className={styles.moreIcon} onClick={() => setShowSubBottomSheet(true)} />
+        </div>
       </div>
+
       <div className={styles.coment_area}>
-        <ComentCreate comid={comid} />
-        <ComentList />
+        <CommentCreate comid={comid} />
+        <CommentList comid={comid} />
       </div>
 
       {modalIsOpen && (
@@ -140,6 +174,16 @@ const CommunityDetail = () => {
           oneBtn={true}
         />
       )}
+
+      
+      <EditDeleteBottomSheet 
+        show={showSubBottomSheet}
+        type={writer ? "CommunityEditDelete" : "CommunityReportBlock"}
+        onClose={()=>setShowSubBottomSheet(false)}
+        onEditClick={navigateWithParams} // 여기 추가
+        onDeleteClick={handleDeleteClick}
+      />
+      
     </div>
   );
 };

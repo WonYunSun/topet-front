@@ -1,0 +1,25 @@
+.wrapper {
+    width: 92%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.wrapper::after {
+    content: "";
+    padding-left: 20px;
+}
+
+.back_icon {
+    font-size: 24px;
+    cursor: pointer;
+    color: black;
+}
+
+.page_title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #FFA62F;
+}

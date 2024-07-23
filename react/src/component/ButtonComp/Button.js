@@ -8,7 +8,7 @@ const Button = ({
   disabled,
 }) => {
   const textVerification = () => {
-    if (text === "작성 완료" || text === "완료") {
+    if (text === "작성 완료" || text === "완료" || "수정 완료") {
       onClick();
     } else if(text === "취소") {
       onClick();

@@ -5,8 +5,8 @@ module.exports = function (app) {
     "/api", //이제 프론트엔드에서 '/api'로 요청을 보내면, 백엔드인 808포트(=target)로 요청이 도착하게 됩니다.
     createProxyMiddleware({
       target: 
-      "http://localhost:8081/",
-      //"http://175.45.202.131:8081/", //# 서버 URL or localhost:설정한포트번호
+      // "http://localhost:8081/",
+      "http://175.45.202.131:8081/", //# 서버 URL or localhost:설정한포트번호
       
       changeOrigin: true,
     })

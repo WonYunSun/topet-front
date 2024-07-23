@@ -113,6 +113,17 @@
     color: rgb(173, 173, 173);
   }
 
+  .moreIconContainer {
+    margin-left: auto; /* 오른쪽 끝으로 이동 */
+  }
+  
+  .moreIcon {
+    font-size: 18px;
+    cursor: pointer;
+    margin-right: 10px;
+    color: gray;
+  }
+
   /*여기는 댓글 css*/
 
   .coment_area{

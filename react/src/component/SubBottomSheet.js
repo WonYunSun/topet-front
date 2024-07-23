@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "../css/subBottomSheet.module.css";
 import EditDelete from "../component/EditDelete";
+import CommunityEDRB from "./CommunityComp/CommunityEDRB";
+
 const EditDeleteBottomSheet = ({
   show,
   onClose,
@@ -8,7 +10,10 @@ const EditDeleteBottomSheet = ({
   onEditClick,
   selectedSchedule,
   onDeleteClick,
+  onReportClick,
+  onBlockClick,
 }) => {
+
   const handleCloseBottomSheet = () => {
     onClose();
   };
@@ -16,9 +21,11 @@ const EditDeleteBottomSheet = ({
   function getTypeText(type) {
     switch (type) {
       case "EditDelete":
+      case "CommunityEditDelete":
+      case "CommunityReportBlock":
         return "더보기";
       default:
-        return "";
+        return "더보기";
     }
   }
 
@@ -34,6 +41,18 @@ const EditDeleteBottomSheet = ({
             />
           </>
         );
+      case "CommunityEditDelete":
+        return (
+          <>
+            <CommunityEDRB type={"EditDelete"} onEditClick={onEditClick} onDeleteClick={onDeleteClick} onClose={onClose}/> {/* 여기 추가 */}
+          </>
+        )
+        case "CommunityReportBlock":
+          return (
+            <>
+              <CommunityEDRB type={"ReportBlock"} />
+            </>
+          )
       default:
         return "";
     }

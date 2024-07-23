@@ -1,4 +1,5 @@
 import React from "react";
+import { BsArrowRight } from "react-icons/bs";
 import ShortItem from "./ShortItem";
 import styles from "../../css/shorts.module.css";
 
@@ -13,7 +14,10 @@ const ShortsList = ({ shortsData }) => {
           author={short.author}
         />
       ))}
-      <div className={styles.seeMore}>쇼츠 더보기</div>
+      <div className={styles.seeMore}>
+        <div>더 보기</div>
+        <BsArrowRight size={26} />
+      </div>
     </div>
   );
 };

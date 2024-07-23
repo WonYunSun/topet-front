@@ -1,0 +1,55 @@
+.comentContainer {
+  padding: 10px;
+}
+
+.comentItem {
+  border-bottom: 1px solid #ccc;
+  margin: 10px 0;
+}
+
+.userProfileContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.userProfileContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.userProfile {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.userName {
+  font-weight: bold;
+}
+
+.comentText {
+  margin-left: 50px; /* 프로필 이미지의 너비와 동일하게 설정 */
+  margin-top: 5px;
+  text-align: left;
+}
+
+.repliesContainer {
+  margin-left: 50px; /* 댓글의 답글을 들여쓰기 */
+}
+
+.replyItem {
+  border-top: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.moreIconContainer {
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.moreIcon {
+  font-size: 18px;
+  color: gray;
+}

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import styles from '../../css/ComentCreate.module.css';
+import styles from '../../css/CommentCreate.module.css';
 import CommunityApi from '../../api/communityApi';
 
-const ComentCreate = ({ comid }) => {
+const CommentCreate = ({ comid }) => {
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
 
@@ -37,4 +37,4 @@ const ComentCreate = ({ comid }) => {
   );
 };
 
-export default ComentCreate;
+export default CommentCreate;

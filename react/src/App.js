@@ -14,6 +14,13 @@ import PetRegistration from "./page/PetRegistration";
 import MapScreen from "./page/MapScreen";
 import CommunityDetail from "./page/CommunityDetail";
 import MyPage from "./page/MyPage";
+import EditProfile from "./page/EditProfile";
+import ManageMyPets from "./page/ManageMyPets";
+import SeeMyPosts from "./page/SeeMyPosts";
+import SeeMyComments from "./page/SeeMyComments";
+import SeeLikedPosts from "./page/SeeLikedPosts";
+import SeeMyShorts from "./page/SeeMyShorts";
+import SeeLikedShorts from "./page/SeeLikedShorts";
 import ChoicePetRegister from "./page/ChoicePetRegister";
 //navbar.js
 import NavBar from "./component/NavBarComp/NavBar";
@@ -54,6 +61,13 @@ function App() {
         <Route path="/api/schedule" element={<Calendarscreen />} />
         <Route path="/api/petregistration" element={<PetRegistration />} />
         <Route path="/api/mypage" element={<MyPage />} />
+        <Route path="/api/editprofile" element={<EditProfile />} />
+        <Route path="/api/managemypets" element={<ManageMyPets />} />
+        <Route path="/api/myposts" element={<SeeMyPosts />} />
+        <Route path="/api/mycomments" element={<SeeMyComments />} />
+        <Route path="/api/likedposts" element={<SeeLikedPosts />} />
+        <Route path="/api/myshorts" element={<SeeMyShorts />} />
+        <Route path="/api/likedshorts" element={<SeeLikedShorts />} />
         <Route path="/api/choicepetregister" element={<ChoicePetRegister />} />
         {/* <Route path='/api/kakaoLogin' element={<KakaoLogin/>} /> */}
         <Route path="/api" element={<LoginPage/>}/>
