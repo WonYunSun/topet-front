@@ -130,7 +130,7 @@
   position: absolute;
   bottom: 70px;
   left: 50%;
-  transform: translateX(-50%) translateY(100px); /* 처음에 아래쪽에 위치 */
+  transform: translateX(-50%) translateY(100px);
   z-index: 20;
   background-color: white;
   padding: 10px;
@@ -138,12 +138,14 @@
   box-shadow: var(--box-shadow);
   width: 80%;
   max-width: 400px;
-  transition: transform 0.3s ease; /* transform 트랜지션만 정의 */
+  transition: transform 0.3s ease;
 }
 
 .placeInfo.show {
-  transform: translateX(-50%) translateY(0); /* 위로 올라오는 효과 */
+  transform: translateX(-50%) translateY(0);
 }
+/* mapScreen.module.css */
+
 .placeInfoContent {
   display: flex;
   flex-direction: column;
@@ -160,4 +162,20 @@
   margin: 5px 0;
   font-size: 0.9em;
   color: #666;
+}
+
+.custom_zoomcontrol {
+  position: absolute;
+  bottom: 80px;
+  left: 10px;
+  z-index: 1;
+}
+
+.custom_zoomcontrol span {
+  display: block;
+  background: #fff;
+  border: 1px solid #717171;
+  padding: 5px;
+  cursor: pointer;
+  text-align: center;
 }
