@@ -133,7 +133,7 @@ export default function AddSchedule({
     formData.append("scheduleEditer", "EditorName");
     if (selectedPhoto) formData.append("photo", selectedPhoto);
     console.log("postSchedule 호출");
-    await ScheduleApi.postSchedule(formData); // ScheduleService 호출 //post로직
+    ScheduleApi.postSchedule(formData); // ScheduleService 호출 //post로직
     console.log("postSchedule 호출끝");
   };
 
