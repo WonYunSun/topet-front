@@ -78,9 +78,9 @@
 
 .profile_name_inputbar_wrapper {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: start;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     border-radius: 15px;
     width: 100%;
@@ -103,6 +103,17 @@
     font-size: 16px;
     font-weight: 400;
     color: #b3b3b3;
+}
+
+.input_delete_icon {
+    font-size: 27px;
+    width: 20%;
+    color: #cecece;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: end;
 }
 
 .secession_wrapper {
@@ -146,7 +157,7 @@
     background-color: #FFA62F;
 }
 
-.save_button:disabled {
+.disabled {
     font-size: 16px;
     font-weight: bold;
     color: #ffffff;
