@@ -3,11 +3,13 @@ import { handleResponse, handleError } from './ResponseProcess';
 
 const API_BASE_URL = "http://175.45.202.131:8081/api";
 //http://localhost:8081/api
+const crossOriginIsolated = {withCredentials: true}
 
 class CommunityApi {
     constructor(baseURL) {
         this.baseURL = baseURL;
     }
+
 
     async postCommunity(selectedPhotos, formData) { // 게시물 보내기
         selectedPhotos.slice(0, 5).forEach((photo, index) => {
@@ -20,10 +22,13 @@ class CommunityApi {
                     "Content-Type": "multipart/form-data",
                     credentials: 'include'
                 },
+                withCredentials: true,
             });
-            return handleResponse(response);
+            console.log(response);
+            //return handleResponse(response);
         } catch (error) {
-            handleError(error);
+            console.log(error);
+            //handleError(error);
         }
     }
 
@@ -38,6 +43,7 @@ class CommunityApi {
                     "Content-Type": "application/json",
                     credentials: 'include'
                 },
+                withCredentials: true // 세션 쿠키를 포함하도록 설정
             });
             return handleResponse(response);
         } catch (error) {
@@ -70,15 +76,17 @@ class CommunityApi {
         } catch (error) {
             handleError(error);
         }
+
     }
 
-    async postComment(comid, formData) { // 댓글 보내기
+    async postComment(comid, formData , crossOriginIsolated) { // 댓글 보내기
       try {
           const response = await axios.post(`${this.baseURL}/${comid}/comentPost`, formData, {
               headers: {
                   "Content-Type": "multipart/form-data",
                   credentials: 'include'
               },
+              withCredentials: true,
           });
           return handleResponse(response);
       } catch (error) {

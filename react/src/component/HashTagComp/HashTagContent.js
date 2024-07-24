@@ -15,6 +15,7 @@ const HashTagContent = ({ show, initialSelectedCategory, initialSelectedHashTag,
     } else {
       setRequiredTag('');
       setSelectedTags([]);
+      setInputValue('');
     }
   }, [show, initialSelectedCategory, initialSelectedHashTag]);
 
@@ -23,9 +24,10 @@ const HashTagContent = ({ show, initialSelectedCategory, initialSelectedHashTag,
   };
 
   const handleInputChange = (e) => {
-    const value = e.target.value.replace(/[#\s]/g, ''); // #과 공백 제거
+    const value = e.target.value.replace(/[^a-zA-Z0-9가-힣ㄱ-ㅎ]/g, ''); // 한글, 한글 초성, 영어 대소문자, 숫자 이외의 모든 문자 제거
     setInputValue(value);
   };
+  
 
   const handleTagSubmit = () => {
     if (inputValue && !selectedTags.includes(inputValue)) {
