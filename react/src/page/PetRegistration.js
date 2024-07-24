@@ -10,6 +10,8 @@ import AnimalWeightandHealth from '../component/AnimalSelectComp/AnimalWeightand
 import petRegistApi from '../api/petRegistApi';
 
 const PetRegistration = () => {
+    const defaultImage = 'https://i.pinimg.com/564x/b5/b0/c0/b5b0c0313bfeb3cd262e16b546499a8c.jpg';
+
     const [stepNum, setStepNum] = useState(1);
     const [selectedType, setSelectedType] = useState('');   //강아지, 고양이, 특수반려동물
     
@@ -20,7 +22,7 @@ const PetRegistration = () => {
     const [checkedGender, setCheckedGender] = useState(false);//몰라요
     
     const [name, setName] = useState();                     //이름
-    const [selectedPhoto, setSelectedPhoto] = useState();   //사진
+    const [selectedPhoto, setSelectedPhoto] = useState(defaultImage);   //사진
     
     const [year, setYear] = useState('');                   //생일
     const [month, setMonth] = useState('');
@@ -189,7 +191,7 @@ const PetRegistration = () => {
         formData.append("weight", weight);
         formData.append("allergy", allergy);
         formData.append("health", health);
-        if (selectedPhoto) {
+        if (selectedPhoto != null) {
             formData.append("photo", selectedPhoto);
         }
         console.log(formData.get("type"));
@@ -301,12 +303,14 @@ const PetRegistration = () => {
                 return (
                     <div>
                         <AnimalPhotoandName
+                            defaultImage={defaultImage}
                             selectedPhoto={selectedPhoto}
                             setSelectedPhoto={setSelectedPhoto}
                             handleSelectedProfilePhotoChange={handleSelectedProfilePhotoChange}
                             name={name}
                             setName={setName}
                             handleNameChange={handleNameChange}
+                            nextPossible={nextPossible}
                             setNextPossible={setNextPossible}
                         />
                         <div className={styles.stepbutton_wrapper}><NextPossibleComp /></div>

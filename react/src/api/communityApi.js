@@ -1,9 +1,8 @@
 import axios from "axios";
 import { handleResponse, handleError } from './ResponseProcess';
 
-const API_BASE_URL = "http://175.45.202.131:8081/api";
-//http://localhost:8081/api
-const crossOriginIsolated = {withCredentials: true}
+const API_BASE_URL = //"http://175.45.202.131:8081/api";
+"http://localhost:8081/api";
 
 class CommunityApi {
     constructor(baseURL) {
@@ -20,7 +19,6 @@ class CommunityApi {
             const response = await axios.post(`${this.baseURL}/community/communityPost`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    credentials: 'include'
                 },
                 withCredentials: true,
             });

@@ -16,6 +16,8 @@ import ShortsList from "../component/ShortsComp/ShortsList";
 import styles from "../css/homescreen.module.css";
 // import CommunityList from "../component/CommunityComp/CommunityList"; //작업 연기
 import CommunityListData from "../component/CommunityComp/CommunityListData";
+import homeApi from "../api/homeApi";
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -23,6 +25,7 @@ const Home = () => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(null);
+  const [pets, setPets] = useState([]);
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
   const [schedules, setSchedule] = useState([
     {
@@ -70,7 +73,9 @@ const Home = () => {
       scheduleEditer: "B",
     },
   ]);
-
+  useEffect(() => {
+      getHome();
+  },[])
   const goCommunity = () => {
     const animalTypeMap = {
       강아지: "dog",
@@ -183,6 +188,14 @@ const Home = () => {
     setIsFlipped(!isFlipped);
   };
 
+  const getHome= async ()=>{
+    const member = await homeApi.getHomeDataMember();
+    setPets(member.pets);
+    console.log(pets)
+    const schedule = await homeApi.getHomeDataSchedule();
+    // const pet = await homeApi.getHomeDataPet();
+  } 
+
   return (
     <div className={styles.homeWrap}>
       <TopBar />
@@ -191,6 +204,7 @@ const Home = () => {
         onClick={handleOpenPetBottomSheet}
         selectedPet={selectedPet}
         isHome={true}
+        pets={pets}
       />
       <BottomSheet
         show={showBottomSheet}
