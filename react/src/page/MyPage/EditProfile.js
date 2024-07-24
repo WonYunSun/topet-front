@@ -22,12 +22,6 @@ const EditProfile = () => {
             setCanSave(true);
         }
 
-        if(profilePhoto == currentProfilePhoto){
-            setCanSave(false);
-        } else {
-            setCanSave(true);
-        }
-
         if(profilePhoto == '' || profilePhoto == undefined) {
             setProfilePhoto(defaultProfileImage);
         }
