@@ -25,6 +25,7 @@ const Home = () => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(null);
+  const [pets, setPets] = useState([]);
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
   const [schedules, setSchedule] = useState([
     {
@@ -187,9 +188,13 @@ const Home = () => {
     setIsFlipped(!isFlipped);
   };
 
-  const getHome=()=>{
-    homeApi.getHomeData();
-  }
+  const getHome= async ()=>{
+    const member = await homeApi.getHomeDataMember();
+    setPets(member.pets);
+    console.log(pets)
+    const schedule = await homeApi.getHomeDataSchedule();
+    // const pet = await homeApi.getHomeDataPet();
+  } 
 
   return (
     <div className={styles.homeWrap}>
@@ -199,6 +204,7 @@ const Home = () => {
         onClick={handleOpenPetBottomSheet}
         selectedPet={selectedPet}
         isHome={true}
+        pets={pets}
       />
       <BottomSheet
         show={showBottomSheet}
