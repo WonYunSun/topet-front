@@ -42,3 +42,73 @@
 
 /* ManageMyPets css */
 
+
+/* RegisterMyPetBottomSheet css */
+
+.bottomsheet_inside_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.bottomsheet_item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.bottomsheet_icon {
+    font-size: 24px;
+    margin-left: 7px;
+    margin-right: 20px;
+    color: #FFA62F;
+}
+
+.bottomsheet_text {
+    font-size: 16px;
+}
+
+/* PetCodeModal css */
+
+.modal_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 투명도 있는 회색 배경 */
+    z-index: 1000; /* 모달 뒤에 위치 */
+}
+
+.container {
+
+}
+
+.titlepart_wrapper {
+
+}
+
+.modal_title {
+
+}
+
+.cancel_icon {
+
+}
+
+.code_box_wrapper {
+
+}
+
+.code_input_box {
+
+}
+
+.code_copy_box {
+    
+}
+
+.button {
+
+}

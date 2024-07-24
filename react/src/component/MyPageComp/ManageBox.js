@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../css/mypage_managebox.module.css";
+import styles from "../../css/mypage.module.css";
 
 const ManageBox = ({ pageRoute, icon, managementItemTitle }) => {
 

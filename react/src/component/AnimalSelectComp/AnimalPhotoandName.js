@@ -3,11 +3,20 @@ import { FaCamera } from 'react-icons/fa';
 import { TbPhoto } from "react-icons/tb";
 import styles from '../../css/animal_photoandname.module.css';
 
-const AnimalPhotoandName = ({ name, setName, setNextPossible, selectedPhoto, setSelectedPhoto, handleSelectedProfilePhotoChange, handleNameChange }) => {
+const AnimalPhotoandName = ({ name, setName, defaultImage, nextPossible, setNextPossible, selectedPhoto, setSelectedPhoto, handleSelectedProfilePhotoChange, handleNameChange }) => {
     const fileInputRef = useRef(null);
-    if(name == ''){
-        setNextPossible(false);
-    }
+    console.log(name);
+    // setName('');
+    useEffect(() => {
+        if(selectedPhoto == undefined) {
+            setSelectedPhoto(defaultImage);
+        }
+        if(name == undefined || name == ''){
+            setNextPossible(false);
+        } else {
+            setNextPossible(true);
+        }
+    },[name, selectedPhoto, nextPossible])
     
     const photoSelect = useCallback(() => {
         fileInputRef.current.click();
@@ -17,15 +26,17 @@ const AnimalPhotoandName = ({ name, setName, setNextPossible, selectedPhoto, set
         const photo = event.target.files[0];
         setSelectedPhoto(photo);
     }, [setSelectedPhoto]);
-
+// https://i.pinimg.com/564x/b5/b0/c0/b5b0c0313bfeb3cd262e16b546499a8c.jpg
     const ProfilePhoto = useMemo(() => {
         return (
             <div className={styles.photo_wrapper} onChange={handleSelectedProfilePhotoChange}>
-                {selectedPhoto == null ? (
-                    <div className={styles.empty_profile_photo}></div>
-                ) : (
+                {selectedPhoto && typeof selectedPhoto == 'object' ? (
                     <div className={styles.selected_profile_photo_box} >
                         <img src={URL.createObjectURL(selectedPhoto)} className={styles.selected_profile_photo} />
+                    </div>
+                ) : (
+                    <div className={styles.selected_profile_photo_box}>
+                        <img src={selectedPhoto} className={styles.selected_profile_photo} />
                     </div>
                 )}
             </div>
