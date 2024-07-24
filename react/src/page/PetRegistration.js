@@ -189,7 +189,7 @@ const PetRegistration = () => {
         formData.append("weight", weight);
         formData.append("allergy", allergy);
         formData.append("health", health);
-        if (selectedPhoto) {
+        if (selectedPhoto != null) {
             formData.append("photo", selectedPhoto);
         }
         console.log(formData.get("type"));
