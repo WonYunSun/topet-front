@@ -14,16 +14,13 @@ const EditProfile = () => {
     const currentProfileName = '반려동물1'; // 기존 닉네임
 
     useEffect(() => {
-
-        if(profileName == '' || profileName == currentProfileName){
-            // 닉네임이 비었거나 기존 닉네임이랑 같을 경우
+        if(profilePhoto == '' || profilePhoto == undefined) {
+            setProfilePhoto(defaultProfileImage);
+        }
+        if(profileName == '' || (profileName == currentProfileName && profilePhoto == currentProfilePhoto)){
             setCanSave(false);
         } else {
             setCanSave(true);
-        }
-
-        if(profilePhoto == '' || profilePhoto == undefined) {
-            setProfilePhoto(defaultProfileImage);
         }
     },[canSave, profileName, profilePhoto]);
 
