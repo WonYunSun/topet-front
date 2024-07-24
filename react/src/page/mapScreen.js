@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import BottomSheet from "../component/BottomSheet";
+import { debounce } from "lodash";
+import { FaSpinner } from "react-icons/fa";
 import styles from "../css/mapScreen.module.css";
 import { FiArrowLeft } from "react-icons/fi";
 import { IoSearch } from "react-icons/io5";
 import { IoIosList } from "react-icons/io";
 import useKakaoLoader from "../component/MapComp/UseKakaoLoader";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { TbCurrentLocation } from "react-icons/tb";
+import { HiOutlinePlus, HiOutlineMinus } from "react-icons/hi2";
 
 const MapScreen = () => {
   const isLoaded = useKakaoLoader();
@@ -13,21 +17,16 @@ const MapScreen = () => {
 
   const arr = ["동물병원", "반려동물동반", "반려동물산책"];
 
-  const [position, setPosition] = useState({
-    latitude: 33.450701,
-    longitude: 126.570667,
-  });
-
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedButton, setSelectedButton] = useState(null);
-  const [thisNum, setThisNum] = useState();
-  const [selectedPlace, setSelectedPlace] = useState(null); // 선택된 장소 정보를 저장할 상태
-  const [isVisible, setIsVisible] = useState(false); // 트랜지션을 위한 상태
-  const [places, setPlaces] = useState([]); // 검색된 장소들을 저장할 상태
-  const [map, setMap] = useState(null); // Kakao 지도 객체를 저장할 상태
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [places, setPlaces] = useState([]);
+  const [map, setMap] = useState(null);
+  const [searchWord, setSearchWord] = useState("");
+  const [markers, setMarkers] = useState([]); // 마커 상태 추가
 
-  // 기본 위치 상태
   const [state, setState] = useState({
     center: {
       lat: 33.450701,
@@ -35,6 +34,11 @@ const MapScreen = () => {
     },
     errMsg: null,
     isLoading: true,
+  });
+
+  const [position, setPosition] = useState({
+    latitude: 33.450701,
+    longitude: 126.570667,
   });
 
   const handleBottomSheetOpen = (type) => {
@@ -46,7 +50,6 @@ const MapScreen = () => {
     setShowBottomSheet(false);
   };
 
-  // 현재 사용자 위치 받아오기 (geolocation)
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -78,6 +81,59 @@ const MapScreen = () => {
   }, []);
 
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      setPosition({
+        latitude: pos.coords.latitude,
+        longitude: pos.coords.longitude,
+      });
+    });
+
+    navigator.geolocation.watchPosition((pos) => {
+      setPosition({
+        latitude: pos.coords.latitude,
+        longitude: pos.coords.longitude,
+      });
+    });
+  }, []);
+
+  const setCenterToMyPosition = () => {
+    if (mapRef.current) {
+      const map = mapRef.current;
+      map.setCenter(
+        new window.kakao.maps.LatLng(position.latitude, position.longitude)
+      );
+      map.setLevel(1);
+    }
+  };
+
+  const searchPlace = debounce((keyword, location) => {
+    if (!isLoaded || !window.kakao || !map) return;
+
+    const ps = new window.kakao.maps.services.Places();
+    console.log("Searching for:", keyword);
+    ps.keywordSearch(
+      keyword,
+      (data, status) => {
+        console.log("Status:", status);
+        if (status === window.kakao.maps.services.Status.OK) {
+          console.log("Search results:", data);
+          setPlaces(data);
+          console.log("검색 후 플레이스에 저장된 것은", data);
+        } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
+          console.log("No results found.");
+        } else if (status === window.kakao.maps.services.Status.ERROR) {
+          console.log("An error occurred.");
+        }
+      },
+      {
+        location,
+        radius: 5000,
+        sort: window.kakao.maps.services.SortBy.accuracy,
+      }
+    );
+  }, 300);
+
+  useEffect(() => {
     if (isLoaded && !state.isLoading) {
       const container = document.getElementById("map");
       const options = {
@@ -87,58 +143,120 @@ const MapScreen = () => {
         ),
         level: 4,
       };
-      const map = new window.kakao.maps.Map(container, options);
-      mapRef.current = map; // mapRef에 지도 객체 저장
-      setMap(map);
-    }
-  }, [isLoaded, state.isLoading, state.center]);
 
-  const searchPlace = (num) => {
-    if (!isLoaded || !window.kakao || !map) return;
+      if (!mapRef.current) {
+        const map = new window.kakao.maps.Map(container, options);
+        mapRef.current = map;
+        setMap(map);
 
-    const ps = new window.kakao.maps.services.Places();
-    ps.keywordSearch(arr[num], (data, status) => {
-      if (status === window.kakao.maps.services.Status.OK) {
-        setPlaces(data);
-        displayMarkers(data);
+        window.kakao.maps.event.addListener(map, "center_changed", () => {
+          const center = map.getCenter();
+          setState((prev) => ({
+            ...prev,
+            center: {
+              lat: center.getLat(),
+              lng: center.getLng(),
+            },
+          }));
+          console.log("state 위치는 ", state);
+          if (selectedButton !== null) {
+            searchPlace(arr[selectedButton], center); // 변경된 중심 좌표로 검색 수행
+          }
+        });
       }
-    });
+    }
+  }, [isLoaded, state.isLoading]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const placeInfoElement = document.querySelector(`.${styles.placeInfo}`);
+      if (placeInfoElement && placeInfoElement.contains(event.target)) return;
+      if (
+        event.target.tagName === "IMG" &&
+        event.target.src ===
+          "https://cdn-icons-png.flaticon.com/128/2098/2098567.png"
+      )
+        return;
+      setIsVisible(false);
+      setTimeout(() => {
+        setSelectedPlace(null);
+      }, 300);
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const removeMarkers = () => {
+    markers.forEach((marker) => marker.setMap(null));
+    setMarkers([]);
   };
 
-  const displayMarkers = (places) => {
-    if (!map) return;
+  useEffect(() => {
+    if (map && places.length > 0) {
+      const newMarkers = places.map((place) => {
+        const imageSrc =
+          "https://cdn-icons-png.flaticon.com/128/2098/2098567.png";
+        const imageSize = new window.kakao.maps.Size(35, 35);
+        const markerImage = new window.kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize
+        );
 
-    const markers = places.map((place) => {
-      const marker = new window.kakao.maps.Marker({
-        position: new window.kakao.maps.LatLng(place.y, place.x),
+        const marker = new window.kakao.maps.Marker({
+          position: new window.kakao.maps.LatLng(place.y, place.x),
+          image: markerImage,
+        });
+
+        window.kakao.maps.event.addListener(marker, "click", () => {
+          console.log("Marker clicked:", place);
+          setSelectedPlace(place);
+          setIsVisible(true);
+          console.log("isVisible set to true");
+        });
+
+        marker.setMap(map);
+        return marker;
       });
 
-      window.kakao.maps.event.addListener(marker, "click", () => {
-        setSelectedPlace(place);
-        setIsVisible(true);
-      });
+      setMarkers(newMarkers);
+    }
+  }, [places, map]);
 
-      return marker;
-    });
+  useEffect(() => {
+    console.log("useEffect triggered:", selectedPlace);
+    if (selectedPlace) {
+      console.log("Selected place:", selectedPlace);
+      console.log(isVisible);
+    }
+  }, [selectedPlace]);
 
-    markers.forEach((marker) => marker.setMap(map));
-  };
+  useEffect(() => {
+    console.log("isVisible state changed:", isVisible);
+  }, [isVisible]);
 
   const CustomButton = ({ num }) => {
     const isSelected = selectedButton === num;
-    useEffect(() => {
-      if (isSelected) {
-        setThisNum(num);
-        searchPlace(num);
+
+    const handleClick = () => {
+      const newSelectedButton = isSelected ? null : num;
+      setSelectedButton(newSelectedButton);
+      if (!isSelected) {
+        removeMarkers();
       }
-    }, [isSelected, num]);
+      if (newSelectedButton !== null) {
+        searchPlace(
+          arr[newSelectedButton],
+          new window.kakao.maps.LatLng(state.center.lat, state.center.lng)
+        );
+      }
+    };
 
     return (
       <div
-        onClick={() => {
-          setSelectedButton(isSelected ? null : num);
-          searchPlace(num);
-        }}
+        onClick={handleClick}
         className={`${styles.button} ${
           isSelected ? styles.selectedButton : ""
         }`}
@@ -147,21 +265,6 @@ const MapScreen = () => {
       </div>
     );
   };
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (event.target.closest(`.${styles.placeInfo}`) !== null) return;
-      setIsVisible(false); // 트랜지션 효과를 주기 위해 isVisible을 false로 설정
-      setTimeout(() => {
-        setSelectedPlace(null); // 트랜지션이 끝난 후에 selectedPlace를 null로 설정
-      }, 300); // 트랜지션 시간 (300ms)과 동일하게 설정
-    };
-
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
 
   const zoomIn = () => {
     const map = mapRef.current;
@@ -176,7 +279,11 @@ const MapScreen = () => {
   };
 
   if (state.isLoading) {
-    return <div>Loading map...</div>;
+    return (
+      <div className={styles.loading}>
+        <FaSpinner className={styles.spinner} />
+      </div>
+    );
   }
 
   return (
@@ -194,48 +301,33 @@ const MapScreen = () => {
         level={3}
         ref={mapRef}
       >
-        {/* 현재 위치 마커 표시 */}
         <MapMarker
           position={state.center}
           image={{
-            src: "https://cdn-icons-png.flaticon.com/128/7124/7124723.png",
+            src: require("../asset/icon/mylocation.svg").default,
             size: {
-              width: 50,
-              height: 50,
+              width: 25,
+              height: 25,
             },
             options: {
-              zIndex: 9999, // z-index 설정
+              zIndex: 9999,
             },
           }}
         />
-        {places.map((place) => (
-          <MapMarker
-            key={place.id}
-            position={{
-              lat: place.y,
-              lng: place.x,
-            }}
-            onClick={() => {
-              setSelectedPlace(place);
-              setIsVisible(true);
-              console.log("Marker clicked: ", place);
-            }}
-          />
-        ))}
       </Map>
 
+      <div className={styles.setCenterBtnDiv}>
+        <button className={styles.setCenterBtn} onClick={setCenterToMyPosition}>
+          <TbCurrentLocation size={25} />
+        </button>
+      </div>
+
       <div className={`${styles.custom_zoomcontrol} ${styles.radius_border}`}>
-        <span onClick={zoomIn}>
-          <img
-            src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
-            alt="확대"
-          />
+        <span onClick={zoomIn} className={styles.pBtn}>
+          <HiOutlinePlus size={30} />
         </span>
-        <span onClick={zoomOut}>
-          <img
-            src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png"
-            alt="축소"
-          />
+        <span onClick={zoomOut} className={styles.mBtn}>
+          <HiOutlineMinus size={30} />
         </span>
       </div>
 
@@ -248,8 +340,15 @@ const MapScreen = () => {
             <input
               className={styles.Mapinput}
               placeholder="장소를 검색해보세요"
+              onChange={(e) => {
+                setSearchWord(e.target.value);
+                console.log(e.target.value);
+              }}
             />
-            <IoSearch className={styles.searchbar_icon} />
+            <IoSearch
+              className={styles.searchbar_icon}
+              onClick={() => searchPlace(searchWord)}
+            />
           </div>
         </div>
         <div className={styles.CutsomBtnWrap}>
@@ -264,7 +363,10 @@ const MapScreen = () => {
             className={styles.listButton}
             onClick={() => {
               handleBottomSheetOpen("map");
-              searchPlace(selectedButton);
+              searchPlace(
+                arr[selectedButton],
+                new window.kakao.maps.LatLng(state.center.lat, state.center.lng)
+              );
             }}
           >
             <div className={styles.listinnerDiv}>

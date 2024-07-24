@@ -5,8 +5,8 @@ module.exports = function (app) {
     "/api", //이제 프론트엔드에서 '/api'로 요청을 보내면, 백엔드인 808포트(=target)로 요청이 도착하게 됩니다.
     createProxyMiddleware({
       target: 
-      // "http://localhost:8081/",
-      "http://175.45.202.131:8081/", //# 서버 URL or localhost:설정한포트번호
+      "http://localhost:8081/",
+      //"http://175.45.202.131:8081/", //# 서버 URL or localhost:설정한포트번호
       
       changeOrigin: true,
     })
@@ -18,3 +18,18 @@ module.exports = function (app) {
 /*
 기본적으로 React 프로젝트는 3000번 포트에서 작동되기 때문에 CORS 관련한 오류를 방지하기 위해서 Proxy를 설정해주어야 한다.
 */
+
+
+
+// import { createProxyMiddleware } from "http-proxy-middleware";
+
+// export default function (app) {
+//   app.use(
+//     "/api",
+//     createProxyMiddleware({
+//       target: "http://175.45.202.131:8081/",
+//       changeOrigin: true,
+//     })
+//   );
+// }
+//     }

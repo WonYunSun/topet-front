@@ -6,7 +6,7 @@ export default function useKakaoLoader() {
 
   // react-kakao-maps-sdk에서 제공하는 훅 사용
   useKakaoLoaderOrigin({
-    appkey: "0a5f90aad179112a10005dc19a414e8a",
+    appkey: "013236da36d05a18e2f3d061c798177a",
     libraries: ["clusterer", "drawing", "services"],
   });
 
@@ -14,7 +14,7 @@ export default function useKakaoLoader() {
     // 추가적인 초기화 작업 필요시
     const script = document.createElement("script");
     script.async = true;
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=0a5f90aad179112a10005dc19a414e8a&autoload=false&libraries=services`;
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=013236da36d05a18e2f3d061c798177a&autoload=false&libraries=services`;
     document.head.appendChild(script);
 
     script.onload = () => {

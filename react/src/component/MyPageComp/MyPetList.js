@@ -11,7 +11,7 @@ const MyPetList = ({ petProfileData }) => {
             {petProfileData.map((pet) => (
                 <MyPetItem 
                     key={pet.id}
-                    photoUrl={pet.photoUrl}
+                    photoUrl={pet.profileSrc}
                     name={pet.name}
                     setShowModal={setShowModal}
                     showModal={showModal}

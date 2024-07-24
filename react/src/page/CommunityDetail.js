@@ -94,7 +94,7 @@ const CommunityDetail = () => {
 
   const {animal, title, content, images, category, hashtag, photos, commentCount } = item;
 
-  const navigateWithParams = () => { // 여기 추가
+  const navigateWithParams = () => {
     const params = {
       title: item.title,
       content: item.content,
@@ -179,7 +179,7 @@ const CommunityDetail = () => {
         show={showSubBottomSheet}
         type={writer ? "CommunityEditDelete" : "CommunityReportBlock"}
         onClose={()=>setShowSubBottomSheet(false)}
-        onEditClick={navigateWithParams} // 여기 추가
+        onEditClick={navigateWithParams}
         onDeleteClick={handleDeleteClick}
       />
       
