@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IoArrowBackOutline } from "react-icons/io5";
+import { GoArrowLeft } from "react-icons/go";
 import styles from '../css/registertopbar.module.css';
 
 const RegisterTopBar = ({ stepNum }) => {
@@ -18,7 +18,7 @@ const RegisterTopBar = ({ stepNum }) => {
     return (
         <div>
             <div className={styles.registertopBar}>
-                <IoArrowBackOutline className={styles.icon} onClick={goBack} />
+                <GoArrowLeft className={styles.icon} onClick={goBack} />
                 <div className={styles.sequence} onChange={Sequence}>{stepNum}/6</div>
             </div>
             <div

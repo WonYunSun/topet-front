@@ -116,6 +116,13 @@
     text-align: end;
 }
 
+.profile_name_length {
+    font-size: 14px;
+    margin-top: 10px;
+    margin-left: 24px;
+    color: #adadad;
+}
+
 .secession_wrapper {
     width: 90%;
     position: fixed;

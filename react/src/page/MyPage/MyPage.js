@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import ManageBox from "../component/MyPageComp/ManageBox";
+import ManageBox from "../../component/MyPageComp/ManageBox";
 import { MdOutlinePets } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
-import styles from "../css/mypage.module.css"
+import styles from "../../css/mypage.module.css"
 import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
