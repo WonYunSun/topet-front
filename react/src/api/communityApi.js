@@ -1,7 +1,8 @@
 import axios from "axios";
 import { handleResponse, handleError } from './ResponseProcess';
 
-const API_BASE_URL = //"http://175.45.202.131:8081/api";
+const API_BASE_URL = 
+//"http://175.45.202.131:8081/api";
 "http://localhost:8081/api";
 
 class CommunityApi {

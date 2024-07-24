@@ -1,12 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MyPageCommonTopBar from "../../component/MyPageComp/MyPageCommonTopBar"
 import styles from '../../css/mypage_managemypets.module.css';
 import MyPetList from "../../component/MyPageComp/MyPetList";
 import BottomSheet from "../../component/BottomSheet";
 import PetCodeModal from "../../component/MyPageComp/PetCodeModal";
+import { useSelector, useDispatch } from "react-redux";
 
 const ManageMyPets = () => {
-    const dummyPetsData = [
+
+    const reduxMember = useSelector((state)=>state.member.member);
+    console.log("-----------------------------");
+    console.log("-----------------------------");
+    console.log("-----------------------------");
+    console.log("-----------------------------");
+    console.log("reduxMember : ", reduxMember);
+    console.log("-----------------------------");
+    console.log("-----------------------------");
+    console.log("-----------------------------");
+    console.log("-----------------------------");
+    useEffect(() => {
+        
+    },[]);
+
+
+
+    const dummyPetsData = 
+    
+    [
         {
             id: 1,
             photoUrl: "https://i.pinimg.com/564x/10/ae/6a/10ae6ade71b4d40c2af9a8bde4bd2002.jpg",
