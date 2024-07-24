@@ -14,7 +14,7 @@ const EditProfile = () => {
     const currentProfileName = '반려동물1'; // 기존 닉네임
 
     useEffect(() => {
-        if(profilePhoto == '' || profilePhoto == undefined) {
+        if(profilePhoto == undefined) {
             setProfilePhoto(defaultProfileImage);
         }
         if(profileName == '' || (profileName == currentProfileName && profilePhoto == currentProfilePhoto)){
