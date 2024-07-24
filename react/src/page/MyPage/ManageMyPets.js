@@ -41,6 +41,8 @@ const ManageMyPets = () => {
 
     const [showBottomSheet, setShowBottomSheet] = useState(false);
     const [bottomSheetType, setBottomSheetType] = useState("");
+    const [showModal, setShowModal] = useState(false);
+    const [petCode, setPetCode] = useState('');
 
     const handleOpenBottomSheet = (type) => {
         setBottomSheetType(type);
@@ -50,6 +52,24 @@ const ManageMyPets = () => {
     const handleCloseBottomSheet = () => {
         setShowBottomSheet(false);
     };
+    
+    const handleModal = () => {
+        setShowModal(true);
+    }
+    const handleCloseModal = () => {
+        setShowModal(false);
+    }
+
+    // 반려동물 코드로 등록
+    const onRegister = () => {
+        console.log('반려동물 코드로 등록 : ', petCode);
+        setShowModal(false);
+    }
+
+    const handleOpenInputPetCodeModal = () => {
+        setShowModal(true);
+        setShowBottomSheet(false);
+    }
 
     return (
         <div>
@@ -60,7 +80,8 @@ const ManageMyPets = () => {
             <div>
                 <button onClick={() => handleOpenBottomSheet("petRegister")}>등록</button>
             </div>
-            <BottomSheet show={showBottomSheet} onClose={handleCloseBottomSheet} type={bottomSheetType} />
+            <BottomSheet handleOpenInputPetCodeModal={handleOpenInputPetCodeModal} show={showBottomSheet} onClose={handleCloseBottomSheet} type={bottomSheetType} />
+            {showModal ? <PetCodeModal type={'코드등록'} onClose={handleCloseModal} onRegister={onRegister} modalTitle={'반려동물 코드 입력'} setPetCode={setPetCode} /> : ''}
         </div>
     )
 }

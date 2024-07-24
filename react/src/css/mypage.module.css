@@ -53,6 +53,27 @@
     color: #B5B5B5;
 }
 
+.logout {
+    padding: 28px;
+    position: fixed;
+    bottom: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    color: #B5B5B5;
+}
+
+.logout_icon {
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+.logout_text {
+    font-size: 16px;
+    font-weight: 300;
+}
+
 /* ManageBox css */
 
 .managebox_wrapper {

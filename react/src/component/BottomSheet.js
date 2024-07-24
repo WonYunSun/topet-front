@@ -25,6 +25,7 @@ const BottomSheet = ({
   setSelectedSearchType,
   setScheduleSubmittedSuccessfully,
   scheduleSubmittedSuccessfully,
+  handleOpenInputPetCodeModal,
 }) => {
   const handleCloseBottomSheet = () => {
     onClose();
@@ -160,7 +161,7 @@ const BottomSheet = ({
       case "petRegister":
         return (
           <div>
-            <RegisterMyPetBottomSheet />
+            <RegisterMyPetBottomSheet handleOpenInputPetCodeModal={handleOpenInputPetCodeModal} />
           </div>
         );
       default:

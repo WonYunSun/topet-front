@@ -112,7 +112,9 @@ const PetRegistration = () => {
 
     const handleNameChange = (e) => {
         const tempName = e.target.value;
-        setName(tempName);
+        if(tempName.length <= 25) {
+            setName(tempName);
+        }
         setNextPossible(tempName != ''); // change가 일어날때마다 하지말고, 값을 저장하고, 저장된값을 검증해서, 유효하면 nextPossible이 바뀌게 하면 되겠다.
     };
 

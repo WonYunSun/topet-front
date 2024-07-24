@@ -16,6 +16,7 @@ import CommunityDetail from "./page/CommunityDetail";
 import MyPage from "./page/MyPage/MyPage";
 import EditProfile from "./page/MyPage/EditProfile";
 import ManageMyPets from "./page/MyPage/ManageMyPets";
+import PetProfileDetail from "./page/MyPage/PetProfileDetail";
 import SeeMyPosts from "./page/MyPage/SeeMyPosts";
 import SeeMyComments from "./page/MyPage/SeeMyComments";
 import SeeLikedPosts from "./page/MyPage/SeeLikedPosts";
@@ -63,6 +64,7 @@ function App() {
         <Route path="/api/mypage" element={<MyPage />} />
         <Route path="/api/editprofile" element={<EditProfile />} />
         <Route path="/api/managemypets" element={<ManageMyPets />} />
+        <Route path="/api/petprofiledetail" element={<PetProfileDetail />} />
         <Route path="/api/myposts" element={<SeeMyPosts />} />
         <Route path="/api/mycomments" element={<SeeMyComments />} />
         <Route path="/api/likedposts" element={<SeeLikedPosts />} />
