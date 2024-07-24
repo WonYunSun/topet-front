@@ -10,6 +10,7 @@ class CommunityApi {
         this.baseURL = baseURL;
     }
 
+
     async postCommunity(selectedPhotos, formData) { // 게시물 보내기
         selectedPhotos.slice(0, 5).forEach((photo, index) => {
             formData.append("photos", photo);
@@ -41,6 +42,7 @@ class CommunityApi {
                     "Content-Type": "application/json",
                     credentials: 'include'
                 },
+                withCredentials: true // 세션 쿠키를 포함하도록 설정
             });
             return handleResponse(response);
         } catch (error) {
@@ -73,15 +75,17 @@ class CommunityApi {
         } catch (error) {
             handleError(error);
         }
+
     }
 
-    async postComment(comid, formData) { // 댓글 보내기
+    async postComment(comid, formData , crossOriginIsolated) { // 댓글 보내기
       try {
           const response = await axios.post(`${this.baseURL}/${comid}/comentPost`, formData, {
               headers: {
                   "Content-Type": "multipart/form-data",
                   credentials: 'include'
               },
+              withCredentials: true,
           });
           return handleResponse(response);
       } catch (error) {
