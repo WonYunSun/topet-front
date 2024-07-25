@@ -58,19 +58,19 @@ const InputWeight = ({ weight, setWeight, weightDontKnow, setWeightDontKnow, set
         }
     };
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (!event.target.closest(`.${styles.custom_select}`)) {
-                setDropdown(false);
-            }
-        };
+    // useEffect(() => {
+    //     const handleClickOutside = (event) => {
+    //         if (!event.target.closest(`.${styles.custom_select}`)) {
+    //             setDropdown(false);
+    //         }
+    //     };
 
-        document.addEventListener('mousedown', handleClickOutside);
+    //     document.addEventListener('mousedown', handleClickOutside);
 
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+    //     return () => {
+    //         document.removeEventListener('mousedown', handleClickOutside);
+    //     };
+    // }, []);
 
     return (
         <div className={styles.weight_wrapper}>

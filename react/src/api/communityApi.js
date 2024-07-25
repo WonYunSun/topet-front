@@ -1,8 +1,9 @@
 import axios from "axios";
 import { handleResponse, handleError } from './ResponseProcess';
 
-const API_BASE_URL = //"http://175.45.202.131:8081/api";
-"http://localhost:8081/api";
+const API_BASE_URL = 
+"http://175.45.202.131:8081/api";
+// "http://localhost:8081/api";
 
 class CommunityApi {
     constructor(baseURL) {
@@ -98,6 +99,21 @@ class CommunityApi {
         return handleResponse(response);
     } catch (error) {
         handleError(error);
+    }
+  }
+
+  async postReplyComment(comid, formData) { // 대댓글 보내기
+    try {
+      const response = await axios.post(`${this.baseURL}/${comid}/comentPost`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          credentials: 'include'
+        },
+        withCredentials: true,
+      });
+      return handleResponse(response);
+    } catch (error) {
+      handleError(error);
     }
   }
 }
