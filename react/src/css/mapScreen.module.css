@@ -141,20 +141,6 @@
   border-radius: 20px;
   box-shadow: var(--box-shadow);
 }
-.reSearchBtn {
-  position: absolute;
-  bottom: 75px;
-  left: 30%;
-  transform: translateX(-30%);
-  z-index: 10;
-  background-color: white;
-  padding: 10px;
-  border-radius: 20px;
-  box-shadow: var(--box-shadow);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
 
 .listinnerDiv {
   font-size: 14px;
@@ -237,4 +223,18 @@
   padding: 10px;
   box-shadow: var(--box-shadow);
   cursor: pointer;
+}
+.reSearchBtn {
+  position: absolute;
+  bottom: 75px;
+  left: 20%;
+  transform: translateX(-20%);
+  z-index: 10;
+  background-color: white;
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: var(--box-shadow);
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
