@@ -2,13 +2,8 @@ import axios from "axios";
 import { handleResponse, handleError } from './ResponseProcess';
 
 const API_BASE_URL = 
-<<<<<<< HEAD
 "http://175.45.202.131:8081/api";
 // "http://localhost:8081/api";
-=======
-//"http://175.45.202.131:8081/api";
-"http://localhost:8081/api";
->>>>>>> b90dae443336b7ad3fdcea48a9418e8bcf9ffbd3
 
 class CommunityApi {
     constructor(baseURL) {
