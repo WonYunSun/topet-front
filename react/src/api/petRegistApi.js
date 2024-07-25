@@ -13,7 +13,7 @@ class petRegistApi {
 
     async postPetData(petDomain) {
         return await
-            this.client.post("/petRegistration", petDomain, {
+            this.client.post("/pet/post", petDomain, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },  

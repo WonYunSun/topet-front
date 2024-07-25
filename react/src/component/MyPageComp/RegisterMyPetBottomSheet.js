@@ -9,7 +9,7 @@ const RegisterMyPetBottomSheet = ({ handleOpenInputPetCodeModal }) => {
     const navigate = useNavigate();
 
     const goRegisterPage = () => {
-        navigate(`/api/petregistration`);
+        navigate(`/petregistration`);
     }
 
     return (

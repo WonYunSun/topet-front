@@ -35,44 +35,44 @@ import LoginPage from "./page/LoginPage";
 function App() {
   const location = useLocation();
   const showNavbarPaths = [
-    "/api/home",
-    "/api/schedule",
-    "/api/map",
-    "/api/mypage",
+    "/home",
+    "/schedule",
+    "/map",
+    "/mypage",
   ];
   return (
     <div className="App">
       {showNavbarPaths.includes(location.pathname) && <NavBar />}
       <Routes>
-        <Route path="/api/home" element={<Home />} />
-        <Route path="/api/map" element={<MapScreen />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/map" element={<MapScreen />} />
         <Route
           path="/community/preview/:animalType/:category"
           element={<Community />}
         />
-        <Route path="/api/community/search" element={<CommunitySearch />}/>
+        <Route path="/community/search" element={<CommunitySearch />}/>
         <Route
-          path="/api/community/detail/:comid"
+          path="/community/detail/:comid"
           element={<CommunityDetail />}
         />
         <Route
-          path="/api/community/communitywrite"
+          path="/community/communitywrite"
           element={<CommunityWrite />}
         />
-        <Route path="/api/schedule" element={<Calendarscreen />} />
-        <Route path="/api/petregistration" element={<PetRegistration />} />
-        <Route path="/api/mypage" element={<MyPage />} />
-        <Route path="/api/editprofile" element={<EditProfile />} />
-        <Route path="/api/managemypets" element={<ManageMyPets />} />
-        <Route path="/api/petprofiledetail" element={<PetProfileDetail />} />
-        <Route path="/api/myposts" element={<SeeMyPosts />} />
-        <Route path="/api/mycomments" element={<SeeMyComments />} />
-        <Route path="/api/likedposts" element={<SeeLikedPosts />} />
-        <Route path="/api/myshorts" element={<SeeMyShorts />} />
-        <Route path="/api/likedshorts" element={<SeeLikedShorts />} />
-        <Route path="/api/choicepetregister" element={<ChoicePetRegister />} />
+        <Route path="/schedule" element={<Calendarscreen />} />
+        <Route path="/petregistration" element={<PetRegistration />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/editprofile" element={<EditProfile />} />
+        <Route path="/managemypets" element={<ManageMyPets />} />
+        <Route path="/petprofiledetail" element={<PetProfileDetail />} />
+        <Route path="/myposts" element={<SeeMyPosts />} />
+        <Route path="/mycomments" element={<SeeMyComments />} />
+        <Route path="/likedposts" element={<SeeLikedPosts />} />
+        <Route path="/myshorts" element={<SeeMyShorts />} />
+        <Route path="/likedshorts" element={<SeeLikedShorts />} />
+        <Route path="/choicepetregister" element={<ChoicePetRegister />} />
         {/* <Route path='/api/kakaoLogin' element={<KakaoLogin/>} /> */}
-        <Route path="/api" element={<LoginPage/>}/>
+        <Route path="/" element={<LoginPage/>}/>
         <Route path="https://kauth.kakao.com/oauth/authorize?client_id=${3494afad7131fc9645ae9b08ed0dfda6}&redirect_uri=${localhost:8081/api/kakaoLogin}&response_type=code"></Route>
       </Routes>
     </div>

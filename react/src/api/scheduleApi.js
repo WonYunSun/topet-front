@@ -25,12 +25,16 @@ class scheduleApi {
 
   async postSchedule(formData) {
     try {
-      const response = await axios.post('http://localhost:8081/api/schedule/post', formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        "http://localhost:8081/api/schedule/post",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
       console.log("서버 응답:", response.data);
     } catch (error) {
       console.error("서버 오류:", error);
@@ -38,23 +42,21 @@ class scheduleApi {
     }
   }
 
-  async getMyScheduleAPI(id){
-    
-      await axios.get(`http://localhost:8081/api/getMySchedule/${(id)}`, {
+  async getMyScheduleAPI(id) {
+    await axios
+      .get(`http://localhost:8081/api/get/${id}`, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
         withCredentials: true,
       })
-      .then((response)=>{
-        console.log("서버 응답:", response.data) 
+      .then((response) => {
+        console.log("서버 응답:", response.data);
       })
-      .catch((error)=>{
-        console.log("서버 응답:", error) 
+      .catch((error) => {
+        console.log("서버 응답:", error);
       });
   }
-
-
 }
 
 export default new scheduleApi(API_BASE_URL);

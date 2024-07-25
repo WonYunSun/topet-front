@@ -16,7 +16,7 @@ const MyPetItem = ({ setShowModal, setCopied, copied, showModal, photoUrl, name 
     }
 
     const goPetDetail = () => {
-        navigate(`/api/petprofiledetail`);
+        navigate(`/petprofiledetail`);
     }
 
     useEffect(() => {
