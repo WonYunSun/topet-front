@@ -25,7 +25,7 @@ export default function AddSchedule({
     : new Date();
   const defaultValues = {
     startDate: initialDate,
-    endDate: initialDate,
+    endDate: initialDate,//.add(5, 'minute'),
     title: "",
     content: "",
     isComplete: false,
@@ -131,7 +131,7 @@ export default function AddSchedule({
     formData.append("color", color);
     formData.append("scheduleWriter", "WriterName");
     formData.append("scheduleEditer", "EditorName");
-    if (selectedPhoto) formData.append("photo", selectedPhoto);
+    if (selectedPhoto != null) {formData.append("photo", selectedPhoto);}
     console.log("postSchedule 호출");
     ScheduleApi.postSchedule(formData); // ScheduleService 호출 //post로직
     console.log("postSchedule 호출끝");
