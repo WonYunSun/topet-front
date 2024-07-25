@@ -91,3 +91,14 @@
     height: 51px;
     display: flex;
 }
+
+.pet_name_length {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    width: 100%;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-right: 100px;
+    color: #adadad;
+}

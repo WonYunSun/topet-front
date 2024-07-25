@@ -69,10 +69,12 @@ const AnimalPhotoandName = ({ name, setName, defaultImage, nextPossible, setNext
                 <input
                     className={styles.profilename_bar}
                     value={name || ''}
+                    maxLength={25}
                     onChange={handleNameChange}
                     placeholder="반려동물의 이름을 입력해주세요"
                 />
             </div>
+            <div className={styles.pet_name_length}>{name.length}/25</div>
         </div>
     );
 };

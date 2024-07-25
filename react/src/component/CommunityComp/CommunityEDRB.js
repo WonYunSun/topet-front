@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from "../../css/CommunityEDRB.module.css";
 
-const CommunityEDRB = ({ type, onEditClick, onDeleteClick, onBlockClick, onReportClick, onClose }) => {
+const CommunityEDRB = ({ type, onEditClick, onDeleteClick, onBlockClick, onReportClick, onReplyClick, onClose }) => {
   const [firstText, setFirstText] = useState("");
   const [secondText, setSecondText] = useState("");
   const [thridText, setThridText] = useState("");
@@ -77,7 +77,7 @@ const CommunityEDRB = ({ type, onEditClick, onDeleteClick, onBlockClick, onRepor
           <div className={styles.DeleteBtn} onClick={handleClick(onDeleteClick)}>
             {secondText}
           </div>
-          <div className={styles.ReplyBtn} onClick={handleClick(() => console.log('Reply clicked'))}>
+          <div className={styles.ReplyBtn} onClick={handleClick(onReplyClick)}>
             {thridText}
           </div>
         </>
@@ -90,7 +90,7 @@ const CommunityEDRB = ({ type, onEditClick, onDeleteClick, onBlockClick, onRepor
           <div className={styles.DeleteBtn} onClick={handleClick(onReportClick)}>
             {secondText}
           </div>
-          <div className={styles.ReplyBtn} onClick={handleClick(() => console.log('Reply clicked'))}>
+          <div className={styles.ReplyBtn} onClick={handleClick(onReplyClick)}>
             {thridText}
           </div>
         </>

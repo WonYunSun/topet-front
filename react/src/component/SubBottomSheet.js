@@ -12,6 +12,7 @@ const EditDeleteBottomSheet = ({
   onDeleteClick,
   onReportClick,
   onBlockClick,
+  onReplyClick,
 }) => {
 
   const handleCloseBottomSheet = () => {
@@ -58,13 +59,13 @@ const EditDeleteBottomSheet = ({
         case "CommentEditDelete":
           return (
           <>
-            <CommunityEDRB type={"CommentEditDelete"} />
+            <CommunityEDRB type={"CommentEditDelete"} onReplyClick={onReplyClick} />
           </>
           );
         case "CommentReportBlock":
           return (
           <>
-            <CommunityEDRB type={"CommentReportBlock"}/>
+            <CommunityEDRB type={"CommentReportBlock"} onReplyClick={onReplyClick}/>
           </>
           );
       default:
