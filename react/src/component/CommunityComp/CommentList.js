@@ -49,13 +49,14 @@ const CommentList = ({ comid }) => {
     }
 
     const formData = new FormData();
-    formData.append("id", commentId);
+    formData.append("parentId", commentId);
     formData.append("content", replyContent);
 
     try {
       await CommunityApi.postReplyComment(comid, formData);
       alert("답글이 등록되었습니다.");
       setReplyContent("");
+      setcommentId(null);
       // 댓글 목록을 다시 불러옵니다.
       const response = await CommunityApi.fetchComment(comid);
       setComments(response);

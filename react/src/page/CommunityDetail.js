@@ -105,7 +105,7 @@ const CommunityDetail = () => {
       edit: true,
       comid: comid,
     };
-    navigate(`/api/community/communitywrite`, { state: params });
+    navigate(`/community/communitywrite`, { state: params });
   };
 
   const handleDeleteClick = async () => {

@@ -96,7 +96,7 @@ const Home = () => {
   };
 
   const goCalendar = () => {
-    navigate(`/api/schedule`);
+    navigate(`/schedule`);
   };
 
   const handleOpenPetBottomSheet = () => {

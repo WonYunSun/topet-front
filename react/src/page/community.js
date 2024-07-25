@@ -29,7 +29,7 @@ const Community = () => {
 
   const goCommunityWrite = () => {
     const animalKey = animalTypeMap[selectedAnimalType] || "dog";
-    navigate("/api/community/communityWrite", { state: { animal: animalKey } });
+    navigate("/community/communityWrite", { state: { animal: animalKey } });
   };
 
   const handleBottomSheetOpen = (type) => {

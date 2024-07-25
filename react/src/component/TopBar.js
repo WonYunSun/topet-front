@@ -13,7 +13,7 @@ const TopBar = ({ centerChange, selectedSearchType, searchText, setSearchText, h
   };
 
   const goHome = () => {
-    navigate("/api/home"); // 홈으로 이동
+    navigate("/home"); // 홈으로 이동
   };
 
   const handleAnimalSelectClick = () => {
@@ -21,7 +21,7 @@ const TopBar = ({ centerChange, selectedSearchType, searchText, setSearchText, h
   };
 
   const goSearch = () => {
-    navigate("/api/community/search", { state: { centerChange: "검색" } });
+    navigate("/community/search", { state: { centerChange: "검색" } });
   };
 
   const handleSearchTextChange = (e) => {

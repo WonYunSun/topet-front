@@ -11,31 +11,31 @@ const MyPage = () => {
   const [showModal, setShowModal] = useState();
 
   const goEditProfile = () => {
-    navigate(`/api/editprofile`)
+    navigate(`/editprofile`)
   }
 
   const goManageMyPets = () => {
-    navigate(`/api/managemypets`)
+    navigate(`/managemypets`)
   }
 
   const goSeeMyPosts = () => {
-    navigate(`/api/myposts`)
+    navigate(`/myposts`)
   }
   
   const goSeeMyComments = () => {
-    navigate(`/api/mycomments`)
+    navigate(`/mycomments`)
   }
 
   const goSeeLikedPosts = () => {
-    navigate(`/api/likedposts`)
+    navigate(`/likedposts`)
   }
 
   const goSeeMyShorts = () => {
-    navigate(`/api/myshorts`)
+    navigate(`/myshorts`)
   }
 
   const goSeeLikedShorts = () => {
-    navigate(`/api/likedshorts`)
+    navigate(`/likedshorts`)
   }
 
   const handleShowLogoutModal = () => {
