@@ -13,6 +13,8 @@ import isBetween from "dayjs/plugin/isBetween";
 import NavBar from "../component/NavBarComp/NavBar";
 import CheckModal from "../component/CheckModal";
 import SubBottomSheet from "../component/SubBottomSheet";
+import { useSelector, useDispatch } from "react-redux";
+import scheduleApi from "../api/scheduleApi";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
@@ -130,7 +132,7 @@ export const Calendarscreen = () => {
       scheduleEditer: "B",
     },
   ]);
-
+  const reduxMember = useSelector((state)=>state.member.member);
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(null);
@@ -160,6 +162,26 @@ export const Calendarscreen = () => {
     // modal();
     console.log("scheduleSubmittedSuccessfully", scheduleSubmittedSuccessfully);
   }, [scheduleSubmittedSuccessfully]);
+
+  useEffect(()=>{
+    getMySchedule()
+  },[])
+
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+  const getMySchedule = async() => {
+    const mySchedule = await scheduleApi.getMyScheduleAPI(reduxMember.id);
+    console.log(mySchedule);
+
+
+  }
+/////////////////////////////////////////////////////////////////////////////////////
+/*여기에 데이터 담았으니까, 데이터 사용하고 더미데이터 + 주석 지워주세요
+*/ 
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
 
   const handleDotsClick = (schedule) => {
     setSelectedSchedule(schedule);
