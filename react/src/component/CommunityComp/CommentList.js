@@ -9,8 +9,10 @@ const CommentList = ({ comid }) => {
   const [userProfile, setUserProfile] = useState("https://mblogthumb-phinf.pstatic.net/MjAyMjAyMDdfMjEy/MDAxNjQ0MTk0Mzk2MzY3.WAeeVCu2V3vqEz_98aWMOjK2RUKI_yHYbuZxrokf-0Ug.sV3LNWlROCJTkeS14PMu2UBl5zTkwK70aKX8B1w2oKQg.JPEG.41minit/1643900851960.jpg?type=w800");
   const [showSubBottomSheet, setShowSubBottomSheet] = useState(false);
   const [currentCommentId, setCurrentCommentId] = useState(null);
-  const [commentId, setcommentId] = useState(null);
+  const [commentId, setCommentId] = useState(null);
   const [replyContent, setReplyContent] = useState("");
+  const [editCommentId, setEditCommentId] = useState(null);
+  const [editContent, setEditContent] = useState("");
 
   const [writer, setWriter] = useState(true); // 글 쓴 사람인지 아닌지, 나중에 로직 바꿔야 할 듯
 
@@ -33,13 +35,23 @@ const CommentList = ({ comid }) => {
   };
 
   const handleReplyClick = (commentId) => {
-    setcommentId(commentId);
+    setCommentId(commentId);
     setShowSubBottomSheet(false);
     setReplyContent("");
   };
 
+  const handleEditClick = (commentId, content) => {
+    setEditCommentId(commentId);
+    setEditContent(content);
+    setShowSubBottomSheet(false);
+  };
+
   const handleReplyChange = (content) => {
     setReplyContent(content);
+  };
+
+  const handleEditChange = (content) => {
+    setEditContent(content);
   };
 
   const handleReplyPost = async () => {
@@ -56,13 +68,40 @@ const CommentList = ({ comid }) => {
       await CommunityApi.postReplyComment(comid, formData);
       alert("답글이 등록되었습니다.");
       setReplyContent("");
-      setcommentId(null);
+      setCommentId(null);
       // 댓글 목록을 다시 불러옵니다.
       const response = await CommunityApi.fetchComment(comid);
       setComments(response);
     } catch (error) {
       console.error("Error posting reply:", error);
     }
+  };
+
+  const handleEditSubmit = async () => {
+    if (editContent.trim() === "") {
+      alert("내용을 입력하세요.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("content", editContent);
+
+    try {
+      await CommunityApi.editComment(editCommentId, formData);
+      alert("댓글이 수정되었습니다.");
+      setEditCommentId(null);
+      setEditContent("");
+      // 댓글 목록을 다시 불러옵니다.
+      const response = await CommunityApi.fetchComment(comid);
+      setComments(response);
+    } catch (error) {
+      console.error("Error editing comment:", error);
+    }
+  };
+
+  const handleEditCancel = () => {
+    setEditCommentId(null);
+    setEditContent("");
   };
 
   return (
@@ -77,9 +116,22 @@ const CommentList = ({ comid }) => {
                 <FiMoreVertical className={styles.moreIcon} onClick={() => handleMoreClick(comment.id)} />
               </div>
             </div>
-            <div className={styles.comentText}>
-              {comment.content}
-            </div>
+            {editCommentId === comment.id ? (
+              <div className={styles.editInputContainer}>
+                <input
+                  type="text"
+                  className={styles.editInput}
+                  value={editContent}
+                  onChange={(e) => handleEditChange(e.target.value)}
+                />
+                <button className={styles.cancelButton} onClick={handleEditCancel}>취소</button>
+                <button className={styles.submitButton} onClick={handleEditSubmit}>등록</button>
+              </div>
+            ) : (
+              <div className={styles.comentText}>
+                {comment.content}
+              </div>
+            )}
           </div>
           {commentId === comment.id && (
             <div className={styles.replyInputContainer}>
@@ -120,6 +172,7 @@ const CommentList = ({ comid }) => {
         onClose={() => setShowSubBottomSheet(false)}
         type={writer ? "CommentEditDelete" : "CommentReportBlock"}
         onReplyClick={() => handleReplyClick(currentCommentId)}
+        onEditClick={() => handleEditClick(currentCommentId, comments.find(comment => comment.id === currentCommentId).content)}
       />
     </div>
   );

@@ -11,23 +11,23 @@ class CommunityApi {
     }
 
 
-    async postCommunity(selectedPhotos, formData) { // 게시물 보내기
+    async postCommunity(selectedPhotos, formData) { // 게시물 작성
         selectedPhotos.slice(0, 5).forEach((photo, index) => {
             formData.append("photos", photo);
         });
 
         try {
-            const response = await axios.post(`${this.baseURL}/community/communityPost`, formData, {
+            const response = await axios.post(`${this.baseURL}/community/post`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
                 withCredentials: true,
             });
             console.log(response);
-            //return handleResponse(response);
+            return handleResponse(response);
         } catch (error) {
             console.log(error);
-            //handleError(error);
+            handleError(error);
         }
     }
 
@@ -80,7 +80,7 @@ class CommunityApi {
 
     async postComment(comid, formData , crossOriginIsolated) { // 댓글 보내기
       try {
-          const response = await axios.post(`${this.baseURL}/${comid}/comentPost`, formData, {
+          const response = await axios.post(`${this.baseURL}/comment/post/f${comid}`, formData, {
               headers: {
                   "Content-Type": "multipart/form-data",
                   credentials: 'include'
@@ -93,9 +93,24 @@ class CommunityApi {
       }
   }
 
+  async updateComment(comid, formData) { // 댓글 수정
+    try {
+        const response = await axios.post(`${this.baseURL}/comment/update/${comid}`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                credentials: 'include'
+            },
+            withCredentials: true,
+        });
+        return handleResponse(response);
+    } catch (error) {
+        handleError(error);
+    }
+  }
+
   async fetchComment(comid) { // 댓글 불러오기
     try {
-        const response = await axios.get(`${this.baseURL}/comment/${comid}`);
+        const response = await axios.get(`${this.baseURL}/comment/get/${comid}`);
         return handleResponse(response);
     } catch (error) {
         handleError(error);
@@ -104,7 +119,7 @@ class CommunityApi {
 
   async postReplyComment(comid, formData) { // 대댓글 보내기
     try {
-      const response = await axios.post(`${this.baseURL}/${comid}/comentPost`, formData, {
+      const response = await axios.post(`${this.baseURL}/comment/post/${comid}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           credentials: 'include'

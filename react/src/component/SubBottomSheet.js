@@ -59,7 +59,7 @@ const EditDeleteBottomSheet = ({
         case "CommentEditDelete":
           return (
           <>
-            <CommunityEDRB type={"CommentEditDelete"} onReplyClick={onReplyClick} />
+            <CommunityEDRB type={"CommentEditDelete"} onReplyClick={onReplyClick} onEditClick={onEditClick} />
           </>
           );
         case "CommentReportBlock":
