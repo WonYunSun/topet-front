@@ -5,11 +5,11 @@ const ChoicePetRegister = () => {
 
     const navigate = useNavigate();
     const goHome = () => {
-        navigate("/api/");
+        navigate("/");
     }
 
     const goPetRegistration = () =>{
-        navigate("/api/petregistration");
+        navigate("/petregistration");
     }
 
     return (

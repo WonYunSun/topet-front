@@ -18,3 +18,18 @@ module.exports = function (app) {
 /*
 기본적으로 React 프로젝트는 3000번 포트에서 작동되기 때문에 CORS 관련한 오류를 방지하기 위해서 Proxy를 설정해주어야 한다.
 */
+
+
+
+// import { createProxyMiddleware } from "http-proxy-middleware";
+
+// export default function (app) {
+//   app.use(
+//     "/api",
+//     createProxyMiddleware({
+//       target: "http://175.45.202.131:8081/",
+//       changeOrigin: true,
+//     })
+//   );
+// }
+//     }

@@ -8,7 +8,7 @@ function NavBar() {
     <nav className={styles.navbar}>
       {/* 홈 화면 이동 */}
       <NavLink
-        to="/api/home"
+        to="/home"
         end
         className={({ isActive }) =>
           isActive ? styles.activeNavItem : styles.navItem
@@ -19,7 +19,7 @@ function NavBar() {
       </NavLink>
       {/* 캘린더 화면 이동 */}
       <NavLink
-        to="/api/schedule"
+        to="/schedule"
         className={({ isActive }) =>
           isActive ? styles.activeNavItem : styles.navItem
         }
@@ -29,7 +29,7 @@ function NavBar() {
       </NavLink>
       {/* 지도 화면 이동 */}
       <NavLink
-        to="/api/map"
+        to="/map"
         className={({ isActive }) =>
           isActive ? styles.activeNavItem : styles.navItem
         }
@@ -39,7 +39,7 @@ function NavBar() {
       </NavLink>
       {/* 마이페이지 화면 이동 */}
       <NavLink
-        to="/api/mypage"
+        to="/mypage"
         className={({ isActive }) =>
           isActive ? styles.activeNavItem : styles.navItem
         }

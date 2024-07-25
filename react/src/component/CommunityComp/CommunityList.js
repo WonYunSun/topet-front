@@ -54,7 +54,7 @@ const CommunityList = ({ selectedAnimal }) => {
   const handlePostClick = async (comid) => {
     try {
       await CommunityApi.fetchCommunityDetail(comid);
-      navigate(`/api/community/detail/${comid}`);
+      navigate(`/community/detail/${comid}`);
     } catch (error) {
       if (error.message.includes('404')) {
         setModalMessage('게시물이 없습니다.');

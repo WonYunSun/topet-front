@@ -37,6 +37,24 @@ class scheduleApi {
       throw error; // 에러를 다시 던집니다
     }
   }
+
+  async getMyScheduleAPI(id){
+    
+      await axios.get(`http://localhost:8081/api/getMySchedule/${(id)}`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      })
+      .then((response)=>{
+        console.log("서버 응답:", response.data) 
+      })
+      .catch((error)=>{
+        console.log("서버 응답:", error) 
+      });
+  }
+
+
 }
 
 export default new scheduleApi(API_BASE_URL);

@@ -12,6 +12,7 @@ const EditDeleteBottomSheet = ({
   onDeleteClick,
   onReportClick,
   onBlockClick,
+  onReplyClick,
 }) => {
 
   const handleCloseBottomSheet = () => {
@@ -23,6 +24,8 @@ const EditDeleteBottomSheet = ({
       case "EditDelete":
       case "CommunityEditDelete":
       case "CommunityReportBlock":
+      case "CommentEditDelete" :
+      case "CommentReportBlock":
         return "더보기";
       default:
         return "더보기";
@@ -44,15 +47,27 @@ const EditDeleteBottomSheet = ({
       case "CommunityEditDelete":
         return (
           <>
-            <CommunityEDRB type={"EditDelete"} onEditClick={onEditClick} onDeleteClick={onDeleteClick} onClose={onClose}/> {/* 여기 추가 */}
+            <CommunityEDRB type={"CommunityEditDelete"} onEditClick={onEditClick} onDeleteClick={onDeleteClick} onClose={onClose}/> {/* 여기 추가 */}
           </>
         )
         case "CommunityReportBlock":
           return (
             <>
-              <CommunityEDRB type={"ReportBlock"} />
+              <CommunityEDRB type={"CommunityReportBlock"} />
             </>
           )
+        case "CommentEditDelete":
+          return (
+          <>
+            <CommunityEDRB type={"CommentEditDelete"} onReplyClick={onReplyClick} />
+          </>
+          );
+        case "CommentReportBlock":
+          return (
+          <>
+            <CommunityEDRB type={"CommentReportBlock"} onReplyClick={onReplyClick}/>
+          </>
+          );
       default:
         return "";
     }

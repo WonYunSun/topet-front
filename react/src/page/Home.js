@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import TopBar from "../component/TopBar";
 import NavBar from "../component/NavBarComp/NavBar";
 import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
@@ -17,14 +17,21 @@ import styles from "../css/homescreen.module.css";
 // import CommunityList from "../component/CommunityComp/CommunityList"; //작업 연기
 import CommunityListData from "../component/CommunityComp/CommunityListData";
 import homeApi from "../api/homeApi";
-
+import { updateMember } from "../redux/reducers/memberReducer";
 
 const Home = () => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  
+
   const [animalType, setAnimalType] = useState("강아지"); // 유저가 선택한 동물 타입 저장
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(null);
+  const [pets, setPets] = useState([]);
+  const reduxMember = useSelector((state) => state.member.member);
+
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
   const [schedules, setSchedule] = useState([
     {
@@ -37,7 +44,6 @@ const Home = () => {
       scheduleWriter: "A",
       scheduleEditer: "B",
     },
-
     {
       scheduleId: 2,
       startDate: "2024-07-10T09:00:00",
@@ -72,9 +78,12 @@ const Home = () => {
       scheduleEditer: "B",
     },
   ]);
+
   useEffect(() => {
-      getHome();
-  },[])
+    getHome();
+    //dispatch(updateMember(sessionMember));
+  }, [ ]);
+
   const goCommunity = () => {
     const animalTypeMap = {
       강아지: "dog",
@@ -85,17 +94,20 @@ const Home = () => {
     const currentAnimalType = animalTypeMap[animalType] || "dog";
     navigate(`/community/preview/${currentAnimalType}/freedomAndDaily`);
   };
+
   const goCalendar = () => {
-    navigate(`/api/schedule`);
+    navigate(`/schedule`);
   };
 
   const handleOpenPetBottomSheet = () => {
     setBottomSheetType("pet");
     setShowBottomSheet(true);
   };
+
   const handleCloseBottomSheet = () => {
     setShowBottomSheet(false);
   };
+
   const dummyShortsData = [
     {
       id: 1,
@@ -137,7 +149,6 @@ const Home = () => {
   ];
 
   // 프로필 카드 플립 관련
-
   const Animal = {
     photo:
       "https://images.unsplash.com/photo-1591703166380-e36be05eb7bf?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -187,9 +198,18 @@ const Home = () => {
     setIsFlipped(!isFlipped);
   };
 
-  const getHome=()=>{
-    homeApi.getHomeData();
-  }
+  const getHome = async () => {
+   const returnedMember = await homeApi.getHomeDataMember();
+    // member을 redux에넣어야함
+
+    dispatch(updateMember(returnedMember));
+    
+
+  //    setPets(returnedMember.pets);
+
+    //const schedule = await homeApi.getHomeDataSchedule();
+    // const pet = await homeApi.getHomeDataPet();
+  };
 
   return (
     <div className={styles.homeWrap}>
@@ -199,6 +219,7 @@ const Home = () => {
         onClick={handleOpenPetBottomSheet}
         selectedPet={selectedPet}
         isHome={true}
+        pets={pets}
       />
       <BottomSheet
         show={showBottomSheet}

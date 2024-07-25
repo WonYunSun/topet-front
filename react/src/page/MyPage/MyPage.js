@@ -1,39 +1,55 @@
 import React, { useState, useEffect } from "react";
 import ManageBox from "../../component/MyPageComp/ManageBox";
-import { MdOutlinePets } from "react-icons/md";
-import { MdEdit } from "react-icons/md";
+import CheckModal from "../../component/CheckModal";
+import { MdOutlinePets, MdEdit } from "react-icons/md";
 import styles from "../../css/mypage.module.css"
 import { useNavigate } from 'react-router-dom';
+import { TbLogout } from "react-icons/tb";
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState();
 
   const goEditProfile = () => {
-    navigate(`/api/editprofile`)
+    navigate(`/editprofile`)
   }
 
   const goManageMyPets = () => {
-    navigate(`/api/managemypets`)
+    navigate(`/managemypets`)
   }
 
   const goSeeMyPosts = () => {
-    navigate(`/api/myposts`)
+    navigate(`/myposts`)
   }
   
   const goSeeMyComments = () => {
-    navigate(`/api/mycomments`)
+    navigate(`/mycomments`)
   }
 
   const goSeeLikedPosts = () => {
-    navigate(`/api/likedposts`)
+    navigate(`/likedposts`)
   }
 
   const goSeeMyShorts = () => {
-    navigate(`/api/myshorts`)
+    navigate(`/myshorts`)
   }
 
   const goSeeLikedShorts = () => {
-    navigate(`/api/likedshorts`)
+    navigate(`/likedshorts`)
+  }
+
+  const handleShowLogoutModal = () => {
+    setShowModal(true);
+  }
+
+  const handleCloseLogoutModal = () => {
+    setShowModal(false);
+  }
+
+  // 로그아웃
+  const handleLogout = () => {
+    console.log("!! 로그아웃 !!");
+    setShowModal(false);
   }
 
   const Profile = () => {
@@ -88,6 +104,11 @@ const MyPage = () => {
         managementItemTitle={"좋아요 한 쇼츠 보기"}
         pageRoute={goSeeLikedShorts}
       />
+      <div className={styles.logout} onClick={handleShowLogoutModal}>
+        <TbLogout className={styles.logout_icon} />
+        <div className={styles.logout_text}>로그아웃하기</div>
+      </div>
+      {showModal ? <CheckModal onClose={handleCloseLogoutModal} onContinue={handleLogout} Content={'로그아웃 하시겠습니까?'} CancleBtnContent={'취소'} ContinueBtnContent={'확인'} /> : ''}
     </div>
   );
 };
