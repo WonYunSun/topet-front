@@ -4,7 +4,7 @@ import MyPageCommonTopBar from "../../component/MyPageComp/MyPageCommonTopBar";
 const PetProfileDetail = () => {
     return (
         <div>
-            <MyPageCommonTopBar title={'반려동물이름'} />
+            <MyPageCommonTopBar />
         </div>
     );
 }
