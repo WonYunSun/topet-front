@@ -49,7 +49,7 @@ const CommentList = ({ comid }) => {
     }
 
     const formData = new FormData();
-    formData.append("commentid", commentId);
+    formData.append("id", commentId);
     formData.append("content", replyContent);
 
     try {
