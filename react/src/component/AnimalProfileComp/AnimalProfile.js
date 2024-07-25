@@ -8,6 +8,7 @@ const AnimalProfile = ({ selectedPet, isHome, pets }) => {
   const petList = useSelector((state) => state.petList.petList);
 
     console.log("pets : " , pets);
+    
 
   const initialPetList = {
     체리: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQC5qNvtQUdFvFdOVhurco8HcIQZzM7VzZ6aJZ9JoysBIlkcGeZ",
