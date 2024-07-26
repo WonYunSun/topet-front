@@ -50,6 +50,18 @@ class homeApi {
     //     }
     // }
 
+    async logout(){
+        try{
+            
+            await this.client.post("/member/logout", {
+                withCredentials:true,
+            });
+
+        }catch{
+            console.log("로그아웃실패");
+        }
+    }
+
 
 }
 export default new homeApi(API_BASE_URL);

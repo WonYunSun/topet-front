@@ -44,7 +44,7 @@ class scheduleApi {
 
   async getMyScheduleAPI(id) {
     await axios
-      .get(`http://localhost:8081/api/get/${id}`, {
+      .get(`http://localhost:8081/api/schedule/get/${id}`, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
