@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import BottomSheet from "../component/BottomSheet";
 import { debounce } from "lodash"; // 특정 작업의 호출 빈도 제한 라이브러리
 import { FaSpinner } from "react-icons/fa";
@@ -13,26 +13,16 @@ import { FiRotateCw } from "react-icons/fi";
 import { HiOutlinePlus, HiOutlineMinus } from "react-icons/hi2";
 
 const MapScreen = () => {
-  const isLoaded = useKakaoLoader(); //카카오맵이 로드되었는지 확인하는 변수
-  const mapRef = useRef(null); //useRef훅을 사용하여 mapRef를 생성.(맵 객체 저장에 사용)
+  const isLoaded = useKakaoLoader(); // 카카오맵이 로드되었는지 확인하는 변수
 
-  const arr = ["동물병원", "반려동물동반", "반려동물산책"];
+  const KEYWORD_LIST = [
+    { id: 1, value: "동물병원" },
+    { id: 2, value: "반려동물동반" },
+    { id: 3, value: "애견호텔" },
+  ];
 
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
-  const [places, setPlaces] = useState([]); // 검색된 장소 목록 저장
-  const [selectedPlace, setSelectedPlace] = useState(null); // 선택된 장소 정보 저장
-  const [selectedButton, setSelectedButton] = useState(null); // 선택된 버튼 인덱스 저장
-  const [isVisible, setIsVisible] = useState(false); // 장소 정보(간략정보) 표시 여부
-  const [map, setMap] = useState(null); // 맵 객체 저장
-  const [searchWord, setSearchWord] = useState(""); // 검색어 저장
-  const [markers, setMarkers] = useState([]); // 맵에 표시된 마커들 저장
-  const [btnIsSelected, setBtnIsSelected] = useState(
-    Array(arr.length).fill(false)
-  ); // 버튼의 선택 상태 저장 (초기값: arr 전체 false)
-
-  // 맵의 중심 좌표, 에러 메세지, 로딩 상태 저장 (맵 이동 시 유동적으로 변화함)
-  // lat 위도/ lat 경도 임시값으로 초기화(geolocation으로 현재 위치 받아서 넣게 됨)
   const [state, setState] = useState({
     center: {
       lat: 33.450701,
@@ -42,11 +32,22 @@ const MapScreen = () => {
     isLoading: true,
   });
 
-  // 현재 좌표 저장(사용자 위치값이여야 함)
+  // 지도 이동 시 바뀔 좌표
   const [position, setPosition] = useState({
-    latitude: 33.450701,
-    longitude: 126.570667,
+    lat: 33.450701,
+    lng: 126.570667,
   });
+
+  const [map, setMap] = useState(null);
+  const [keyword, setKeyword] = useState("");
+  const [search, setSearch] = useState([]); // 검색 결과를 담는 상태 변수
+  const [selectedPlace, setSelectedPlace] = useState(null); // 선택된 장소 정보 저장
+  const [isVisible, setIsVisible] = useState(false); // 장소 정보(간략정보) 표시 여부
+  const [openMarkerId, setOpenMarkerId] = useState(null);
+  const [selectedButton, setSelectedButton] = useState(null); // 선택된 버튼 인덱스 저장
+  const [btnIsSelected, setBtnIsSelected] = useState(
+    Array(KEYWORD_LIST.length).fill(false)
+  ); // 버튼의 선택 상태 저장 (초기값: arr 전체 false)
 
   const handleBottomSheetOpen = (type) => {
     setBottomSheetType(type);
@@ -57,183 +58,163 @@ const MapScreen = () => {
     setShowBottomSheet(false);
   };
 
-  // 컴포넌트가 처음 렌더 될 때 실행. 현재 위치 받아와 state.center와 isLoading 상태 업데이트
+  // 현재 사용자 위치 받아오기 (geolocation)
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setState((prevState) => ({
-            ...prevState,
+          setState((prev) => ({
+            ...prev,
             center: {
               lat: position.coords.latitude,
               lng: position.coords.longitude,
             },
             isLoading: false,
           }));
-          setPosition((prevPosition) => ({
-            ...prevPosition,
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
+          setPosition((prev) => ({
+            ...prev,
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
           }));
         },
         (err) => {
-          setState((prevState) => ({
-            ...prevState,
+          setState((prev) => ({
+            ...prev,
             errMsg: err.message,
             isLoading: false,
           }));
         }
       );
     } else {
-      setState((prevState) => ({
-        ...prevState,
+      setState((prev) => ({
+        ...prev,
         errMsg: "geolocation을 사용할 수 없어요..",
         isLoading: false,
       }));
     }
   }, []);
 
-  // 현재 위치를 가져와서 position 상태를 업데이트
   useEffect(() => {
-    // navigator.geolocation.getCurrentPosition((pos) => {
-    //   setPosition({
-    //     latitude: pos.coords.latitude,
-    //     longitude: pos.coords.longitude,
-    //   });
-    // });
-    navigator.geolocation.watchPosition((pos) => {
+    if (!map || !isLoaded) return;
+
+    const updatePosition = () => {
+      const center = map.getCenter();
       setPosition({
-        latitude: pos.coords.latitude,
-        longitude: pos.coords.longitude,
+        lat: center.getLat(),
+        lng: center.getLng(),
       });
-    });
-  }, []);
+    };
 
-  // 맵 초기화 및 중심 좌표(state.center) 변경 시 검색 수행
-  useEffect(() => {
-    if (isLoaded && !state.isLoading) {
-      const container = document.getElementById("map");
-      const options = {
-        center: new window.kakao.maps.LatLng(
-          state.center.lat,
-          state.center.lng
-        ),
-        level: 4,
-      };
+    window.kakao.maps.event.addListener(map, "center_changed", updatePosition);
 
-      if (!mapRef.current) {
-        const map = new window.kakao.maps.Map(container, options);
-        mapRef.current = map;
-        setMap(map);
-
-        window.kakao.maps.event.addListener(map, "center_changed", () => {
-          const center = map.getCenter();
-          setState((prev) => ({
-            ...prev,
-            center: {
-              lat: center.getLat(),
-              lng: center.getLng(),
-            },
-          }));
-          console.log("state 위치는 ", state);
-        });
-
-        console.log("지도 초기화 완료", map); // 지도 객체 출력
-      }
-    }
-  }, [isLoaded, state.isLoading]);
-
-  // 맵의 중심을 현재 위치로 설정하는 함수(내 위치로 맵 이동)
-  const setCenterToMyPosition = () => {
-    if (mapRef.current) {
-      const map = mapRef.current;
-      map.setCenter(
-        new window.kakao.maps.LatLng(position.latitude, position.longitude)
+    // Cleanup event listener on unmount
+    return () => {
+      window.kakao.maps.event.removeListener(
+        map,
+        "center_changed",
+        updatePosition
       );
-      map.setLevel(2);
-    }
-  };
+    };
+  }, [map, isLoaded]);
 
-  // 장소 검색 함수. debounce 사용해 300ms 동안 대기 후 실행
-  const searchPlace = debounce((keyword, location) => {
-    if (!isLoaded || !window.kakao || !map) return;
+  const searchPlaces = (keyword, location) => {
+    if (!window.kakao || !window.kakao.maps) {
+      console.error("카카오맵 로드 실패");
+      return;
+    }
 
     const ps = new window.kakao.maps.services.Places();
-    console.log("Searching for:", keyword);
+    const options = {
+      location:
+        location ||
+        new window.kakao.maps.LatLng(state.center.lat, state.center.lng),
+      radius: 5000,
+      sort: window.kakao.maps.services.SortBy.ACCURACY,
+    };
+
     ps.keywordSearch(
       keyword,
       (data, status) => {
-        console.log("Status:", status);
         if (status === window.kakao.maps.services.Status.OK) {
-          console.log("Search results:", data);
-          setPlaces(data);
-          console.log("검색 후 플레이스에 저장된 것은", data);
+          displayPlaces(data);
         } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
-          console.log("No results found.");
+          setSearch([]);
         } else if (status === window.kakao.maps.services.Status.ERROR) {
-          console.log("An error occurred.");
+          console.error("검색에 실패하였습니다.");
         }
       },
-      // 옵션값 설정, 현재 위치 기준 5000m 검색 결과 찾음. 정렬은 정확도 순
-      {
-        location,
-        radius: 5000,
-        sort: window.kakao.maps.services.SortBy.accuracy,
-      }
+      options
     );
-  }, 300);
+  };
 
-  // 장소 목록 업데이트 및 마커 설정, palce나 map이 변경될 때 실행.(map이 변경되는 일이 뭐임?)
-  useEffect(() => {
-    if (!map) return; // map 객체가 초기화되지 않았으면 리턴
+  const displayPlaces = (data) => {
+    const bounds = new window.kakao.maps.LatLngBounds();
+    data.forEach((item) =>
+      bounds.extend(new window.kakao.maps.LatLng(item.y, item.x))
+    );
+    bounds.extend(
+      new window.kakao.maps.LatLng(state.center.lat, state.center.lng)
+    );
+    map.setBounds(bounds);
+    setSearch(data);
+  };
 
-    const handlePlacesUpdate = () => {
-      // if (places.length === 0) return; // places 배열이 비어있으면 리턴
-
-      // 기존 마커 제거
-      removeMarkers();
-
-      // 새로운 마커 추가
-      const newMarkers = places.map((place) => {
-        const imageSrc =
-          "https://cdn-icons-png.flaticon.com/128/2098/2098567.png";
-        const imageSize = new window.kakao.maps.Size(35, 35);
-        const markerImage = new window.kakao.maps.MarkerImage(
-          imageSrc,
-          imageSize
-        );
-
-        const marker = new window.kakao.maps.Marker({
-          position: new window.kakao.maps.LatLng(place.y, place.x),
-          image: markerImage,
-        });
-
-        marker.setMap(map); // 마커를 맵에 뿌림
-        console.log("마커가 지도에 설정됨", marker); // 마커 객체 출력 확인용 콘솔
-
-        window.kakao.maps.event.addListener(marker, "click", () => {
-          console.log("Marker clicked:", place);
-          setSelectedPlace(place);
-          setIsVisible(true);
-        });
-
-        return marker;
-      });
-
-      setMarkers(newMarkers); // 상태 업데이트 확인
-    };
-
-    handlePlacesUpdate();
-  }, [places, map]);
-
-  //현재 중심좌표 기준 재검색 함수
   const reSearch = () => {
-    const center = mapRef.current.getCenter();
     if (selectedButton !== null) {
-      searchPlace(arr[selectedButton], center); // 변경된 중심 좌표로 검색 수행
+      searchPlaces(
+        KEYWORD_LIST[selectedButton].value,
+        new window.kakao.maps.LatLng(position.lat, position.lng)
+      );
     }
   };
 
+  const moveLatLng = (data) => {
+    const newLatLng = new window.kakao.maps.LatLng(data.y, data.x);
+    map.panTo(newLatLng);
+  };
+
+  useEffect(() => {
+    if (!map || !isLoaded) return;
+
+    searchPlaces(
+      keyword,
+      new window.kakao.maps.LatLng(position.lat, position.lng)
+    );
+  }, [map, keyword, isLoaded, position]);
+
+  // 사용자 정의 버튼 컴포넌트
+  const CustomButton = ({ num }) => {
+    const isSelected = btnIsSelected[num];
+
+    const handleClick = () => {
+      // 클릭 시 모든 버튼의 선택 상태를 초기화하고 현재 버튼을 선택
+      const updatedBtnIsSelected = Array(KEYWORD_LIST.length).fill(false);
+      updatedBtnIsSelected[num] = !isSelected;
+      setBtnIsSelected(updatedBtnIsSelected);
+
+      // 선택된 버튼이 이미 선택된 경우 마커 제거
+      if (isSelected) {
+        setSearch([]); // 마커 제거
+        setSelectedButton(null); // 버튼 해제 시 null로 설정
+      } else {
+        // 마커 제거 후 검색 수행
+        setSearch([]); // 기존 마커 제거
+        setSelectedButton(num); // 선택된 버튼 인덱스 설정
+        searchPlaces(KEYWORD_LIST[num].value); // 검색 수행
+      }
+    };
+
+    return (
+      <div
+        onClick={handleClick}
+        className={`${styles.button} ${
+          isSelected ? styles.selectedButton : ""
+        }`}
+      >
+        #{KEYWORD_LIST[num].value}
+      </div>
+    );
+  };
   // 장소 정보 외부 클릭 시 정보 창 닫기
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -257,63 +238,19 @@ const MapScreen = () => {
     };
   }, []);
 
-  // 기존 마커 제거 함수
-  const removeMarkers = () => {
-    markers.forEach((marker) => marker.setMap(null));
-    setMarkers([]);
-  };
-
-  // 사용자 정의 버튼 컴포넌트
-  const CustomButton = ({ num }) => {
-    const isSelected = btnIsSelected[num];
-
-    const handleClick = () => {
-      // 클릭 시 모든 버튼의 선택 상태를 초기화하고 현재 버튼을 선택
-      const updatedBtnIsSelected = Array(arr.length).fill(false);
-      updatedBtnIsSelected[num] = !isSelected;
-      setBtnIsSelected(updatedBtnIsSelected);
-
-      // 마커 제거 후 검색 수행
-      removeMarkers();
-
-      if (!isSelected) {
-        setSelectedButton(num); // 선택된 버튼 인덱스 설정
-        searchPlace(
-          arr[num],
-          new window.kakao.maps.LatLng(state.center.lat, state.center.lng)
-        );
-      } else {
-        setSelectedButton(null); // 버튼 해제 시 null로 설정
-      }
-    };
-
-    return (
-      <div
-        onClick={handleClick}
-        className={`${styles.button} ${
-          isSelected ? styles.selectedButton : ""
-        }`}
-      >
-        #{arr[num]}
-      </div>
-    );
-  };
-
-  // 맵 확대 함수
-  const zoomIn = () => {
-    const map = mapRef.current;
+  const setCenterToMyPosition = () => {
     if (!map) return;
+    map.panTo(new window.kakao.maps.LatLng(state.center.lat, state.center.lng));
+  };
+
+  const zoomIn = () => {
     map.setLevel(map.getLevel() - 1);
   };
 
-  // 맵 축소 함수
   const zoomOut = () => {
-    const map = mapRef.current;
-    if (!map) return;
     map.setLevel(map.getLevel() + 1);
   };
 
-  // 로딩 중일 때 로딩 스피너 표시
   if (state.isLoading) {
     return (
       <div className={styles.loading}>
@@ -323,118 +260,137 @@ const MapScreen = () => {
   }
 
   return (
-    <div className={styles.MapscreenWrap}>
+    <>
       <Map
-        id="map"
-        center={{
-          lat: state.center.lat,
-          lng: state.center.lng,
-        }}
+        center={state.center}
         style={{
           width: "100%",
           height: "calc(100vh - 40px)",
         }}
         level={3}
-        ref={mapRef}
+        onCreate={setMap}
       >
+        {/* 내 위치 */}
         <MapMarker
-          position={position} // 고정된 현재 위치
+          position={state.center}
           image={{
             src: require("../asset/icon/mylocation.svg").default,
             size: {
               width: 25,
               height: 25,
             },
-            options: {
-              zIndex: 1,
-            },
           }}
         />
-      </Map>
-
-      <div className={styles.setCenterBtnDiv}>
-        <button className={styles.setCenterBtn} onClick={setCenterToMyPosition}>
-          <TbCurrentLocation size={25} />
-        </button>
-      </div>
-
-      <div className={`${styles.custom_zoomcontrol} ${styles.radius_border}`}>
-        <span onClick={zoomIn} className={styles.pBtn}>
-          <HiOutlinePlus size={30} />
-        </span>
-        <span onClick={zoomOut} className={styles.mBtn}>
-          <HiOutlineMinus size={30} />
-        </span>
-      </div>
-
-      <div className={styles.mapTopWrap}>
-        <div className={styles.topBtnWrap}>
-          <button className={styles.backButton}>
-            <FiArrowLeft size={24} color="#666" />
-          </button>
-          <div className={styles.inputWrap}>
-            <input
-              className={styles.Mapinput}
-              placeholder="장소를 검색해보세요"
-              onChange={(e) => {
-                setSearchWord(e.target.value);
-                console.log(e.target.value);
+        {/* 검색 결과 마커 */}
+        {search.map((data) => (
+          <React.Fragment key={data.id}>
+            <MapMarker
+              key={data.id}
+              position={{ lat: data.y, lng: data.x }}
+              image={{
+                src: "https://cdn-icons-png.flaticon.com/128/2098/2098567.png",
+                size: {
+                  width: 35,
+                  height: 35,
+                },
               }}
-            />
-            <IoSearch
-              className={styles.searchbar_icon}
-              onClick={() => searchPlace(searchWord)}
-            />
-          </div>
-        </div>
-        <div className={styles.CutsomBtnWrap}>
-          {arr.map((item, index) => (
-            <CustomButton key={index} num={index} />
-          ))}
-        </div>
-      </div>
-      <div className={styles.mapListWrap}>
-        {selectedButton !== null && (
-          <>
-            <button
-              className={styles.listButton}
               onClick={() => {
-                handleBottomSheetOpen("map");
-                searchPlace(
-                  arr[selectedButton],
-                  new window.kakao.maps.LatLng(
-                    state.center.lat,
-                    state.center.lng
-                  )
-                );
+                if (data.id === openMarkerId) {
+                  setOpenMarkerId(null);
+                } else {
+                  setSelectedPlace(data);
+                  setOpenMarkerId(data.id);
+                  moveLatLng(data);
+                  setIsVisible(true);
+                }
               }}
-            >
-              <div className={styles.listinnerDiv}>
-                <IoIosList />
-                목록보기
-              </div>
+            />
+          </React.Fragment>
+        ))}
+        <button className={styles.reSearchBtn} onClick={reSearch}>
+          <FiRotateCw color="#666" />현 지도에서 검색
+        </button>
+        <div className={styles.setCenterBtnDiv}>
+          <button
+            className={styles.setCenterBtn}
+            onClick={setCenterToMyPosition}
+          >
+            <TbCurrentLocation size={25} />
+          </button>
+        </div>
+
+        <div className={`${styles.custom_zoomcontrol} ${styles.radius_border}`}>
+          <span onClick={zoomIn} className={styles.pBtn}>
+            <HiOutlinePlus size={30} />
+          </span>
+          <span onClick={zoomOut} className={styles.mBtn}>
+            <HiOutlineMinus size={30} />
+          </span>
+        </div>
+
+        <div className={styles.mapTopWrap}>
+          <div className={styles.topBtnWrap}>
+            <button className={styles.backButton}>
+              <FiArrowLeft size={24} color="#666" />
             </button>
-            <button className={styles.reSearchBtn} onClick={reSearch}>
-              <FiRotateCw color="#666" />현 지도에서 검색
-            </button>
-          </>
-        )}
-        <BottomSheet
-          show={showBottomSheet}
-          onClose={handleBottomSheetClose}
-          type={bottomSheetType}
-        />
-      </div>
-      {selectedPlace && (
-        <div className={`${styles.placeInfo} ${isVisible ? styles.show : ""}`}>
-          <div className={styles.placeInfoContent}>
-            <h3>{selectedPlace.place_name}</h3>
-            <p>{selectedPlace.address_name}</p>
-            <p>{selectedPlace.phone}</p>
+            <div className={styles.inputWrap}>
+              <input
+                className={styles.Mapinput}
+                placeholder="장소를 검색해보세요"
+                onChange={(e) => {
+                  setKeyword(e.target.value);
+                }}
+              />
+              <IoSearch
+                className={styles.searchbar_icon}
+                onClick={() => searchPlaces(keyword)}
+              />
+            </div>
+          </div>
+          <div className={styles.CutsomBtnWrap}>
+            {KEYWORD_LIST.map((item, index) => (
+              <CustomButton key={index} num={index} />
+            ))}
           </div>
         </div>
-      )}
-    </div>
+        <div className={styles.mapListWrap}>
+          {selectedButton !== null && (
+            <>
+              <button
+                className={styles.listButton}
+                onClick={() => {
+                  handleBottomSheetOpen("map");
+                }}
+              >
+                <div className={styles.listinnerDiv}>
+                  <IoIosList />
+                  목록보기
+                </div>
+              </button>
+              {/* <button className={styles.reSearchBtn} onClick={reSearch}>
+                <FiRotateCw color="#666" />현 지도에서 검색
+              </button> */}
+            </>
+          )}
+          <BottomSheet
+            show={showBottomSheet}
+            onClose={handleBottomSheetClose}
+            type={bottomSheetType}
+          />
+        </div>
+        {selectedPlace && (
+          <div
+            className={`${styles.placeInfo} ${isVisible ? styles.show : ""}`}
+          >
+            <div className={styles.placeInfoContent}>
+              <h3>{selectedPlace.place_name}</h3>
+              <p>{selectedPlace.address_name}</p>
+              <p>{selectedPlace.phone}</p>
+            </div>
+          </div>
+        )}
+      </Map>
+    </>
   );
 };
 

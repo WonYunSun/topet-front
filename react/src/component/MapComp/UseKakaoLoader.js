@@ -11,7 +11,6 @@ export default function useKakaoLoader() {
   });
 
   useEffect(() => {
-    // 추가적인 초기화 작업 필요시
     const script = document.createElement("script");
     script.async = true;
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=013236da36d05a18e2f3d061c798177a&autoload=false&libraries=services`;
