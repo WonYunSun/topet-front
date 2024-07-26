@@ -93,9 +93,10 @@ class CommunityApi {
       }
   }
 
-  async updateComment(comid, formData) { // 댓글 수정
+  async updateComment(formData) { // 댓글 수정
     try {
-        const response = await axios.post(`${this.baseURL}/comment/update/${comid}`, formData, {
+        const response = await axios.post(`${this.baseURL}/commentUpdate`, formData, {
+            //`${this.baseURL}/comment/update`
             headers: {
                 "Content-Type": "multipart/form-data",
                 credentials: 'include'
@@ -108,16 +109,26 @@ class CommunityApi {
     }
   }
 
-  async fetchComment(comid) { // 댓글 불러오기
+  async deleteComment(commentid) { // 댓글 삭제
     try {
-        const response = await axios.get(`${this.baseURL}/comment/get/${comid}`);
+        const response = await axios.post(`${this.baseURL}/comment/delete/${commentid}`);
+        return handleResponse(response);
+    } catch (error) {
+        handleError(error);
+    }
+}
+
+  async fetchComment(comid) { // 댓글 불러오기(답글 같이 불러와짐)
+    try {
+        const response = await axios.get(`${this.baseURL}/comment/${comid}`);
+        //${this.baseURL}/comment//get/${comid}
         return handleResponse(response);
     } catch (error) {
         handleError(error);
     }
   }
 
-  async postReplyComment(comid, formData) { // 대댓글 보내기
+  async postReplyComment(comid, formData) { // 답글 작성
     try {
       const response = await axios.post(`${this.baseURL}/comment/post/${comid}`, formData, {
         headers: {
@@ -131,6 +142,31 @@ class CommunityApi {
       handleError(error);
     }
   }
+
+  async updateReply(formData) { // 답글 수정
+    try {
+        const response = await axios.post(`${this.baseURL}/commentUpdate`, formData, {
+            //`${this.baseURL}/comment/update`
+            headers: {
+                "Content-Type": "multipart/form-data",
+                credentials: 'include'
+            },
+            withCredentials: true,
+        });
+        return handleResponse(response);
+    } catch (error) {
+        handleError(error);
+    }
+  }
+
+  async deleteReply(replyId) { // 답글 삭제
+    try {
+        const response = await axios.post(`${this.baseURL}/comment/delete/${replyId}`);
+        return handleResponse(response);
+    } catch (error) {
+        handleError(error);
+    }
+}
 }
 
 export default new CommunityApi(API_BASE_URL);

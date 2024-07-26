@@ -6,12 +6,14 @@ import EditDeleteBottomSheet from '../SubBottomSheet';
 
 const CommentList = ({ comid }) => {
   const [comments, setComments] = useState([]);
-  const [userProfile, setUserProfile] = useState("https://mblogthumb-phinf.pstatic.net/MjAyMjAyMDdfMjEy/MDAxNjQ0MTk0Mzk2MzY3.WAeeVCu2V3vqEz_98aWMOjK2RUKI_yHYbuZxrokf-0Ug.sV3LNWlROCJTkeS14PMu2UBl5zTkwK70aKX8B1w2oKQg.JPEG.41minit/1643900851960.jpg?type=w800");
+  const [userProfile, setUserProfile] = useState("https://image.dongascience.com/Photo/2020/03/5bddba7b6574b95d37b6079c199d7101.jpg");
   const [showSubBottomSheet, setShowSubBottomSheet] = useState(false);
   const [currentCommentId, setCurrentCommentId] = useState(null);
+  const [currentReplyId, setCurrentReplyId] = useState(null);
   const [commentId, setCommentId] = useState(null);
   const [replyContent, setReplyContent] = useState("");
   const [editCommentId, setEditCommentId] = useState(null);
+  const [editReplyId, setEditReplyId] = useState(null);
   const [editContent, setEditContent] = useState("");
 
   const [writer, setWriter] = useState(true); // 글 쓴 사람인지 아닌지, 나중에 로직 바꿔야 할 듯
@@ -31,6 +33,13 @@ const CommentList = ({ comid }) => {
 
   const handleMoreClick = (commentId) => {
     setCurrentCommentId(commentId);
+    setCurrentReplyId(null);
+    setShowSubBottomSheet(true);
+  };
+
+  const handleReplyMoreClick = (replyId) => {
+    setCurrentReplyId(replyId);
+    setCurrentCommentId(null);
     setShowSubBottomSheet(true);
   };
 
@@ -42,6 +51,14 @@ const CommentList = ({ comid }) => {
 
   const handleEditClick = (commentId, content) => {
     setEditCommentId(commentId);
+    setEditReplyId(null);
+    setEditContent(content);
+    setShowSubBottomSheet(false);
+  };
+
+  const handleReplyEditClick = (replyId, content) => {
+    setEditReplyId(replyId);
+    setEditCommentId(null);
     setEditContent(content);
     setShowSubBottomSheet(false);
   };
@@ -69,7 +86,6 @@ const CommentList = ({ comid }) => {
       alert("답글이 등록되었습니다.");
       setReplyContent("");
       setCommentId(null);
-      // 댓글 목록을 다시 불러옵니다.
       const response = await CommunityApi.fetchComment(comid);
       setComments(response);
     } catch (error) {
@@ -77,21 +93,21 @@ const CommentList = ({ comid }) => {
     }
   };
 
-  const handleEditSubmit = async () => {
+  const handleEditComment = async () => {
     if (editContent.trim() === "") {
       alert("내용을 입력하세요.");
       return;
     }
 
     const formData = new FormData();
+    formData.append("id", editCommentId);
     formData.append("content", editContent);
 
     try {
-      await CommunityApi.editComment(editCommentId, formData);
+      await CommunityApi.updateComment(formData);
       alert("댓글이 수정되었습니다.");
       setEditCommentId(null);
       setEditContent("");
-      // 댓글 목록을 다시 불러옵니다.
       const response = await CommunityApi.fetchComment(comid);
       setComments(response);
     } catch (error) {
@@ -99,15 +115,62 @@ const CommentList = ({ comid }) => {
     }
   };
 
+  const handleEditReply = async () => {
+    if (editContent.trim() === "") {
+      alert("내용을 입력하세요.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("id", editReplyId);
+    formData.append("content", editContent);
+
+    try {
+      await CommunityApi.updateReply(formData);
+      alert("답글이 수정되었습니다.");
+      setEditReplyId(null);
+      setEditContent("");
+      const response = await CommunityApi.fetchComment(comid);
+      setComments(response);
+    } catch (error) {
+      console.error("Error editing reply:", error);
+    }
+  };
+
   const handleEditCancel = () => {
     setEditCommentId(null);
+    setEditReplyId(null);
     setEditContent("");
+  };
+
+  const handleDeleteClick = async (commentId) => {
+    try {
+      await CommunityApi.deleteComment(commentId);
+      alert("댓글이 삭제되었습니다.");
+      setShowSubBottomSheet(false);
+      const response = await CommunityApi.fetchComment(comid);
+      setComments(response);
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
+
+  const handleDeleteReplyClick = async (replyId) => {
+    try {
+      await CommunityApi.deleteReply(replyId);
+      alert("답글이 삭제되었습니다.");
+      setShowSubBottomSheet(false);
+      const response = await CommunityApi.fetchComment(comid);
+      setComments(response);
+    } catch (error) {
+      console.error("Error deleting reply:", error);
+    }
   };
 
   return (
     <div className={styles.comentContainer}>
       {comments.map((comment) => (
-        <div key={comment.id} className={styles.comentItem}>
+        <div key={`comment-${comment.id}`} className={styles.comentItem}>
           <div className={styles.userProfileContent}>
             <div className={styles.userProfileContainer}>
               <img src={userProfile} alt="User Profile" className={styles.userProfile} />
@@ -125,7 +188,7 @@ const CommentList = ({ comid }) => {
                   onChange={(e) => handleEditChange(e.target.value)}
                 />
                 <button className={styles.cancelButton} onClick={handleEditCancel}>취소</button>
-                <button className={styles.submitButton} onClick={handleEditSubmit}>등록</button>
+                <button className={styles.submitButton} onClick={handleEditComment}>등록</button>
               </div>
             ) : (
               <div className={styles.comentText}>
@@ -142,25 +205,36 @@ const CommentList = ({ comid }) => {
                 value={replyContent}
                 onChange={(e) => handleReplyChange(e.target.value)}
               />
-              <button className={styles.replyButton} onClick={handleReplyPost}>
-                등록
-              </button>
+              <button className={styles.replyButton} onClick={handleReplyPost}>등록</button>
             </div>
           )}
           <div className={styles.repliesContainer}>
             {comment.children && comment.children.map((reply) => (
-              <div key={reply.id} className={styles.replyItem}>
+              <div key={`reply-${reply.id}`} className={styles.replyItem}>
                 <div className={styles.userProfileContent}>
                   <div className={styles.userProfileContainer}>
                     <img src={userProfile} alt="User Profile" className={styles.userProfile} />
                     <span className={styles.userName}>{reply.author.name}</span>
                     <div className={styles.moreIconContainer}>
-                      <FiMoreVertical className={styles.moreIcon} />
+                      <FiMoreVertical className={styles.moreIcon} onClick={() => handleReplyMoreClick(reply.id)} />
                     </div>
                   </div>
-                  <div className={styles.comentText}>
-                    {reply.content}
-                  </div>
+                  {editReplyId === reply.id ? (
+                    <div className={styles.editInputContainer}>
+                      <input
+                        type="text"
+                        className={styles.editInput}
+                        value={editContent}
+                        onChange={(e) => handleEditChange(e.target.value)}
+                      />
+                      <button className={styles.cancelButton} onClick={handleEditCancel}>취소</button>
+                      <button className={styles.submitButton} onClick={handleEditReply}>등록</button>
+                    </div>
+                  ) : (
+                    <div className={styles.comentText}>
+                      {reply.content}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -170,9 +244,10 @@ const CommentList = ({ comid }) => {
       <EditDeleteBottomSheet
         show={showSubBottomSheet}
         onClose={() => setShowSubBottomSheet(false)}
-        type={writer ? "CommentEditDelete" : "CommentReportBlock"}
+        type={currentReplyId ? "ReplyEditDelete" : (writer ? "CommentEditDelete" : "CommentReportBlock")}
         onReplyClick={() => handleReplyClick(currentCommentId)}
-        onEditClick={() => handleEditClick(currentCommentId, comments.find(comment => comment.id === currentCommentId).content)}
+        onEditClick={() => currentReplyId ? handleReplyEditClick(currentReplyId, comments.find(comment => comment.children.some(reply => reply.id === currentReplyId)).children.find(reply => reply.id === currentReplyId).content) : handleEditClick(currentCommentId, comments.find(comment => comment.id === currentCommentId).content)}
+        onDeleteClick={() => currentReplyId ? handleDeleteReplyClick(currentReplyId) : handleDeleteClick(currentCommentId)}
       />
     </div>
   );
