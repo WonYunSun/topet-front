@@ -1,7 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import MyPageCommonTopBar from "../../component/MyPageComp/MyPageCommonTopBar";
-import EditPetProfile from "../MyPage/EditPetProfile";
 import styles from "../../css/mypage_petprofile.module.css";
 import dayjs from "dayjs";
 import { GoArrowLeft } from "react-icons/go";
