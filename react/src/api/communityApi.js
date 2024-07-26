@@ -80,7 +80,7 @@ class CommunityApi {
 
     async postComment(comid, formData , crossOriginIsolated) { // 댓글 보내기
       try {
-          const response = await axios.post(`${this.baseURL}/comment/post/f${comid}`, formData, {
+          const response = await axios.post(`${this.baseURL}/comment/post/${comid}`, formData, {
               headers: {
                   "Content-Type": "multipart/form-data",
                   credentials: 'include'
@@ -163,6 +163,15 @@ class CommunityApi {
     try {
         const response = await axios.post(`${this.baseURL}/comment/delete/${replyId}`);
         return handleResponse(response);
+    } catch (error) {
+        handleError(error);
+    }
+}
+
+async fetchlikedByCurrentUser(comid) {
+    try{
+        const response = await axios.get(`${this.baseURL}/like/detail/${comid}`)
+        return handleResponse(response)
     } catch (error) {
         handleError(error);
     }

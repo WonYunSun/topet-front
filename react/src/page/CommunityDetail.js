@@ -35,9 +35,11 @@ const CommunityDetail = () => {
       setLoading(true);
       try {
         const detail = await CommunityApi.fetchCommunityDetail(comid);
+        const liked = await CommunityApi.fetchlikedByCurrentUser(comid);
         console.log("서버에서 받은 데이터:", detail); // 서버에서 받은 데이터를 콘솔에 출력
         setItem(detail);
         setLikes(detail.likeCount);
+        setIsLiked(liked.likedByCurrentUser);
 
         if (detail.hashtag) {
           setHashtags(detail.hashtag.split(',').map(tag => tag.trim()));
@@ -150,7 +152,7 @@ const CommunityDetail = () => {
             onClick={toggleLike} 
             style={{ color: isLiked ? 'red' : 'gray', cursor: 'pointer' }}
           />
-          <span> {likes}</span>
+          {/* <span> {likes}</span> */}
         </div>
         <div className="icon-group">
           <BsChatFill className={styles.icon}/>
