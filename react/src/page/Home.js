@@ -18,20 +18,26 @@ import styles from "../css/homescreen.module.css";
 import CommunityListData from "../component/CommunityComp/CommunityListData";
 import homeApi from "../api/homeApi";
 import { updateMember } from "../redux/reducers/memberReducer";
+import { updatePetList } from "../redux/reducers/petListReducer";
+import { updateSelectedPet } from "../redux/reducers/selectedPetReducer";
 
 const Home = () => {
-  const navigate = useNavigate();
-
-  const dispatch = useDispatch();
+  const reduxMember = useSelector((state) => state.member.member);
+  const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
+  
   
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
   const [animalType, setAnimalType] = useState("강아지"); // 유저가 선택한 동물 타입 저장
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
-  const [selectedPet, setSelectedPet] = useState(null);
+  const [selectedPet, setSelectedPet] = useState(reduxPet);
+  
   const [pets, setPets] = useState([]);
-  const reduxMember = useSelector((state) => state.member.member);
-
+  
+  
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
   const [schedules, setSchedule] = useState([
     {
@@ -81,9 +87,13 @@ const Home = () => {
 
   useEffect(() => {
     getHome();
-    //dispatch(updateMember(sessionMember));
+    
   }, [ ]);
 
+  useEffect(()=>{
+    setSelectedPet(reduxPet);
+  },[selectedPet])
+  
   const goCommunity = () => {
     const animalTypeMap = {
       강아지: "dog",
@@ -201,16 +211,46 @@ const Home = () => {
   const getHome = async () => {
    const returnedMember = await homeApi.getHomeDataMember();
     // member을 redux에넣어야함
+    const sessionMember = {
+      id : returnedMember.id,
+      email : returnedMember.email,
+      name : returnedMember.name,
+      socialId : returnedMember.socialId
+    }
+    console.log("returnedMember.petsreturnedMember.pets", returnedMember.pets);
+    let tempPets = returnedMember.pets;
 
-    dispatch(updateMember(returnedMember));
+    const myPets = [];
+
+    for(let i =  0 ; i < tempPets.length; i++){
+        let tempPet = {
+          id : tempPets[i].id,
+          type : tempPets[i].type,
+          birth : tempPets[i].birth,
+          health : tempPets[i].health,
+          allergy : tempPets[i].allergy,
+          kind : tempPets[i].kind,
+          profileSrc : tempPets[i].profileSrc,
+          name : tempPets[i].name,
+          weight : tempPets[i].weight,
+        }
+        myPets.push(tempPet);
+    }
+
     
 
-  //    setPets(returnedMember.pets);
-
+    dispatch(updateMember(sessionMember));
+    dispatch(updatePetList(myPets));
+    //    setPets(returnedMember.pets);
+    
     //const schedule = await homeApi.getHomeDataSchedule();
     // const pet = await homeApi.getHomeDataPet();
   };
-
+  
+  dispatch(updateSelectedPet(selectedPet));
+  
+  
+  
   return (
     <div className={styles.homeWrap}>
       <TopBar />
@@ -218,6 +258,7 @@ const Home = () => {
       <AnimalSelect
         onClick={handleOpenPetBottomSheet}
         selectedPet={selectedPet}
+        
         isHome={true}
         pets={pets}
       />

@@ -4,10 +4,12 @@ import AddSchedule from "./CalendarComp/AddSchedule";
 import ScheduleDetail from "./CalendarComp/ScheduleDetail";
 import EditDeleteBottomSheet from "./SubBottomSheet";
 import ScheduleEdit from "./CalendarComp/ScheduleEdit";
+import MapPlaceList from "./MapComp/MapPlaceList";
 import "../css/bottomsheet.css";
 import HashTagContent from "./HashTagComp/HashTagContent";
 import RegisterMyPetBottomSheet from "../component/MyPageComp/RegisterMyPetBottomSheet";
-
+import { useSelector, useDispatch } from "react-redux";
+import { updateSelectedPet } from "../redux/reducers/selectedPetReducer";
 const BottomSheet = ({
   show,
   onClose,
@@ -26,13 +28,20 @@ const BottomSheet = ({
   setScheduleSubmittedSuccessfully,
   scheduleSubmittedSuccessfully,
   handleOpenInputPetCodeModal,
+  searchResult, //지도검색결과
+  moveLatLng, //지도이동함수
+  setSelectedMarker, //지도마커표시관련
+  setSelectedPlace,
+  keyword,
 }) => {
+  const dispatch = useDispatch();
   const handleCloseBottomSheet = () => {
     onClose();
   };
 
   const handleSelectPet = (pet) => {
     setSelectedPet(pet);
+    dispatch(updateSelectedPet)
     handleCloseBottomSheet();
   };
 
@@ -53,7 +62,7 @@ const BottomSheet = ({
       case "scheduleDetail":
         return "일정 상세";
       case "map":
-        return "지도";
+        return "'" + keyword + "'" + " 검색결과";
       case "editSchedule":
         return "일정 수정";
       case "강아지":
@@ -115,7 +124,15 @@ const BottomSheet = ({
           />
         );
       case "map":
-        return <h1>지도리스트</h1>;
+        return (
+          <MapPlaceList
+            searchResult={searchResult}
+            moveLatLng={moveLatLng}
+            onClose={handleCloseBottomSheet}
+            setSelectedMarker={setSelectedMarker}
+            setSelectedPlace={setSelectedPlace}
+          />
+        );
       case "강아지":
       case "고양이":
       case "특수동물":
@@ -161,7 +178,9 @@ const BottomSheet = ({
       case "petRegister":
         return (
           <div>
-            <RegisterMyPetBottomSheet handleOpenInputPetCodeModal={handleOpenInputPetCodeModal} />
+            <RegisterMyPetBottomSheet
+              handleOpenInputPetCodeModal={handleOpenInputPetCodeModal}
+            />
           </div>
         );
       default:
