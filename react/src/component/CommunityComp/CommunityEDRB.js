@@ -4,7 +4,7 @@ import styles from "../../css/CommunityEDRB.module.css";
 const CommunityEDRB = ({ type, onEditClick, onDeleteClick, onBlockClick, onReportClick, onReplyClick, onClose }) => {
   const [firstText, setFirstText] = useState("");
   const [secondText, setSecondText] = useState("");
-  const [thridText, setThridText] = useState("");
+  const [thirdText, setThirdText] = useState("");
 
   useEffect(() => {
     getSheetContent(type);
@@ -15,27 +15,37 @@ const CommunityEDRB = ({ type, onEditClick, onDeleteClick, onBlockClick, onRepor
       case "CommunityEditDelete":
         setFirstText("수정하기");
         setSecondText("삭제하기");
-        setThridText("");
+        setThirdText("");
         break;
       case "CommunityReportBlock":
         setFirstText("차단하기");
         setSecondText("신고하기");
-        setThridText("");
+        setThirdText("");
         break;
       case "CommentEditDelete":
         setFirstText("수정하기");
         setSecondText("삭제하기");
-        setThridText("답글달기");
+        setThirdText("답글달기");
         break;
       case "CommentReportBlock":
         setFirstText("차단하기");
         setSecondText("신고하기");
-        setThridText("답글달기");
+        setThirdText("답글달기");
+        break;
+      case "ReplyEditDelete":
+        setFirstText("수정하기");
+        setSecondText("삭제하기");
+        setThirdText("");
+        break;
+      case "ReplyReportBlock":
+        setFirstText("차단하기");
+        setSecondText("신고하기");
+        setThirdText("");
         break;
       default:
         setFirstText("");
         setSecondText("");
-        setThridText("");
+        setThirdText("");
         break;
     }
   }
@@ -78,7 +88,7 @@ const CommunityEDRB = ({ type, onEditClick, onDeleteClick, onBlockClick, onRepor
             {secondText}
           </div>
           <div className={styles.ReplyBtn} onClick={handleClick(onReplyClick)}>
-            {thridText}
+            {thirdText}
           </div>
         </>
       )}
@@ -91,7 +101,27 @@ const CommunityEDRB = ({ type, onEditClick, onDeleteClick, onBlockClick, onRepor
             {secondText}
           </div>
           <div className={styles.ReplyBtn} onClick={handleClick(onReplyClick)}>
-            {thridText}
+            {thirdText}
+          </div>
+        </>
+      )}
+      {type === "ReplyEditDelete" && (
+        <>
+          <div className={styles.editBtn} onClick={handleClick(onEditClick)}>
+            {firstText}
+          </div>
+          <div className={styles.DeleteBtn} onClick={handleClick(onDeleteClick)}>
+            {secondText}
+          </div>
+        </>
+      )}
+      {type === "ReplyReportBlock" && (
+        <>
+          <div className={styles.editBtn} onClick={handleClick(onEditClick)}>
+            {firstText}
+          </div>
+          <div className={styles.DeleteBtn} onClick={handleClick(onDeleteClick)}>
+            {secondText}
           </div>
         </>
       )}

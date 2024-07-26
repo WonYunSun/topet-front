@@ -5,6 +5,7 @@ import { MdOutlinePets, MdEdit } from "react-icons/md";
 import styles from "../../css/mypage.module.css"
 import { useNavigate } from 'react-router-dom';
 import { TbLogout } from "react-icons/tb";
+import homeApi from "../../api/homeApi"; 
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -48,7 +49,10 @@ const MyPage = () => {
 
   // 로그아웃
   const handleLogout = () => {
+    homeApi.logout();
     console.log("!! 로그아웃 !!");
+
+
     setShowModal(false);
   }
 
