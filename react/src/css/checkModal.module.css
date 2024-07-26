@@ -8,6 +8,7 @@
   z-index: 1000; /* 모달 뒤에 위치 */
 }
 .CancleCheckWrap {
+  border-radius: 10px;
   gap: 20px;
   min-width: max-content;
   position: fixed;
