@@ -128,9 +128,25 @@
         }
     }
 
-    async postReplyComment(comid, formData) { // 답글 작성
-        try {
-        const response = await axios.post(`${this.baseURL}/comment/post/${comid}`, formData, {
+    async postComment(comid, formData , crossOriginIsolated) { // 댓글 보내기
+      try {
+          const response = await axios.post(`${this.baseURL}/comment/post/${comid}`, formData, {
+              headers: {
+                  "Content-Type": "multipart/form-data",
+                  credentials: 'include'
+              },
+              withCredentials: true,
+          });
+          return handleResponse(response);
+      } catch (error) {
+          handleError(error);
+      }
+  }
+
+  async updateComment(formData) { // 댓글 수정
+    try {
+        const response = await axios.post(`${this.baseURL}/commentUpdate`, formData, {
+            //`${this.baseURL}/comment/update`
             headers: {
             "Content-Type": "multipart/form-data",
             credentials: 'include'
@@ -167,6 +183,41 @@
             handleError(error);
         }
     }
-    }
+    
 
-    export default new CommunityApi(API_BASE_URL);
+  async updateReply(formData) { // 답글 수정
+    try {
+        const response = await axios.post(`${this.baseURL}/commentUpdate`, formData, {
+            //`${this.baseURL}/comment/update`
+            headers: {
+                "Content-Type": "multipart/form-data",
+                credentials: 'include'
+            },
+            withCredentials: true,
+        });
+        return handleResponse(response);
+    } catch (error) {
+        handleError(error);
+    }
+  }
+
+  async deleteReply(replyId) { // 답글 삭제
+    try {
+        const response = await axios.post(`${this.baseURL}/comment/delete/${replyId}`);
+        return handleResponse(response);
+    } catch (error) {
+        handleError(error);
+    }
+}
+
+async fetchlikedByCurrentUser(comid) {
+    try{
+        const response = await axios.get(`${this.baseURL}/like/detail/${comid}`)
+        return handleResponse(response)
+    } catch (error) {
+        handleError(error);
+    }
+}
+}
+
+export default new CommunityApi(API_BASE_URL);
