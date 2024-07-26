@@ -23,10 +23,10 @@ class scheduleApi {
     }
   }
 
-  async postSchedule(formData) {
+  async postSchedule(formData, id) {
     try {
       const response = await axios.post(
-        "http://localhost:8081/api/schedule/post",
+        `http://localhost:8081/api/schedule/post/${id}`,
         formData,
         {
           headers: {
@@ -43,19 +43,18 @@ class scheduleApi {
   }
 
   async getMyScheduleAPI(id) {
-    await axios
-      .get(`http://localhost:8081/api/schedule/get/${id}`, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        withCredentials: true,
-      })
-      .then((response) => {
-        console.log("서버 응답:", response.data);
-      })
-      .catch((error) => {
-        console.log("서버 응답:", error);
-      });
+    try{
+      const response = await axios.get(`http://localhost:8081/api/schedule/get/${id}`, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        });
+        console.log("서버 응답 ", response);
+        return response.data;
+    }catch(error){
+      console.log("서버 응답 에러 : ", error);
+    }
   }
 }
 

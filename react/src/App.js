@@ -8,7 +8,7 @@ import "./App.css";
 
 import Community from "./page/Community";
 import CommunityWrite from "./page/CommunityWrite";
-import { Calendarscreen } from "./page/Calendarscreen";
+import  Calendarscreen  from "./page/Calendarscreen";
 import PetRegistration from "./page/PetRegistration";
 
 import MapScreen from "./page/MapScreen";
