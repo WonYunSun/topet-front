@@ -1,0 +1,210 @@
+/* 페이지 전체 wrapper */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* 상단바 제외 수정부분 wrapper */
+.editpart_wrapper {
+}
+
+/* 프로필 사진 수정 전체 wrapper */
+.photo_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 프로필 사진 wrapper ??? */
+.profile_photo_wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 160px;
+  height: 160px;
+}
+
+/* 프로필 사진 container */
+.selected_profile_photo_container {
+  height: 138px;
+  width: 138px;
+  margin-bottom: 30px;
+}
+
+/* 프로필 사진 */
+.selected_profile_photo {
+  width: 138px;
+  height: 138px;
+  object-fit: cover;
+  border-radius: 70%;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+/* 프로필 사진 수정버튼 */
+.selecting_photo_button {
+  position: absolute;
+  top: 22%;
+  right: 34%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 31.5px;
+  height: 31.5px;
+  border: 1.5px #cfcfcf solid;
+  border-radius: 70%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+/* 프로필 사진 수정버튼 내부 아이콘 */
+.selecting_photo_icon {
+  width: 21.5px;
+  height: 21.5px;
+  color: #c2c2c2;
+}
+
+/* 프로필 수정 제외 하단 container */
+.textpart_container {
+}
+
+/* 수정 불가능 요소 */
+.diseditable_container {
+}
+
+.diseditable_title {
+}
+
+.diseditable_content {
+}
+
+/* 수정 가능 요소 */
+.editable_wrapper {
+}
+
+.editable_title {
+}
+
+.editable_content {
+}
+
+.editable_input_wrapper {
+}
+
+.editable_input {
+}
+
+/* 체크박스 */
+.checkboxContainer {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+/* 체크박스 label */
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* 체크박스 */
+.checkbox {
+  margin-right: 8px;
+}
+
+/* 체중 input, dropdown wrapper */
+.weight_input_wrapper {
+}
+
+/* 비활성화 상태, 체중 input, dropdown wrapper */
+.disabled_weight_input_wrapper {
+}
+
+/* 체중 input */
+.weight_input {
+}
+
+/* 비활성화 체중 input */
+.disabled_weight_input {
+}
+
+/* 체중 unit dropdown box */
+.unit_box {
+}
+
+/* 비활성화 체중 unit dropdown box */
+.disabled_unit_box {
+}
+
+/* 선택된 unit text */
+.unit_text {
+}
+
+/* 비활성화 상태, unit text */
+.disabled_unit_text {
+}
+
+/* dropdown 역삼각형 아이콘 */
+.dropdown_icon {
+}
+
+/* dropdown 옵션박스 */
+.options {
+}
+
+/* dropdown 옵션 */
+.option {
+}
+
+/* 체중을 몰라요 text */
+.dontknowweight_text {
+}
+
+/* 체중을 몰라요 */
+.dontknowweight_checkbox_wrapper {
+}
+
+.dontknowweight_checkbox {
+}
+
+/* 저장버튼 wrapper */
+.save_button_wrapper {
+  min-height: 50px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 8px;
+}
+
+/* 저장버튼 */
+.save_button {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  width: 92%;
+  height: 50px;
+  margin: 5px;
+  border-radius: 10px;
+  background-color: #ffa62f;
+}
+
+/* disabled) 비활성화 저장 버튼 */
+.disabled_save_button {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  width: 92%;
+  height: 50px;
+  margin: 5px;
+  border-radius: 10px;
+  background-color: #dadada;
+  pointer-events: none;
+}

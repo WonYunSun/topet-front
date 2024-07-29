@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import dayjs from "dayjs";
 import isToday from "dayjs/plugin/isToday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
@@ -20,20 +20,26 @@ dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
 dayjs.extend(isBetween);
 
-export const Calendarscreen = () => {
-  const reduxMember =   useSelector((state)=>state.member.member);
-  const [schedules, setSchedules] = useState([]);
+
+
+
+
+const Calendarscreen = () => {
+
+  const reduxMember =   useSelector((state)=>state.member.member);  
+  const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
   
-
   console.log("캘린더에서 출력한 reduxMember : " ,reduxMember);
+  console.log("캘린더에서 출력한 reduxPet : " ,reduxPet);
 
+
+  const [schedules, setSchedules] = useState();
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
-  const [selectedPet, setSelectedPet] = useState(null);
+  const [selectedPet, setSelectedPet] = useState(reduxPet);
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [showCancleModal, setShowCancleModal] = useState(false);
   const [initialAddScheduleValues, setInitialAddScheduleValues] = useState({
-    
     startDate: dayjs().toDate(),
     endDate: dayjs().toDate(),
     title: "",
@@ -48,9 +54,8 @@ export const Calendarscreen = () => {
     useState(null);
   const [ScheduleDelete, setScheduleDelete] = useState(false); // 스케줄 삭제 상태
 
-  const [scheduleSubmittedSuccessfully, setScheduleSubmittedSuccessfully] =
-    useState();
-
+  const [scheduleSubmittedSuccessfully, setScheduleSubmittedSuccessfully] = useState();
+  const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     // handleAddScheduleBottomSheetClose();
     handleCloseBottomSheet();
@@ -58,27 +63,30 @@ export const Calendarscreen = () => {
     console.log("scheduleSubmittedSuccessfully", scheduleSubmittedSuccessfully);
   }, [scheduleSubmittedSuccessfully]);
 
-  useEffect(()=>{
-    getMySchedule();
-    
-  },[reduxMember])
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let mySchedule = await scheduleApi.getMyScheduleAPI(reduxMember.id);
+        setSchedules(mySchedule);
+      } catch (error) {
+        console.error("Failed to fetch schedules:", error);
+      } finally {
+        setIsLoaded(true); // 데이터 로딩 완료
+      }
+    };
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-  const getMySchedule = async() => {
-    const mySchedule = await scheduleApi.getMyScheduleAPI(reduxMember.id);
-    console.log(mySchedule);
-
-    setSchedules(mySchedule);
-    
-  }
-/////////////////////////////////////////////////////////////////////////////////////
-/*여기에 데이터 담았으니까, 데이터 사용하고 더미데이터 + 주석 지워주세요
-*/ 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
+    fetchData();
+  }, [
+    // reduxMember.id
+  ]);
+  // const getMySchedule = async() => {
+  //   const mySchedule = await scheduleApi.getMyScheduleAPI(reduxMember.id);
+  //   console.log("mySchedule : " , mySchedule);
+  //   setSchedules(mySchedule);
+  //   return mySchedule;
+  // }
+  
+  
 
   const handleDotsClick = (schedule) => {
     setSelectedSchedule(schedule);
@@ -178,7 +186,10 @@ export const Calendarscreen = () => {
     setBottomSheetType("scheduleDetail");
     setShowBottomSheet(true);
   };
-
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+  
   return (
     <div>
       <TopBar />
@@ -186,6 +197,7 @@ export const Calendarscreen = () => {
         onClick={handleOpenPetBottomSheet}
         selectedPet={selectedPet}
       />
+      
       <Calendar schedules={schedules} onDateClick={handleDateClick} />
       <BottomSheet
         show={showBottomSheet}
@@ -206,6 +218,7 @@ export const Calendarscreen = () => {
         onDotsClick={handleDotsClick}
         onEditClick={handleEditClick}
         selectedSchedule={selectedSchedule}
+        reduxPet={reduxPet}
       />
       {showCancleModal &&
         (bottomSheetType === "addSchedule" ||
@@ -246,6 +259,7 @@ export const Calendarscreen = () => {
       />
     </div>
   );
-};
+}
+
 
 export default Calendarscreen;

@@ -2,7 +2,7 @@ import axios from "axios";
 import { handleResponse, handleError } from './ResponseProcess';
 
 const API_BASE_URL =
-  "http://localhost:8081/api";
+"http://localhost:8081/api";
 // "http://175.45.202.131:8081/api";
 class homeApi {
     constructor(baseURL) {
@@ -50,12 +50,26 @@ class homeApi {
     //     }
     // }
 
-    async logout(){
+
+
+
+    logout(){
+        console.log("로그아웃 로직 처리하기 시작")
         try{
             
-            await this.client.post("/member/logout", {
-                withCredentials:true,
-            });
+            this.client.post("/member/logout",{}, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                withCredentials: true,
+            }).then((response)=>{
+                if(response.data === "success"){
+                    window.location.href = "http://localhost:3000"
+                }else{
+                    window.location.href = "http://localhost:3000／myPage"
+                }
+            })
+                
 
         }catch{
             console.log("로그아웃실패");

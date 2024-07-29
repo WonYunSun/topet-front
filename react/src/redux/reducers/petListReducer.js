@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"; //신버전 redux createSlice는 reducer 만드는 것을 도와줌
 
 let initialState = {
-    petList : {},
+    petList : null,
 };
 
 

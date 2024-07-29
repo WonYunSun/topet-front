@@ -20,7 +20,7 @@ const ScheduleBottom = ({ schedules, selectedDate, onScheduleClick }) => {
 
   const getSchedule = useCallback(
     (date) => {
-      const day = updatedSchedules.filter((schedule) => {
+        const day = updatedSchedules.filter((schedule) => {
         const start = dayjs(schedule.startDate);
         const end = dayjs(schedule.endDate);
         const targetDate = dayjs(date);

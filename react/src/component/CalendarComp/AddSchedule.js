@@ -19,6 +19,7 @@ export default function AddSchedule({
   initialValues = {},
   setScheduleSubmittedSuccessfully,
   scheduleSubmittedSuccessfully,
+  petId
 }) {
   const initialDate = dayjs(selectedDate).isValid()
     ? dayjs(selectedDate).toDate()
@@ -131,10 +132,13 @@ export default function AddSchedule({
     formData.append("color", color);
     formData.append("scheduleWriter", "WriterName");
     formData.append("scheduleEditer", "EditorName");
+    
     if (selectedPhoto != null) {formData.append("photo", selectedPhoto);}
     console.log("postSchedule 호출");
-    ScheduleApi.postSchedule(formData); // ScheduleService 호출 //post로직
+    console.log()
+    ScheduleApi.postSchedule(formData, petId); // ScheduleService 호출 //post로직
     console.log("postSchedule 호출끝");
+
   };
 
   const handleButtonClick = async () => {

@@ -1,0 +1,142 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.profile_top_wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.back_icon {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  font-size: 28px;
+  color: #fff;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.photo_container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 291px;
+  overflow: hidden;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.edit_icon_container {
+  position: absolute;
+  z-index: 20;
+  top: 240px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #ffa62f;
+}
+
+.edit_icon {
+  color: #fff;
+  font-size: 24px;
+}
+
+.name {
+  position: absolute;
+  z-index: 10;
+  top: 225px;
+  left: 20px;
+  color: #fff;
+  font-size: 25px;
+  font-weight: bold;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.info_container {
+  position: absolute;
+  z-index: 10;
+  top: 270px;
+  width: 100%;
+  padding-top: 25px;
+  height: calc(100vh - 270px);
+  background-color: #fff;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-top-left-radius: 26px;
+  border-top-right-radius: 26px;
+}
+
+.info_wrapper_short {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 110px;
+  border-bottom: 1px solid #d1d1d159;
+}
+
+.info_icon {
+  width: 25%;
+  font-size: 26px;
+  color: #ffa62f;
+}
+
+.info_container_short {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  width: 37.5%;
+  padding-right: 15px;
+}
+
+.info_title {
+  text-align: left;
+  height: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #b2b2b2;
+}
+
+.info_data {
+  word-wrap: break-word;
+  text-align: left;
+  height: 30px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.info_wrapper_long {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.info_textcontent_wrapper {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.info_container_long {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+  padding-top: 25px;
+}

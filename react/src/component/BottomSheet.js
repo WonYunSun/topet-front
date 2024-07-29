@@ -8,7 +8,8 @@ import MapPlaceList from "./MapComp/MapPlaceList";
 import "../css/bottomsheet.css";
 import HashTagContent from "./HashTagComp/HashTagContent";
 import RegisterMyPetBottomSheet from "../component/MyPageComp/RegisterMyPetBottomSheet";
-
+import { useSelector, useDispatch } from "react-redux";
+import { updateSelectedPet } from "../redux/reducers/selectedPetReducer";
 const BottomSheet = ({
   show,
   onClose,
@@ -33,12 +34,14 @@ const BottomSheet = ({
   setSelectedPlace,
   keyword,
 }) => {
+  const dispatch = useDispatch();
   const handleCloseBottomSheet = () => {
     onClose();
   };
 
   const handleSelectPet = (pet) => {
     setSelectedPet(pet);
+    dispatch(updateSelectedPet)
     handleCloseBottomSheet();
   };
 

@@ -3,6 +3,8 @@ import sessionStorage from 'redux-persist/lib/storage/session';
 import { persistReducer, persistStore } from 'redux-persist';
 import petListReducer from './reducers/petListReducer';
 import memberReducer from './reducers/memberReducer';
+import selectedPetReducer from './reducers/selectedPetReducer';
+
 
 const persistConfig = {
     key: 'root',
@@ -12,6 +14,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     petList: petListReducer,
     member: memberReducer,
+    selectedPet : selectedPetReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
