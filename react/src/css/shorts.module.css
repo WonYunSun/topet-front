@@ -3,7 +3,10 @@
   flex-direction: row;
   gap: 12px;
   overflow-x: auto;
+  width: 100%; /* 부모 요소의 너비에 맞추기 */
+  height: 100%; /* 부모 요소의 높이에 맞추기 */
 }
+
 .shortsList::-webkit-scrollbar {
   display: none; /* 크롬, 사파리, 오페라, 엣지 */
 }
@@ -11,21 +14,22 @@
 .shortItem {
   border-radius: 10px;
   flex: 0 0 auto;
-  width: 55%; /* 각 아이템이 차지하는 너비를 조정 */
+  width: 50%; /* 각 아이템이 차지하는 너비를 조정 */
+  height: 100%; /* 부모 요소의 높이에 맞추기 */
   background-color: sandybrown;
   position: relative;
   overflow: hidden; /* 자식 요소가 부모의 경계를 넘지 않도록 */
 }
+
 .shortItem::before {
   display: block;
-  padding-top: 120%;
+  padding-top: 120%; /* 비율을 유지하면서 높이를 설정 */
 }
 
 .thumbnail {
   width: 100%;
   height: 100%;
   object-fit: cover; /* 이미지를 요소에 맞게 조정 */
-  /* position: absolute; */
   top: 0;
   left: 0;
 }
@@ -65,6 +69,7 @@
   color: #949494c0;
   gap: 5px;
 }
+
 .seeMore :first-child {
   font-size: 13px;
   font-weight: 700;

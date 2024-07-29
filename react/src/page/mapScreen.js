@@ -177,16 +177,25 @@ const MapScreen = () => {
     setSearch(data);
   };
 
+  // const reSearch = () => {
+  //   const searchKeyword =
+  //     selectedButton !== null ? KEYWORD_LIST[selectedButton].value : keyword;
+
+  //   searchPlaces(
+  //     searchKeyword,
+  //     new window.kakao.maps.LatLng(position.lat, position.lng)
+  //   );
+
+  //   // setSelectedButton(null); // 검색 후 선택된 버튼 초기화
+  // };
+
   const reSearch = () => {
-    const searchKeyword =
-      selectedButton !== null ? KEYWORD_LIST[selectedButton].value : keyword;
+    const searchKeyword = keyword;
 
     searchPlaces(
       searchKeyword,
       new window.kakao.maps.LatLng(position.lat, position.lng)
     );
-
-    // setSelectedButton(null); // 검색 후 선택된 버튼 초기화
   };
 
   const moveLatLng = (data) => {
@@ -238,6 +247,15 @@ const MapScreen = () => {
     );
   };
 
+  //keyword 또는 inputbox 값 없을 때 처리
+  useEffect(() => {
+    if (keyword === "") {
+      setIsSearched(false); // 검색 상태 초기화
+      setShowClearButton(false); // x 버튼 표시 취소
+      setSearch([]); // 검색 결과 초기화
+    }
+  }, [keyword]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       const placeInfoElement = document.querySelector(`.${styles.placeInfo}`);
@@ -272,8 +290,8 @@ const MapScreen = () => {
   const zoomOut = () => {
     map.setLevel(map.getLevel() + 1);
   };
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const goHome = () => {
     navigate("/home"); // 홈으로 이동
   };
@@ -281,6 +299,7 @@ const MapScreen = () => {
     const parts = categoryName.split(" > ");
     return parts[parts.length - 1];
   };
+
   if (state.isLoading) {
     return (
       <div className={styles.loading}>
@@ -450,7 +469,10 @@ const MapScreen = () => {
               <div className={styles.phoneDiv}>{selectedPlace.phone}</div>
               <div
                 className={styles.detailPageDiv}
-                onClick={() => (window.location.href = selectedPlace.place_url)}
+                onClick={() => {
+                  // 새 창으로 열기
+                  window.open(selectedPlace.place_url);
+                }}
               >
                 상세페이지 이동
               </div>

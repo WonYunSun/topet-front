@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import TopBar from "../component/TopBar";
-import NavBar from "../component/NavBarComp/NavBar";
+
 import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
 import { SlArrowRight } from "react-icons/sl";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { HiPlayCircle } from "react-icons/hi2";
-import { PiGear } from "react-icons/pi";
+
 import { IoChatbubbles } from "react-icons/io5";
 import ScheduleToday from "../component/HomeComp/ScheduleToday";
 import { ReactComponent as AiIcon } from "../asset/icon/ai.svg";
@@ -24,20 +24,17 @@ import { updateSelectedPet } from "../redux/reducers/selectedPetReducer";
 const Home = () => {
   const reduxMember = useSelector((state) => state.member.member);
   const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
-  
-  
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const [animalType, setAnimalType] = useState("강아지"); // 유저가 선택한 동물 타입 저장
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(reduxPet);
-  
+
   const [pets, setPets] = useState([]);
-  
-  
+
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
   const [schedules, setSchedule] = useState([
     {
@@ -87,13 +84,12 @@ const Home = () => {
 
   useEffect(() => {
     getHome();
-    
-  }, [ ]);
+  }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     setSelectedPet(reduxPet);
-  },[selectedPet])
-  
+  }, [selectedPet]);
+
   const goCommunity = () => {
     const animalTypeMap = {
       강아지: "dog",
@@ -109,6 +105,9 @@ const Home = () => {
     navigate(`/schedule`);
   };
 
+  const goShorts = () => {
+    navigate(`/shorts`);
+  };
   const handleOpenPetBottomSheet = () => {
     setBottomSheetType("pet");
     setShowBottomSheet(true);
@@ -209,48 +208,44 @@ const Home = () => {
   };
 
   const getHome = async () => {
-   const returnedMember = await homeApi.getHomeDataMember();
+    const returnedMember = await homeApi.getHomeDataMember();
     // member을 redux에넣어야함
     const sessionMember = {
-      id : returnedMember.id,
-      email : returnedMember.email,
-      name : returnedMember.name,
-      socialId : returnedMember.socialId
-    }
+      id: returnedMember.id,
+      email: returnedMember.email,
+      name: returnedMember.name,
+      socialId: returnedMember.socialId,
+    };
     console.log("returnedMember.petsreturnedMember.pets", returnedMember.pets);
     let tempPets = returnedMember.pets;
 
     const myPets = [];
 
-    for(let i =  0 ; i < tempPets.length; i++){
-        let tempPet = {
-          id : tempPets[i].id,
-          type : tempPets[i].type,
-          birth : tempPets[i].birth,
-          health : tempPets[i].health,
-          allergy : tempPets[i].allergy,
-          kind : tempPets[i].kind,
-          profileSrc : tempPets[i].profileSrc,
-          name : tempPets[i].name,
-          weight : tempPets[i].weight,
-        }
-        myPets.push(tempPet);
+    for (let i = 0; i < tempPets.length; i++) {
+      let tempPet = {
+        id: tempPets[i].id,
+        type: tempPets[i].type,
+        birth: tempPets[i].birth,
+        health: tempPets[i].health,
+        allergy: tempPets[i].allergy,
+        kind: tempPets[i].kind,
+        profileSrc: tempPets[i].profileSrc,
+        name: tempPets[i].name,
+        weight: tempPets[i].weight,
+      };
+      myPets.push(tempPet);
     }
-
-    
 
     dispatch(updateMember(sessionMember));
     dispatch(updatePetList(myPets));
     //    setPets(returnedMember.pets);
-    
+
     //const schedule = await homeApi.getHomeDataSchedule();
     // const pet = await homeApi.getHomeDataPet();
   };
-  
+
   dispatch(updateSelectedPet(selectedPet));
-  
-  
-  
+
   return (
     <div className={styles.homeWrap}>
       <TopBar />
@@ -258,7 +253,6 @@ const Home = () => {
       <AnimalSelect
         onClick={handleOpenPetBottomSheet}
         selectedPet={selectedPet}
-        
         isHome={true}
         pets={pets}
       />
@@ -311,7 +305,7 @@ const Home = () => {
             <span>커뮤니티</span>
           </div>
         </div>
-        <div className={styles.anyMenu}>
+        <div className={styles.anyMenu} onClick={goShorts}>
           <div className={styles.Navdiv}>
             <HiPlayCircle />
             <span>쇼츠</span>
@@ -336,7 +330,7 @@ const Home = () => {
       <div className={styles.shortsPreivewArea}>
         <div className={styles.areaTitleWrap}>
           <div className={styles.areaTitle}>쇼츠</div>
-          <SlArrowRight />
+          <SlArrowRight onClick={goShorts} />
         </div>
 
         <div className={styles.shortsWrap}>
