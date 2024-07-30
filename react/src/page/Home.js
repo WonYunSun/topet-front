@@ -222,7 +222,6 @@ const Home = () => {
     };
     console.log("returnedMember.petsreturnedMember.pets", returnedMember.pets);
     let tempPets = returnedMember.pets;
-
     const myPets = [];
 
     for (let i = 0; i < tempPets.length; i++) {
@@ -236,10 +235,11 @@ const Home = () => {
         profileSrc: tempPets[i].profileSrc,
         name: tempPets[i].name,
         weight: tempPets[i].weight,
+        uid: tempPets[i].uid
       };
       myPets.push(tempPet);
     }
-
+    setPets(myPets)
     dispatch(updateMember(sessionMember));
     dispatch(updatePetList(myPets));
     //    setPets(returnedMember.pets);
@@ -257,6 +257,7 @@ const Home = () => {
       <AnimalSelect
         onClick={handleOpenPetBottomSheet}
         selectedPet={selectedPet}
+        setSelectedPet={setSelectedPet}
         isHome={true}
         pets={pets}
       />

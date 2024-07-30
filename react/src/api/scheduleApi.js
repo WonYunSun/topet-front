@@ -11,9 +11,12 @@ class scheduleApi {
   async updateScheduleStatus(scheduleId) {
     try {
       const response = await this.client.post(
-        `/schedules/postScheduleId/${scheduleId}`,
+        `/post/status/${scheduleId}`,
         {
-          scheduleId,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
         }
       );
       return response.data;
