@@ -9,13 +9,20 @@
 
 /* 상단바 제외 수정부분 wrapper */
 .editpart_wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* 프로필 사진 수정 전체 wrapper */
 .photo_wrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 150px;
+  height: 150px;
 }
 
 /* 프로필 사진 wrapper ??? */
@@ -24,21 +31,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 160px;
-  height: 160px;
+  width: 130px;
+  height: 130px;
 }
 
 /* 프로필 사진 container */
 .selected_profile_photo_container {
-  height: 138px;
-  width: 138px;
+  position: relative;
+  height: 130px;
+  width: 130px;
   margin-bottom: 30px;
 }
 
 /* 프로필 사진 */
 .selected_profile_photo {
-  width: 138px;
-  height: 138px;
+  position: relative;
+  width: 130px;
+  height: 130px;
   object-fit: cover;
   border-radius: 70%;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -47,14 +56,16 @@
 /* 프로필 사진 수정버튼 */
 .selecting_photo_button {
   position: absolute;
-  top: 22%;
-  right: 34%;
+  /* top: 22%;
+  right: 34%; */
+  top: 65%;
+  right: 14%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 31.5px;
-  height: 31.5px;
+  width: 30px;
+  height: 30px;
   border: 1.5px #cfcfcf solid;
   border-radius: 70%;
   background-color: #ffffff;
@@ -66,113 +77,327 @@
 
 /* 프로필 사진 수정버튼 내부 아이콘 */
 .selecting_photo_icon {
-  width: 21.5px;
-  height: 21.5px;
+  width: 20px;
+  height: 20px;
   color: #c2c2c2;
 }
 
 /* 프로필 수정 제외 하단 container */
 .textpart_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 100%;
 }
 
 /* 수정 불가능 요소 */
 .diseditable_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  width: calc(100%-10px);
+  padding: 10px;
 }
 
 .diseditable_title {
+  width: 20%;
+  color: #b4b4b4;
 }
 
 .diseditable_content {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  width: calc(80%-10px);
+  padding-left: 10px;
+  color: #b4b4b4;
+}
+
+/* 구분선 */
+.divider {
+  width: 88%;
+  height: 1px;
+  background-color: #e6e6e6;
+  margin-left: 6%;
+  margin-right: 6%;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 /* 수정 가능 요소 */
 .editable_wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  width: calc(100%-10px);
+  padding: 10px;
 }
 
 .editable_title {
+  width: 20%;
 }
 
 .editable_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 80%;
 }
 
 .editable_input_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 15px;
+  width: 90%;
+  height: 40px;
 }
 
 .editable_input {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 /* 체크박스 */
-.checkboxContainer {
+.checkbox_wrapper {
   display: flex;
-  justify-content: space-around;
-  margin: 20px 0;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 15px;
+  width: 100%;
+  padding-left: 5px;
 }
 
 /* 체크박스 label */
-.checkboxLabel {
+.checkbox_label {
   display: flex;
+  flex-direction: row;
   align-items: center;
   cursor: pointer;
 }
 
 /* 체크박스 */
 .checkbox {
-  margin-right: 8px;
+  appearance: none;
+  position: relative;
+  width: 10px;
+  height: 10px;
+  margin-left: 8.5px;
+  margin-right: 15px;
+  border-radius: 50%;
+  border: 1px solid #b5b5b5;
+  transition: background-color 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+
+.checkbox:checked {
+  background-color: #ffa62f;
+  border: none;
+}
+
+.checkbox:not(:checked):focus {
+  outline: 2px solid #b5b5b5;
+  outline-offset: -2px;
+}
+
+.checkbox:focus {
+  outline: none;
+}
+
+.checkbox:checked::before {
+  content: "✓";
+  font-weight: 800;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 8px;
 }
 
 /* 체중 input, dropdown wrapper */
 .weight_input_wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 15px;
+  width: 90%;
+  height: 40px;
 }
 
 /* 비활성화 상태, 체중 input, dropdown wrapper */
 .disabled_weight_input_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #eeeeee69;
+  border-radius: 15px;
+  width: 90%;
+  height: 40px;
+  display: flex;
 }
 
 /* 체중 input */
 .weight_input {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.weight_input::placeholder {
+  font-size: 14px;
 }
 
 /* 비활성화 체중 input */
 .disabled_weight_input {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.disabled_weight_input::placeholder {
+  font-size: 14px;
+  color: #a5a5a5;
 }
 
 /* 체중 unit dropdown box */
 .unit_box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  margin-right: 15px;
 }
 
 /* 비활성화 체중 unit dropdown box */
 .disabled_unit_box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  margin-right: 15px;
 }
 
-/* 선택된 unit text */
-.unit_text {
+.unit_select {
+  width: 50px;
 }
 
-/* 비활성화 상태, unit text */
-.disabled_unit_text {
+/* 선택된 unit text (+ icon 정렬) */
+.selecting_unit {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+}
+
+/* 선택된 unit text (+ icon 정렬) */
+.disabled_selecting_unit {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: #a5a5a5;
+  font-weight: 600;
 }
 
 /* dropdown 역삼각형 아이콘 */
 .dropdown_icon {
+  font-size: 9px;
+  color: #a5a5a5;
+  margin-left: 8px;
 }
 
 /* dropdown 옵션박스 */
 .options {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 150%;
+  width: calc(100% + 20px);
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 6px;
+  z-index: 1000;
+  max-height: 160px;
+  overflow-y: auto;
 }
 
 /* dropdown 옵션 */
 .option {
+  padding: 12px;
+  cursor: pointer;
+  font-size: 15px;
 }
 
-/* 체중을 몰라요 text */
-.dontknowweight_text {
+/* 체중을 몰라요 */
+.dontknowweight {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  font-size: 14px;
+  color: #9e9e9e;
+  height: 40px;
+  padding-left: 15px;
 }
 
 /* 체중을 몰라요 */
 .dontknowweight_checkbox_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10px;
 }
 
 .dontknowweight_checkbox {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #b5b5b5;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.dontknowweight_checkbox:checked {
+  background-color: #ffa62f;
+  border: none;
+}
+
+.dontknowweight_checkbox:not(:checked):focus {
+  outline: 2px solid #b5b5b5;
+  outline-offset: -2px;
+}
+
+.dontknowweight_checkbox:focus {
+  outline: none;
+}
+
+.dontknowweight_checkbox:checked::before {
+  content: "✓";
+  font-weight: 800;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 14px;
 }
 
 /* 저장버튼 wrapper */
