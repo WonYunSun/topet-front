@@ -34,7 +34,10 @@ const  AnimalProfile = ({ selectedPet, isHome, pets , }) => {
       setAnimalName(selectedPet.name);
       setAnimalProfileSrc(selectedPet.url);
     }
-  }, [selectedPet]);
+  }, [
+     selectedPet
+
+  ]);
 
   const profileClass = `animal-profile ${isHome ? "homeComp" : ""}`;
   const imgClass = `animal-img ${isHome ? "homeComp" : ""}`;

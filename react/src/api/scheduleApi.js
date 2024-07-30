@@ -23,10 +23,10 @@ class scheduleApi {
     }
   }
 
-  async postSchedule(formData, id) {
+  async postSchedule(formData) {
     try {
       const response = await axios.post(
-        `http://localhost:8081/api/schedule/post/${id}`,
+        `http://localhost:8081/api/schedule/post`,
         formData,
         {
           headers: {
@@ -35,14 +35,14 @@ class scheduleApi {
           withCredentials: true,
         }
       );
-      console.log("서버 응답:", response.data);
+      //console.log("서버 응답:", response.data);
     } catch (error) {
       console.error("서버 오류:", error);
       throw error; // 에러를 다시 던집니다
     }
   }
 
-  async getMyScheduleAPI(id) {
+  async getPetScheduleAPI(id) {
     try{
       const response = await axios.get(`http://localhost:8081/api/schedule/get/${id}`, {
           headers: {
@@ -50,7 +50,7 @@ class scheduleApi {
           },
           withCredentials: true,
         });
-        console.log("서버 응답 ", response);
+        //console.log("서버 응답 ", response.data);
         return response.data;
     }catch(error){
       console.log("서버 응답 에러 : ", error);

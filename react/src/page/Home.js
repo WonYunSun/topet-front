@@ -87,8 +87,12 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    setSelectedPet(reduxPet);
-  }, [selectedPet]);
+    setSelectedPet(reduxPet);//다른데에서 바꿔도 됨.
+  }, [
+    //selectedPet
+  ]);
+
+
 
   const goCommunity = () => {
     const animalTypeMap = {

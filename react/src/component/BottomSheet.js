@@ -15,6 +15,7 @@ const BottomSheet = ({
   onClose,
   type,
   selectedDate,
+  selectedPet,
   schedule,
   initialAddScheduleValues,
   setSelectedPet,
@@ -40,6 +41,7 @@ const BottomSheet = ({
   };
 
   const handleSelectPet = (pet) => {
+    console.log("bottomSheet에서 출력한 Pet : " ,pet);
     setSelectedPet(pet);
     dispatch(updateSelectedPet)
     handleCloseBottomSheet();
@@ -99,6 +101,7 @@ const BottomSheet = ({
             initialValues={initialAddScheduleValues}
             scheduleSubmittedSuccessfully={scheduleSubmittedSuccessfully}
             setScheduleSubmittedSuccessfully={setScheduleSubmittedSuccessfully}
+            selectedPet={selectedPet}
           />
         );
       case "scheduleDetail":
