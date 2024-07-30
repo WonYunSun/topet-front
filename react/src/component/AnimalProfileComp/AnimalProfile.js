@@ -14,27 +14,19 @@ const  AnimalProfile = ({ selectedPet, isHome, pets , }) => {
   const [animalProfileSrc, setAnimalProfileSrc] = useState("");
 
   useEffect(() => {
-    //dispatch(updatePetList(initialPetList));
+    
   }, [
-    //dispatch
-  ]);
 
-  // useEffect(() => {
-  //   if (petList && Object.keys(petList).length > 0) {
-      
-  //     const firstPetName = Object.keys(petList)[0];
-  //     setAnimalName(firstPetName);
-  //     setAnimalProfileSrc(petList[firstPetName]);
-      
-  //   }
-  // }, [petList]);
+  ]);
 
   useEffect(() => {
     if (selectedPet) {
       setAnimalName(selectedPet.name);
       setAnimalProfileSrc(selectedPet.url);
     }
-  }, [selectedPet]);
+  }, [
+    selectedPet
+  ]);
 
   const profileClass = `animal-profile ${isHome ? "homeComp" : ""}`;
   const imgClass = `animal-img ${isHome ? "homeComp" : ""}`;

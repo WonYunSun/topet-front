@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from '../../css/CommentCreate.module.css';
 import CommunityApi from '../../api/communityApi';
 
-const CommentCreate = ({ comid }) => {
+const CommentCreate = ({ comid, onCommentSubmit }) => {
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
 
@@ -17,6 +17,7 @@ const CommentCreate = ({ comid }) => {
     try {
       await CommunityApi.postComment(comid, formData);
       setInputValue('');
+      onCommentSubmit(); // 댓글 등록 후 부모 컴포넌트에 알림
     } catch (error) {
       console.error("댓글 등록 실패:", error);
     }

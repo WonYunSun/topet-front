@@ -29,10 +29,9 @@ const Calendarscreen = () => {
   const reduxMember =   useSelector((state)=>state.member.member);  
   const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
   
-  console.log("캘린더에서 출력한 reduxMember : " ,reduxMember);
-  console.log("캘린더에서 출력한 reduxPet : " ,reduxPet);
-
-
+  //console.log("캘린더에서 출력한 reduxMember : " ,reduxMember);
+  //console.log("캘린더에서 출력한 reduxPet : " ,reduxPet);
+  
   const [schedules, setSchedules] = useState();
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
@@ -51,11 +50,12 @@ const Calendarscreen = () => {
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [showEditDeleteBottomSheet, setEditDeleteBottomSheet] = useState(false);
   const [editDeleteBottomSheettype, setEditDeleteBottomSheettype] =
-    useState(null);
+  useState(null);
   const [ScheduleDelete, setScheduleDelete] = useState(false); // 스케줄 삭제 상태
-
+  
   const [scheduleSubmittedSuccessfully, setScheduleSubmittedSuccessfully] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
+  
   useEffect(() => {
     // handleAddScheduleBottomSheetClose();
     handleCloseBottomSheet();
@@ -64,28 +64,24 @@ const Calendarscreen = () => {
   }, [scheduleSubmittedSuccessfully]);
 
   useEffect(() => {
+    console.log("selectedPet이 변동되어서, 새로운 데이터를 요청함")
     const fetchData = async () => {
       try {
-        let mySchedule = await scheduleApi.getMyScheduleAPI(reduxMember.id);
+        let mySchedule = await scheduleApi.getPetScheduleAPI(selectedPet.id);
         setSchedules(mySchedule);
+        console.log("새로운 데이터 : " , schedules)
       } catch (error) {
         console.error("Failed to fetch schedules:", error);
       } finally {
         setIsLoaded(true); // 데이터 로딩 완료
       }
     };
-
     fetchData();
   }, [
-    // reduxMember.id
+    selectedPet
   ]);
-  // const getMySchedule = async() => {
-  //   const mySchedule = await scheduleApi.getMyScheduleAPI(reduxMember.id);
-  //   console.log("mySchedule : " , mySchedule);
-  //   setSchedules(mySchedule);
-  //   return mySchedule;
-  // }
-  
+
+
   
 
   const handleDotsClick = (schedule) => {
@@ -207,11 +203,14 @@ const Calendarscreen = () => {
             ? handleAddScheduleBottomSheetClose
             : handleCloseBottomSheet
         }
+
         scheduleSubmittedSuccessfully={scheduleSubmittedSuccessfully}
         setScheduleSubmittedSuccessfully={setScheduleSubmittedSuccessfully} // 전달된 부분
         type={bottomSheetType}
         initialTags={[]}
         selectedDate={selectedDate}
+
+        selectedPet={selectedPet}
         setSelectedPet={setSelectedPet}
         initialAddScheduleValues={initialAddScheduleValues}
         schedule={bottomSheetContent}
