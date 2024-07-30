@@ -17,6 +17,12 @@ const ScheduleBottom = ({ schedules, selectedDate, onScheduleClick }) => {
   useEffect(() => {
     setUpdatedSchedules(schedules);
   }, [schedules]);
+  useEffect(() => {
+    console.log("변경됨")
+    console.log(schedules)
+  }, [schedules]);
+
+
 
   const getSchedule = useCallback(
     
@@ -34,13 +40,16 @@ const ScheduleBottom = ({ schedules, selectedDate, onScheduleClick }) => {
     [updatedSchedules]
   );
 
-  const handleCheckBoxClick = async (scheduleId) => {
-    console.log("완료 toggle");
+  const handleCheckBoxClick = async (item) => {
+
+    console.log("완료 toggle" , item.id);
+    console.log("scheduleId : " , item.isComplete )
     try {
-      await ScheduleService.updateScheduleStatus(scheduleId);
+      await ScheduleService.updateScheduleStatus(item);
+      item.isComplete = !item.isComplete
       setUpdatedSchedules((prevSchedules) =>
         prevSchedules.map((schedule) =>
-          schedule.scheduleId === scheduleId
+          schedule.scheduleId === item.id
             ? { ...schedule, isComplete: !schedule.isComplete }
             : schedule
         )

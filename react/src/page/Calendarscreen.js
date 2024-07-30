@@ -49,8 +49,7 @@ const Calendarscreen = () => {
   const [bottomSheetContent, setBottomSheetContent] = useState(null);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [showEditDeleteBottomSheet, setEditDeleteBottomSheet] = useState(false);
-  const [editDeleteBottomSheettype, setEditDeleteBottomSheettype] =
-  useState(null);
+  const [editDeleteBottomSheettype, setEditDeleteBottomSheettype] = useState(null);
   const [ScheduleDelete, setScheduleDelete] = useState(false); // 스케줄 삭제 상태
   
   const [scheduleSubmittedSuccessfully, setScheduleSubmittedSuccessfully] = useState();
@@ -209,6 +208,9 @@ const Calendarscreen = () => {
         type={bottomSheetType}
         initialTags={[]}
         selectedDate={selectedDate}
+
+        schedules={schedules}
+        setSchedules={setSchedules}
 
         selectedPet={selectedPet}
         setSelectedPet={setSelectedPet}
