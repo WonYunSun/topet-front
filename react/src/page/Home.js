@@ -35,6 +35,12 @@ const Home = () => {
 
   const [pets, setPets] = useState([]);
 
+  const animalTypeMap = {
+    1: "강아지",
+    2: "고양이",
+    3: "특수동물"
+  };
+
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
   const [schedules, setSchedule] = useState([
     {
@@ -87,10 +93,13 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    setSelectedPet(reduxPet);//다른데에서 바꿔도 됨.
-  }, [
-    //selectedPet
-  ]);
+    setSelectedPet(reduxPet);
+    if (reduxPet) {
+      const animalTypeValue = animalTypeMap[reduxPet.type];
+      setAnimalType(animalTypeValue);
+    }
+  }, [reduxPet]);
+
 
 
 
@@ -237,11 +246,11 @@ const Home = () => {
         profileSrc: tempPets[i].profileSrc,
         name: tempPets[i].name,
         weight: tempPets[i].weight,
-        uid: tempPets[i].uid
+        uid: tempPets[i].uid,
       };
       myPets.push(tempPet);
     }
-    setPets(myPets)
+    setPets(myPets);
     dispatch(updateMember(sessionMember));
     dispatch(updatePetList(myPets));
     //    setPets(returnedMember.pets);
@@ -252,10 +261,11 @@ const Home = () => {
 
   dispatch(updateSelectedPet(selectedPet));
 
+
   return (
     
     <div className={styles.homeWrap}>
-      <TopBar />
+      <TopBar isHome={true} />
 
       <AnimalSelect
         onClick={handleOpenPetBottomSheet}

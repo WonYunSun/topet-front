@@ -5,13 +5,14 @@ import { CiSearch } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { IoMdArrowDropdown } from "react-icons/io";
 import styles from "../css/topbar.module.css";
-
+import { ReactComponent as Logo } from "../asset/icon/TopetLogo.svg";
 const TopBar = ({
   centerChange,
   selectedSearchType,
   searchText,
   setSearchText,
   handleBottomSheetOpen,
+  isHome,
 }) => {
   const navigate = useNavigate();
 
@@ -69,7 +70,7 @@ const TopBar = ({
                 onClick={() => handleBottomSheetOpen("검색")}
               >
                 {selectedSearchType}
-                <IoMdArrowDropdown className={styles.dropdownIcon} />
+                <IoMdArrowDropdown />
               </button>
             </div>
             <button className={styles.searchButton}>검색</button>
@@ -94,10 +95,17 @@ const TopBar = ({
         );
       default:
         return (
-          <div className={styles.topbar}>
-            <GoArrowLeft className={styles.icon} onClick={goBack} />
-            <div className={styles.logo}>투펫</div>
-            <GoHome className={styles.icon} onClick={goHome} />
+          <div className={`${styles.topbar} ${isHome ? styles.homeComp : ""}`}>
+            <GoArrowLeft
+              className={`${styles.icon} ${isHome ? styles.hidden : ""}`}
+              onClick={goBack}
+            />
+            {/* <div className={styles.logo}>투펫</div> */}
+            <Logo width={45} height={45} />
+            <GoHome
+              className={`${styles.icon} ${isHome ? styles.hidden : ""}`}
+              onClick={goHome}
+            />
           </div>
         );
     }

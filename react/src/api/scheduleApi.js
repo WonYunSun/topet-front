@@ -29,7 +29,7 @@ class scheduleApi {
   async postSchedule(formData) {
     try {
       const response = await axios.post(
-        `http://localhost:8081/api/schedule/post`,
+        `http://175.45.202.131:8081/api/schedule/post`,
         formData,
         {
           headers: {
