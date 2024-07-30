@@ -2,7 +2,8 @@ import axios from "axios";
 import { handleResponse, handleError } from './ResponseProcess';
 
 const API_BASE_URL = 
-"http://localhost:8081/api";// "http://localhost:8081/api";
+// "http://175.45.202.131:8081/api";
+"http://localhost:8081/api";
 
 class CommunityApi {
     constructor(baseURL) {
@@ -58,9 +59,9 @@ class CommunityApi {
         }
     }
 
-    async fetchCommunityPosts (type, category, page, size) { // 게시물 리스트 불러오기(+무한스크롤)
+    async fetchCommunityPosts (type, category, page, size) { // 게시물 리스트 최신순 불러오기(+무한스크롤)
     try {
-        const response = await axios.get(`${API_BASE_URL}/community/${type}/${category}?page=${size}&size=${page}` , {
+        const response = await axios.get(`${this.baseURL}/community/${type}/${category}?page=${size}&size=${page}` , {
             withCredentials: true,
         });
         return response.data;
@@ -69,6 +70,18 @@ class CommunityApi {
         throw error;
     }
     };
+
+    async fetchSortLikeCommunityPosts (type, category, page, size) { // 게시물 리스트 좋아요순 불러오기(+무한스크롤)
+        try {
+            const response = await axios.get(`${this.baseURL}/community/${type}/${category}/sortLike?page=${size}&size=${page}` , {
+                withCredentials: true,
+            });
+            return response.data;
+        } catch (error) {
+            console.error("서버 오류:", error);
+            throw error;
+        }
+        };
 
     async fetchCommunityDetail(comid) { // 게시물 디테일 불러오기
         try {

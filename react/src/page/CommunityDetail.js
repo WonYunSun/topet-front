@@ -38,7 +38,6 @@ const CommunityDetail = () => {
 
       setItem(detail);
       setLikes(detail.likesList.length);
-      setCommentCount(detail.commentCount); 
       setIsLiked(liked);
 
       if (detail.hashtag) {

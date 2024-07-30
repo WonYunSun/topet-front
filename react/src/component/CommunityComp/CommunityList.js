@@ -9,7 +9,7 @@ import CommunityListData from './CommunityListData';
 const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
 const categoryMap = { 'freedomAndDaily': '자유/일상', 'curious': '궁금해요', 'sharingInformation': '정보공유' };
 
-const CommunityList = ({ selectedAnimal }) => {
+const CommunityList = ({ selectedAnimal, sortListText }) => {
   const { category } = useParams();
   const navigate = useNavigate();
   const [communityPosts, setCommunityPosts] = useState([]);
@@ -33,7 +33,10 @@ const CommunityList = ({ selectedAnimal }) => {
   const fetchPosts = async (reset = false) => {
     setLoading(true);
     try {
-      const newPosts = await CommunityApi.fetchCommunityPosts(currentAnimalType, category, size, page.current);
+      const newPosts = sortListText === "최신순"
+        ? await CommunityApi.fetchCommunityPosts(currentAnimalType, category, size, page.current)
+        : await CommunityApi.fetchSortLikeCommunityPosts(currentAnimalType, category, size, page.current);
+
       setCommunityPosts(prevPosts => reset ? newPosts : [...prevPosts, ...newPosts]);
       if (newPosts.length < size) {
         setHasMore(false);
@@ -52,7 +55,7 @@ const CommunityList = ({ selectedAnimal }) => {
     setCommunityPosts([]);
     setHasMore(true);
     fetchPosts(true);
-  }, [currentAnimalType, currentCategory]);
+  }, [currentAnimalType, currentCategory, sortListText]);
 
   const handlePostClick = async (comid) => {
     try {
@@ -105,7 +108,7 @@ const CommunityList = ({ selectedAnimal }) => {
         {!loading && !error && communityPosts.length > 0 && communityPosts.map((item, index) => (
           <div
             key={item.id}
-            onClick={() => handlePostClick(item.id)}
+            onClick={() => handlePostClick(item.comid)}
             ref={communityPosts.length === index + 1 ? lastPostElementRef : null}
           >
             <CommunityListData 

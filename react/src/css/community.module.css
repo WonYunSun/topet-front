@@ -2,6 +2,20 @@
     flex-direction: column;
     align-items: center;
   }
+
+  .menu_area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .sort_option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 16px;
+  }
   
   .category_buttons_area {
     display: flex;
@@ -42,3 +56,4 @@
     font-size: 18px;
     font-weight: bold;
   }
+

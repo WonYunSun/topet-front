@@ -69,7 +69,7 @@ const TopBar = ({
                 onClick={() => handleBottomSheetOpen("검색")}
               >
                 {selectedSearchType}
-                <IoMdArrowDropdown className={styles.dropdownIcon} />
+                <IoMdArrowDropdown />
               </button>
             </div>
             <button className={styles.searchButton}>검색</button>

@@ -4,7 +4,7 @@ import styles from '../../css/CommentList.module.css';
 import { FiMoreVertical } from "react-icons/fi";
 import EditDeleteBottomSheet from '../SubBottomSheet';
 
-const CommentList = ({ comid }) => {
+const CommentList = ({ comid, updateCommentCount }) => {
   const [comments, setComments] = useState([]);
   const [userProfile, setUserProfile] = useState("https://image.dongascience.com/Photo/2020/03/5bddba7b6574b95d37b6079c199d7101.jpg");
   const [showSubBottomSheet, setShowSubBottomSheet] = useState(false);
@@ -23,13 +23,22 @@ const CommentList = ({ comid }) => {
       try {
         const response = await CommunityApi.fetchComment(comid);
         setComments(response);
+        updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
       } catch (error) {
         console.error("Error fetching comments:", error);
       }
     };
 
     fetchComments();
-  }, [comid]);
+  }, [comid, updateCommentCount]);
+
+  const calculateTotalComments = (comments) => {
+    let total = comments.length;
+    comments.forEach(comment => {
+      total += (comment.children ? comment.children.length : 0);
+    });
+    return total;
+  };
 
   const handleMoreClick = (commentId) => {
     setCurrentCommentId(commentId);
@@ -88,6 +97,7 @@ const CommentList = ({ comid }) => {
       setCommentId(null);
       const response = await CommunityApi.fetchComment(comid);
       setComments(response);
+      updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
     } catch (error) {
       console.error("Error posting reply:", error);
     }
@@ -110,6 +120,7 @@ const CommentList = ({ comid }) => {
       setEditContent("");
       const response = await CommunityApi.fetchComment(comid);
       setComments(response);
+      updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
     } catch (error) {
       console.error("Error editing comment:", error);
     }
@@ -123,7 +134,7 @@ const CommentList = ({ comid }) => {
 
     const formData = new FormData();
     formData.append("id", editReplyId);
-    formData.append("content", editContent);
+    formData.append("content");
 
     try {
       await CommunityApi.updateReply(formData);
@@ -132,6 +143,7 @@ const CommentList = ({ comid }) => {
       setEditContent("");
       const response = await CommunityApi.fetchComment(comid);
       setComments(response);
+      updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
     } catch (error) {
       console.error("Error editing reply:", error);
     }
@@ -150,6 +162,7 @@ const CommentList = ({ comid }) => {
       setShowSubBottomSheet(false);
       const response = await CommunityApi.fetchComment(comid);
       setComments(response);
+      updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
@@ -162,6 +175,7 @@ const CommentList = ({ comid }) => {
       setShowSubBottomSheet(false);
       const response = await CommunityApi.fetchComment(comid);
       setComments(response);
+      updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
     } catch (error) {
       console.error("Error deleting reply:", error);
     }
