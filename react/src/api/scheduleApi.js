@@ -8,10 +8,10 @@ class scheduleApi {
     this.baseURL = baseURL;
   }
 
-  async updateScheduleStatus(scheduleId) {
+  async updateScheduleStatus(item) {
     try {
-      const response = await this.client.post(
-        `/post/status/${scheduleId}`,
+      const response = await axios.post(
+        `http://localhost:8081/api/schedule/post/status/${item.id}`, item, 
         {
           headers: {
             "Content-Type": "application/json",
@@ -38,7 +38,8 @@ class scheduleApi {
           withCredentials: true,
         }
       );
-      //console.log("서버 응답:", response.data);
+      console.log("서버 응답:", response.data);
+      return response.data;
     } catch (error) {
       console.error("서버 오류:", error);
       throw error; // 에러를 다시 던집니다

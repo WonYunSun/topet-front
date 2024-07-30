@@ -19,7 +19,9 @@ export default function AddSchedule({
   initialValues = {},
   setScheduleSubmittedSuccessfully,
   scheduleSubmittedSuccessfully,
-  selectedPet
+  selectedPet,
+  schedules,
+  setSchedules,
 }) {
   const initialDate = dayjs(selectedDate).isValid()
     ? dayjs(selectedDate).toDate()
@@ -137,9 +139,8 @@ export default function AddSchedule({
     if (selectedPhoto != null) {formData.append("photo", selectedPhoto);}
     console.log("postSchedule 호출");
     console.log()
-    ScheduleApi.postSchedule(formData); // ScheduleService 호출 //post로직
-    console.log("postSchedule 호출끝");
-
+    const response = await ScheduleApi.postSchedule(formData); // ScheduleService 호출 //post로직
+    setSchedules((schedules)=>[...schedules, response]);
   };
 
   const handleButtonClick = async () => {
