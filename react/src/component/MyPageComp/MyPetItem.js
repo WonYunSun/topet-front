@@ -5,6 +5,7 @@ import { MdEdit, MdShare } from "react-icons/md";
 import PetCodeModal from "../MyPageComp/PetCodeModal";
 
 const MyPetItem = ({ setShowModal, setCopied, copied, showModal, photoUrl, name, uid }) => {
+    console.log("myPetItem uid : ", uid)
     const petCode = uid;
     const navigate = useNavigate();
 
@@ -34,12 +35,14 @@ const MyPetItem = ({ setShowModal, setCopied, copied, showModal, photoUrl, name,
                 <div className={styles.name}>{name}</div>
                 <span className={styles.profile_span}></span>
                 <MdShare className={styles.profile_icon} onClick={handleModal} />
+                <div style={{margin:"30px"}}></div>
                 <MdEdit className={styles.profile_icon} onClick={goPetDetail} />
             </div>
             {showModal && (
                 <PetCodeModal
                     type={'코드복사'} 
-                    codeToCopy={petCode} 
+                    codeToCopy={uid} 
+                    uid={uid}
                     onClose={handleCloseModal} 
                     modalTitle={'반려동물코드 복사'} 
                     setCopied={setCopied}

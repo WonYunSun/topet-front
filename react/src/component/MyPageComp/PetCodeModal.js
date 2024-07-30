@@ -8,8 +8,8 @@ import { CopyToClipboard } from "react-copy-to-clipboard/src";
 	<div className="URL">{wallet}</div>
 </CopyToClipboard> */}
 
-const PetCodeModal = ({ setPetCode, setCopied, onClose, onRegister, modalTitle, type, codeToCopy}) => {
-
+const PetCodeModal = ({ setPetCode, setCopied, onClose, onRegister, modalTitle, type, codeToCopy, uid}) => {
+    
     const onCopyCode = (text) => {
         setCopied(true);
         console.log("복사성공! : ", text);
@@ -30,9 +30,9 @@ const PetCodeModal = ({ setPetCode, setCopied, onClose, onRegister, modalTitle, 
                     <RxCross2 className={styles.cancel_icon} onClick={onClose} />
                 </div>
                 <div className={styles.code_box_wrapper}>
-                    {type == '코드등록' ? <input onChange={handleInputPetCode} className={styles.code_input_box} placeholder="새롭게 등록할 반려동물의 코드를 입력해주세요"  /> 
+                    {type == '코드등록' ? <input onChange={handleInputPetCode} className={styles.code_inut_box} placeholder="새롭게 등록할 반려동물의 코드를 입력해주세요"  /> 
                     : <div className={styles.code_copy_box}>
-                        <div className={styles.code}>{codeToCopy}</div>
+                        <div className={styles.code}>{uid}</div>
                         <CopyToClipboard text={codeToCopy} onCopy={onCopyCode}>
                             <TbCopy className={styles.copy_icon} />
                         </CopyToClipboard>

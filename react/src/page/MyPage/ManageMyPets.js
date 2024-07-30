@@ -10,6 +10,7 @@ const ManageMyPets = () => {
 
     const reduxMember = useSelector((state)=>state.member.member);
     const reduxPet = useSelector((state)=>state.petList.petList);
+    
     //Redux에서 받아온 현재 로그인한 유저의 정보
     
     const [showBottomSheet, setShowBottomSheet] = useState(false);

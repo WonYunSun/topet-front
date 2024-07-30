@@ -204,6 +204,21 @@ class CommunityApi {
             handleError(error);
         }
     }
+
+    async getMyCommunity(id){
+        try {
+            const response = await axios.get(`${this.baseURL}/community/myCommunity/${id}`,{}, {
+                withCredentials: true,
+            });
+            console.log("api Response : ", response)
+            return handleResponse( response);
+        } catch (error) {
+            console.log("api Response : ", error)
+            handleError(error);
+        }
+    }
+
+
 }
 
 export default new CommunityApi(API_BASE_URL);
