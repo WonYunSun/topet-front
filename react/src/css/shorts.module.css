@@ -1,7 +1,7 @@
 .shortsList {
   display: flex;
   flex-direction: row;
-  gap: 12px;
+  gap: 16px;
   overflow-x: auto;
   width: 100%; /* 부모 요소의 너비에 맞추기 */
   height: 100%; /* 부모 요소의 높이에 맞추기 */
@@ -14,7 +14,7 @@
 .shortItem {
   border-radius: 10px;
   flex: 0 0 auto;
-  width: 50%; /* 각 아이템이 차지하는 너비를 조정 */
+  width: 157px; /* 각 아이템이 차지하는 너비를 조정 */
   height: 100%; /* 부모 요소의 높이에 맞추기 */
   background-color: sandybrown;
   position: relative;

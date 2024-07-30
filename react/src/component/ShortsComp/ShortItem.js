@@ -8,10 +8,15 @@ const ShortItem = ({
   widthAdjust,
   heightAdjust,
 }) => {
-  const customStyle = {
-    width: widthAdjust || "auto",
-    height: heightAdjust || "auto",
-  };
+  const customStyle = {};
+
+  if (widthAdjust) {
+    customStyle.width = widthAdjust;
+  }
+
+  if (heightAdjust) {
+    customStyle.height = heightAdjust;
+  }
 
   return (
     <div className={styles.shortItem} style={customStyle}>
