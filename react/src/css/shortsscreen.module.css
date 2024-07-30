@@ -1,9 +1,9 @@
 .divisionline {
   border-top: 0.5px solid #dddddd;
-  margin: 20px 0px;
+  margin: 10px 0px;
 }
 .popularShorts {
-  height: 200px;
+  height: 140px;
   padding: 1em 0;
 }
 .shortsListContainer {
@@ -15,5 +15,14 @@
   padding: 0 16px; /* 부모 컴포넌트의 양쪽 여백 */
   box-sizing: border-box;
   overflow-x: auto;
-  gap: 6px;
+  gap: 16px;
+  align-items: center;
+}
+
+.shortsGridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 155px));
+  gap: 16px; /* 그리드 아이템 사이의 간격 */
+  padding: 16px; /* 컨테이너의 패딩 */
+  justify-content: center; /* 그리드 컨테이너를 가운데 정렬 */
 }

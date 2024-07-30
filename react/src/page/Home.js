@@ -274,7 +274,7 @@ const Home = () => {
 
       <div
         className={`${styles.flipCard} ${isFlipped ? styles.flipped : ""}`}
-        onClick={handleClick}
+        // onClick={handleClick}
       >
       {
       (Animal != null) ?
@@ -292,14 +292,11 @@ const Home = () => {
                   <div className={styles.gender}>성별: {Animal.gender}</div>
                   <div className={styles.breed}>종: {Animal.kind}</div>
                 </div>
-                <div className={styles.arrow}>
-                  <IoArrowForwardCircleOutline size={20} color={"#8583836e"} />
-                </div>
               </div>
             </div>
           </div>
           {/* 카드 뒷면 */}
-          <div className={styles.flipCardBack}>
+          <div className={styles.flipCardBack}> 
             <div className={styles.info}>
               <h2>추가 정보</h2>
               <p>몸무게: {Animal.weight}</p>
