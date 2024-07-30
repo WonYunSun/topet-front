@@ -10,12 +10,17 @@ import HashTagContent from "./HashTagComp/HashTagContent";
 import RegisterMyPetBottomSheet from "../component/MyPageComp/RegisterMyPetBottomSheet";
 import { useSelector, useDispatch } from "react-redux";
 import { updateSelectedPet } from "../redux/reducers/selectedPetReducer";
+
 const BottomSheet = ({
   show,
   onClose,
   type,
   selectedDate,
-  schedule,
+  selectedPet,
+
+  schedules,
+  setSchedules,
+
   initialAddScheduleValues,
   setSelectedPet,
   onDotsClick,
@@ -33,6 +38,7 @@ const BottomSheet = ({
   setSelectedMarker, //지도마커표시관련
   setSelectedPlace,
   keyword,
+  handleSelectSortListText
 }) => {
   const dispatch = useDispatch();
   const handleCloseBottomSheet = () => {
@@ -40,6 +46,7 @@ const BottomSheet = ({
   };
 
   const handleSelectPet = (pet) => {
+    console.log("bottomSheet에서 출력한 Pet : " ,pet);
     setSelectedPet(pet);
     dispatch(updateSelectedPet)
     handleCloseBottomSheet();
@@ -73,6 +80,8 @@ const BottomSheet = ({
         return "검색";
       case "petRegister":
         return "등록";
+      case "sort":
+        return "정렬";
       default:
         return "";
     }
@@ -99,6 +108,9 @@ const BottomSheet = ({
             initialValues={initialAddScheduleValues}
             scheduleSubmittedSuccessfully={scheduleSubmittedSuccessfully}
             setScheduleSubmittedSuccessfully={setScheduleSubmittedSuccessfully}
+            selectedPet={selectedPet}
+            schedules={schedules}
+            setSchedules={setSchedules}
           />
         );
       case "scheduleDetail":
@@ -181,6 +193,13 @@ const BottomSheet = ({
             <RegisterMyPetBottomSheet
               handleOpenInputPetCodeModal={handleOpenInputPetCodeModal}
             />
+          </div>
+        );
+      case "sort":
+        return (
+          <div>
+            <div className="bottom_sheet_button" onClick={() => handleSelectSortListText("최신순")}>최신순</div>
+            <div className="bottom_sheet_button" onClick={() => handleSelectSortListText("좋아요순")}>좋아요순</div>
           </div>
         );
       default:

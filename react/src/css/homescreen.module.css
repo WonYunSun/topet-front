@@ -32,9 +32,9 @@
 .anyMenu {
   width: 12vh; /* 원하는 너비 */
   background-color: #fff;
-  border-radius: 50%;
-  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
-    rgba(17, 17, 26, 0.1) 0px 0px 8px;
+  /* border-radius: 50%; */
+  /* box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 0px 8px; */
 }
 
 .communityMenu:before,
@@ -94,7 +94,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 7px;
 }
 
 .homeMenuArea svg {
@@ -105,8 +105,9 @@
 }
 
 .homeMenuArea span {
-  color: #ffa62f;
+  color: #1e1e1e;
   font-size: 12px;
+  font-weight: 600;
 }
 
 .shortsPreivewArea {
@@ -137,7 +138,7 @@
   flex-direction: row;
   gap: 16px;
   padding: 18px;
-  /* overflow-x: hidden; */
+  height: 250px;
   overflow: hidden;
   margin-bottom: 20px;
 }
@@ -172,10 +173,10 @@
   transition: transform 1s;
   transform-style: preserve-3d;
 }
-
+/* 
 .flipped .flipCardInner {
   transform: rotateY(180deg);
-}
+} */
 
 .flipCardFront,
 .flipCardBack {

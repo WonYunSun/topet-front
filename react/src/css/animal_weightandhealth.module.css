@@ -10,6 +10,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin-bottom: 1.2em;
 }
 
 .title {
@@ -135,7 +136,7 @@
 }
 
 .dontknowweight_text {
-  color: #9e9e9e;
+  color: #b5b5b5;
   font-size: 14px;
   margin-right: 15px;
 }

@@ -32,7 +32,7 @@ const ScheduleBox = ({ item, onScheduleClick, handleCheckBoxClick }) => {
             className={styles.ScheduleBoxCheckBox}
             onClick={(e) => {
               e.stopPropagation();
-              handleCheckBoxClick(item.scheduleId);
+              handleCheckBoxClick(item);
             }}
           >
             {item.isComplete ? (

@@ -111,10 +111,11 @@ export default function ScheduleEdit({ selectedSchedule, onClose }) {
     formData.append("scheduleContent", content);
     formData.append("isComplete", isComplete);
     formData.append("color", color);
-    formData.append("scheduleWriter", selectedSchedule.scheduleWriter);
+    formData.append("scheduleWriter", selectedSchedule.author);
     formData.append("scheduleEditer", "EditorName");
-
-    await ScheduleService.updateSche(selectedSchedule.scheduleId, formData);
+    console.log(selectedSchedule.id)
+    
+    await ScheduleService.updateSche(selectedSchedule.id, formData);
   };
 
   const updateSchedulePhoto = async () => {

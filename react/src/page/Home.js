@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import TopBar from "../component/TopBar";
-import NavBar from "../component/NavBarComp/NavBar";
+
 import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
 import { SlArrowRight } from "react-icons/sl";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { HiPlayCircle } from "react-icons/hi2";
-import { PiGear } from "react-icons/pi";
+
 import { IoChatbubbles } from "react-icons/io5";
 import ScheduleToday from "../component/HomeComp/ScheduleToday";
 import { ReactComponent as AiIcon } from "../asset/icon/ai.svg";
@@ -24,20 +24,23 @@ import { updateSelectedPet } from "../redux/reducers/selectedPetReducer";
 const Home = () => {
   const reduxMember = useSelector((state) => state.member.member);
   const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
-  
-  
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const [animalType, setAnimalType] = useState("강아지"); // 유저가 선택한 동물 타입 저장
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(reduxPet);
-  
+
   const [pets, setPets] = useState([]);
-  
-  
+
+  const animalTypeMap = {
+    1: "강아지",
+    2: "고양이",
+    3: "특수동물"
+  };
+
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
   const [schedules, setSchedule] = useState([
     {
@@ -87,13 +90,19 @@ const Home = () => {
 
   useEffect(() => {
     getHome();
-    
-  }, [ ]);
+  }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     setSelectedPet(reduxPet);
-  },[selectedPet])
-  
+    if (reduxPet) {
+      const animalTypeValue = animalTypeMap[reduxPet.type];
+      setAnimalType(animalTypeValue);
+    }
+  }, [reduxPet]);
+
+
+
+
   const goCommunity = () => {
     const animalTypeMap = {
       강아지: "dog",
@@ -109,6 +118,9 @@ const Home = () => {
     navigate(`/schedule`);
   };
 
+  const goShorts = () => {
+    navigate(`/shorts`);
+  };
   const handleOpenPetBottomSheet = () => {
     setBottomSheetType("pet");
     setShowBottomSheet(true);
@@ -159,16 +171,17 @@ const Home = () => {
   ];
 
   // 프로필 카드 플립 관련
-  const Animal = {
-    photo:
-      "https://images.unsplash.com/photo-1591703166380-e36be05eb7bf?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    name: "코코",
-    age: "3살",
-    gender: "여",
-    breed: "푸들",
-    weight: "5kg",
-    health: "예방접종 완료, 알러지 없음",
-  };
+  const Animal = reduxPet;
+  // const Animal = {
+  //   photo:
+  //     "https://images.unsplash.com/photo-1591703166380-e36be05eb7bf?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   name: "코코",
+  //   age: "3살",
+  //   gender: "여",
+  //   breed: "푸들",
+  //   weight: "5kg",
+  //   health: "예방접종 완료, 알러지 없음",
+  // };
   const dummyCommmuData = [
     {
       title: "First Post",
@@ -209,56 +222,55 @@ const Home = () => {
   };
 
   const getHome = async () => {
-   const returnedMember = await homeApi.getHomeDataMember();
+    const returnedMember = await homeApi.getHomeDataMember();
     // member을 redux에넣어야함
     const sessionMember = {
-      id : returnedMember.id,
-      email : returnedMember.email,
-      name : returnedMember.name,
-      socialId : returnedMember.socialId
-    }
+      id: returnedMember.id,
+      email: returnedMember.email,
+      name: returnedMember.name,
+      socialId: returnedMember.socialId,
+    };
     console.log("returnedMember.petsreturnedMember.pets", returnedMember.pets);
     let tempPets = returnedMember.pets;
-
     const myPets = [];
 
-    for(let i =  0 ; i < tempPets.length; i++){
-        let tempPet = {
-          id : tempPets[i].id,
-          type : tempPets[i].type,
-          birth : tempPets[i].birth,
-          health : tempPets[i].health,
-          allergy : tempPets[i].allergy,
-          kind : tempPets[i].kind,
-          profileSrc : tempPets[i].profileSrc,
-          name : tempPets[i].name,
-          weight : tempPets[i].weight,
-        }
-        myPets.push(tempPet);
+    for (let i = 0; i < tempPets.length; i++) {
+      let tempPet = {
+        id: tempPets[i].id,
+        type: tempPets[i].type,
+        birth: tempPets[i].birth,
+        health: tempPets[i].health,
+        allergy: tempPets[i].allergy,
+        gender : tempPets[i].gender,
+        kind: tempPets[i].kind,
+        profileSrc: tempPets[i].profileSrc,
+        name: tempPets[i].name,
+        weight: tempPets[i].weight,
+        uid: tempPets[i].uid,
+      };
+      myPets.push(tempPet);
     }
-
-    
-
+    setPets(myPets);
     dispatch(updateMember(sessionMember));
     dispatch(updatePetList(myPets));
     //    setPets(returnedMember.pets);
-    
+
     //const schedule = await homeApi.getHomeDataSchedule();
     // const pet = await homeApi.getHomeDataPet();
   };
-  
+
   dispatch(updateSelectedPet(selectedPet));
-  
-  
-  
+
+
   return (
+    
     <div className={styles.homeWrap}>
-      <TopBar />
+      <TopBar isHome={true} />
 
       <AnimalSelect
         onClick={handleOpenPetBottomSheet}
         selectedPet={selectedPet}
-        
+        setSelectedPet={setSelectedPet}
         isHome={true}
         pets={pets}
       />
@@ -272,37 +284,37 @@ const Home = () => {
 
       <div
         className={`${styles.flipCard} ${isFlipped ? styles.flipped : ""}`}
-        onClick={handleClick}
+        // onClick={handleClick}
       >
+      {
+      (Animal != null) ?
         <div className={styles.flipCardInner}>
           {/* 카드 앞면 */}
           <div className={styles.flipCardFront}>
             <div className={styles.frontInfoWrap}>
               <div className={styles.photo}>
-                <img src={Animal.photo} alt="프로필" />
+                <img src={Animal.profileSrc} alt="프로필" />
               </div>
               <div className={styles.infoWrap}>
                 <div className={styles.info}>
                   <div className={styles.name}>{Animal.name}</div>
-                  <div className={styles.age}>나이: {Animal.age}</div>
+                  <div className={styles.age}>나이: {Animal.birth}</div>
                   <div className={styles.gender}>성별: {Animal.gender}</div>
-                  <div className={styles.breed}>종: {Animal.breed}</div>
-                </div>
-                <div className={styles.arrow}>
-                  <IoArrowForwardCircleOutline size={20} color={"#8583836e"} />
+                  <div className={styles.breed}>종: {Animal.kind}</div>
                 </div>
               </div>
             </div>
           </div>
           {/* 카드 뒷면 */}
-          <div className={styles.flipCardBack}>
+          <div className={styles.flipCardBack}> 
             <div className={styles.info}>
               <h2>추가 정보</h2>
               <p>몸무게: {Animal.weight}</p>
               <p>건강 사항: {Animal.health}</p>
             </div>
           </div>
-        </div>
+        </div> : <div></div>
+        }
       </div>
       <div className={styles.homeMenuArea}>
         <div className={styles.communityMenu}>
@@ -311,7 +323,7 @@ const Home = () => {
             <span>커뮤니티</span>
           </div>
         </div>
-        <div className={styles.anyMenu}>
+        <div className={styles.anyMenu} onClick={goShorts}>
           <div className={styles.Navdiv}>
             <HiPlayCircle />
             <span>쇼츠</span>
@@ -336,7 +348,7 @@ const Home = () => {
       <div className={styles.shortsPreivewArea}>
         <div className={styles.areaTitleWrap}>
           <div className={styles.areaTitle}>쇼츠</div>
-          <SlArrowRight />
+          <SlArrowRight onClick={goShorts} />
         </div>
 
         <div className={styles.shortsWrap}>

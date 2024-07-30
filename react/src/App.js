@@ -8,7 +8,7 @@ import "./App.css";
 
 import Community from "./page/Community";
 import CommunityWrite from "./page/CommunityWrite";
-import  Calendarscreen  from "./page/Calendarscreen";
+import Calendarscreen from "./page/Calendarscreen";
 import PetRegistration from "./page/PetRegistration";
 
 import MapScreen from "./page/MapScreen";
@@ -30,9 +30,7 @@ import NavBar from "./component/NavBarComp/NavBar";
 import Home from "./page/Home";
 import CommunitySearch from "./page/CommunitySearch";
 import LoginPage from "./page/LoginPage";
-// import Schedule from "./page/Calendarscreen";
-// import Map from "./page/MapScreen";
-
+import Shorts from "./page/Shorts";
 function App() {
   const location = useLocation();
   const showNavbarPaths = ["/home", "/schedule", "/map", "/mypage"];
@@ -61,6 +59,7 @@ function App() {
         <Route path="/likedposts" element={<SeeLikedPosts />} />
         <Route path="/myshorts" element={<SeeMyShorts />} />
         <Route path="/likedshorts" element={<SeeLikedShorts />} />
+        <Route path="/shorts" element={<Shorts />} />
         <Route path="/choicepetregister" element={<ChoicePetRegister />} />
         {/* <Route path='/api/kakaoLogin' element={<KakaoLogin/>} /> */}
         <Route path="/" element={<LoginPage />} />
