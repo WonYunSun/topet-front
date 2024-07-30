@@ -1,12 +1,10 @@
-// src/components/CommunityList.js
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../../css/communityList.module.css';
 import CommunityApi from '../../api/communityApi';
 import { FaSpinner } from "react-icons/fa";
 import CheckModal from '../../component/CheckModal';
-import CommunityListData from './CommunityListData'; // CommunityPost 컴포넌트를 import 합니다.
+import CommunityListData from './CommunityListData';
 
 const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
 const categoryMap = { 'freedomAndDaily': '자유/일상', 'curious': '궁금해요', 'sharingInformation': '정보공유' };
@@ -22,17 +20,24 @@ const CommunityList = ({ selectedAnimal }) => {
   const [loading, setLoading] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const [hasMore, setHasMore] = useState(true);
+  const page = useRef(0);
+  const observer = useRef();
+  const size = 20;
 
   useEffect(() => {
     setCurrentAnimalType(animalTypeMap[selectedAnimal] || 'dog');
     setCurrentCategory(categoryMap[category] || '자유/일상');
   }, [selectedAnimal, category]);
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (reset = false) => {
     setLoading(true);
     try {
-      const newPosts = await CommunityApi.fetchCommunityPosts(currentAnimalType, category);
-      setCommunityPosts(newPosts);
+      const newPosts = await CommunityApi.fetchCommunityPosts(currentAnimalType, category, size, page.current);
+      setCommunityPosts(prevPosts => reset ? newPosts : [...prevPosts, ...newPosts]);
+      if (newPosts.length < size) {
+        setHasMore(false);
+      }
       setError(null);
     } catch (error) {
       console.error("Failed to fetch posts:", error);
@@ -43,13 +48,11 @@ const CommunityList = ({ selectedAnimal }) => {
   };
 
   useEffect(() => {
+    page.current = 0;
     setCommunityPosts([]);
-    fetchPosts();
+    setHasMore(true);
+    fetchPosts(true);
   }, [currentAnimalType, currentCategory]);
-
-  const handleCategoryChange = newCategory => {
-    navigate(`/community/preview/${currentAnimalType}/${newCategory}`, { replace: true });
-  };
 
   const handlePostClick = async (comid) => {
     try {
@@ -69,18 +72,19 @@ const CommunityList = ({ selectedAnimal }) => {
     setModalIsOpen(false);
   };
 
+  const lastPostElementRef = node => {
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        page.current++;
+        fetchPosts();
+      }
+    });
+    if (node) observer.current.observe(node);
+  };
+
   return (
     <div>
-      <div className={styles.category_buttons_area}>
-        <button className={styles.category_button} onClick={() => handleCategoryChange('freedomAndDaily')} disabled={category === 'freedomAndDaily'}>#자유/일상</button>
-        <button className={styles.category_button} onClick={() => handleCategoryChange('curious')} disabled={category === 'curious'}>#궁금해요</button>
-        <button className={styles.category_button} onClick={() => handleCategoryChange('sharingInformation')} disabled={category === 'sharingInformation'}>#정보공유</button>
-      </div>
-
-      <div className={styles.category_text}>
-        #{currentCategory}
-      </div>
-
       <div className={styles.communities_content_area}>
         {loading && (
           <div className={styles.loading}>
@@ -99,11 +103,17 @@ const CommunityList = ({ selectedAnimal }) => {
           </div>
         )}
         {!loading && !error && communityPosts.length > 0 && communityPosts.map((item, index) => (
-          <CommunityListData 
-            key={item.id} 
-            item={item} 
-            onClick={() => handlePostClick(item.id)} 
-          />
+          <div
+            key={item.id}
+            onClick={() => handlePostClick(item.id)}
+            ref={communityPosts.length === index + 1 ? lastPostElementRef : null}
+          >
+            <CommunityListData 
+              key={item.id} 
+              item={item} 
+              onClick={() => handlePostClick(item.id)} 
+            />
+          </div>
         ))}
       </div>
 
