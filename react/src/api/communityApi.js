@@ -2,8 +2,8 @@
     import { handleResponse, handleError } from './ResponseProcess';
 
     const API_BASE_URL = 
-    "http://175.45.202.131:8081/api";
-    // "http://localhost:8081/api";
+    // "http://175.45.202.131:8081/api";
+    "http://localhost:8081/api";
 
     class CommunityApi {
         constructor(baseURL) {
@@ -52,7 +52,12 @@
 
         async deleteCommunity(comid) { // 게시물 삭제
             try {
-                const response = await axios.post(`${this.baseURL}/community/delete/${comid}`);
+                const response = await axios.post(`${this.baseURL}/community/delete/${comid}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        },
+                    withCredentials: true // 세션 쿠키를 포함하도록 설정
+                });
                 return handleResponse(response);
             } catch (error) {
                 handleError(error);
@@ -61,7 +66,9 @@
 
         async fetchCommunityPosts(type, category) { //게시물 리스트 불러오기
         try {
-            const response = await axios.get(`${this.baseURL}/community/${type}/${category}`);
+            const response = await axios.get(`${this.baseURL}/community/${type}/${category}`, {
+                withCredentials: true // 세션 쿠키를 포함하도록 설정
+            });
             return handleResponse(response);
         } catch (error) {
             handleError(error);

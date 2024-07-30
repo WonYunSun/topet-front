@@ -16,7 +16,10 @@ const BottomSheet = ({
   type,
   selectedDate,
   selectedPet,
-  schedule,
+
+  schedules,
+  setSchedules,
+
   initialAddScheduleValues,
   setSelectedPet,
   onDotsClick,
@@ -102,6 +105,8 @@ const BottomSheet = ({
             scheduleSubmittedSuccessfully={scheduleSubmittedSuccessfully}
             setScheduleSubmittedSuccessfully={setScheduleSubmittedSuccessfully}
             selectedPet={selectedPet}
+            schedules={schedules}
+            setSchedules={setSchedules}
           />
         );
       case "scheduleDetail":

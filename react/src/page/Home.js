@@ -162,16 +162,17 @@ const Home = () => {
   ];
 
   // 프로필 카드 플립 관련
-  const Animal = {
-    photo:
-      "https://images.unsplash.com/photo-1591703166380-e36be05eb7bf?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    name: "코코",
-    age: "3살",
-    gender: "여",
-    breed: "푸들",
-    weight: "5kg",
-    health: "예방접종 완료, 알러지 없음",
-  };
+  const Animal = reduxPet;
+  // const Animal = {
+  //   photo:
+  //     "https://images.unsplash.com/photo-1591703166380-e36be05eb7bf?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   name: "코코",
+  //   age: "3살",
+  //   gender: "여",
+  //   breed: "푸들",
+  //   weight: "5kg",
+  //   health: "예방접종 완료, 알러지 없음",
+  // };
   const dummyCommmuData = [
     {
       title: "First Post",
@@ -231,6 +232,7 @@ const Home = () => {
         birth: tempPets[i].birth,
         health: tempPets[i].health,
         allergy: tempPets[i].allergy,
+        gender : tempPets[i].gender,
         kind: tempPets[i].kind,
         profileSrc: tempPets[i].profileSrc,
         name: tempPets[i].name,
@@ -251,6 +253,7 @@ const Home = () => {
   dispatch(updateSelectedPet(selectedPet));
 
   return (
+    
     <div className={styles.homeWrap}>
       <TopBar />
 
@@ -273,19 +276,21 @@ const Home = () => {
         className={`${styles.flipCard} ${isFlipped ? styles.flipped : ""}`}
         onClick={handleClick}
       >
+      {
+      (Animal != null) ?
         <div className={styles.flipCardInner}>
           {/* 카드 앞면 */}
           <div className={styles.flipCardFront}>
             <div className={styles.frontInfoWrap}>
               <div className={styles.photo}>
-                <img src={Animal.photo} alt="프로필" />
+                <img src={Animal.profileSrc} alt="프로필" />
               </div>
               <div className={styles.infoWrap}>
                 <div className={styles.info}>
                   <div className={styles.name}>{Animal.name}</div>
-                  <div className={styles.age}>나이: {Animal.age}</div>
+                  <div className={styles.age}>나이: {Animal.birth}</div>
                   <div className={styles.gender}>성별: {Animal.gender}</div>
-                  <div className={styles.breed}>종: {Animal.breed}</div>
+                  <div className={styles.breed}>종: {Animal.kind}</div>
                 </div>
                 <div className={styles.arrow}>
                   <IoArrowForwardCircleOutline size={20} color={"#8583836e"} />
@@ -301,7 +306,8 @@ const Home = () => {
               <p>건강 사항: {Animal.health}</p>
             </div>
           </div>
-        </div>
+        </div> : <div></div>
+        }
       </div>
       <div className={styles.homeMenuArea}>
         <div className={styles.communityMenu}>
