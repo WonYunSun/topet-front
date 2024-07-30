@@ -16,7 +16,7 @@ export const Calendar = ({ schedules, onDateClick }) => {
   const [selectedDate, setSelectedDate] = useState(null); // 클릭된 날짜 상태 추가
   const [showYearMonthPicker, setShowYearMonthPicker] = useState(false);
   const dates = ["일", "월", "화", "수", "목", "금", "토"];
-
+  
   const years = Array.from({ length: 100 }, (_, i) => dayjs().year() - 50 + i);
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
 
@@ -32,13 +32,16 @@ export const Calendar = ({ schedules, onDateClick }) => {
 
   const hasSchedule = useCallback(
     (date) => {
-      return schedules.some((schedule) => {
-        const start = dayjs(schedule.startDate);
-        const end = dayjs(schedule.endDate);
-        const current = dayjs(date);
-        return current.isBetween(start, end, "day", "[]");
-      });
-    },
+      if(schedules != null){
+        return schedules.some((schedule) => {
+          const start = dayjs(schedule.startDate);
+          const end = dayjs(schedule.endDate);
+          const current = dayjs(date);
+          return current.isBetween(start, end, "day", "[]");
+        });
+      }
+    }
+    ,
     [schedules]
   );
 
@@ -57,7 +60,6 @@ export const Calendar = ({ schedules, onDateClick }) => {
     setDate(dayjs(`${year}-${month}-01`));
     setShowYearMonthPicker(false);
   };
-
   return (
     <div className={styles.CalendarContainer}>
       {showYearMonthPicker && (

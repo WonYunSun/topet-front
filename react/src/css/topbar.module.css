@@ -2,13 +2,31 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   padding: 10px;
   color: white;
   border-bottom: 1px solid black;
   height: 40px;
 }
-
+/* .searchInput {
+  background-color: #f0f0f0;
+}
+  margin: 1.5em;
+  height: 80%;
+  border-radius: 10px;
+  padding-left: 10px;
+  flex-basis: auto;
+}
+.searchInput::placeholder {
+  color: #999;
+}
+.searchContainer {
+  display: flex;
+  flex-direction: row;
+}
+.dropdownButton {
+  background-color: #f0f0f0;
+} */
 .icon {
   font-size: 24px;
   cursor: pointer;
@@ -20,7 +38,7 @@
 }
 
 .logo {
-  color: #FFA62F;
+  color: #ffa62f;
   font-size: 20px;
   font-weight: bold;
 }

@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { GoArrowLeft, GoHome, GoChevronDown } from "react-icons/go";
+import { IoSearch, IoClose } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { IoMdArrowDropdown } from "react-icons/io";
 import styles from "../css/topbar.module.css";
 
-const TopBar = ({ centerChange, selectedSearchType, searchText, setSearchText, handleBottomSheetOpen }) => {
+const TopBar = ({
+  centerChange,
+  selectedSearchType,
+  searchText,
+  setSearchText,
+  handleBottomSheetOpen,
+}) => {
   const navigate = useNavigate();
 
   const goBack = () => {
@@ -36,7 +43,10 @@ const TopBar = ({ centerChange, selectedSearchType, searchText, setSearchText, h
         return (
           <div className={styles.topbar}>
             <GoArrowLeft className={styles.icon} onClick={goBack} />
-            <div className={styles.animalSelectBox} onClick={handleAnimalSelectClick}>
+            <div
+              className={styles.animalSelectBox}
+              onClick={handleAnimalSelectClick}
+            >
               {centerChange}
               <GoChevronDown className="arrow-bottom" />
             </div>
@@ -48,13 +58,16 @@ const TopBar = ({ centerChange, selectedSearchType, searchText, setSearchText, h
           <div className={styles.topbar}>
             <GoArrowLeft className={styles.icon} onClick={goBack} />
             <div className={styles.searchContainer}>
-              <input 
-                className={styles.searchInput} 
-                placeholder="검색어를 입력하세요" 
+              <input
+                className={styles.searchInput}
+                placeholder="검색어를 입력하세요"
                 value={searchText}
                 onChange={handleSearchTextChange}
               />
-              <button className={styles.dropdownButton} onClick={() => handleBottomSheetOpen("검색")}>
+              <button
+                className={styles.dropdownButton}
+                onClick={() => handleBottomSheetOpen("검색")}
+              >
                 {selectedSearchType}
                 <IoMdArrowDropdown className={styles.dropdownIcon} />
               </button>
@@ -63,6 +76,22 @@ const TopBar = ({ centerChange, selectedSearchType, searchText, setSearchText, h
           </div>
         );
       case "로고":
+      case "쇼츠":
+        return (
+          <div className={styles.topbar}>
+            <GoArrowLeft className={styles.icon} onClick={goBack} />
+            <div>
+              <input
+                placeholder="쇼츠를 검색해보세요"
+                className={styles.searchInput}
+                value={searchText}
+                onChange={handleSearchTextChange}
+              />
+              <IoSearch color="#333" />
+            </div>
+            <GoHome className={styles.icon} onClick={goHome} />
+          </div>
+        );
       default:
         return (
           <div className={styles.topbar}>

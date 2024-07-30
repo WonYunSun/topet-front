@@ -5,22 +5,21 @@ import '../../css/animal_profile.css'
 
 const PetList = ({ onSelectPet }) => {
   const petList = useSelector(state => state.petList.petList);
-
-  const handleSelectPet = (name) => {
-    const url = petList[name];
-    onSelectPet({name, url});
-    
+  
+  const handleSelectPet = (pet) => {
+    onSelectPet(pet);
+//    console.log("PetList에서 출력한 pet :  ", pet);
   };
 
   return (
     <div>
-      {Object.entries(petList).map(([name, url]) => (
-        <div key={name} className='animal-profile' onClick={() => handleSelectPet(name)}>
-          <img src={url} alt={name} className='animal-img' />
-          <p className='animal-name'>{name}</p>
-        </div>
-      ))}
-    </div>
+    {petList.map((pet, idx) => (
+      <div key={idx} className='animal-profile' onClick={() => handleSelectPet(pet)}>
+        <img src={pet.profileSrc || 'default-image.jpg'} alt={pet.name} className='animal-img' />
+        <p className='animal-name'>{pet.name}</p>
+      </div>
+    ))}
+  </div>
   );
 };
 
