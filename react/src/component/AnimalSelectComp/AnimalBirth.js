@@ -52,7 +52,10 @@ const AnimalBirth = ({
     if (birthDontKnow) {
       setNextPossible(true);
     }
-  }, [birthDontKnow, setNextPossible]);
+    if (selectedBirth == "" || selectedBirth == undefined) {
+      setNextPossible(false);
+    }
+  }, [birthDontKnow, setNextPossible, selectedBirth]);
 
   useEffect(() => {
     if (year && month && day) {
