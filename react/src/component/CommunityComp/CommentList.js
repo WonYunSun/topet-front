@@ -153,7 +153,9 @@ const CommentList = ({ comid, updateCommentCount }) => {
     setEditCommentId(null);
     setEditReplyId(null);
     setEditContent("");
+    setReplyContent("")
   };
+
 
   const handleDeleteClick = async (commentId) => {
     try {
@@ -219,6 +221,7 @@ const CommentList = ({ comid, updateCommentCount }) => {
                 value={replyContent}
                 onChange={(e) => handleReplyChange(e.target.value)}
               />
+              <button className={styles.cancelButton} onClick={handleEditCancel}>취소</button>
               <button className={styles.replyButton} onClick={handleReplyPost}>등록</button>
             </div>
           )}
