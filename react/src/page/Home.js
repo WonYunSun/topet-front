@@ -246,11 +246,11 @@ const Home = () => {
         profileSrc: tempPets[i].profileSrc,
         name: tempPets[i].name,
         weight: tempPets[i].weight,
-        uid: tempPets[i].uid
+        uid: tempPets[i].uid,
       };
       myPets.push(tempPet);
     }
-    setPets(myPets)
+    setPets(myPets);
     dispatch(updateMember(sessionMember));
     dispatch(updatePetList(myPets));
     //    setPets(returnedMember.pets);
@@ -265,7 +265,7 @@ const Home = () => {
   return (
     
     <div className={styles.homeWrap}>
-      <TopBar />
+      <TopBar isHome={true} />
 
       <AnimalSelect
         onClick={handleOpenPetBottomSheet}
