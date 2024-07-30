@@ -19,21 +19,23 @@ const ScheduleBottom = ({ schedules, selectedDate, onScheduleClick }) => {
   }, [schedules]);
 
   const getSchedule = useCallback(
+    
     (date) => {
         const day = updatedSchedules.filter((schedule) => {
         const start = dayjs(schedule.startDate);
         const end = dayjs(schedule.endDate);
         const targetDate = dayjs(date);
-
-        return targetDate.isBetween(start, end, "day", "[]");
+      return targetDate.isBetween(start, end, "day", "[]");
       });
 
       return day.length > 0 ? day : [];
-    },
+    
+  },
     [updatedSchedules]
   );
 
   const handleCheckBoxClick = async (scheduleId) => {
+    console.log("완료 toggle");
     try {
       await ScheduleService.updateScheduleStatus(scheduleId);
       setUpdatedSchedules((prevSchedules) =>

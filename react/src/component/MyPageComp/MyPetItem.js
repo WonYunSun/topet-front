@@ -4,8 +4,8 @@ import styles from '../../css/mypage_managemypets.module.css';
 import { MdEdit, MdShare } from "react-icons/md";
 import PetCodeModal from "../MyPageComp/PetCodeModal";
 
-const MyPetItem = ({ setShowModal, setCopied, copied, showModal, photoUrl, name }) => {
-    const petCode = '반려동물임시코드'
+const MyPetItem = ({ setShowModal, setCopied, copied, showModal, photoUrl, name, uid }) => {
+    const petCode = uid;
     const navigate = useNavigate();
 
     const handleModal = () => {
