@@ -139,6 +139,10 @@
   width: 20%;
 }
 
+.neutered_title {
+  width: 20%;
+}
+
 .editable_content {
   display: flex;
   flex-direction: column;

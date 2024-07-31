@@ -38,7 +38,7 @@ const Home = () => {
   const animalTypeMap = {
     1: "강아지",
     2: "고양이",
-    3: "특수동물"
+    3: "특수동물",
   };
 
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
@@ -99,9 +99,6 @@ const Home = () => {
       setAnimalType(animalTypeValue);
     }
   }, [reduxPet]);
-
-
-
 
   const goCommunity = () => {
     const animalTypeMap = {
@@ -241,7 +238,7 @@ const Home = () => {
         birth: tempPets[i].birth,
         health: tempPets[i].health,
         allergy: tempPets[i].allergy,
-        gender : tempPets[i].gender,
+        gender: tempPets[i].gender,
         kind: tempPets[i].kind,
         profileSrc: tempPets[i].profileSrc,
         name: tempPets[i].name,
@@ -264,9 +261,7 @@ const Home = () => {
 
   dispatch(updateSelectedPet(selectedPet));
 
-
   return (
-    
     <div className={styles.homeWrap}>
       <TopBar isHome={true} />
 
@@ -289,35 +284,36 @@ const Home = () => {
         className={`${styles.flipCard} ${isFlipped ? styles.flipped : ""}`}
         // onClick={handleClick}
       >
-      {
-      (Animal != null) ?
-        <div className={styles.flipCardInner}>
-          {/* 카드 앞면 */}
-          <div className={styles.flipCardFront}>
-            <div className={styles.frontInfoWrap}>
-              <div className={styles.photo}>
-                <img src={Animal.profileSrc} alt="프로필" />
-              </div>
-              <div className={styles.infoWrap}>
-                <div className={styles.info}>
-                  <div className={styles.name}>{Animal.name}</div>
-                  <div className={styles.age}>나이: {Animal.birth}</div>
-                  <div className={styles.gender}>성별: {Animal.gender}</div>
-                  <div className={styles.breed}>종: {Animal.kind}</div>
+        {Animal != null ? (
+          <div className={styles.flipCardInner}>
+            {/* 카드 앞면 */}
+            <div className={styles.flipCardFront}>
+              <div className={styles.frontInfoWrap}>
+                <div className={styles.photo}>
+                  <img src={Animal.profileSrc} alt="프로필" />
+                </div>
+                <div className={styles.infoWrap}>
+                  <div className={styles.info}>
+                    <div className={styles.name}>{Animal.name}</div>
+                    <div className={styles.age}>나이: {Animal.birth}</div>
+                    <div className={styles.gender}>성별: {Animal.gender}</div>
+                    <div className={styles.breed}>종: {Animal.kind}</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          {/* 카드 뒷면 */}
-          <div className={styles.flipCardBack}> 
-            <div className={styles.info}>
-              <h2>추가 정보</h2>
-              <p>몸무게: {Animal.weight}</p>
-              <p>건강 사항: {Animal.health}</p>
+            {/* 카드 뒷면 */}
+            <div className={styles.flipCardBack}>
+              <div className={styles.info}>
+                <h2>추가 정보</h2>
+                <p>몸무게: {Animal.weight}</p>
+                <p>건강 사항: {Animal.health}</p>
+              </div>
             </div>
           </div>
-        </div> : <div></div>
-        }
+        ) : (
+          <div></div>
+        )}
       </div>
       <div className={styles.homeMenuArea}>
         <div className={styles.communityMenu}>

@@ -9,7 +9,7 @@ import MyPageCommonTopBar from "../../component/MyPageComp/MyPageCommonTopBar";
 import styles from "../../css/mypage_editpetprofile.module.css";
 import { TbPhoto, TbTriangleInvertedFilled } from "react-icons/tb";
 
-const petData = {
+const petData1 = {
   type: "1",
   photo:
     "https://i.pinimg.com/236x/b8/50/10/b850101663c7da6734b03f83fc8c57f9.jpg",
@@ -23,7 +23,7 @@ const petData = {
   health: "비만 꿈나무",
 };
 
-const petData1 = {
+const petData = {
   type: "3",
   photo:
     "https://i.pinimg.com/236x/5a/44/b1/5a44b1276b31fb751ddbcf9652447a7b.jpg",
@@ -221,6 +221,7 @@ const EditPetProfile = () => {
       <div className={styles.checkbox_wrapper}>
         {options.map((option) => (
           <label key={option} className={styles.checkbox_label}>
+            {option == "중성화" ? "했어요" : "안했어요"}
             <input
               type="radio"
               value={option}
@@ -228,7 +229,6 @@ const EditPetProfile = () => {
               onChange={() => setNeutered(option)}
               className={styles.checkbox}
             />
-            {option == "중성화" ? "했어요" : "안했어요"}
           </label>
         ))}
       </div>
@@ -251,7 +251,15 @@ const EditPetProfile = () => {
   const CanEdit = ({ title }) => {
     return (
       <div className={styles.editable_wrapper}>
-        <div className={styles.editable_title}>{title}</div>
+        <div
+          className={`${
+            title == "중성화 여부"
+              ? styles.neutered_title
+              : styles.editable_title
+          }`}
+        >
+          {title}
+        </div>
         <div className={styles.editable_content}>
           {title == "성별" ? (
             <GenderCheckbox gender={gender} setGender={setGender} />
