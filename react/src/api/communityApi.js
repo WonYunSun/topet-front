@@ -1,224 +1,112 @@
-import axios from "axios";
-import { handleResponse, handleError } from './ResponseProcess';
+import createAxios from "./baseAxios";
+import { handleResponse, handleError } from "./ResponseProcess";
 
-const API_BASE_URL = 
-// "http://175.45.202.131:8081/api";
-"http://localhost:8081/api";
+const MID_URL = "/community";
 
 class CommunityApi {
-    constructor(baseURL) {
-        this.baseURL = baseURL;
-    }
+  constructor() {
+    this.axios = createAxios(MID_URL);
+  }
 
-    async postCommunity(selectedPhotos, formData) { // 게시물 작성
-        selectedPhotos.slice(0, 5).forEach((photo, index) => {
-            formData.append("photos", photo);
-        });
+  async postCommunity(selectedPhotos, formData) {
+    // 게시물 작성
+    selectedPhotos.slice(0, 5).forEach((photo, index) => {
+      formData.append("photos", photo);
+    });
 
-        try {
-            const response = await axios.post(`${this.baseURL}/community/post`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-                withCredentials: true,
-            });
-            console.log(response);
-            return handleResponse(response);
-        } catch (error) {
-            console.log(error);
-            handleError(error);
-        }
-    }
-
-    async editCommunity(selectedPhotos, formData, comid) { // 게시물 수정
-        selectedPhotos.slice(0, 5).forEach((photo, index) => {
-            formData.append("photos", photo);
-        });
-
-        try {
-            const response = await axios.post(`${this.baseURL}/community/update/${comid}`, formData, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                withCredentials: true, // 세션 쿠키를 포함하도록 설정
-            });
-            return handleResponse(response);
-        } catch (error) {
-            handleError(error);
-        }
-    }
-
-    async deleteCommunity(comid) { // 게시물 삭제
-        try {
-            const response = await axios.post(`${this.baseURL}/community/delete/${comid}`, {}, {
-                withCredentials: true,
-            });
-            return handleResponse(response);    
-        } catch (error) {
-            handleError(error);
-        }
-    }
-
-    async fetchCommunityPosts (type, category, page, size) { // 게시물 리스트 최신순 불러오기(+무한스크롤)
     try {
-        const response = await axios.get(`${this.baseURL}/community/${type}/${category}?page=${size}&size=${page}` , {
-            withCredentials: true,
-        });
-        return response.data;
+      const response = await this.axios.post(`/post`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response);
+      return handleResponse(response);
     } catch (error) {
-        console.error("서버 오류:", error);
-        throw error;
+      console.log(error);
+      handleError(error);
     }
-    };
+  }
 
-    async fetchSortLikeCommunityPosts (type, category, page, size) { // 게시물 리스트 좋아요순 불러오기(+무한스크롤)
-        try {
-            const response = await axios.get(`${this.baseURL}/community/${type}/${category}/sortLike?page=${size}&size=${page}` , {
-                withCredentials: true,
-            });
-            return response.data;
-        } catch (error) {
-            console.error("서버 오류:", error);
-            throw error;
-        }
-        };
+  async editCommunity(selectedPhotos, formData, comid) {
+    // 게시물 수정
+    selectedPhotos.slice(0, 5).forEach((photo, index) => {
+      formData.append("photos", photo);
+    });
 
-    async fetchCommunityDetail(comid) { // 게시물 디테일 불러오기
-        try {
-            const response = await axios.get(`${this.baseURL}/community/detail/${comid}`, {
-                withCredentials: true,
-            });
-            return handleResponse(response);
-        } catch (error) {
-            handleError(error);
-        }
+    try {
+      const response = await this.axios.post(`/update/${comid}`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return handleResponse(response);
+    } catch (error) {
+      handleError(error);
     }
+  }
 
-    async postComment(comid, formData) { // 댓글 보내기
-        try {
-            const response = await axios.post(`${this.baseURL}/comment/post/${comid}`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-                withCredentials: true,
-            });
-            return handleResponse(response);
-        } catch (error) {
-            handleError(error);
-        }
+  async deleteCommunity(comid) {
+    // 게시물 삭제
+    try {
+      const response = await this.axios.post(`/delete/${comid}`, {});
+      return handleResponse(response);
+    } catch (error) {
+      handleError(error);
     }
+  }
 
-    async updateComment(formData) { // 댓글 수정
-        try {
-            const response = await axios.post(`${this.baseURL}/comment/update`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-                withCredentials: true,
-            });
-            return handleResponse(response);
-        } catch (error) {
-            handleError(error);
-        }
+  async fetchCommunityPosts(type, category, page, size) {
+    // 게시물 리스트 최신순 불러오기(+무한스크롤)
+    try {
+      const response = await this.axios.get(
+        `/${type}/${category}?page=${size}&size=${page}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("서버 오류:", error);
+      throw error;
     }
+  }
 
-    async deleteComment(commentid) { // 댓글 삭제
-        try {
-            const response = await axios.post(`${this.baseURL}/comment/delete/${commentid}`, {}, {
-                withCredentials: true,
-            });
-            return handleResponse(response);
-        } catch (error) {
-            handleError(error);
-        }
+  async fetchSortLikeCommunityPosts(type, category, page, size) {
+    // 게시물 리스트 좋아요순 불러오기(+무한스크롤)
+    try {
+      const response = await this.axios.get(
+        `/${type}/${category}/sortLike?page=${size}&size=${page}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("서버 오류:", error);
+      throw error;
     }
+  }
 
-    async fetchComment(comid) { // 댓글 불러오기(답글 같이 불러와짐)
-        try {
-            const response = await axios.get(`${this.baseURL}/comment/get/${comid} `, {
-                withCredentials: true,
-            });
-            return handleResponse(response);
-        } catch (error) {
-            handleError(error);
-        }
+  async fetchCommunityDetail(comid) {
+    // 게시물 디테일 불러오기
+    try {
+      const response = await this.axios.get(`/detail/${comid}`, {
+        withCredentials: true,
+      });
+      return handleResponse(response);
+    } catch (error) {
+      handleError(error);
     }
+  }
 
-    async postReplyComment(comid, formData) { // 답글 작성
-        try {
-            const response = await axios.post(`${this.baseURL}/comment/post/${comid}`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-                withCredentials: true,
-            });
-            return handleResponse(response);
-        } catch (error) {
-            handleError(error);
-        }
+  async getMyCommunity(id) {
+    try {
+      const response = await this.axios.get(`/myCommunity/${id}`);
+      console.log("api Response : ", response);
+      return handleResponse(response);
+    } catch (error) {
+      console.log("api Response : ", error);
+      handleError(error);
     }
+  }
 
-    async updateReply(formData) { // 답글 수정
-        try {
-            const response = await axios.post(`${this.baseURL}/comment/update`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-                withCredentials: true,
-            });
-            return handleResponse(response);
-        } catch (error) {
-            handleError(error);
-        }
-    }
-
-    async deleteReply(replyId) { // 답글 삭제
-        try {
-            const response = await axios.post(`${this.baseURL}/comment/delete/${replyId}`, {}, {
-                withCredentials: true,
-            });
-            return handleResponse(response);
-        } catch (error) {
-            handleError(error);
-        }
-    }
-
-    async fetchLikedByCurrentUser(comid) { // 게시물 디테일 좋아요 여부 불러오기
-        try {
-            const response = await axios.get(`${this.baseURL}/like/detail/${comid}`, {
-                withCredentials: true,
-            });
-            return handleResponse(response);
-        } catch (error) {
-            handleError(error);
-        }
-    }
-
-    async postLike(comid) {
-        try {
-            const response = await axios.post(`${this.baseURL}/like/${comid}`, {}, {
-                withCredentials: true,
-            });
-            return handleResponse(response);
-        } catch (error) {
-            handleError(error);
-        }
-    }
-
-    async getMyCommunity(id){
-        try {
-            const response = await axios.get(`${this.baseURL}/community/myCommunity/${id}`,{}, {
-                withCredentials: true,
-            });
-            console.log("api Response : ", response)
-            return handleResponse( response);
-        } catch (error) {
-            console.log("api Response : ", error)
-            handleError(error);
-        }
-    }
-
-
+  // commentAPI 분리
+  // commmunityPost Like API 분리
 }
 
-export default new CommunityApi(API_BASE_URL);
+export default new CommunityApi();
