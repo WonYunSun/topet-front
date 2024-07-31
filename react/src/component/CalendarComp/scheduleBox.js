@@ -1,10 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import dayjs from "dayjs";
 import { GoCircle } from "react-icons/go";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import styles from "../../css/schedule_box.module.css";
+import scheduleApi from "../../api/scheduleApi";
 
-const ScheduleBox = ({ item, onScheduleClick, handleCheckBoxClick }) => {
+const ScheduleBox = ({ item, onScheduleClick , updatedSchedules, setUpdatedSchedules}) => {
+
+  const handleCheckBoxClick = async (item) => {
+
+    console.log("완료 toggle" , item.id);
+    console.log("scheduleId : " , item.isComplete )
+    try {
+      await scheduleApi.updateScheduleStatus(item);
+      item.isComplete = !item.isComplete
+      setUpdatedSchedules((prevSchedules) =>
+        prevSchedules.map((schedule) =>
+          schedule.scheduleId === item.id
+            ? { ...schedule, isComplete: !schedule.isComplete }
+            : schedule
+        )
+      );
+    } catch (error) {
+      console.error("Failed to update schedule status:", error);
+    }
+  };
+
+  useEffect(()=>{},[item.isComplete])
+
   return (
     <div
       className={styles.ScheduleBox}

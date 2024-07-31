@@ -231,6 +231,7 @@ const Home = () => {
     let tempPets = returnedMember.pets;
     const myPets = [];
 
+    
     for (let i = 0; i < tempPets.length; i++) {
       let tempPet = {
         id: tempPets[i].id,
@@ -252,8 +253,10 @@ const Home = () => {
     dispatch(updatePetList(myPets));
     //    setPets(returnedMember.pets);
 
-    const response  = await homeApi.getHomeDataSchedule(reduxPet.id);
-    setSchedule(response);
+    if(reduxPet != null){
+      const response  = await homeApi.getHomeDataSchedule(reduxPet.id);
+      setSchedule(response);
+    }
     
 
     // const pet = await homeApi.getHomeDataPet();
@@ -265,13 +268,16 @@ const Home = () => {
     <div className={styles.homeWrap}>
       <TopBar isHome={true} />
 
+      {(reduxPet == null)? 
+      <div></div> : 
       <AnimalSelect
         onClick={handleOpenPetBottomSheet}
         selectedPet={selectedPet}
         setSelectedPet={setSelectedPet}
         isHome={true}
         pets={pets}
-      />
+      />}
+      
       <BottomSheet
         show={showBottomSheet}
         onClose={handleCloseBottomSheet}
@@ -280,11 +286,12 @@ const Home = () => {
         setSelectedPet={setSelectedPet}
       />
 
-      <div
-        className={`${styles.flipCard} ${isFlipped ? styles.flipped : ""}`}
-        // onClick={handleClick}
-      >
-        {Animal != null ? (
+      
+        {reduxPet != null ? (
+          <div
+          className={`${styles.flipCard} ${isFlipped ? styles.flipped : ""}`}
+          // onClick={handleClick}
+        >
           <div className={styles.flipCardInner}>
             {/* 카드 앞면 */}
             <div className={styles.flipCardFront}>
@@ -311,10 +318,10 @@ const Home = () => {
               </div>
             </div>
           </div>
-        ) : (
-          <div></div>
-        )}
       </div>
+        ) : (
+          <div style={{height:"100px"}}>반려동물등록하러가기</div>
+        )}
       <div className={styles.homeMenuArea}>
         <div className={styles.communityMenu}>
           <div className={styles.Navdiv} onClick={goCommunity}>
