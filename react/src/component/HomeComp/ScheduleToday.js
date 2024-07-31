@@ -79,7 +79,7 @@ function ScheduleToday({ schedules }) {
         <Slider {...settings}>
           {schedules.map((item) => (
             <div key={item.scheduleId}>
-              <ScheduleBox item={item} />
+              <ScheduleBox item={item} handleCheckBoxClick={handleCheckBoxClick} setUpdatedSchedules={setUpdatedSchedules}/>
             </div>
           ))}
         </Slider>
