@@ -8,7 +8,8 @@ import AnimalGender from "../component/AnimalSelectComp/AnimalGender";
 import AnimalBirth from "../component/AnimalSelectComp/AnimalBirth";
 import AnimalPhotoandName from "../component/AnimalSelectComp/AnimalPhotoandName";
 import AnimalWeightandHealth from "../component/AnimalSelectComp/AnimalWeightandHealth";
-import petRegistApi from "../api/petRegistApi";
+
+import petApi from "../api/petApi";
 
 const PetRegistration = () => {
   const defaultImage =
@@ -210,7 +211,7 @@ const PetRegistration = () => {
     console.log(formData.get("birth"));
     console.log(formData.get("weight"));
     console.log(formData.get("health"));
-    petRegistApi.postPetData(formData);
+    petApi.postPetData(formData);
   };
 
   function nextPossibleFunction(stepNum) {

@@ -20,6 +20,7 @@ const MyPetList = ({ petProfileData }) => {
             {petProfileData.map((pet) => (
                 <MyPetItem 
                     key={pet.id}
+                    pet={pet}
                     photoUrl={pet.profileSrc}
                     uid={pet.uid}
                     name={pet.name}

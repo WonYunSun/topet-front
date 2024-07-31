@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../../css/mypage_managemypets.module.css';
 import { MdEdit, MdShare } from "react-icons/md";
 
-const MyPetItem = ({ onOpenModal, photoUrl, name, uid }) => {
+const MyPetItem = ({ onOpenModal, photoUrl, name, uid, pet }) => {
     const navigate = useNavigate();
 
-    const goPetDetail = () => {
-        navigate(`/petprofiledetail`);
+    const goPetDetail = (pet) => {
+        navigate(`/petprofiledetail/${pet.id}`);
+        console.log(pet.id);
     }
 
     return (
@@ -19,7 +20,8 @@ const MyPetItem = ({ onOpenModal, photoUrl, name, uid }) => {
                 <div className={styles.name}>{name}</div>
                 <span className={styles.profile_span}></span>
                 <MdShare className={styles.profile_icon} onClick={onOpenModal} />
-                <MdEdit className={styles.profile_icon} onClick={goPetDetail} />
+                <div style={{width:"20px"}}></div>
+                <MdEdit className={styles.profile_icon} onClick={()=>{goPetDetail(pet)}} />
             </div>
         </div>
     );

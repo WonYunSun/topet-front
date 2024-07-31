@@ -52,7 +52,7 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/editprofile" element={<EditProfile />} />
         <Route path="/managemypets" element={<ManageMyPets />} />
-        <Route path="/petprofiledetail" element={<PetProfileDetail />} />
+        <Route path="/petprofiledetail/:id" element={<PetProfileDetail />} />
         <Route path="/editpetprofile" element={<EditPetProfile />} />
         <Route path="/myposts" element={<SeeMyPosts />} />
         <Route path="/mycomments" element={<SeeMyComments />} />
