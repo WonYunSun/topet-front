@@ -196,3 +196,6 @@
   font-weight: 300;
   color: #b3b3b3;
 }
+input:disabled {
+  background-color: transparent;
+}
