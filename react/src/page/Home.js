@@ -32,7 +32,7 @@ const Home = () => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(reduxPet);
-
+  const [member, setMember] = useState();
   const [pets, setPets] = useState([]);
 
   const animalTypeMap = {
@@ -225,14 +225,19 @@ const Home = () => {
   const getHome = async () => {
     const returnedMember = await homeApi.getHomeDataMember();
     // member을 redux에넣어야함
+
     const sessionMember = {
       id: returnedMember.id,
       email: returnedMember.email,
       name: returnedMember.name,
       socialId: returnedMember.socialId,
     };
-    console.log("returnedMember.petsreturnedMember.pets", returnedMember.pets);
+    setMember(sessionMember);
+
+    console.log("returnedMember.pets returnedMember.pets", returnedMember.pets);
+
     let tempPets = returnedMember.pets;
+
     const myPets = [];
 
     for (let i = 0; i < tempPets.length; i++) {
@@ -266,11 +271,13 @@ const Home = () => {
 
   dispatch(updateSelectedPet(selectedPet));
 
+  console.log("home출력 reduxMember : ", reduxMember);
+  console.log("home출력 Pets : ", pets);
   return (
     <div className={styles.homeWrap}>
       <TopBar isHome={true} />
 
-      {reduxPet == null ? (
+      {pets == null ? (
         <div></div>
       ) : (
         <AnimalSelect
