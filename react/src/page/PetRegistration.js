@@ -200,8 +200,8 @@ const PetRegistration = () => {
     formData.append("neutered", selectedNeutered)
     formData.append("birth", selectedBirth);
     formData.append("weight", weight);
-    formData.append("allergy", allergy);
-    formData.append("health", health);
+    formData.append("allergy", allergy ?? null); // undefined이면 null로 설정
+    formData.append("health", health ?? null); // undefined이면 null로 설정
     if (selectedPhoto != null) {
       formData.append("photo", selectedPhoto);
     }
@@ -213,15 +213,14 @@ const PetRegistration = () => {
     console.log(formData.get("weight"));
     console.log(formData.get("health"));
     const resp = await petApi.postPetData(formData);
-    
-    if(resp.status == 200){
+
+    if (resp.status == 200) {
       alert("펫 등록에 성공했습니다.");
       //여기에 모달 띄우든 뭐든 해
       goHome();
-    }else{
+    } else {
       alert("펫 등록에 실패했습니다.");
     }
-    
   };
 
   function nextPossibleFunction(stepNum) {
@@ -255,7 +254,6 @@ const PetRegistration = () => {
   }
   const handleRegistFin = () => {
     submitForm();
-
   };
 
   const NextPossibleComp = () => {

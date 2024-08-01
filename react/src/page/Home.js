@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import TopBar from "../component/TopBar";
@@ -232,6 +233,18 @@ const Home = () => {
 
     // const pet = await homeApi.getHomeDataPet();
   };
+  const calculateAge = (birthDate) => {
+    const today = dayjs();
+    const birth = dayjs(birthDate);
+    const years = today.diff(birth, "year");
+    const months = today.diff(birth.add(years, "year"), "month");
+
+    if (years > 0) {
+      return `${years}년 ${months}개월`;
+    } else {
+      return `${months}개월`;
+    }
+  };
 
   dispatch(updateSelectedPet(selectedPet));
 
@@ -263,10 +276,7 @@ const Home = () => {
         setSelectedPet={setSelectedPet}
       />
 
-      <div
-        className={styles.flipCard}
-        // onClick={handleClick}
-      >
+      <div className={styles.flipCard}>
         <div className={styles.flipCardInner}>
           {/* 카드 앞면 */}
           <div className={styles.flipCardFront}>
@@ -278,20 +288,54 @@ const Home = () => {
                       <div className={styles.photo}>
                         <img src={Animal.profileSrc} alt="프로필" />
                       </div>
-                      <div>
-                        <div className={styles.name}>{Animal.name}</div>
-                        <div className={styles.age}>나이: {Animal.birth}</div>
-                        <div className={styles.gender}>
-                          성별: {Animal.gender}
+                      <div className={styles.animalinfoWrap}>
+                        <div className={styles.name}>
+                          <span className={styles.boldText}>{Animal.name}</span>
                         </div>
-                        <div className={styles.breed}>종: {Animal.kind}</div>
-                        <div>몸무게: {Animal.weight}</div>
+
+                        <div className={styles.age}>
+                          생일:{" "}
+                          <span className={styles.boldText}>
+                            {Animal.birth}
+                            {Animal.birth && (
+                              <span>({calculateAge(Animal.birth)})</span>
+                            )}
+                          </span>
+                        </div>
+                        <div className={styles.gen_kind}>
+                          <div className={styles.breed}>
+                            종:{" "}
+                            <span className={styles.boldText}>
+                              {Animal.kind}
+                            </span>
+                          </div>
+                          <div className={styles.gender}>
+                            성별:{" "}
+                            <span className={styles.boldText}>
+                              {Animal.gender}
+                            </span>
+                          </div>
+                        </div>
+                        <div>
+                          몸무게:{" "}
+                          <span className={styles.boldText}>
+                            {Animal.weight}
+                          </span>
+                        </div>
                       </div>
                     </div>
                     <div className={styles.divider}></div>
                     <div className={styles.infoBtm}>
-                      <div>건강 사항: {Animal.allergy}</div>
-                      <div>알러지: {Animal.health}</div>
+                      <div>
+                        건강사항:{" "}
+                        <span className={styles.boldText}>
+                          {Animal.allergy}
+                        </span>
+                      </div>
+                      <div>
+                        알러지:{" "}
+                        <span className={styles.boldText}>{Animal.health}</span>
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -312,14 +356,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-
-          {/* <div className={styles.flipCardBack}>
-              <div className={styles.info}>
-                <h2>추가 정보</h2>
-                <p>몸무게: {Animal.weight}</p>
-                <p>건강 사항: {Animal.health}</p>
-              </div>
-            </div> */}
         </div>
       </div>
 
