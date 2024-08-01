@@ -56,9 +56,9 @@ class CommentApi {
     }
   }
 
-  async fetchMyComment(){
+  async fetchMyComment(page, size){
     try {
-      const response = await this.axios.get('/myComment');
+      const response = await this.axios.get(`/myComment?page=${page}&size=${size}`);
       return handleResponse(response);
     } catch (error) {
       handleError(error);
