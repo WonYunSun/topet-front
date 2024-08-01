@@ -191,7 +191,7 @@ const PetRegistration = () => {
     consoleLog();
   };
 
-  const submitForm = () => {
+  const submitForm = async () => {
     const formData = new FormData();
     formData.append("type", selectedType);
     formData.append("kind", selectedKind);
@@ -211,7 +211,16 @@ const PetRegistration = () => {
     console.log(formData.get("birth"));
     console.log(formData.get("weight"));
     console.log(formData.get("health"));
-    petApi.postPetData(formData);
+    const resp = await petApi.postPetData(formData);
+    
+    if(resp.status == 200){
+      alert("펫 등록에 성공했습니다.");
+      //여기에 모달 띄우든 뭐든 해
+      goHome();
+    }else{
+      alert("펫 등록에 실패했습니다.");
+    }
+    
   };
 
   function nextPossibleFunction(stepNum) {
@@ -245,7 +254,7 @@ const PetRegistration = () => {
   }
   const handleRegistFin = () => {
     submitForm();
-    goHome();
+
   };
 
   const NextPossibleComp = () => {
