@@ -1,4 +1,4 @@
-import createAxios from "./baseAxios";
+import createAxios from "./createAxios";
 import { handleResponse, handleError } from "./ResponseProcess";
 
 const MID_URL = "/community";

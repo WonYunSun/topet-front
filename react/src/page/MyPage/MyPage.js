@@ -6,6 +6,7 @@ import styles from "../../css/mypage.module.css";
 import { useNavigate } from "react-router-dom";
 import { TbLogout } from "react-icons/tb";
 import homeApi from "../../api/homeApi"; 
+import { useSelector } from "react-redux";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -57,17 +58,28 @@ const MyPage = () => {
   };
 
   const Profile = () => {
+
+    const reduxMember = useSelector((state) => state.member.member);
+
+
     return (
       <div className={styles.profile_continer_wrapper}>
         <div className={styles.profile_container}>
           <div className={styles.profile_photoandname_container}>
             <div className={styles.profile_photo_container}>
+            {reduxMember.src ?(
               <img
+                className={styles.profile_photo}
+                src={reduxMember.src}
+              />
+            ):(
+                <img
                 className={styles.profile_photo}
                 src="https://i.pinimg.com/564x/87/09/e7/8709e78fb7d788bb86bbc63be55f3184.jpg"
               />
+            )}
             </div>
-            <div className={styles.username}>사용자이름</div>
+            <div className={styles.username}>{reduxMember.name}</div>
           </div>
           <MdEdit className={styles.edit_icon} onClick={goEditProfile} />
         </div>
