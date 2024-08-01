@@ -5,6 +5,7 @@ import MyPetList from "../../component/MyPageComp/MyPetList";
 import BottomSheet from "../../component/BottomSheet";
 import PetCodeModal from "../../component/MyPageComp/PetCodeModal";
 import { useSelector, useDispatch } from "react-redux";
+import petApi from "../../api/petApi";
 
 const ManageMyPets = () => {
 
@@ -37,6 +38,10 @@ const ManageMyPets = () => {
     // 반려동물 코드로 등록
     const onRegister = () => {
         console.log('반려동물 코드로 등록 : ', petCode);
+
+        petApi.postAddPet(petCode);
+
+
         setShowModal(false);
     }
 

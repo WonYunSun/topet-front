@@ -16,19 +16,19 @@ class petRegistApi {
     this.axios = createAxios(MID_URL);
   }
 
-      async getMyPet(id){
-          return await
-          this.axios.get(`/getMyPet/${id}`, {
-              headers: {},  
-              withCredentials: true,
-          }).then((response) => {
-              console.log("서버 응답:", response.data);
-              return response.data;
-          }).catch((error) => {
-              console.error("서버 오류:", error);
-              throw error;
-          });
-        }
+  async getMyPet(id){
+      return await
+      this.axios.get(`/getMyPet/${id}`, {
+          headers: {},  
+          withCredentials: true,
+      }).then((response) => {
+          console.log("서버 응답:", response.data);
+          return response.data;
+      }).catch((error) => {
+          console.error("서버 오류:", error);
+          throw error;
+      });
+    }
 
 
   
@@ -41,7 +41,24 @@ class petRegistApi {
       })
       .then((response) => {
         console.log("서버 응답:", response.data);
-        return response.data;
+        return response;
+      })
+      .catch((error) => {
+        console.error("서버 오류:", error);
+        throw error;
+      });
+  }
+
+  async postAddPet(petCode) {
+    return await this.axios
+      .post("/postAddPet", petCode, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log("서버 응답:", response.data);
+        return response;
       })
       .catch((error) => {
         console.error("서버 오류:", error);
