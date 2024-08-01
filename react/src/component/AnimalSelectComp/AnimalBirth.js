@@ -24,9 +24,8 @@ const AnimalBirth = ({
   });
   const [openDropdownType, setOpenDropdownType] = useState(null);
 
-  if (birthDontKnow) {
-    setNextPossible(true);
-  }
+  console.log("birthdontknow: ", birthDontKnow);
+  console.log("selectedBirth: ", selectedBirth);
 
   const toggleDropdown = (type) => {
     if (!birthDontKnow) {
@@ -48,14 +47,19 @@ const AnimalBirth = ({
     setOpenDropdownType(null);
   };
 
-  useEffect(() => {
-    if (birthDontKnow) {
-      setNextPossible(true);
-    }
-    if (selectedBirth == "" || selectedBirth == undefined) {
-      setNextPossible(false);
-    }
-  }, [birthDontKnow, setNextPossible, selectedBirth]);
+  // useEffect(() => {
+  //   // if (birthDontKnow) {
+  //   //   setNextPossible(true);
+  //   // }
+  //   if (
+  //     (selectedBirth == "" || selectedBirth == undefined) &&
+  //     birthDontKnow == false
+  //   ) {
+  //     setNextPossible(false);
+  //   } else {
+  //     setNextPossible(true);
+  //   }
+  // }, [birthDontKnow, setNextPossible, selectedBirth]);
 
   useEffect(() => {
     if (year && month && day) {
@@ -87,19 +91,19 @@ const AnimalBirth = ({
   let currentMonth = today.month() + 1;
   const currentDay = today.date();
 
-  useEffect(() => {
-    if (birthDontKnow) {
-      setNextPossible(true);
-      setYear("");
-      setMonth("");
-      setDay("");
-      setSelectedBirth("생일모름");
-    } else if (year && month && day) {
-      setNextPossible(true);
-    } else {
-      setNextPossible(false);
-    }
-  }, [birthDontKnow, year, month, day, setNextPossible]);
+  // useEffect(() => {
+  //   // if (birthDontKnow == true) {
+  //   //   setNextPossible(true);
+  //   //   setYear("");
+  //   //   setMonth("");
+  //   //   setDay("");
+  //   //   setSelectedBirth("생일모름");
+  //   // } else if (year && month && day) {
+  //   //   setNextPossible(true);
+  //   // } else {
+  //   //   setNextPossible(false);
+  //   // }
+  // }, [birthDontKnow, year, month, day, setNextPossible]);
 
   const handleYearChange = (newYear) => {
     setYear(newYear);
@@ -176,7 +180,6 @@ const AnimalBirth = ({
         currentDay.toString();
 
       if (tempBirth <= thisDay) {
-        setNextPossible(true);
         setSelectedBirth(tempBirth);
       }
     }
@@ -208,8 +211,6 @@ const AnimalBirth = ({
 
   const dontKnowToggle = () => {
     setBirthDontKnow((prev) => !prev);
-    setNextPossible(birthDontKnow);
-
     if (!birthDontKnow) {
       setYear("");
       setMonth("");
@@ -219,12 +220,34 @@ const AnimalBirth = ({
   };
 
   useEffect(() => {
-    if (birthDontKnow || (year && month && day)) {
+    // birthDontKnow가 true인 경우 nextPossible을 true로 설정
+    if (birthDontKnow) {
       setNextPossible(true);
-    } else {
+    } else if (!year || !month || !day) {
       setNextPossible(false);
+    } else {
+      setNextPossible(true);
     }
   }, [birthDontKnow, year, month, day, setNextPossible]);
+
+  // useEffect(() => {
+  //   if (!birthDontKnow && (!year || !month || !day)) {
+  //     setNextPossible(false);
+  //   } else {
+  //     setNextPossible(true);
+  //   }
+  // }, [birthDontKnow, year, month, day, setNextPossible]);
+
+  // useEffect(() => {
+  //   if (
+  //     birthDontKnow == false &&
+  //     (selectedBirth == "" || selectedBirth == undefined)
+  //   ) {
+  //     setNextPossible(false);
+  //   } else {
+  //     setNextPossible(true);
+  //   }
+  // }, [birthDontKnow, selectedBirth, setNextPossible]);
 
   return (
     <div className={styles.wrapper}>
