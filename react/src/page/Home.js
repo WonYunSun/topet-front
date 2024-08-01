@@ -34,6 +34,7 @@ const Home = () => {
   const [selectedPet, setSelectedPet] = useState(reduxPet);
   const [member, setMember] = useState();
   const [pets, setPets] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const animalTypeMap = {
     1: "강아지",
@@ -45,7 +46,13 @@ const Home = () => {
   const [schedules, setSchedule] = useState([]);
 
   useEffect(() => {
-    getHome();
+    try{
+      getHome();
+    }catch(error){
+      console.log(error);
+    }finally{
+      setIsLoaded(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -181,22 +188,21 @@ const Home = () => {
   const getHome = async () => {
     const returnedMember = await homeApi.getHomeDataMember();
     // member을 redux에넣어야함
-
-    const sessionMember = {
-      id: returnedMember.id,
-      email: returnedMember.email,
-      name: returnedMember.name,
-      socialId: returnedMember.socialId,
-    };
+    
+        const sessionMember = {
+          id: returnedMember.id,
+          email: returnedMember.email,
+          name: returnedMember.name,
+          socialId: returnedMember.socialId,
+        };
+        
     setMember(sessionMember);
-
-    console.log("returnedMember.pets returnedMember.pets", returnedMember.pets);
-
-    let tempPets = returnedMember.pets;
+    const tempPets = returnedMember.pets;
 
     const myPets = [];
-
+    
     for (let i = 0; i < tempPets.length; i++) {
+      if(tempPets[i] != null){
       let tempPet = {
         id: tempPets[i].id,
         type: tempPets[i].type,
@@ -212,6 +218,8 @@ const Home = () => {
       };
       myPets.push(tempPet);
     }
+    }
+  
     setPets(myPets);
     dispatch(updateMember(sessionMember));
     dispatch(updatePetList(myPets));
@@ -228,7 +236,9 @@ const Home = () => {
   dispatch(updateSelectedPet(selectedPet));
 
   console.log("home출력 reduxMember : ", reduxMember);
-  console.log("home출력 Pets : ", pets);
+  if(!isLoaded){
+    return <div>Loading...</div>
+  }
   return (
     <div className={styles.homeWrap}>
       <TopBar isHome={true} />
