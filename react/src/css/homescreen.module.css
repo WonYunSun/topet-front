@@ -1,4 +1,5 @@
 .homeWrap {
+  overflow: hidden;
 }
 /* .homeWrap::after {
   content: "";
@@ -154,6 +155,7 @@
 .flipCard {
   background-color: transparent;
   width: 85%;
+  box-sizing: border-box;
   margin: 1em auto;
   height: 0; /* 높이를 0으로 설정하고 패딩을 사용 */
   padding-top: calc(85% / 1.58); /* 1.58:1 비율로 패딩 설정 */
