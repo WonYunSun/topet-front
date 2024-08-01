@@ -5,8 +5,8 @@
 }
 
 .title {
-  font-size: 25px;
-  font-weight: bold;
+  font-size: 24px;
+  font-weight: 600;
   margin-top: 62px;
   margin-bottom: 42px;
 }
@@ -63,7 +63,7 @@
   align-items: center;
   text-align: center;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .profilename_bar::placeholder {
@@ -89,7 +89,8 @@
   flex-direction: row;
   justify-content: end;
   width: 100%;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 300;
   margin-top: 10px;
   margin-right: 100px;
   color: #adadad;

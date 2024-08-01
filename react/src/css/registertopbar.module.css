@@ -1,24 +1,24 @@
 .registertopBar {
-    display: flex;
-    /* flex-direction: column; */
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    padding: 30px 20px 23px 20px;
-    color: black;
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 30px 20px 23px 20px;
+  color: black;
 }
 
-.sequence{
-    font-size: 15px;
-    font-weight: 700;
+.sequence {
+  font-size: 15px;
+  font-weight: 500;
 }
 
-.registertopBar::after{
-    content: "";
+.registertopBar::after {
+  content: "";
 }
 
 .icon {
-    font-size: 24px;
-    cursor: pointer;
-    color: black;
+  font-size: 24px;
+  cursor: pointer;
+  color: black;
 }
