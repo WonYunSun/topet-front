@@ -8,7 +8,8 @@ import AnimalGender from "../component/AnimalSelectComp/AnimalGender";
 import AnimalBirth from "../component/AnimalSelectComp/AnimalBirth";
 import AnimalPhotoandName from "../component/AnimalSelectComp/AnimalPhotoandName";
 import AnimalWeightandHealth from "../component/AnimalSelectComp/AnimalWeightandHealth";
-import petRegistApi from "../api/petRegistApi";
+
+import petApi from "../api/petApi";
 
 const PetRegistration = () => {
   const defaultImage =
@@ -29,7 +30,7 @@ const PetRegistration = () => {
   const [year, setYear] = useState(""); //생일
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
-  const [selectedBirth, setSelectedBirth] = useState();
+  const [selectedBirth, setSelectedBirth] = useState("");
   const [birthDontKnow, setBirthDontKnow] = useState(false); //생일을몰라요
 
   const [weight, setWeight] = useState(); //건강정보
@@ -190,7 +191,7 @@ const PetRegistration = () => {
     consoleLog();
   };
 
-  const submitForm = () => {
+  const submitForm = async () => {
     const formData = new FormData();
     formData.append("type", selectedType);
     formData.append("kind", selectedKind);
@@ -210,7 +211,16 @@ const PetRegistration = () => {
     console.log(formData.get("birth"));
     console.log(formData.get("weight"));
     console.log(formData.get("health"));
-    petRegistApi.postPetData(formData);
+    const resp = await petApi.postPetData(formData);
+    
+    if(resp.status == 200){
+      alert("펫 등록에 성공했습니다.");
+      //여기에 모달 띄우든 뭐든 해
+      goHome();
+    }else{
+      alert("펫 등록에 실패했습니다.");
+    }
+    
   };
 
   function nextPossibleFunction(stepNum) {
@@ -230,15 +240,21 @@ const PetRegistration = () => {
         name == "" ? setNextPossible(false) : setNextPossible(true);
         return;
       case 5:
-        selectedBirth == "" ? setNextPossible(false) : setNextPossible(true);
+        selectedBirth == "" && birthDontKnow == false
+          ? setNextPossible(false)
+          : setNextPossible(true);
         return;
       default:
         return 0;
     }
   }
+
+  if (stepNum == 5) {
+    console.log("4번째 다음버튼 상태: ", nextPossible);
+  }
   const handleRegistFin = () => {
     submitForm();
-    goHome();
+
   };
 
   const NextPossibleComp = () => {

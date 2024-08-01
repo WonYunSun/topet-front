@@ -5,6 +5,9 @@ import styles from '../../css/communityList.module.css';
 
 const CommunityListData = ({ item, onClick }) => {
   const formatHashtags = hashtagString => {
+    if(hashtagString == null){
+      return;
+    }
     const tags = hashtagString.split(',')
       .map(tag => tag.trim())
       .filter(tag => tag !== '');

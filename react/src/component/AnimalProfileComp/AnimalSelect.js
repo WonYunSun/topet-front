@@ -3,10 +3,15 @@ import AnimalProfile from "./AnimalProfile";
 import { GoChevronDown } from "react-icons/go";
 import "../../css/animal_profile.css";
 
-const AnimalSelect = ({ onClick, selectedPet, setSelectedPet ,isHome, pets}) => {
+const AnimalSelect = ({ onClick, selectedPet, setSelectedPet ,isHome, pets }) => {
+  
   if(selectedPet == null){
-    setSelectedPet(pets[0]);
+    if(pets == null){
+      
+    }else{
+      setSelectedPet(pets[0]);
     }
+  }
   
   return (
     <div

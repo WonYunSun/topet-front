@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import TopBar from "../component/TopBar";
-
+import { TbMoodSuprised } from "react-icons/tb";
 import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
 import { SlArrowRight } from "react-icons/sl";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { HiPlayCircle } from "react-icons/hi2";
-
 import { IoChatbubbles } from "react-icons/io5";
 import ScheduleToday from "../component/HomeComp/ScheduleToday";
 import { ReactComponent as AiIcon } from "../asset/icon/ai.svg";
@@ -20,6 +19,7 @@ import homeApi from "../api/homeApi";
 import { updateMember } from "../redux/reducers/memberReducer";
 import { updatePetList } from "../redux/reducers/petListReducer";
 import { updateSelectedPet } from "../redux/reducers/selectedPetReducer";
+import { FiPlus } from "react-icons/fi";
 
 const Home = () => {
   const reduxMember = useSelector((state) => state.member.member);
@@ -32,60 +32,60 @@ const Home = () => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(reduxPet);
-
+  const [member, setMember] = useState();
   const [pets, setPets] = useState([]);
 
   const animalTypeMap = {
     1: "강아지",
     2: "고양이",
-    3: "특수동물"
+    3: "특수동물",
   };
 
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
   const [schedules, setSchedule] = useState([
-    {
-      scheduleId: 1,
-      startDate: "2024-07-10T00:00:00",
-      endDate: "2024-07-13T23:59:59",
-      scheduleTitle: "병원 진료(건강검진)",
-      isComplete: false,
-      color: "#DE496E",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
-    {
-      scheduleId: 2,
-      startDate: "2024-07-10T09:00:00",
-      endDate: "2024-07-10T10:00:00",
-      scheduleTitle: "코코 아침 산책",
-      scheduleContent: "test1",
-      isComplete: true,
-      color: "#2F9ABA",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
-    {
-      scheduleId: 3,
-      startDate: "2024-07-20T09:00:00",
-      endDate: "2024-07-23T10:00:00",
-      scheduleTitle: "드디어됐네이시발거",
-      scheduleContent: "test1",
-      isComplete: true,
-      color: "#2F9ABA",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
-    {
-      scheduleId: 4,
-      startDate: "2024-07-20T09:00:00",
-      endDate: "2024-07-23T10:00:00",
-      scheduleTitle: "드디어됐네이시발거",
-      scheduleContent: "test1",
-      isComplete: true,
-      color: "#DE496E",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
+    // {
+    //   scheduleId: 1,
+    //   startDate: "2024-07-10T00:00:00",
+    //   endDate: "2024-07-13T23:59:59",
+    //   scheduleTitle: "병원 진료(건강검진)",
+    //   isComplete: false,
+    //   color: "#DE496E",
+    //   scheduleWriter: "A",
+    //   scheduleEditer: "B",
+    // },
+    // {
+    //   scheduleId: 2,
+    //   startDate: "2024-07-10T09:00:00",
+    //   endDate: "2024-07-10T10:00:00",
+    //   scheduleTitle: "코코 아침 산책",
+    //   scheduleContent: "test1",
+    //   isComplete: true,
+    //   color: "#2F9ABA",
+    //   scheduleWriter: "A",
+    //   scheduleEditer: "B",
+    // },
+    // {
+    //   scheduleId: 3,
+    //   startDate: "2024-07-20T09:00:00",
+    //   endDate: "2024-07-23T10:00:00",
+    //   scheduleTitle: "드디어됐네이시발거",
+    //   scheduleContent: "test1",
+    //   isComplete: true,
+    //   color: "#2F9ABA",
+    //   scheduleWriter: "A",
+    //   scheduleEditer: "B",
+    // },
+    // {
+    //   scheduleId: 4,
+    //   startDate: "2024-07-20T09:00:00",
+    //   endDate: "2024-07-23T10:00:00",
+    //   scheduleTitle: "드디어됐네이시발거",
+    //   scheduleContent: "test1",
+    //   isComplete: true,
+    //   color: "#DE496E",
+    //   scheduleWriter: "A",
+    //   scheduleEditer: "B",
+    // },
   ]);
 
   useEffect(() => {
@@ -99,9 +99,6 @@ const Home = () => {
       setAnimalType(animalTypeValue);
     }
   }, [reduxPet]);
-
-
-
 
   const goCommunity = () => {
     const animalTypeMap = {
@@ -120,6 +117,10 @@ const Home = () => {
 
   const goShorts = () => {
     navigate(`/shorts`);
+  };
+
+  const goPetregistration = () => {
+    navigate(`/petregistration`);
   };
   const handleOpenPetBottomSheet = () => {
     setBottomSheetType("pet");
@@ -215,23 +216,28 @@ const Home = () => {
     },
   ];
 
-  const [isFlipped, setIsFlipped] = useState(false);
+  // const [isFlipped, setIsFlipped] = useState(false);
 
-  const handleClick = () => {
-    setIsFlipped(!isFlipped);
-  };
+  // const handleClick = () => {
+  //   setIsFlipped(!isFlipped);
+  // };
 
   const getHome = async () => {
     const returnedMember = await homeApi.getHomeDataMember();
     // member을 redux에넣어야함
+
     const sessionMember = {
       id: returnedMember.id,
       email: returnedMember.email,
       name: returnedMember.name,
       socialId: returnedMember.socialId,
     };
-    console.log("returnedMember.petsreturnedMember.pets", returnedMember.pets);
+    setMember(sessionMember);
+
+    console.log("returnedMember.pets returnedMember.pets", returnedMember.pets);
+
     let tempPets = returnedMember.pets;
+
     const myPets = [];
 
     for (let i = 0; i < tempPets.length; i++) {
@@ -241,7 +247,7 @@ const Home = () => {
         birth: tempPets[i].birth,
         health: tempPets[i].health,
         allergy: tempPets[i].allergy,
-        gender : tempPets[i].gender,
+        gender: tempPets[i].gender,
         kind: tempPets[i].kind,
         profileSrc: tempPets[i].profileSrc,
         name: tempPets[i].name,
@@ -255,25 +261,34 @@ const Home = () => {
     dispatch(updatePetList(myPets));
     //    setPets(returnedMember.pets);
 
-    //const schedule = await homeApi.getHomeDataSchedule();
+    if (reduxPet != null) {
+      const response = await homeApi.getHomeDataSchedule(reduxPet.id);
+      setSchedule(response);
+    }
+
     // const pet = await homeApi.getHomeDataPet();
   };
 
   dispatch(updateSelectedPet(selectedPet));
 
-
+  console.log("home출력 reduxMember : ", reduxMember);
+  console.log("home출력 Pets : ", pets);
   return (
-    
     <div className={styles.homeWrap}>
       <TopBar isHome={true} />
 
-      <AnimalSelect
-        onClick={handleOpenPetBottomSheet}
-        selectedPet={selectedPet}
-        setSelectedPet={setSelectedPet}
-        isHome={true}
-        pets={pets}
-      />
+      {pets.length == 0 ? (
+        <div></div>
+      ) : (
+        <AnimalSelect
+          onClick={handleOpenPetBottomSheet}
+          selectedPet={selectedPet}
+          setSelectedPet={setSelectedPet}
+          isHome={true}
+          pets={pets}
+        />
+      )}
+
       <BottomSheet
         show={showBottomSheet}
         onClose={handleCloseBottomSheet}
@@ -283,39 +298,65 @@ const Home = () => {
       />
 
       <div
-        className={`${styles.flipCard} ${isFlipped ? styles.flipped : ""}`}
+        className={styles.flipCard}
         // onClick={handleClick}
       >
-      {
-      (Animal != null) ?
         <div className={styles.flipCardInner}>
           {/* 카드 앞면 */}
           <div className={styles.flipCardFront}>
             <div className={styles.frontInfoWrap}>
-              <div className={styles.photo}>
-                <img src={Animal.profileSrc} alt="프로필" />
-              </div>
               <div className={styles.infoWrap}>
-                <div className={styles.info}>
-                  <div className={styles.name}>{Animal.name}</div>
-                  <div className={styles.age}>나이: {Animal.birth}</div>
-                  <div className={styles.gender}>성별: {Animal.gender}</div>
-                  <div className={styles.breed}>종: {Animal.kind}</div>
-                </div>
+                {reduxPet != null ? (
+                  <div className={styles.info}>
+                    <div className={styles.infoRow}>
+                      <div className={styles.photo}>
+                        <img src={Animal.profileSrc} alt="프로필" />
+                      </div>
+                      <div>
+                        <div className={styles.name}>{Animal.name}</div>
+                        <div className={styles.age}>나이: {Animal.birth}</div>
+                        <div className={styles.gender}>
+                          성별: {Animal.gender}
+                        </div>
+                        <div className={styles.breed}>종: {Animal.kind}</div>
+                        <div>몸무게: {Animal.weight}</div>
+                      </div>
+                    </div>
+                    <div className={styles.divider}></div>
+                    <div className={styles.infoBtm}>
+                      <div>건강 사항: {Animal.allergy}</div>
+                      <div>알러지: {Animal.health}</div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.noAnimalWrap}>
+                    <div className={styles.noAnimal}>
+                      등록된 반려동물이 없어요
+                      <TbMoodSuprised />
+                    </div>
+                    <div
+                      className={styles.petRegiBtn}
+                      onClick={goPetregistration}
+                    >
+                      <FiPlus />
+                      반려동물 등록하기
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
-          {/* 카드 뒷면 */}
-          <div className={styles.flipCardBack}> 
-            <div className={styles.info}>
-              <h2>추가 정보</h2>
-              <p>몸무게: {Animal.weight}</p>
-              <p>건강 사항: {Animal.health}</p>
-            </div>
-          </div>
-        </div> : <div></div>
-        }
+
+          {/* <div className={styles.flipCardBack}>
+              <div className={styles.info}>
+                <h2>추가 정보</h2>
+                <p>몸무게: {Animal.weight}</p>
+                <p>건강 사항: {Animal.health}</p>
+              </div>
+            </div> */}
+        </div>
       </div>
+
       <div className={styles.homeMenuArea}>
         <div className={styles.communityMenu}>
           <div className={styles.Navdiv} onClick={goCommunity}>

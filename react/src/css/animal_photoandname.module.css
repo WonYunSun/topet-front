@@ -1,104 +1,97 @@
-.wrapper{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.title{
-    font-size: 25px;
-    font-weight: bold;
-    margin-top: 62px;
-    margin-bottom: 42px;
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 62px;
+  margin-bottom: 42px;
 }
 
-.photo_wrapper{
-    position: relative;
-}
-
-.empty_profile_photo{
-    outline: 4px solid #cfcfcf;
-    outline-offset: -5px;
-    width: 138px;
-    height: 138px;
-    border-radius: 70%;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    margin-bottom: 30px;
+.photo_wrapper {
+  position: relative;
 }
 
 .selected_profile_photo {
-    width: 138px;
-    height: 138px;
-    object-fit: cover;
-    border-radius: 70%;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  position: relative;
+  width: 138px;
+  height: 138px;
+  object-fit: cover;
+  border-radius: 70%;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .selected_profile_photo_box {
-    height: 138px;
-    width: 138px;
-    margin-bottom: 30px;
+  position: relative;
+  height: 138px;
+  width: 138px;
+  margin-bottom: 30px;
 }
 
 .selecting_photo_button {
-    position: absolute;
-    top: 100px;
-    left: 98px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 33px;
-    height: 33px;
-    border : 1.5px #cfcfcf solid;
-    border-radius: 70%;
-    background-color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: absolute;
+  top: 100px;
+  left: 98px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 33px;
+  height: 33px;
+  border: 1.5px #cfcfcf solid;
+  border-radius: 70%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .selecting_photo_icon {
-    width: 23px;
-    height: 23px;
-    color: #c2c2c2;
+  width: 23px;
+  height: 23px;
+  color: #c2c2c2;
 }
 
 .profilename_bar {
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: 18px;
-    font-weight: 700;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
 }
 
-.profilename_bar::placeholder{
-    font-size: 16px;
-    font-weight: 400;
-    color: #b3b3b3;
+.profilename_bar::placeholder {
+  font-size: 16px;
+  font-weight: 400;
+  color: #b3b3b3;
 }
 
 .profilename_bar_wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    border-radius: 15px;
-    width: 88%;
-    height: 51px;
-    display: flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 15px;
+  width: 88%;
+  height: 51px;
+  display: flex;
 }
 
 .pet_name_length {
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-    width: 100%;
-    font-size: 14px;
-    margin-top: 10px;
-    margin-right: 100px;
-    color: #adadad;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 300;
+  margin-top: 10px;
+  margin-right: 100px;
+  color: #adadad;
 }

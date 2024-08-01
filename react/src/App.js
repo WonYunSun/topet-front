@@ -31,6 +31,7 @@ import Home from "./page/Home";
 import CommunitySearch from "./page/CommunitySearch";
 import LoginPage from "./page/LoginPage";
 import Shorts from "./page/Shorts";
+import UserRegister from "./page/UserRegister";
 function App() {
   const location = useLocation();
   const showNavbarPaths = ["/home", "/schedule", "/map", "/mypage"];
@@ -52,7 +53,7 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/editprofile" element={<EditProfile />} />
         <Route path="/managemypets" element={<ManageMyPets />} />
-        <Route path="/petprofiledetail" element={<PetProfileDetail />} />
+        <Route path="/petprofiledetail/:id" element={<PetProfileDetail />} />
         <Route path="/editpetprofile" element={<EditPetProfile />} />
         <Route path="/myposts" element={<SeeMyPosts />} />
         <Route path="/mycomments" element={<SeeMyComments />} />
@@ -61,6 +62,8 @@ function App() {
         <Route path="/likedshorts" element={<SeeLikedShorts />} />
         <Route path="/shorts" element={<Shorts />} />
         <Route path="/choicepetregister" element={<ChoicePetRegister />} />
+        <Route path="/userregister" element={<UserRegister />} />
+
         {/* <Route path='/api/kakaoLogin' element={<KakaoLogin/>} /> */}
         <Route path="/" element={<LoginPage />} />
         <Route path="https://kauth.kakao.com/oauth/authorize?client_id=${3494afad7131fc9645ae9b08ed0dfda6}&redirect_uri=${localhost:8081/api/kakaoLogin}&response_type=code"></Route>

@@ -191,6 +191,7 @@ const Calendarscreen = () => {
       <AnimalSelect
         onClick={handleOpenPetBottomSheet}
         selectedPet={selectedPet}
+        
       />
       
       <Calendar schedules={schedules} onDateClick={handleDateClick} />

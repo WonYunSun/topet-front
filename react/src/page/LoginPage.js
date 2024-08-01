@@ -7,8 +7,7 @@ import axios from "axios";
 const LoginPage = () => {
   const goKaKaoLogin = () => {
     axios
-
-      .get("http://localhost:8081/api/member/kakaoLogin", {
+      .get('http://localhost:8081/api/member/kakaoLogin', {
         withCredentials: true,
       })
       .then((response) => {
