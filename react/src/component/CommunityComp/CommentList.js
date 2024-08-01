@@ -23,6 +23,7 @@ const CommentList = ({ comid, updateCommentCount }) => {
       try {
         const response = await CommunityApi.fetchComment(comid);
         setComments(response);
+        console.log("댓글 json 형식 :", response)
         updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
       } catch (error) {
         console.error("Error fetching comments:", error);
@@ -54,12 +55,14 @@ const CommentList = ({ comid, updateCommentCount }) => {
 
   const handleReplyClick = (commentId) => {
     setCommentId(commentId);
+    setEditCommentId(null); // 다른 input 박스 사라지게 하기 위해 추가
     setShowSubBottomSheet(false);
     setReplyContent("");
   };
 
   const handleEditClick = (commentId, content) => {
     setEditCommentId(commentId);
+    setCommentId(null); // 다른 input 박스 사라지게 하기 위해 추가
     setEditReplyId(null);
     setEditContent(content);
     setShowSubBottomSheet(false);
@@ -67,7 +70,8 @@ const CommentList = ({ comid, updateCommentCount }) => {
 
   const handleReplyEditClick = (replyId, content) => {
     setEditReplyId(replyId);
-    setEditCommentId(null);
+    setEditCommentId(null); // 다른 input 박스 사라지게 하기 위해 추가
+    setCommentId(null);
     setEditContent(content);
     setShowSubBottomSheet(false);
   };
@@ -153,9 +157,13 @@ const CommentList = ({ comid, updateCommentCount }) => {
     setEditCommentId(null);
     setEditReplyId(null);
     setEditContent("");
-    setReplyContent("")
+    setReplyContent("");
   };
 
+  const handleReplyCancel = () => {
+    setCommentId(null);
+    setReplyContent("");
+  };
 
   const handleDeleteClick = async (commentId) => {
     try {
@@ -221,7 +229,7 @@ const CommentList = ({ comid, updateCommentCount }) => {
                 value={replyContent}
                 onChange={(e) => handleReplyChange(e.target.value)}
               />
-              <button className={styles.cancelButton} onClick={handleEditCancel}>취소</button>
+              <button className={styles.cancelButton} onClick={handleReplyCancel}>취소</button>
               <button className={styles.replyButton} onClick={handleReplyPost}>등록</button>
             </div>
           )}
