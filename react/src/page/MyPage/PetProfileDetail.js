@@ -19,7 +19,7 @@ const PetProfileDetail = () => {
   };
 
   const goEditPetProfile = () => {
-    navigate(`/editpetprofile`);
+    navigate(`/editpetprofile/${id}`);
   };
 
   useEffect(() => {

@@ -111,30 +111,24 @@ export default function ScheduleEdit({ selectedSchedule, onClose }) {
     formData.append("scheduleContent", content);
     formData.append("isComplete", isComplete);
     formData.append("color", color);
-    formData.append("scheduleWriter", selectedSchedule.author);
-    formData.append("scheduleEditer", "EditorName");
+    formData.append("animal", selectedSchedule.animal.id);
+    if (selectedPhoto != null) {formData.append("photo", selectedPhoto);}
+
+    formData.append("author", selectedSchedule.author.id);
+    // formData.append("updateAut", "EditorName");
+    console.log("selectedSchedule.author : " +selectedSchedule.author.id)
     console.log(selectedSchedule.id)
     
-    await ScheduleService.updateSche(selectedSchedule.id, formData);
+    await ScheduleService.updateSchedule(selectedSchedule.id, formData);
   };
 
-  const updateSchedulePhoto = async () => {
-    if (!selectedPhoto) return;
-
-    const formData = new FormData();
-    formData.append("photo", selectedPhoto);
-
-    await ScheduleService.updateSchePhoto(
-      selectedSchedule.scheduleId,
-      formData
-    );
-  };
+  
 
   const handleButtonClick = async () => {
     if (title !== "") {
       try {
         await updateScheduleData();
-        await updateSchedulePhoto();
+        
         onClose();
       } catch (error) {
         console.error("스케줄 수정 중 오류 발생:", error);
@@ -292,7 +286,7 @@ export default function ScheduleEdit({ selectedSchedule, onClose }) {
         text="완료"
         btnstyle={btnStyle}
         postServer_withoutPhotos={updateScheduleData}
-        postServer_withPhotos={updateSchedulePhoto}
+        // postServer_withPhotos={updateSchedulePhoto}
         onClick={handleButtonClick}
       />
       {showCheckModal && (

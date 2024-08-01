@@ -42,51 +42,7 @@ const Home = () => {
   };
 
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
-  const [schedules, setSchedule] = useState([
-    // {
-    //   scheduleId: 1,
-    //   startDate: "2024-07-10T00:00:00",
-    //   endDate: "2024-07-13T23:59:59",
-    //   scheduleTitle: "병원 진료(건강검진)",
-    //   isComplete: false,
-    //   color: "#DE496E",
-    //   scheduleWriter: "A",
-    //   scheduleEditer: "B",
-    // },
-    // {
-    //   scheduleId: 2,
-    //   startDate: "2024-07-10T09:00:00",
-    //   endDate: "2024-07-10T10:00:00",
-    //   scheduleTitle: "코코 아침 산책",
-    //   scheduleContent: "test1",
-    //   isComplete: true,
-    //   color: "#2F9ABA",
-    //   scheduleWriter: "A",
-    //   scheduleEditer: "B",
-    // },
-    // {
-    //   scheduleId: 3,
-    //   startDate: "2024-07-20T09:00:00",
-    //   endDate: "2024-07-23T10:00:00",
-    //   scheduleTitle: "드디어됐네이시발거",
-    //   scheduleContent: "test1",
-    //   isComplete: true,
-    //   color: "#2F9ABA",
-    //   scheduleWriter: "A",
-    //   scheduleEditer: "B",
-    // },
-    // {
-    //   scheduleId: 4,
-    //   startDate: "2024-07-20T09:00:00",
-    //   endDate: "2024-07-23T10:00:00",
-    //   scheduleTitle: "드디어됐네이시발거",
-    //   scheduleContent: "test1",
-    //   isComplete: true,
-    //   color: "#DE496E",
-    //   scheduleWriter: "A",
-    //   scheduleEditer: "B",
-    // },
-  ]);
+  const [schedules, setSchedule] = useState([]);
 
   useEffect(() => {
     getHome();

@@ -7,63 +7,121 @@ import React, {
 } from "react";
 import MyPageCommonTopBar from "../../component/MyPageComp/MyPageCommonTopBar";
 import styles from "../../css/mypage_editpetprofile.module.css";
+import { useNavigate, useParams } from "react-router-dom";
 import { TbPhoto, TbTriangleInvertedFilled } from "react-icons/tb";
+import petApi from "../../api/petApi";
 
-const petData1 = {
-  type: "1",
-  photo:
-    "https://i.pinimg.com/236x/b8/50/10/b850101663c7da6734b03f83fc8c57f9.jpg",
-  name: "단추",
-  kind: "비숑 프리제",
-  gender: "남아",
-  neutered: "중성화",
-  birth: "2020/04/13",
-  weight: "7kg",
-  allergy: "단백질류",
-  health: "비만 꿈나무",
-};
 
-const petData = {
-  type: "3",
-  photo:
-    "https://i.pinimg.com/236x/5a/44/b1/5a44b1276b31fb751ddbcf9652447a7b.jpg",
-  name: "장팡",
-  kind: "햄스터",
-  gender: "성별모름",
-  birth: "생일모름",
-  weight: "",
-  allergy: "",
-  health: "잦은 가출로 인한 저체중, 모험중독",
-};
+
 
 const EditPetProfile = () => {
+  const petData1 = {
+    type: "",
+    photo: "",
+    name: "",
+    kind: "",
+    gender: "",
+    neutered: "",
+    birth: "",
+    weight: "",
+    allergy: "",
+    health: "",
+  };
+  const { id } = useParams();
+  const [myPet, setMyPet] = useState(petData1);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let response = await petApi.getMyPet(id);
+        const temp = {
+          type: response.type,
+          photo: response.profileSrc,
+          name: response.name,
+          kind: response.kind,
+          gender: response.gender,
+          neutered: response.neutered,
+          birth: response.birth,
+          weight: response.weight,
+          allergy: response.allergy,
+          health: response.health,
+        };
+
+
+
+        setMyPet(temp);
+        console.log(response);
+        } catch (error) {
+        
+      } finally {
+        setIsLoaded(true);
+      }
+    };
+    fetchData();
+  }, [
+    
+  ]);
+
+ 
+
+
+  // const petData1 = 
+  // {
+  //   type: "1",
+  //   photo:
+  //     "https://i.pinimg.com/236x/b8/50/10/b850101663c7da6734b03f83fc8c57f9.jpg",
+  //   name: "단추",
+  //   kind: "비숑 프리제",
+  //   gender: "남아",
+  //   neutered: "중성화",
+  //   birth: "2020/04/13",
+  //   weight: "7kg",
+  //   allergy: "단백질류",
+  //   health: "비만 꿈나무",
+  // };
+  // {
+  //   type: myPet.type,
+  //   photo:
+  //     myPet.profileSrc,
+  //   name: myPet.name,
+  //   kind: myPet.kind,
+  //   gender: myPet.gender,
+  //   neutered: "중성화",
+  //   birth: myPet.birth,
+  //   weight: myPet.weight,
+  //   allergy: "단백질류",
+  //   health: "비만 꿈나무",
+  // };
+
+
   const fileInputRef = useRef(null);
   const defaultProfileImage =
     "https://i.pinimg.com/564x/b5/b0/c0/b5b0c0313bfeb3cd262e16b546499a8c.jpg";
 
-  const [profilePhoto, setProfilePhoto] = useState(petData1.photo);
-  const [gender, setGender] = useState(petData1.gender);
-  const [neutered, setNeutered] = useState(petData1.neutered);
-  const [weight, setWeight] = useState(petData1.weight); // 체중 단위포함
+  const [profilePhoto, setProfilePhoto] = useState(myPet.photo);
+  const [gender, setGender] = useState(myPet.gender);
+  const [neutered, setNeutered] = useState(myPet.neutered);
+  const [weight, setWeight] = useState(myPet.weight); // 체중 단위포함
   const [weightNum, setWeightNum] = useState(
-    weight == "" ? "" : parseFloat(petData1.weight)
+    weight == "" ? "" : parseFloat(myPet.weight)
   ); // 체중 숫자만
   const [weightUnit, setWeightUnit] = useState(
-    weight == "" ? "" : petData1.weight.replace(/[0-9]/g, "").trim()
+    weight == "" ? "" : myPet.weight.replace(/[0-9]/g, "").trim()
   ); // 체중 단위만
   const [dontKnowWeight, setDontKnowWeight] = useState(
     weight == "" ? true : false
   );
-  const [allergy, setAllergy] = useState(petData1.allergy);
-  const [health, setHealth] = useState(petData1.health);
+  const [allergy, setAllergy] = useState(myPet.allergy);
+  const [health, setHealth] = useState(myPet.health);
   const [dropdown, setDropdown] = useState(false);
   const [canSave, setCanSave] = useState(false);
-  const currentProfilePhoto = petData1.photo;
-  const currentNeutered = petData1.neutered;
-  const currentWeight = petData1.weight;
-  const currentGender = petData1.gender;
-  const currentAllergy = petData1.allergy;
-  const currenthealth = petData1.health;
+  const currentProfilePhoto = myPet.photo;
+  const currentNeutered = myPet.neutered;
+  const currentWeight = myPet.weight;
+  const currentGender = myPet.gender;
+  const currentAllergy = myPet.allergy;
+  const currenthealth = myPet.health;
 
   useEffect(() => {
     if (profilePhoto == undefined) {
@@ -280,7 +338,9 @@ const EditPetProfile = () => {
   console.log(weightNum);
   console.log(weightUnit);
   console.log(dontKnowWeight);
-
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className={styles.wrapper}>
       <MyPageCommonTopBar />
@@ -290,16 +350,16 @@ const EditPetProfile = () => {
           {SelectingPhoto}
         </div>
         <div className={styles.textpart_container}>
-          <CantEdit title={"이름"} content={petData1.name} />
-          <CantEdit title={"품종"} content={petData1.kind} />
-          {petData1.type == "3" ? <div className={styles.divider} /> : ""}
-          {petData1.type == "3" ? (
+          <CantEdit title={"이름"} content={myPet.name} />
+          <CantEdit title={"품종"} content={myPet.kind} />
+          {myPet.type == "3" ? <div className={styles.divider} /> : ""}
+          {myPet.type == "3" ? (
             <CanEdit title={"성별"} />
           ) : (
-            <CantEdit title={"성별"} content={petData1.gender} />
+            <CantEdit title={"성별"} content={myPet.gender} />
           )}
-          {petData1.type != "3" ? <div className={styles.divider} /> : ""}
-          {petData1.type != "3" ? <CanEdit title={"중성화 여부"} /> : ""}
+          {myPet.type != "3" ? <div className={styles.divider} /> : ""}
+          {myPet.type != "3" ? <CanEdit title={"중성화 여부"} /> : ""}
           <div className={styles.editable_wrapper}>
             <div className={styles.editable_title}>체중</div>
             <div className={styles.editable_content}>
