@@ -54,7 +54,7 @@ function App() {
         <Route path="/editprofile" element={<EditProfile />} />
         <Route path="/managemypets" element={<ManageMyPets />} />
         <Route path="/petprofiledetail/:id" element={<PetProfileDetail />} />
-        <Route path="/editpetprofile" element={<EditPetProfile />} />
+        <Route path="/editpetprofile/:id" element={<EditPetProfile />} />
         <Route path="/myposts" element={<SeeMyPosts />} />
         <Route path="/mycomments" element={<SeeMyComments />} />
         <Route path="/likedposts" element={<SeeLikedPosts />} />
@@ -63,10 +63,7 @@ function App() {
         <Route path="/shorts" element={<Shorts />} />
         <Route path="/choicepetregister" element={<ChoicePetRegister />} />
         <Route path="/userregister" element={<UserRegister />} />
-
-        {/* <Route path='/api/kakaoLogin' element={<KakaoLogin/>} /> */}
         <Route path="/" element={<LoginPage />} />
-        <Route path="https://kauth.kakao.com/oauth/authorize?client_id=${3494afad7131fc9645ae9b08ed0dfda6}&redirect_uri=${localhost:8081/api/kakaoLogin}&response_type=code"></Route>
       </Routes>
     </div>
   );
