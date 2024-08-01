@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import TopBar from "../component/TopBar";
-
+import { TbMoodSuprised } from "react-icons/tb";
 import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
 import { SlArrowRight } from "react-icons/sl";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { HiPlayCircle } from "react-icons/hi2";
-
 import { IoChatbubbles } from "react-icons/io5";
 import ScheduleToday from "../component/HomeComp/ScheduleToday";
 import { ReactComponent as AiIcon } from "../asset/icon/ai.svg";
@@ -20,6 +19,7 @@ import homeApi from "../api/homeApi";
 import { updateMember } from "../redux/reducers/memberReducer";
 import { updatePetList } from "../redux/reducers/petListReducer";
 import { updateSelectedPet } from "../redux/reducers/selectedPetReducer";
+import { FiPlus } from "react-icons/fi";
 
 const Home = () => {
   const reduxMember = useSelector((state) => state.member.member);
@@ -32,7 +32,7 @@ const Home = () => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(reduxPet);
-  
+
   const [pets, setPets] = useState([]);
 
   const animalTypeMap = {
@@ -117,6 +117,10 @@ const Home = () => {
 
   const goShorts = () => {
     navigate(`/shorts`);
+  };
+
+  const goPetregistration = () => {
+    navigate(`/petregistration`);
   };
   const handleOpenPetBottomSheet = () => {
     setBottomSheetType("pet");
@@ -212,11 +216,11 @@ const Home = () => {
     },
   ];
 
-  const [isFlipped, setIsFlipped] = useState(false);
+  // const [isFlipped, setIsFlipped] = useState(false);
 
-  const handleClick = () => {
-    setIsFlipped(!isFlipped);
-  };
+  // const handleClick = () => {
+  //   setIsFlipped(!isFlipped);
+  // };
 
   const getHome = async () => {
     const returnedMember = await homeApi.getHomeDataMember();
@@ -231,7 +235,6 @@ const Home = () => {
     let tempPets = returnedMember.pets;
     const myPets = [];
 
-    
     for (let i = 0; i < tempPets.length; i++) {
       let tempPet = {
         id: tempPets[i].id,
@@ -253,11 +256,10 @@ const Home = () => {
     dispatch(updatePetList(myPets));
     //    setPets(returnedMember.pets);
 
-    if(reduxPet != null){
-      const response  = await homeApi.getHomeDataSchedule(reduxPet.id);
+    if (reduxPet != null) {
+      const response = await homeApi.getHomeDataSchedule(reduxPet.id);
       setSchedule(response);
     }
-    
 
     // const pet = await homeApi.getHomeDataPet();
   };
@@ -268,16 +270,18 @@ const Home = () => {
     <div className={styles.homeWrap}>
       <TopBar isHome={true} />
 
-      {(reduxPet == null)? 
-      <div></div> : 
-      <AnimalSelect
-        onClick={handleOpenPetBottomSheet}
-        selectedPet={selectedPet}
-        setSelectedPet={setSelectedPet}
-        isHome={true}
-        pets={pets}
-      />}
-      
+      {reduxPet == null ? (
+        <div></div>
+      ) : (
+        <AnimalSelect
+          onClick={handleOpenPetBottomSheet}
+          selectedPet={selectedPet}
+          setSelectedPet={setSelectedPet}
+          isHome={true}
+          pets={pets}
+        />
+      )}
+
       <BottomSheet
         show={showBottomSheet}
         onClose={handleCloseBottomSheet}
@@ -286,42 +290,54 @@ const Home = () => {
         setSelectedPet={setSelectedPet}
       />
 
-      
-        {reduxPet != null ? (
-          <div
-          className={`${styles.flipCard} ${isFlipped ? styles.flipped : ""}`}
-          // onClick={handleClick}
-        >
-          <div className={styles.flipCardInner}>
-            {/* 카드 앞면 */}
-            <div className={styles.flipCardFront}>
-              <div className={styles.frontInfoWrap}>
-                <div className={styles.photo}>
-                  <img src={Animal.profileSrc} alt="프로필" />
-                </div>
-                <div className={styles.infoWrap}>
+      <div
+        className={styles.flipCard}
+        // onClick={handleClick}
+      >
+        <div className={styles.flipCardInner}>
+          {/* 카드 앞면 */}
+          <div className={styles.flipCardFront}>
+            <div className={styles.frontInfoWrap}>
+              <div className={styles.infoWrap}>
+                {reduxPet != null ? (
                   <div className={styles.info}>
+                    <div className={styles.photo}>
+                      <img src={Animal.profileSrc} alt="프로필" />
+                    </div>
                     <div className={styles.name}>{Animal.name}</div>
                     <div className={styles.age}>나이: {Animal.birth}</div>
                     <div className={styles.gender}>성별: {Animal.gender}</div>
                     <div className={styles.breed}>종: {Animal.kind}</div>
                   </div>
-                </div>
+                ) : (
+                  <div className={styles.noAnimalWrap}>
+                    <div className={styles.noAnimal}>
+                      등록된 반려동물이 없어요
+                      <TbMoodSuprised />
+                    </div>
+                    <div
+                      className={styles.petRegiBtn}
+                      onClick={goPetregistration}
+                    >
+                      <FiPlus />
+                      반려동물 등록하기
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-            {/* 카드 뒷면 */}
-            <div className={styles.flipCardBack}>
+          </div>
+
+          {/* <div className={styles.flipCardBack}>
               <div className={styles.info}>
                 <h2>추가 정보</h2>
                 <p>몸무게: {Animal.weight}</p>
                 <p>건강 사항: {Animal.health}</p>
               </div>
-            </div>
-          </div>
+            </div> */}
+        </div>
       </div>
-        ) : (
-          <div style={{height:"100px"}}>반려동물등록하러가기</div>
-        )}
+
       <div className={styles.homeMenuArea}>
         <div className={styles.communityMenu}>
           <div className={styles.Navdiv} onClick={goCommunity}>
@@ -349,7 +365,6 @@ const Home = () => {
           <SlArrowRight onClick={goCalendar} />
         </div>
         <ScheduleToday schedules={schedules} />
-        
       </div>
 
       <div className={styles.shortsPreivewArea}>
