@@ -207,11 +207,12 @@
   height: 100%;
   gap: 1em;
 }
+
 .photo {
   width: 30%;
   height: 0;
   padding-top: calc(30% * 4.5 / 3.5); /* 3.5:4.5 비율로 패딩 설정 */
-  background-color: #ffa62f;
+  background-color: #999;
   position: relative; /* 자식 요소의 절대 위치를 위해 필요 */
   overflow: hidden; /* 넘친 부분 숨기기 */
   border-radius: 4px; /* 신분증 사진 느낌을 위한 경계선 둥글림 */
@@ -227,7 +228,6 @@
 .name {
   font-size: 15px;
   font-weight: 600;
-  margin-bottom: 0.2em;
 }
 
 .info {
@@ -246,20 +246,24 @@
   display: flex;
   align-items: center;
   gap: 1em;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+}
+.gen_kind {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
 .divider {
-  border-top: 1px solid #bbb;
-  padding: 3px;
+  border-top: 1px solid #bbbbbb63;
+  padding: 5px;
 }
 .infoBtm {
   display: flex;
   flex-direction: column;
+  gap: 5px;
 }
-.arrow {
-  padding-bottom: 0.6em;
-  display: flex;
-  align-items: flex-end;
+.boldText {
+  font-weight: 500;
 }
 
 .infoWrap {
@@ -270,7 +274,11 @@
   flex-direction: row;
   justify-content: center;
 }
-
+.animalinfoWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 /* 
 .tempWrap {
   display: flex;

@@ -20,18 +20,13 @@ dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
 dayjs.extend(isBetween);
 
-
-
-
-
 const Calendarscreen = () => {
-
-  const reduxMember =   useSelector((state)=>state.member.member);  
+  const reduxMember = useSelector((state) => state.member.member);
   const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
-  
+
   //console.log("캘린더에서 출력한 reduxMember : " ,reduxMember);
   //console.log("캘린더에서 출력한 reduxPet : " ,reduxPet);
-  
+
   const [schedules, setSchedules] = useState();
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
@@ -49,12 +44,14 @@ const Calendarscreen = () => {
   const [bottomSheetContent, setBottomSheetContent] = useState(null);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [showEditDeleteBottomSheet, setEditDeleteBottomSheet] = useState(false);
-  const [editDeleteBottomSheettype, setEditDeleteBottomSheettype] = useState(null);
+  const [editDeleteBottomSheettype, setEditDeleteBottomSheettype] =
+    useState(null);
   const [ScheduleDelete, setScheduleDelete] = useState(false); // 스케줄 삭제 상태
-  
-  const [scheduleSubmittedSuccessfully, setScheduleSubmittedSuccessfully] = useState();
+
+  const [scheduleSubmittedSuccessfully, setScheduleSubmittedSuccessfully] =
+    useState();
   const [isLoaded, setIsLoaded] = useState(false);
-  
+
   useEffect(() => {
     // handleAddScheduleBottomSheetClose();
     handleCloseBottomSheet();
@@ -63,12 +60,12 @@ const Calendarscreen = () => {
   }, [scheduleSubmittedSuccessfully]);
 
   useEffect(() => {
-    console.log("selectedPet이 변동되어서, 새로운 데이터를 요청함")
+    console.log("selectedPet이 변동되어서, 새로운 데이터를 요청함");
     const fetchData = async () => {
       try {
         let mySchedule = await scheduleApi.getPetScheduleAPI(selectedPet.id);
         setSchedules(mySchedule);
-        console.log("새로운 데이터 : " , schedules)
+        console.log("새로운 데이터 : ", schedules);
       } catch (error) {
         console.error("Failed to fetch schedules:", error);
       } finally {
@@ -76,12 +73,7 @@ const Calendarscreen = () => {
       }
     };
     fetchData();
-  }, [
-    selectedPet
-  ]);
-
-
-  
+  }, [selectedPet]);
 
   const handleDotsClick = (schedule) => {
     setSelectedSchedule(schedule);
@@ -184,16 +176,19 @@ const Calendarscreen = () => {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
-  
+
   return (
     <div>
       <TopBar />
-      <AnimalSelect
-        onClick={handleOpenPetBottomSheet}
-        selectedPet={selectedPet}
-        
-      />
-      
+      {reduxPet == null ? (
+        <></>
+      ) : (
+        <AnimalSelect
+          onClick={handleOpenPetBottomSheet}
+          selectedPet={selectedPet}
+        />
+      )}
+
       <Calendar schedules={schedules} onDateClick={handleDateClick} />
       <BottomSheet
         show={showBottomSheet}
@@ -203,16 +198,13 @@ const Calendarscreen = () => {
             ? handleAddScheduleBottomSheetClose
             : handleCloseBottomSheet
         }
-
         scheduleSubmittedSuccessfully={scheduleSubmittedSuccessfully}
         setScheduleSubmittedSuccessfully={setScheduleSubmittedSuccessfully} // 전달된 부분
         type={bottomSheetType}
         initialTags={[]}
         selectedDate={selectedDate}
-
         schedules={schedules}
         setSchedules={setSchedules}
-
         selectedPet={selectedPet}
         setSelectedPet={setSelectedPet}
         initialAddScheduleValues={initialAddScheduleValues}
@@ -249,8 +241,6 @@ const Calendarscreen = () => {
         selectedDate={selectedDate}
         onScheduleClick={handleScheduleClick}
       />
-      <FloatingBtn onClick={handleFloatingBtnClick} />
-
       <SubBottomSheet
         show={showEditDeleteBottomSheet}
         onClose={handleCloseshowEditDeleteBottomSheet}
@@ -259,9 +249,14 @@ const Calendarscreen = () => {
         selectedSchedule={selectedSchedule}
         onDeleteClick={handleDeleteClick}
       />
+
+      {reduxPet === null ? (
+        ""
+      ) : (
+        <FloatingBtn onClick={handleFloatingBtnClick} />
+      )}
     </div>
   );
-}
-
+};
 
 export default Calendarscreen;
