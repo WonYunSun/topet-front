@@ -13,7 +13,6 @@ const SeeMyComments = () => {
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
-    const [hasContent, setHasContent] = useState(true);
 
     const loadMoreComments = async () => {
         if (!hasMore || loading) {
@@ -37,9 +36,6 @@ const SeeMyComments = () => {
     useEffect(() => {
         setLoading(false);
         loadMoreComments();
-        if(resources.length === 0){
-            setHasContent(false);
-        }
     }, []);
 
     const { ref, inView } = useInView({
@@ -58,15 +54,15 @@ const SeeMyComments = () => {
             {resources.map((comment, index) => (
                 <CommentDetail key={comment.id} comment={comment} />
             ))}
-            {hasMore && !loading &&
+            {!loading && hasMore &&
                 <div ref={ref}>
                     <Loading />
                 </div>
             }
-            {hasError && !loading &&
+            {!loading && hasError && 
                 <LoadError />
             }
-            {!hasContent &&
+            {!loading && !hasError && !hasMore && resources.length === 0 &&
                 <NoContent />
             }
         </div>

@@ -25,7 +25,7 @@ const CommunityDetail = () => {
   const [likes, setLikes] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
   const [profileImg, setProfileImg] = useState('https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzBfNjUg%2FMDAxNzE3MDY0NDY1OTE5.RuUuUb2erFc8zs-8wC10KGxHyKOlSCxZM72R5K_PWCkg.7h8cC7tzZrwM8sIWQVuO1tjjpnTX013k2E5OKtE2dWYg.PNG%2Fimage.png&type=sc960_832');
-  const [profileName, setProfileName] = useState("강아지");
+  const [profileName, setProfileName] = useState();
   const [showSubBottomSheet, setShowSubBottomSheet] = useState(false);
   const [writer, setWriter] = useState(true); // 글 쓴 사람인지 아닌지, 나중에 로직 바꿔야 할 듯
   const [isLikeLoading, setIsLikeLoading] = useState(false);
@@ -34,12 +34,12 @@ const CommunityDetail = () => {
     setLoading(true);
     try {
       const detail = await CommunityApi.fetchCommunityDetail(comid);
-      const liked = await CommunityApi.fetchLikedByCurrentUser(comid);
+      //const liked = await CommunityApi.fetchLikedByCurrentUser(comid);
 
       setItem(detail);
       setLikes(detail.likesList.length);
-      setIsLiked(liked);
-
+      // setIsLiked(liked);
+      setProfileName(detail.author.name)
       if (detail.hashtag) {
         setHashtags(detail.hashtag.split(',').map(tag => tag.trim()));
       }

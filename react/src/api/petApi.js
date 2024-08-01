@@ -6,7 +6,7 @@ const MID_URL = "/pet";
 // "http://localhost:8081/api";
 // // "http://175.45.202.131:8081/api";
 
-class petRegistApi {
+class petApi {
   // constructor(baseURL) {
   //     this.client = axios.create({
   //     baseURL: baseURL,
@@ -51,14 +51,14 @@ class petRegistApi {
 
   async postAddPet(petCode) {
     return await this.axios
-      .post("/postAddPet", petCode, {
+      .post("/postAddPet", {uid :petCode}, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then((response) => {
         console.log("서버 응답:", response.data);
-        return response;
+        return response.data;
       })
       .catch((error) => {
         console.error("서버 오류:", error);
@@ -66,5 +66,5 @@ class petRegistApi {
       });
   }
 }
-export default new petRegistApi();
+export default new petApi();
 

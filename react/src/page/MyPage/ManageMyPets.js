@@ -6,11 +6,14 @@ import BottomSheet from "../../component/BottomSheet";
 import PetCodeModal from "../../component/MyPageComp/PetCodeModal";
 import { useSelector, useDispatch } from "react-redux";
 import petApi from "../../api/petApi";
+import { updatePetList } from "../../redux/reducers/petListReducer"; 
 
 const ManageMyPets = () => {
-
+    const dispatch = useDispatch();
     const reduxMember = useSelector((state)=>state.member.member);
-    
+    const petList = useSelector((state) => state.petList.petList);
+
+
     //Redux에서 받아온 현재 로그인한 유저의 정보
     
     const [showBottomSheet, setShowBottomSheet] = useState(false);
@@ -38,9 +41,18 @@ const ManageMyPets = () => {
     const onRegister = () => {
         console.log('반려동물 코드로 등록 : ', petCode);
 
-        petApi.postAddPet(petCode);
+        
+        const response = petApi.postAddPet(petCode);
+
+        /*
+        리덕스에 있는 petList에서 pet 추가 해야함
+
+        */
 
 
+//        dispatch(updatePetList(petList));
+        
+        window.location.reload()
         setShowModal(false);
     }
 
