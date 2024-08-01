@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../../css/communityList.module.css';
 import CommunityApi from '../../api/communityApi';
-import { FaSpinner } from "react-icons/fa";
 import CheckModal from '../../component/CheckModal';
 import CommunityListData from './CommunityListData';
+import { FaSpinner } from "react-icons/fa";
 
 const animalTypeMap = { '강아지': 'dog', '고양이': 'cat', '특수동물': 'exoticpet' };
 const categoryMap = { 'freedomAndDaily': '자유/일상', 'curious': '궁금해요', 'sharingInformation': '정보공유' };
@@ -15,15 +15,14 @@ const CommunityList = ({ selectedAnimal, sortListText }) => {
   const [communityPosts, setCommunityPosts] = useState([]);
   const [currentAnimalType, setCurrentAnimalType] = useState(animalTypeMap[selectedAnimal] || 'dog');
   const [currentCategory, setCurrentCategory] = useState(categoryMap[category] || '자유/일상');
-  
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const page = useRef(0);
   const observer = useRef();
-  const size = 5;
+  const size = 20;
 
   useEffect(() => {
     setCurrentAnimalType(animalTypeMap[selectedAnimal] || 'dog');
@@ -31,16 +30,26 @@ const CommunityList = ({ selectedAnimal, sortListText }) => {
   }, [selectedAnimal, category]);
 
   const fetchPosts = async (reset = false) => {
+    if (loading) return; // 이미 로딩 중이면 중복 호출 방지
     setLoading(true);
     try {
-      const newPosts = 
-      sortListText === "최신순"
+      const newPosts = sortListText === "최신순"
         ? await CommunityApi.fetchCommunityPosts(currentAnimalType, category, size, page.current)
         : await CommunityApi.fetchSortLikeCommunityPosts(currentAnimalType, category, size, page.current);
 
-      setCommunityPosts(prevPosts => reset ? newPosts : [ ...prevPosts, ...newPosts ]);
+      console.log('Fetched posts:', newPosts);
 
-      if (newPosts.length < size) setHasMore(false);
+      if (reset) {
+        setCommunityPosts(newPosts);
+      } else {
+        setCommunityPosts(prevPosts => [...prevPosts, ...newPosts]);
+      }
+
+      if (newPosts.length < size) {
+        setHasMore(false);
+      }
+
+      page.current += 1;
       setError(null);
     } catch (error) {
       console.error("Failed to fetch posts:", error);
@@ -78,8 +87,8 @@ const CommunityList = ({ selectedAnimal, sortListText }) => {
   const lastPostElementRef = node => {
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasMore) {
-        page.current++;
+      if (entries[0].isIntersecting && hasMore && !loading) {
+        console.log('Fetching more posts...');
         fetchPosts();
       }
     });
@@ -89,12 +98,12 @@ const CommunityList = ({ selectedAnimal, sortListText }) => {
   return (
     <div>
       <div className={styles.communities_content_area}>
-        {loading && (
+        {loading && communityPosts.length === 0 && (
           <div className={styles.loading}>
             <FaSpinner className={styles.spinner} />
           </div>
         )}
-        {error && !loading && (
+        {error && !loading && communityPosts.length === 0 && (
           <div className={styles.error_message}>
             게시물을 불러오는 중 오류가 발생했습니다<br />
             다시 시도 해주세요.
@@ -105,7 +114,7 @@ const CommunityList = ({ selectedAnimal, sortListText }) => {
             게시물이 없습니다.
           </div>
         )}
-        {!loading && !error && communityPosts.length > 0 && communityPosts.map((item, index) => (
+        {communityPosts.length > 0 && communityPosts.map((item, index) => (
           <div
             key={item.id}
             onClick={() => handlePostClick(item.comid)}
@@ -126,6 +135,11 @@ const CommunityList = ({ selectedAnimal, sortListText }) => {
           Content={modalMessage}
           oneBtn={true}
         />
+      )}
+      {loading && communityPosts.length > 0 && (
+        <div className={styles.loading_more}>
+          <FaSpinner className={styles.spinner} />
+        </div>
       )}
     </div>
   );
