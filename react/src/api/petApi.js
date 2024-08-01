@@ -1,4 +1,4 @@
-import createAxios from "./baseAxios";
+import createAxios from "./createAxios";
 
 const MID_URL = "/pet";
 

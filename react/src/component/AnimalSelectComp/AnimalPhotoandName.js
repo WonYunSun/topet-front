@@ -21,8 +21,6 @@ const AnimalPhotoandName = ({
   handleNameChange,
 }) => {
   const fileInputRef = useRef(null);
-  console.log(name);
-  // setName('');
   useEffect(() => {
     if (selectedPhoto == undefined) {
       setSelectedPhoto(defaultImage);

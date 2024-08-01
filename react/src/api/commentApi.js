@@ -1,4 +1,4 @@
-import createAxios from "./baseAxios";
+import createAxios from "./createAxios";
 import { handleResponse, handleError } from "./ResponseProcess";
 
 const MID_URL = "/comment";
@@ -56,6 +56,15 @@ class CommentApi {
     }
   }
 
+  async fetchMyComment(page, size){
+    try {
+      const response = await this.axios.get(`/myComment?page=${page}&size=${size}`);
+      return handleResponse(response);
+    } catch (error) {
+      handleError(error);
+    }
+  }
+
   async postReplyComment(comid, formData) {
     // 답글 작성
     try {
@@ -95,4 +104,4 @@ class CommentApi {
   }
 }
 
-export default CommentApi;
+export default new CommentApi();

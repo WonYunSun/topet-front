@@ -99,7 +99,7 @@
   text-align: start;
   padding-left: 24px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .profile_name_inputbar::placeholder {
@@ -109,7 +109,7 @@
 }
 
 .input_delete_icon {
-  font-size: 27px;
+  font-size: 26px;
   width: 20%;
   color: #cecece;
   display: flex;

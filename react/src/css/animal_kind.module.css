@@ -1,92 +1,91 @@
-.container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .kind_wrapper {
-    margin: 30px 30px 70px 33px;
-    height: 390px;
-    overflow-y: scroll;
-    text-align: left;
+  margin: 30px 30px 70px 33px;
+  height: 390px;
+  overflow-y: scroll;
+  text-align: left;
 }
 
 .searchbar_wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: white;
-    height: 52px;
-    border-radius: 15px;
-    width: 88%;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+  height: 52px;
+  border-radius: 15px;
+  width: 88%;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 .selected_searchbar_wrapper::before {
-    content: "";
+  content: "";
 }
 
 .selected_searchbar_wrapper {
-    display: flex;
-    flex-direction: row;
-    flex-wrap:wrap;
-    justify-content: space-between;
-    align-items: center;
-    background-color: white;
-    border-radius: 15px;
-    width: 78%;
-    height: 52px;
-    padding-left: 20px;
-    padding-right: 20px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border-radius: 15px;
+  width: 78%;
+  height: 52px;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
-.selected_searchbar_edit_icon{
-    font-size: 20px;
-    color: #cecece;
+.selected_searchbar_edit_icon {
+  font-size: 20px;
+  color: #cecece;
 }
-
 
 .title {
-    font-size: 25px;
-    font-weight: bold;
-    margin: 62px 30px 42px 30px;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 62px 30px 42px 30px;
 }
 
 .kind {
-    font-size: 16px;
-    font-weight: 400;
-    margin-bottom: 24px;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 24px;
 }
 
 .searchbar_icon {
-    font-size: 24px;
-    margin: 20px;
-    color: #727272;
+  font-size: 24px;
+  margin: 20px;
+  color: #727272;
 }
 
 .searchbar {
-    border: none;
-    width: 280px;
-    font-size: 16px;
+  border: none;
+  width: 280px;
+  font-size: 16px;
 }
 
-.searchbar_selected_text{
-    font-size: 16px;
-    font-weight: 700;
+.searchbar_selected_text {
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .searchbar::placeholder {
-    color: #b3b3b3;
-    font-size: 16px;
-    font-weight: 400;
+  color: #b3b3b3;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .emptyList {
-    height: 500px;
+  height: 500px;
 }
 
 .kind_list_container {
-    width: 100%;
-    height: 500px;
+  width: 100%;
+  height: 500px;
 }
