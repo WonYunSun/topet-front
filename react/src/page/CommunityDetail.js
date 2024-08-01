@@ -7,6 +7,7 @@ import { BiSolidLike } from "react-icons/bi";
 import { FaSpinner } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
 import CommunityApi from '../api/communityApi';
+import CommunityLikesApi from '../api/communityLikesApi';
 import CheckModal from '../component/CheckModal';
 import CommentCreate from '../component/CommunityComp/CommentCreate';
 import CommentList from '../component/CommunityComp/CommentList';
@@ -34,11 +35,12 @@ const CommunityDetail = () => {
     setLoading(true);
     try {
       const detail = await CommunityApi.fetchCommunityDetail(comid);
-      //const liked = await CommunityApi.fetchLikedByCurrentUser(comid);
+      const liked = await CommunityLikesApi.fetchLikedByCurrentUser(comid);
 
       setItem(detail);
       setLikes(detail.likesList.length);
-      // setIsLiked(liked);
+      console.log("detail.likeList", detail.likesList)
+      setIsLiked(liked);
       setProfileName(detail.author.name)
       if (detail.hashtag) {
         setHashtags(detail.hashtag.split(',').map(tag => tag.trim()));
@@ -66,7 +68,7 @@ const CommunityDetail = () => {
     if (isLikeLoading) return;
     setIsLikeLoading(true);
     try {
-      await CommunityApi.postLike(comid);
+      await CommunityLikesApi.postLike(comid);
       setIsLiked(!isLiked);
       setLikes(prevCount => prevCount + (isLiked ? -1 : 1));
     } catch (error) {

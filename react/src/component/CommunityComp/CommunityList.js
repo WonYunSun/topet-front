@@ -33,14 +33,14 @@ const CommunityList = ({ selectedAnimal, sortListText }) => {
   const fetchPosts = async (reset = false) => {
     setLoading(true);
     try {
-      const newPosts = sortListText === "최신순"
+      const newPosts = 
+      sortListText === "최신순"
         ? await CommunityApi.fetchCommunityPosts(currentAnimalType, category, size, page.current)
         : await CommunityApi.fetchSortLikeCommunityPosts(currentAnimalType, category, size, page.current);
 
-      setCommunityPosts(prevPosts => reset ? newPosts : [...prevPosts, ...newPosts]);
-      if (newPosts.length < size) {
-        setHasMore(false);
-      }
+      setCommunityPosts(prevPosts => reset ? newPosts : [ ...prevPosts, ...newPosts ]);
+
+      if (newPosts.length < size) setHasMore(false);
       setError(null);
     } catch (error) {
       console.error("Failed to fetch posts:", error);
