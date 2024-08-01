@@ -277,7 +277,7 @@ const Home = () => {
     <div className={styles.homeWrap}>
       <TopBar isHome={true} />
 
-      {pets == null ? (
+      {pets.length == 0 ? (
         <div></div>
       ) : (
         <AnimalSelect
@@ -308,13 +308,25 @@ const Home = () => {
               <div className={styles.infoWrap}>
                 {reduxPet != null ? (
                   <div className={styles.info}>
-                    <div className={styles.photo}>
-                      <img src={Animal.profileSrc} alt="프로필" />
+                    <div className={styles.infoRow}>
+                      <div className={styles.photo}>
+                        <img src={Animal.profileSrc} alt="프로필" />
+                      </div>
+                      <div>
+                        <div className={styles.name}>{Animal.name}</div>
+                        <div className={styles.age}>나이: {Animal.birth}</div>
+                        <div className={styles.gender}>
+                          성별: {Animal.gender}
+                        </div>
+                        <div className={styles.breed}>종: {Animal.kind}</div>
+                        <div>몸무게: {Animal.weight}</div>
+                      </div>
                     </div>
-                    <div className={styles.name}>{Animal.name}</div>
-                    <div className={styles.age}>나이: {Animal.birth}</div>
-                    <div className={styles.gender}>성별: {Animal.gender}</div>
-                    <div className={styles.breed}>종: {Animal.kind}</div>
+                    <div className={styles.divider}></div>
+                    <div className={styles.infoBtm}>
+                      <div>건강 사항: {Animal.allergy}</div>
+                      <div>알러지: {Animal.health}</div>
+                    </div>
                   </div>
                 ) : (
                   <div className={styles.noAnimalWrap}>
