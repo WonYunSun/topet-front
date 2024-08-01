@@ -197,6 +197,7 @@ const PetRegistration = () => {
     formData.append("kind", selectedKind);
     formData.append("gender", selectedGender);
     formData.append("name", name);
+    formData.append("neutered", selectedNeutered)
     formData.append("birth", selectedBirth);
     formData.append("weight", weight);
     formData.append("allergy", allergy ?? null); // undefined이면 null로 설정

@@ -47,11 +47,11 @@ const CommunityListData = ({ item, onClick }) => {
         <div className={styles.like_and_coment}>
           <div className="icon-group">
             <BiSolidLike className={styles.icon}/>
-            <span> 10</span> {/* 여기 나중에 받아온 값으로 변경 */}
+            <span>{item.likesList ? item.likesList.length : 0}</span> {/* 좋아요 수 */}
           </div>
           <div className="icon-group">
             <BsChatFill className={styles.icon}/>
-            <span> 5</span> {/* 여기 나중에 받아온 값으로 변경 */}
+            <span>{item.commentCount}</span> {/* 댓글 수 */}
           </div>
         </div>
       </div>

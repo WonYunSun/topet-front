@@ -28,6 +28,20 @@ class scheduleApi {
     }
   }
 
+  async updateSchedule(id, formData){
+    try{
+      const response = await this.axios.post(`/update/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    }catch(error){
+      console.log(error);
+      throw error;
+    }
+  }
+
   async postSchedule(formData) {
     try {
       const response = await this.axios.post(`/post`, formData, {
