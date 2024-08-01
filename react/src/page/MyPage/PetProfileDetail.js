@@ -1,14 +1,19 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "../../css/mypage_petprofile.module.css";
 import dayjs from "dayjs";
 import { GoArrowLeft } from "react-icons/go";
 import { MdPets, MdInfoOutline, MdEdit } from "react-icons/md";
 import { BiHealth } from "react-icons/bi";
 import { RiWeightFill } from "react-icons/ri";
+import petApi from "../../api/petApi";
 
 const PetProfileDetail = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const [myPet, setMyPet] = useState(null); // 초기값을 null로 설정
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const goBack = () => {
     navigate(-1); // 뒤로가기
   };
@@ -16,6 +21,30 @@ const PetProfileDetail = () => {
   const goEditPetProfile = () => {
     navigate(`/editpetprofile`);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let response = await petApi.getMyPet(id);
+        setMyPet(response);
+        console.log("새로운 데이터 : ", response);
+      } catch (error) {
+        console.error("Failed to fetch pet data:", error);
+      } finally {
+        setIsLoaded(true);
+      }
+    };
+
+    fetchData();
+  }, [id]); // id가 변경될 때마다 데이터를 새로 가져옵니다
+
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+
+  if (!myPet) {
+    return <div>No data available</div>; // 데이터가 없을 경우에 대한 처리를 추가
+  }
 
   // 나이 계산 함수
   const calculateAge = (birthDate) => {
@@ -32,20 +61,18 @@ const PetProfileDetail = () => {
   };
 
   const pet = {
-    photoUrl:
-      "https://i.pinimg.com/564x/10/ae/6a/10ae6ade71b4d40c2af9a8bde4bd2002.jpg",
-    name: "아기",
-    kind: "이탈리안 그레이하운드",
-    gender: "남아",
-    neutered: false,
-    weight: "1.2kg",
-    birth: "2024/04/03", // 생일
-    allergy: "단백질류",
-    health: "매우 건강하고 밥을 많이 먹어서 비만꿈나무",
+    photoUrl: myPet.profileSrc,
+    name: myPet.name,
+    kind: myPet.kind,
+    gender: myPet.gender,
+    neutered: myPet.neutered,
+    weight: myPet.weight,
+    birth: myPet.birth, // 생일
+    allergy: myPet.allergy,
+    health: myPet.health,
   };
 
   const age = calculateAge(pet.birth); // 생일을 기준으로 나이를 계산하여 추가
-  // console.log(age);
 
   const ProfileInfoDataBox = ({
     Icon,
@@ -74,7 +101,7 @@ const PetProfileDetail = () => {
       <div className={styles.profile_top_wrapper}>
         <GoArrowLeft className={styles.back_icon} onClick={goBack} />
         <div className={styles.photo_container}>
-          <img className={styles.photo} src={pet.photoUrl} />
+          <img className={styles.photo} src={pet.photoUrl} alt="Pet" />
         </div>
         <div className={styles.edit_icon_container} onClick={goEditPetProfile}>
           <MdEdit className={styles.edit_icon} />
@@ -108,13 +135,11 @@ const PetProfileDetail = () => {
           <div className={styles.info_textcontent_wrapper}>
             <div className={styles.info_container_long}>
               <div className={styles.info_title}>알러지</div>
-              <div className={styles.info_data}>{pet.allergy}</div>
+              <div className={styles.info_data}>{pet.allergy || '-'}</div>
             </div>
             <div className={styles.info_container_long}>
               <div className={styles.info_title}>건강상태</div>
-              <div className={styles.info_data}>
-                {pet.health == "" ? "-" : pet.health}
-              </div>
+              <div className={styles.info_data}>{pet.health || '-'}</div>
             </div>
           </div>
         </div>

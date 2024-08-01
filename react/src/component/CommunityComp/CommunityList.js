@@ -23,7 +23,7 @@ const CommunityList = ({ selectedAnimal, sortListText }) => {
   const [hasMore, setHasMore] = useState(true);
   const page = useRef(0);
   const observer = useRef();
-  const size = 20;
+  const size = 5;
 
   useEffect(() => {
     setCurrentAnimalType(animalTypeMap[selectedAnimal] || 'dog');

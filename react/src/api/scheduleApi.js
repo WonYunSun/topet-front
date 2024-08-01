@@ -1,24 +1,26 @@
-import axios from "axios";
+// import axios from "axios";
+import createAxios from "./createAxios";
 
-// const API_BASE_URL = "http://175.45.202.131:8081/api";
-const API_BASE_URL = "http://localhost:8081/api";
+// // const API_BASE_URL = "http://175.45.202.131:8081/api";
+// const API_BASE_URL = "http://localhost:8081/api";
+
+const MID_URL = "/schedule";
 
 class scheduleApi {
-  constructor(baseURL) {
-    this.baseURL = baseURL;
+  // constructor(baseURL) {
+  //   this.baseURL = baseURL;
+  // }
+  constructor() {
+    this.axios = createAxios(MID_URL);
   }
 
   async updateScheduleStatus(item) {
     try {
-      const response = await axios.post(
-        `http://localhost:8081/api/schedule/post/status/${item.id}`, item, 
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await this.axios.post(`/post/status/${item.id}`, item, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Failed to update schedule status:", error);
@@ -28,16 +30,11 @@ class scheduleApi {
 
   async postSchedule(formData) {
     try {
-      const response = await axios.post(
-        `http://175.45.202.131:8081/api/schedule/post`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await this.axios.post(`/post`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log("서버 응답:", response.data);
       return response.data;
     } catch (error) {
@@ -47,19 +44,18 @@ class scheduleApi {
   }
 
   async getPetScheduleAPI(id) {
-    try{
-      const response = await axios.get(`http://localhost:8081/api/schedule/get/${id}`, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        });
-        //console.log("서버 응답 ", response.data);
-        return response.data;
-    }catch(error){
+    try {
+      const response = await this.axios.get(`/get/${id}`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      //console.log("서버 응답 ", response.data);
+      return response.data;
+    } catch (error) {
       console.log("서버 응답 에러 : ", error);
     }
   }
 }
 
-export default new scheduleApi(API_BASE_URL);
+export default new scheduleApi();

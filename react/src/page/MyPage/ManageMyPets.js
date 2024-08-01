@@ -9,7 +9,6 @@ import { useSelector, useDispatch } from "react-redux";
 const ManageMyPets = () => {
 
     const reduxMember = useSelector((state)=>state.member.member);
-    const reduxPet = useSelector((state)=>state.petList.petList);
     
     //Redux에서 받아온 현재 로그인한 유저의 정보
     
@@ -49,7 +48,7 @@ const ManageMyPets = () => {
         <div>
             <MyPageCommonTopBar title={'내 동물 관리'} />
             <div>
-                <MyPetList petProfileData={reduxPet} />
+                <MyPetList/>
             </div>
             <div>
                 <button onClick={() => handleOpenBottomSheet("petRegister")}>등록</button>

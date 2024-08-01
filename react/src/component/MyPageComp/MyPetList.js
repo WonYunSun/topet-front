@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import MyPetItem from './MyPetItem';
 import styles from '../../css/mypage_managemypets.module.css';
 import PetCodeModal from "./PetCodeModal";
+import { useSelector } from "react-redux";
 
-const MyPetList = ({ petProfileData }) => {
+const MyPetList = () => {
+
     const [copied, setCopied] = useState(false);
     const [modalData, setModalData] = useState(null); // 현재 열려있는 모달 데이터
+
+    const reduxPet = useSelector((state)=>state.petList.petList);
 
     const handleOpenModal = (pet) => {
         setModalData(pet);
@@ -15,11 +19,16 @@ const MyPetList = ({ petProfileData }) => {
         setModalData(null);
     };
 
+    if(reduxPet.length == 0){
+        return <p>등록된 반려동물이 없습니다.</p>
+    }
+
     return (
         <div>
-            {petProfileData.map((pet) => (
+            {reduxPet.map((pet) => (
                 <MyPetItem 
                     key={pet.id}
+                    pet={pet}
                     photoUrl={pet.profileSrc}
                     uid={pet.uid}
                     name={pet.name}

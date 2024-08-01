@@ -40,24 +40,24 @@ const ScheduleBottom = ({ schedules, selectedDate, onScheduleClick }) => {
     [updatedSchedules]
   );
 
-  const handleCheckBoxClick = async (item) => {
+  // const handleCheckBoxClick = async (item) => {
 
-    console.log("완료 toggle" , item.id);
-    console.log("scheduleId : " , item.isComplete )
-    try {
-      await ScheduleService.updateScheduleStatus(item);
-      item.isComplete = !item.isComplete
-      setUpdatedSchedules((prevSchedules) =>
-        prevSchedules.map((schedule) =>
-          schedule.scheduleId === item.id
-            ? { ...schedule, isComplete: !schedule.isComplete }
-            : schedule
-        )
-      );
-    } catch (error) {
-      console.error("Failed to update schedule status:", error);
-    }
-  };
+  //   console.log("완료 toggle" , item.id);
+  //   console.log("scheduleId : " , item.isComplete )
+  //   try {
+  //     await ScheduleService.updateScheduleStatus(item);
+  //     item.isComplete = !item.isComplete
+  //     setUpdatedSchedules((prevSchedules) =>
+  //       prevSchedules.map((schedule) =>
+  //         schedule.scheduleId === item.id
+  //           ? { ...schedule, isComplete: !schedule.isComplete }
+  //           : schedule
+  //       )
+  //     );
+  //   } catch (error) {
+  //     console.error("Failed to update schedule status:", error);
+  //   }
+  // };
 
   const dayformatter = dayjs(selectedDate, "YYYY/MM/DD").format(
     "YYYY년 MM월 DD일 (ddd)"
@@ -69,18 +69,24 @@ const ScheduleBottom = ({ schedules, selectedDate, onScheduleClick }) => {
         <div className={styles.ScheduleWrap}>
           <div className={styles.SelectedDate}>{dayformatter}</div>
           <div className={styles.ScheduleBoxWrap}>
-            {getSchedule(selectedDate).length > 0 ? (
+            {
+            (updatedSchedules != null)?  
+            getSchedule(selectedDate).length > 0 ? (
               getSchedule(selectedDate).map((item, index) => (
                 <ScheduleBox
                   key={index}
                   item={item}
                   onScheduleClick={onScheduleClick}
-                  handleCheckBoxClick={handleCheckBoxClick}
+                  //handleCheckBoxClick={handleCheckBoxClick}
+                  setUpdatedSchedules={setUpdatedSchedules}
+                  updatedSchedules={updatedSchedules}
                 />
               ))
             ) : (
               <p className={styles.Noschedule}>일정이 없습니다.</p>
-            )}
+            ):
+            <p className={styles.Noschedule}>일정이 없습니다.</p>
+          }
           </div>
         </div>
       )}

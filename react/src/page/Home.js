@@ -32,60 +32,60 @@ const Home = () => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [selectedPet, setSelectedPet] = useState(reduxPet);
-
+  
   const [pets, setPets] = useState([]);
 
   const animalTypeMap = {
     1: "강아지",
     2: "고양이",
-    3: "특수동물"
+    3: "특수동물",
   };
 
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
   const [schedules, setSchedule] = useState([
-    {
-      scheduleId: 1,
-      startDate: "2024-07-10T00:00:00",
-      endDate: "2024-07-13T23:59:59",
-      scheduleTitle: "병원 진료(건강검진)",
-      isComplete: false,
-      color: "#DE496E",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
-    {
-      scheduleId: 2,
-      startDate: "2024-07-10T09:00:00",
-      endDate: "2024-07-10T10:00:00",
-      scheduleTitle: "코코 아침 산책",
-      scheduleContent: "test1",
-      isComplete: true,
-      color: "#2F9ABA",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
-    {
-      scheduleId: 3,
-      startDate: "2024-07-20T09:00:00",
-      endDate: "2024-07-23T10:00:00",
-      scheduleTitle: "드디어됐네이시발거",
-      scheduleContent: "test1",
-      isComplete: true,
-      color: "#2F9ABA",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
-    {
-      scheduleId: 4,
-      startDate: "2024-07-20T09:00:00",
-      endDate: "2024-07-23T10:00:00",
-      scheduleTitle: "드디어됐네이시발거",
-      scheduleContent: "test1",
-      isComplete: true,
-      color: "#DE496E",
-      scheduleWriter: "A",
-      scheduleEditer: "B",
-    },
+    // {
+    //   scheduleId: 1,
+    //   startDate: "2024-07-10T00:00:00",
+    //   endDate: "2024-07-13T23:59:59",
+    //   scheduleTitle: "병원 진료(건강검진)",
+    //   isComplete: false,
+    //   color: "#DE496E",
+    //   scheduleWriter: "A",
+    //   scheduleEditer: "B",
+    // },
+    // {
+    //   scheduleId: 2,
+    //   startDate: "2024-07-10T09:00:00",
+    //   endDate: "2024-07-10T10:00:00",
+    //   scheduleTitle: "코코 아침 산책",
+    //   scheduleContent: "test1",
+    //   isComplete: true,
+    //   color: "#2F9ABA",
+    //   scheduleWriter: "A",
+    //   scheduleEditer: "B",
+    // },
+    // {
+    //   scheduleId: 3,
+    //   startDate: "2024-07-20T09:00:00",
+    //   endDate: "2024-07-23T10:00:00",
+    //   scheduleTitle: "드디어됐네이시발거",
+    //   scheduleContent: "test1",
+    //   isComplete: true,
+    //   color: "#2F9ABA",
+    //   scheduleWriter: "A",
+    //   scheduleEditer: "B",
+    // },
+    // {
+    //   scheduleId: 4,
+    //   startDate: "2024-07-20T09:00:00",
+    //   endDate: "2024-07-23T10:00:00",
+    //   scheduleTitle: "드디어됐네이시발거",
+    //   scheduleContent: "test1",
+    //   isComplete: true,
+    //   color: "#DE496E",
+    //   scheduleWriter: "A",
+    //   scheduleEditer: "B",
+    // },
   ]);
 
   useEffect(() => {
@@ -99,9 +99,6 @@ const Home = () => {
       setAnimalType(animalTypeValue);
     }
   }, [reduxPet]);
-
-
-
 
   const goCommunity = () => {
     const animalTypeMap = {
@@ -234,6 +231,7 @@ const Home = () => {
     let tempPets = returnedMember.pets;
     const myPets = [];
 
+    
     for (let i = 0; i < tempPets.length; i++) {
       let tempPet = {
         id: tempPets[i].id,
@@ -241,7 +239,7 @@ const Home = () => {
         birth: tempPets[i].birth,
         health: tempPets[i].health,
         allergy: tempPets[i].allergy,
-        gender : tempPets[i].gender,
+        gender: tempPets[i].gender,
         kind: tempPets[i].kind,
         profileSrc: tempPets[i].profileSrc,
         name: tempPets[i].name,
@@ -255,25 +253,31 @@ const Home = () => {
     dispatch(updatePetList(myPets));
     //    setPets(returnedMember.pets);
 
-    //const schedule = await homeApi.getHomeDataSchedule();
+    if(reduxPet != null){
+      const response  = await homeApi.getHomeDataSchedule(reduxPet.id);
+      setSchedule(response);
+    }
+    
+
     // const pet = await homeApi.getHomeDataPet();
   };
 
   dispatch(updateSelectedPet(selectedPet));
 
-
   return (
-    
     <div className={styles.homeWrap}>
       <TopBar isHome={true} />
 
+      {(reduxPet == null)? 
+      <div></div> : 
       <AnimalSelect
         onClick={handleOpenPetBottomSheet}
         selectedPet={selectedPet}
         setSelectedPet={setSelectedPet}
         isHome={true}
         pets={pets}
-      />
+      />}
+      
       <BottomSheet
         show={showBottomSheet}
         onClose={handleCloseBottomSheet}
@@ -282,40 +286,42 @@ const Home = () => {
         setSelectedPet={setSelectedPet}
       />
 
-      <div
-        className={`${styles.flipCard} ${isFlipped ? styles.flipped : ""}`}
-        // onClick={handleClick}
-      >
-      {
-      (Animal != null) ?
-        <div className={styles.flipCardInner}>
-          {/* 카드 앞면 */}
-          <div className={styles.flipCardFront}>
-            <div className={styles.frontInfoWrap}>
-              <div className={styles.photo}>
-                <img src={Animal.profileSrc} alt="프로필" />
-              </div>
-              <div className={styles.infoWrap}>
-                <div className={styles.info}>
-                  <div className={styles.name}>{Animal.name}</div>
-                  <div className={styles.age}>나이: {Animal.birth}</div>
-                  <div className={styles.gender}>성별: {Animal.gender}</div>
-                  <div className={styles.breed}>종: {Animal.kind}</div>
+      
+        {reduxPet != null ? (
+          <div
+          className={`${styles.flipCard} ${isFlipped ? styles.flipped : ""}`}
+          // onClick={handleClick}
+        >
+          <div className={styles.flipCardInner}>
+            {/* 카드 앞면 */}
+            <div className={styles.flipCardFront}>
+              <div className={styles.frontInfoWrap}>
+                <div className={styles.photo}>
+                  <img src={Animal.profileSrc} alt="프로필" />
+                </div>
+                <div className={styles.infoWrap}>
+                  <div className={styles.info}>
+                    <div className={styles.name}>{Animal.name}</div>
+                    <div className={styles.age}>나이: {Animal.birth}</div>
+                    <div className={styles.gender}>성별: {Animal.gender}</div>
+                    <div className={styles.breed}>종: {Animal.kind}</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          {/* 카드 뒷면 */}
-          <div className={styles.flipCardBack}> 
-            <div className={styles.info}>
-              <h2>추가 정보</h2>
-              <p>몸무게: {Animal.weight}</p>
-              <p>건강 사항: {Animal.health}</p>
+            {/* 카드 뒷면 */}
+            <div className={styles.flipCardBack}>
+              <div className={styles.info}>
+                <h2>추가 정보</h2>
+                <p>몸무게: {Animal.weight}</p>
+                <p>건강 사항: {Animal.health}</p>
+              </div>
             </div>
           </div>
-        </div> : <div></div>
-        }
       </div>
+        ) : (
+          <div style={{height:"100px"}}>반려동물등록하러가기</div>
+        )}
       <div className={styles.homeMenuArea}>
         <div className={styles.communityMenu}>
           <div className={styles.Navdiv} onClick={goCommunity}>
@@ -343,6 +349,7 @@ const Home = () => {
           <SlArrowRight onClick={goCalendar} />
         </div>
         <ScheduleToday schedules={schedules} />
+        
       </div>
 
       <div className={styles.shortsPreivewArea}>
