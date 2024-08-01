@@ -86,8 +86,9 @@ class CommunityApi {
     // 게시물 디테일 불러오기
     try {
       const response = await this.axios.get(`/detail/${comid}`, {
-        withCredentials: true,
+        
       });
+      console.log(response)
       return handleResponse(response);
     } catch (error) {
       handleError(error);
