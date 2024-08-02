@@ -240,12 +240,11 @@ const Home = () => {
     const months = today.diff(birth.add(years, "year"), "month");
 
     if (years > 0) {
-      return `${years}살 ${months}개월`;
+      return months > 0 ? `${years}살 ${months}개월` : `${years}살`;
     } else {
       return `${months}개월`;
     }
   };
-
   dispatch(updateSelectedPet(selectedPet));
 
   console.log("home출력 reduxMember : ", reduxMember);
