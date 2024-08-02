@@ -189,6 +189,7 @@ const Home = () => {
   const getHome = async () => {
     const returnedMember = await homeApi.getHomeDataMember();
     // member을 redux에넣어야함
+
     
         const sessionMember = {
           id: returnedMember.id,
