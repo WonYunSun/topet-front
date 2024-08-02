@@ -47,11 +47,11 @@ const Home = () => {
   const [schedules, setSchedule] = useState([]);
 
   useEffect(() => {
-    try{
+    try {
       getHome();
-    }catch(error){
+    } catch (error) {
       console.log(error);
-    }finally{
+    } finally {
       setIsLoaded(true);
     }
   }, []);
@@ -189,38 +189,38 @@ const Home = () => {
   const getHome = async () => {
     const returnedMember = await homeApi.getHomeDataMember();
     // member을 redux에넣어야함
-    
-        const sessionMember = {
-          id: returnedMember.id,
-          email: returnedMember.email,
-          name: returnedMember.name,
-          socialId: returnedMember.socialId,
-        };
-        
+
+    const sessionMember = {
+      id: returnedMember.id,
+      email: returnedMember.email,
+      name: returnedMember.name,
+      socialId: returnedMember.socialId,
+    };
+
     setMember(sessionMember);
     const tempPets = returnedMember.pets;
 
     const myPets = [];
-    
+
     for (let i = 0; i < tempPets.length; i++) {
-      if(tempPets[i] != null){
-      let tempPet = {
-        id: tempPets[i].id,
-        type: tempPets[i].type,
-        birth: tempPets[i].birth,
-        health: tempPets[i].health,
-        allergy: tempPets[i].allergy,
-        gender: tempPets[i].gender,
-        kind: tempPets[i].kind,
-        profileSrc: tempPets[i].profileSrc,
-        name: tempPets[i].name,
-        weight: tempPets[i].weight,
-        uid: tempPets[i].uid,
-      };
-      myPets.push(tempPet);
+      if (tempPets[i] != null) {
+        let tempPet = {
+          id: tempPets[i].id,
+          type: tempPets[i].type,
+          birth: tempPets[i].birth,
+          health: tempPets[i].health,
+          allergy: tempPets[i].allergy,
+          gender: tempPets[i].gender,
+          kind: tempPets[i].kind,
+          profileSrc: tempPets[i].profileSrc,
+          name: tempPets[i].name,
+          weight: tempPets[i].weight,
+          uid: tempPets[i].uid,
+        };
+        myPets.push(tempPet);
+      }
     }
-    }
-  
+
     setPets(myPets);
     dispatch(updateMember(sessionMember));
     dispatch(updatePetList(myPets));
@@ -240,7 +240,7 @@ const Home = () => {
     const months = today.diff(birth.add(years, "year"), "month");
 
     if (years > 0) {
-      return `${years}년 ${months}개월`;
+      return `${years}살 ${months}개월`;
     } else {
       return `${months}개월`;
     }
@@ -249,8 +249,8 @@ const Home = () => {
   dispatch(updateSelectedPet(selectedPet));
 
   console.log("home출력 reduxMember : ", reduxMember);
-  if(!isLoaded){
-    return <div>Loading...</div>
+  if (!isLoaded) {
+    return <div>Loading...</div>;
   }
   return (
     <div className={styles.homeWrap}>
@@ -329,12 +329,14 @@ const Home = () => {
                       <div>
                         건강사항:{" "}
                         <span className={styles.boldText}>
-                          {Animal.allergy}
+                          {Animal.allergy || "-"}
                         </span>
                       </div>
                       <div>
                         알러지:{" "}
-                        <span className={styles.boldText}>{Animal.health}</span>
+                        <span className={styles.boldText}>
+                          {Animal.health || "-"}
+                        </span>
                       </div>
                     </div>
                   </div>

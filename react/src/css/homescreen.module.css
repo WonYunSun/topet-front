@@ -305,16 +305,18 @@
   gap: 2em;
 }
 .noAnimal {
+  font-weight: 500;
   font-size: 15px;
-  color: #949494;
+  color: #b1b1b1;
 }
 .petRegiBtn {
-  color: #949494;
+  color: #b1b1b1;
   font-weight: 300;
 }
 .petRegiBtn {
   font-size: 13px;
-  border: 1px solid #949494;
+  border: 1px solid #b1b1b1;
   padding: 5px 10px;
   border-radius: 15px;
+  font-weight: 500;
 }
