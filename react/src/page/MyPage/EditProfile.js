@@ -11,6 +11,8 @@ import { TbPhoto } from "react-icons/tb";
 import { TiDelete } from "react-icons/ti";
 
 const EditProfile = () => {
+
+  
   const defaultProfileImage =
     "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
   const [profilePhoto, setProfilePhoto] = useState(defaultProfileImage);
