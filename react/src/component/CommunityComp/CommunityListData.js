@@ -2,8 +2,10 @@ import React from 'react';
 import { BiSolidLike } from "react-icons/bi";
 import { BsChatFill } from "react-icons/bs";
 import styles from '../../css/communityList.module.css';
+import { useNavigate } from 'react-router-dom';
 
-const CommunityListData = ({ item, onClick }) => {
+const CommunityListData = ({ item }) => {
+  const navigate = useNavigate();
   const formatHashtags = hashtagString => {
     if(hashtagString == null){
       return;
@@ -14,6 +16,8 @@ const CommunityListData = ({ item, onClick }) => {
 
     const visibleTags = tags.slice(0, 3);
     const remainingTagsCount = tags.length - visibleTags.length;
+
+    
 
     return (
       <>
@@ -26,11 +30,14 @@ const CommunityListData = ({ item, onClick }) => {
       </>
     );
   };
+  const handlePostClick = (comid) => {
+    navigate(`/community/detail/${comid}`);
+  };
 
   console.log(item.images)
 
   return (
-    <div onClick={onClick}>
+    <div onClick={() => handlePostClick(item.id)}>
       <div className={styles.each_community_area}>
         <div className={styles.content_and_photo_container}>
           <div className={styles.titleContentWrap}>

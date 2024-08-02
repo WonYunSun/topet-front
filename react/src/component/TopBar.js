@@ -101,7 +101,7 @@ const TopBar = ({
               onClick={goBack}
             />
             {/* <div className={styles.logo}>투펫</div> */}
-            <Logo width={45} height={45} />
+            <Logo width={37} height={37} />
             <GoHome
               className={`${styles.icon} ${isHome ? styles.hidden : ""}`}
               onClick={goHome}
