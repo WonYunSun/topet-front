@@ -27,6 +27,8 @@ const CommunityListData = ({ item, onClick }) => {
     );
   };
 
+  console.log(item.images)
+
   return (
     <div onClick={onClick}>
       <div className={styles.each_community_area}>
@@ -37,7 +39,7 @@ const CommunityListData = ({ item, onClick }) => {
           </div>
           {item.images && item.images.length > 0 && (
             <div className={styles.community_photo}>
-              <img src={'/home/user/toPetTemp/image/'} alt={item.images[0].origFileName} />
+              <img src={item.images[0]} alt={item.images[0].origFileName} />
             </div>
           )}
         </div>
