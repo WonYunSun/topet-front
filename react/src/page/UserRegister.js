@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import styles from "../css/mypage_editpetprofile.module.css";
+import styles from "../css/mypage_editprofile.module.css";
 import { TbPhoto } from "react-icons/tb";
 import { TiDelete } from "react-icons/ti";
 export default function UserRegister() {
@@ -14,10 +14,7 @@ export default function UserRegister() {
     if (profilePhoto == undefined) {
       setProfilePhoto(defaultProfileImage);
     }
-    if (
-      profileName == ""
-      //   (profileName == currentProfileName && profilePhoto == currentProfilePhoto)
-    ) {
+    if (profileName == "") {
       setCanSave(false);
     } else {
       setCanSave(true);
@@ -44,10 +41,18 @@ export default function UserRegister() {
   const SaveProfile = () => {
     console.log("저장");
   };
+
+  const handleSubmit = async () => {
+    // 프로필 등록
+    const formData = new FormData();
+    formData.append("profileName", profileName);
+    // navigate(-1);
+  };
+
   return (
     <>
-      <div>어서오세요!</div>
-      <div>프로필 등록</div>
+      <div className={styles.welcome_text}>어서오세요!</div>
+      <div className={styles.pofileregister_text}>프로필을 등록해주세요</div>
       <div className={styles.form_wrapper}>
         <div className={styles.photo_wrapper}>
           <div className={styles.profile_photo_wrapper}>
