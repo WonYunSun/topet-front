@@ -8,6 +8,7 @@ import AnimalGender from "../component/AnimalSelectComp/AnimalGender";
 import AnimalBirth from "../component/AnimalSelectComp/AnimalBirth";
 import AnimalPhotoandName from "../component/AnimalSelectComp/AnimalPhotoandName";
 import AnimalWeightandHealth from "../component/AnimalSelectComp/AnimalWeightandHealth";
+import CheckModal from "../component/CheckModal";
 
 import petApi from "../api/petApi";
 
@@ -212,15 +213,17 @@ const PetRegistration = () => {
     console.log(formData.get("weight"));
     console.log(formData.get("health"));
     const resp = await petApi.postPetData(formData);
-    
-    if(resp.status == 200){
-      alert("펫 등록에 성공했습니다.");
-      //여기에 모달 띄우든 뭐든 해
-      goHome();
-    }else{
+
+    if (resp.status == 200) {
+      // 반려동물 등록 성공 modal창
+      <CheckModal
+        Content={"반려동물이 등록되었습니다."}
+        onClose={goHome}
+        oneBtn={true}
+      />;
+    } else {
       alert("펫 등록에 실패했습니다.");
     }
-    
   };
 
   function nextPossibleFunction(stepNum) {
@@ -254,7 +257,6 @@ const PetRegistration = () => {
   }
   const handleRegistFin = () => {
     submitForm();
-
   };
 
   const NextPossibleComp = () => {

@@ -1,8 +1,12 @@
+/* wrapper div */
+
 .wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
+/* 프로필 등록, 수정 공통 css */
 
 .photo_wrapper {
   position: relative;
@@ -16,25 +20,15 @@
   position: relative;
 }
 
-.empty_profile_photo {
-  outline: 4px solid #cfcfcf;
-  outline-offset: -5px;
-  width: 130px;
-  height: 130px;
-  border-radius: 70%;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  margin-bottom: 30px;
-}
-
 .selected_profile_photo_container {
-  width: 130px;
-  height: 130px;
+  width: 115px;
+  height: 115px;
   margin-bottom: 30px;
 }
 
 .selected_profile_photo {
-  width: 130px;
-  height: 130px;
+  width: 115px;
+  height: 115px;
   object-fit: cover;
   border-radius: 70%;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -119,37 +113,6 @@
   text-align: end;
 }
 
-.profile_name_length {
-  font-size: 13px;
-  margin-top: 10px;
-  margin-left: 24px;
-  color: #adadad;
-}
-
-.secession_wrapper {
-  width: 90%;
-  position: fixed;
-  bottom: 70px;
-  margin-left: 10px;
-  margin-bottom: 8px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: #7b7b7b;
-  font-size: 15px;
-}
-
-.secession_phrase {
-  font-size: 13px;
-  font-weight: 300;
-}
-
-.secession_button {
-  margin-left: 8px;
-  font-size: 13px;
-  font-weight: 500;
-}
-
 .save_button_wrapper {
   min-height: 50px;
   width: 100%;
@@ -179,4 +142,111 @@
   border-radius: 10px;
   background-color: #dadada;
   pointer-events: none;
+}
+
+.profile_name_length {
+  font-size: 13px;
+  margin-top: 10px;
+  margin-left: 24px;
+  color: #adadad;
+}
+
+/* 프로필 등록 css */
+
+.welcome_text {
+  margin-top: 25%;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.pofileregister_text {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.form_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+/* 프로필 수정 css */
+
+.secession_wrapper {
+  width: 90%;
+  position: fixed;
+  bottom: 70px;
+  margin-left: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #7b7b7b;
+  font-size: 15px;
+}
+
+.secession_phrase {
+  font-size: 13px;
+  font-weight: 300;
+}
+
+.secession_button {
+  margin-left: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* 프로필 등록 완료 css */
+
+.complete_msg_wrapper {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: 30%;
+}
+
+.check_icon {
+  margin-bottom: 18%;
+  font-size: 38px;
+  color: #ffa62f;
+}
+
+.complete_text {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 25%;
+}
+
+.button_wrapper {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  bottom: 30%;
+  width: 100%;
+}
+
+.register_button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  width: 80%;
+  height: 50px;
+  margin: 5px;
+  border-radius: 20px;
+  background-color: #ffa62f;
+}
+
+.register_later_button {
+  padding: 8px;
+  color: #adadad;
 }

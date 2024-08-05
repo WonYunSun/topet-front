@@ -23,7 +23,7 @@ import SeeMyComments from "./page/MyPage/SeeMyComments";
 import SeeLikedPosts from "./page/MyPage/SeeLikedPosts";
 import SeeMyShorts from "./page/MyPage/SeeMyShorts";
 import SeeLikedShorts from "./page/MyPage/SeeLikedShorts";
-import ChoicePetRegister from "./page/ChoicePetRegister";
+import ProfileCompleted from "./page/ProfileCompleted";
 //navbar.js
 import NavBar from "./component/NavBarComp/NavBar";
 //네비게이션바 띄울 화면 import 필요
@@ -61,7 +61,7 @@ function App() {
         <Route path="/myshorts" element={<SeeMyShorts />} />
         <Route path="/likedshorts" element={<SeeLikedShorts />} />
         <Route path="/shorts" element={<Shorts />} />
-        <Route path="/choicepetregister" element={<ChoicePetRegister />} />
+        <Route path="/profilecompleted" element={<ProfileCompleted />} />
         <Route path="/userregister" element={<UserRegister />} />
 
         {/* <Route path='/api/kakaoLogin' element={<KakaoLogin/>} /> */}
