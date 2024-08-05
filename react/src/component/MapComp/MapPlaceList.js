@@ -6,12 +6,18 @@ function MapPlaceList({
   moveLatLng,
   onClose,
   setSelectedMarker,
-
   setSelectedPlace,
+  isDeskTop,
 }) {
   const getLastCategoryName = (categoryName) => {
     const parts = categoryName.split(" > ");
-    return parts[parts.length - 1];
+    const lastPart = parts[parts.length - 1];
+
+    if (lastPart.length >= 7) {
+      return parts.length > 2 ? parts[2] : null;
+    } else {
+      return lastPart;
+    }
   };
 
   const formatDistance = (distance) => {
@@ -24,7 +30,7 @@ function MapPlaceList({
   if (!searchResult || searchResult.length === 0) {
     return (
       <div>
-        검색 결과가 없어요 <FaRegSadTear />{" "}
+        검색 결과가 없어요 <FaRegSadTear />
       </div>
     );
   }

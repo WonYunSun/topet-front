@@ -35,6 +35,49 @@
   min-height: fit-content;
   z-index: 1;
 }
+.MapSideBar {
+  width: 30%;
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  z-index: 10;
+  transition: transform 0.3s ease;
+  box-shadow: var(--box-shadow);
+}
+
+.MapSideBar.hiddensidebar {
+  transform: translateX(-95%);
+}
+
+.mapTopWrap_Dt {
+  /* padding: 1em; */
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+}
+
+.toggleButton {
+  position: absolute;
+  top: 50%; /* 원하는 위치로 조정 */
+  left: 100%; /* 원하는 위치로 조정 */
+  background-color: #fff;
+  border: none;
+  padding: 10px 5px;
+  z-index: 11; /* 사이드바 위에 표시되도록 */
+  transition: left 0.3s ease;
+  box-shadow: rgba(0, 0, 0, 0.075) 0px 3px 6px, rgba(0, 0, 0, 0.123) 0px 3px 6px;
+}
+
+.hiddensidebar .toggleButton {
+  left: 100%; /* 숨겨진 상태에서의 위치 */
+}
 
 .mapTopWrap {
   width: 100%;
@@ -47,6 +90,11 @@
   padding: 1em;
   z-index: 10;
 }
+.mapController {
+  position: absolute;
+  bottom: 50px;
+  right: 70px;
+}
 
 .topBtnWrap {
   display: flex;
@@ -54,7 +102,19 @@
   align-items: center;
   gap: 1em;
 }
-
+.side_topWrap {
+  width: 100%;
+  height: 100px;
+  background-color: var(--main-color);
+  padding: 1em;
+  box-sizing: border-box;
+}
+.side_customBtnWrap {
+  padding: 0 1em;
+}
+.sideBarResult {
+  overflow-y: scroll;
+}
 .inputWrap {
   position: relative;
   flex-grow: 1;
@@ -155,7 +215,7 @@
   bottom: 70px;
   left: 50%;
   box-sizing: border-box;
-  transform: translateX(-50%) translateY(100px);
+  transform: translateX(-50%) translateY(120px);
   z-index: 20;
   background-color: white;
   padding: 12px;
@@ -177,6 +237,32 @@
   display: flex;
   flex-direction: column;
   align-items: start;
+}
+.placeDetailframe {
+  position: absolute;
+  z-index: 990;
+  right: 30%;
+  top: 10px;
+}
+.topBar {
+  display: flex;
+  justify-content: flex-end;
+  background-color: #ffffff;
+  padding: 10px;
+  box-sizing: border-box;
+
+  width: 80%;
+  border-radius: 10px 10px 0 0;
+}
+.iframebox,
+.topBar {
+  box-shadow: var(--box-shadow);
+}
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
 }
 .nameWrap div:nth-child(1) {
   margin: 0;
@@ -274,4 +360,22 @@
   border-radius: 10px;
   color: #ffa62f;
   border: #ffa62f 1px solid;
+}
+.reSearchBtn_DT {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+  background-color: #fff;
+  color: #444;
+  z-index: 10;
+  background-color: white;
+  padding: 8px;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.placeRecommend {
+  overflow-y: auto;
 }
