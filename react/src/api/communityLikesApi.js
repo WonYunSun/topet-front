@@ -1,4 +1,4 @@
-import createAxios from "./baseAxios";
+import createAxios from "./createAxios";
 import { handleResponse, handleError } from "./ResponseProcess";
 
 const MID_URL = "/like";
@@ -15,6 +15,7 @@ class CommunityLikesApi {
       return handleResponse(response);
     } catch (error) {
       handleError(error);
+      return false;
     }
   }
 
@@ -28,4 +29,4 @@ class CommunityLikesApi {
   }
 }
 
-export default CommunityLikesApi;
+export default new CommunityLikesApi();

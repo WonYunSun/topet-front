@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CommunityApi from '../../api/communityApi';
+import commentApi from '../../api/commentApi';
 import styles from '../../css/CommentList.module.css';
 import { FiMoreVertical } from "react-icons/fi";
 import EditDeleteBottomSheet from '../SubBottomSheet';
@@ -21,8 +21,9 @@ const CommentList = ({ comid, updateCommentCount }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const response = await CommunityApi.fetchComment(comid);
+        const response = await commentApi.fetchComment(comid);
         setComments(response);
+        console.log("댓글 json 형식 :", response)
         updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
       } catch (error) {
         console.error("Error fetching comments:", error);
@@ -54,12 +55,14 @@ const CommentList = ({ comid, updateCommentCount }) => {
 
   const handleReplyClick = (commentId) => {
     setCommentId(commentId);
+    setEditCommentId(null);
     setShowSubBottomSheet(false);
     setReplyContent("");
   };
 
   const handleEditClick = (commentId, content) => {
     setEditCommentId(commentId);
+    setCommentId(null);
     setEditReplyId(null);
     setEditContent(content);
     setShowSubBottomSheet(false);
@@ -68,6 +71,7 @@ const CommentList = ({ comid, updateCommentCount }) => {
   const handleReplyEditClick = (replyId, content) => {
     setEditReplyId(replyId);
     setEditCommentId(null);
+    setCommentId(null);
     setEditContent(content);
     setShowSubBottomSheet(false);
   };
@@ -91,13 +95,13 @@ const CommentList = ({ comid, updateCommentCount }) => {
     formData.append("content", replyContent);
 
     try {
-      await CommunityApi.postReplyComment(comid, formData);
+      await commentApi.postReplyComment(comid, formData);
       alert("답글이 등록되었습니다.");
       setReplyContent("");
       setCommentId(null);
-      const response = await CommunityApi.fetchComment(comid);
+      const response = await commentApi.fetchComment(comid);
       setComments(response);
-      updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
+      updateCommentCount(calculateTotalComments(response));
     } catch (error) {
       console.error("Error posting reply:", error);
     }
@@ -114,11 +118,11 @@ const CommentList = ({ comid, updateCommentCount }) => {
     formData.append("content", editContent);
 
     try {
-      await CommunityApi.updateComment(formData);
+      await commentApi.updateComment(formData);
       alert("댓글이 수정되었습니다.");
       setEditCommentId(null);
       setEditContent("");
-      const response = await CommunityApi.fetchComment(comid);
+      const response = await commentApi.fetchComment(comid);
       setComments(response);
       updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
     } catch (error) {
@@ -134,16 +138,16 @@ const CommentList = ({ comid, updateCommentCount }) => {
 
     const formData = new FormData();
     formData.append("id", editReplyId);
-    formData.append("content");
+    formData.append("content", editContent);
 
     try {
-      await CommunityApi.updateReply(formData);
+      await commentApi.updateReply(formData);
       alert("답글이 수정되었습니다.");
       setEditReplyId(null);
       setEditContent("");
-      const response = await CommunityApi.fetchComment(comid);
+      const response = await commentApi.fetchComment(comid);
       setComments(response);
-      updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
+      updateCommentCount(calculateTotalComments(response));
     } catch (error) {
       console.error("Error editing reply:", error);
     }
@@ -153,16 +157,20 @@ const CommentList = ({ comid, updateCommentCount }) => {
     setEditCommentId(null);
     setEditReplyId(null);
     setEditContent("");
-    setReplyContent("")
+    setReplyContent("");
   };
 
+  const handleReplyCancel = () => {
+    setCommentId(null);
+    setReplyContent("");
+  };
 
   const handleDeleteClick = async (commentId) => {
     try {
-      await CommunityApi.deleteComment(commentId);
+      await commentApi.deleteComment(commentId);
       alert("댓글이 삭제되었습니다.");
       setShowSubBottomSheet(false);
-      const response = await CommunityApi.fetchComment(comid);
+      const response = await commentApi.fetchComment(comid);
       setComments(response);
       updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
     } catch (error) {
@@ -172,10 +180,10 @@ const CommentList = ({ comid, updateCommentCount }) => {
 
   const handleDeleteReplyClick = async (replyId) => {
     try {
-      await CommunityApi.deleteReply(replyId);
+      await commentApi.deleteReply(replyId);
       alert("답글이 삭제되었습니다.");
       setShowSubBottomSheet(false);
-      const response = await CommunityApi.fetchComment(comid);
+      const response = await commentApi.fetchComment(comid);
       setComments(response);
       updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
     } catch (error) {
@@ -221,7 +229,7 @@ const CommentList = ({ comid, updateCommentCount }) => {
                 value={replyContent}
                 onChange={(e) => handleReplyChange(e.target.value)}
               />
-              <button className={styles.cancelButton} onClick={handleEditCancel}>취소</button>
+              <button className={styles.cancelButton} onClick={handleReplyCancel}>취소</button>
               <button className={styles.replyButton} onClick={handleReplyPost}>등록</button>
             </div>
           )}

@@ -1,4 +1,5 @@
 .homeWrap {
+  overflow: hidden;
 }
 /* .homeWrap::after {
   content: "";
@@ -154,11 +155,11 @@
 .flipCard {
   background-color: transparent;
   width: 85%;
+  box-sizing: border-box;
   margin: 1em auto;
   height: 0; /* 높이를 0으로 설정하고 패딩을 사용 */
   padding-top: calc(85% / 1.58); /* 1.58:1 비율로 패딩 설정 */
-
-  perspective: 1000px;
+  /* perspective: 1000px; */
   box-sizing: border-box;
   position: relative; /* 내부 요소의 절대 위치를 위해 필요 */
 }
@@ -206,14 +207,14 @@
   align-items: center;
   width: 100%;
   height: 100%;
-
   gap: 1em;
 }
+
 .photo {
-  width: 40%;
+  width: 30%;
   height: 0;
-  padding-top: calc(40% * 4.5 / 3.5); /* 3.5:4.5 비율로 패딩 설정 */
-  background-color: #ffa62f;
+  padding-top: calc(30% * 4.5 / 3.5); /* 3.5:4.5 비율로 패딩 설정 */
+  background-color: #999;
   position: relative; /* 자식 요소의 절대 위치를 위해 필요 */
   overflow: hidden; /* 넘친 부분 숨기기 */
   border-radius: 4px; /* 신분증 사진 느낌을 위한 경계선 둥글림 */
@@ -227,24 +228,44 @@
   object-fit: cover;
 }
 .name {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 600;
-  margin-bottom: 0.2em;
 }
 
 .info {
+  width: 100%;
   font-weight: 400;
+  font-size: 13px;
   text-align: left;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  gap: 0.5em;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0 0.5em;
 }
-
-.arrow {
-  padding-bottom: 0.6em;
+.infoRow {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 10px;
+}
+.gen_kind {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.divider {
+  border-top: 1px solid #bbbbbb63;
+  padding: 5px;
+}
+.infoBtm {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.boldText {
+  font-weight: 500;
 }
 
 .infoWrap {
@@ -255,7 +276,11 @@
   flex-direction: row;
   justify-content: center;
 }
-
+.animalinfoWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 /* 
 .tempWrap {
   display: flex;
@@ -273,22 +298,25 @@
   gap: 3px;
 }
 .noAnimalWrap {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2em;
 }
 .noAnimal {
+  font-weight: 500;
   font-size: 15px;
-  color: #949494;
+  color: #b1b1b1;
 }
 .petRegiBtn {
-  color: #949494;
+  color: #b1b1b1;
   font-weight: 300;
 }
 .petRegiBtn {
   font-size: 13px;
-  border: 1px solid #949494;
+  border: 1px solid #b1b1b1;
   padding: 5px 10px;
   border-radius: 15px;
+  font-weight: 500;
 }

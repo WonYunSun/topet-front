@@ -19,7 +19,7 @@ const PetProfileDetail = () => {
   };
 
   const goEditPetProfile = () => {
-    navigate(`/editpetprofile`);
+    navigate(`/editpetprofile/${id}`);
   };
 
   useEffect(() => {
@@ -48,18 +48,17 @@ const PetProfileDetail = () => {
 
   // 나이 계산 함수
   const calculateAge = (birthDate) => {
+    const today = dayjs();
     const birth = dayjs(birthDate);
-    const now = dayjs();
-    const ageInMonths = now.diff(birth, "month");
+    const years = today.diff(birth, "year");
+    const months = today.diff(birth.add(years, "year"), "month");
 
-    if (ageInMonths >= 12) {
-      const ageInYears = Math.floor(ageInMonths / 12);
-      return `${ageInYears}살`;
+    if (years > 0) {
+      return months > 0 ? `${years}살 ${months}개월` : `${years}살`;
     } else {
-      return `${ageInMonths}개월`;
+      return `${months}개월`;
     }
   };
-
   const pet = {
     photoUrl: myPet.profileSrc,
     name: myPet.name,
@@ -135,11 +134,11 @@ const PetProfileDetail = () => {
           <div className={styles.info_textcontent_wrapper}>
             <div className={styles.info_container_long}>
               <div className={styles.info_title}>알러지</div>
-              <div className={styles.info_data}>{pet.allergy || '-'}</div>
+              <div className={styles.info_data}>{pet.allergy || "-"}</div>
             </div>
             <div className={styles.info_container_long}>
               <div className={styles.info_title}>건강상태</div>
-              <div className={styles.info_data}>{pet.health || '-'}</div>
+              <div className={styles.info_data}>{pet.health || "-"}</div>
             </div>
           </div>
         </div>

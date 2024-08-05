@@ -13,8 +13,11 @@ const petListSlice = createSlice({
         updatePetList(state, action) { //state, action을 매개변수로 받음
             state.petList = action.payload
         },
+        addPetToList(state, action) {
+            state.petList.push(action.payload);
+        },
     }
 })
 
-export const { updatePetList } = petListSlice.actions;  //dispatch에서 쓰기 위해 action을 export
+export const { updatePetList, addPetToList } = petListSlice.actions;  //dispatch에서 쓰기 위해 action을 export
 export default petListSlice.reducer; //reducers를 하나의 큰 reducer로 만들어주기 때문에 export 할 때는 reducer로 해야 함.

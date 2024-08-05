@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import TopBar from "../component/TopBar";
@@ -34,6 +35,7 @@ const Home = () => {
   const [selectedPet, setSelectedPet] = useState(reduxPet);
   const [member, setMember] = useState();
   const [pets, setPets] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const animalTypeMap = {
     1: "강아지",
@@ -42,54 +44,16 @@ const Home = () => {
   };
 
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
-  const [schedules, setSchedule] = useState([
-    // {
-    //   scheduleId: 1,
-    //   startDate: "2024-07-10T00:00:00",
-    //   endDate: "2024-07-13T23:59:59",
-    //   scheduleTitle: "병원 진료(건강검진)",
-    //   isComplete: false,
-    //   color: "#DE496E",
-    //   scheduleWriter: "A",
-    //   scheduleEditer: "B",
-    // },
-    // {
-    //   scheduleId: 2,
-    //   startDate: "2024-07-10T09:00:00",
-    //   endDate: "2024-07-10T10:00:00",
-    //   scheduleTitle: "코코 아침 산책",
-    //   scheduleContent: "test1",
-    //   isComplete: true,
-    //   color: "#2F9ABA",
-    //   scheduleWriter: "A",
-    //   scheduleEditer: "B",
-    // },
-    // {
-    //   scheduleId: 3,
-    //   startDate: "2024-07-20T09:00:00",
-    //   endDate: "2024-07-23T10:00:00",
-    //   scheduleTitle: "드디어됐네이시발거",
-    //   scheduleContent: "test1",
-    //   isComplete: true,
-    //   color: "#2F9ABA",
-    //   scheduleWriter: "A",
-    //   scheduleEditer: "B",
-    // },
-    // {
-    //   scheduleId: 4,
-    //   startDate: "2024-07-20T09:00:00",
-    //   endDate: "2024-07-23T10:00:00",
-    //   scheduleTitle: "드디어됐네이시발거",
-    //   scheduleContent: "test1",
-    //   isComplete: true,
-    //   color: "#DE496E",
-    //   scheduleWriter: "A",
-    //   scheduleEditer: "B",
-    // },
-  ]);
+  const [schedules, setSchedule] = useState([]);
 
   useEffect(() => {
-    getHome();
+    try {
+      getHome();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoaded(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -232,30 +196,31 @@ const Home = () => {
       name: returnedMember.name,
       socialId: returnedMember.socialId,
     };
+
     setMember(sessionMember);
-
-    console.log("returnedMember.pets returnedMember.pets", returnedMember.pets);
-
-    let tempPets = returnedMember.pets;
+    const tempPets = returnedMember.pets;
 
     const myPets = [];
 
     for (let i = 0; i < tempPets.length; i++) {
-      let tempPet = {
-        id: tempPets[i].id,
-        type: tempPets[i].type,
-        birth: tempPets[i].birth,
-        health: tempPets[i].health,
-        allergy: tempPets[i].allergy,
-        gender: tempPets[i].gender,
-        kind: tempPets[i].kind,
-        profileSrc: tempPets[i].profileSrc,
-        name: tempPets[i].name,
-        weight: tempPets[i].weight,
-        uid: tempPets[i].uid,
-      };
-      myPets.push(tempPet);
+      if (tempPets[i] != null) {
+        let tempPet = {
+          id: tempPets[i].id,
+          type: tempPets[i].type,
+          birth: tempPets[i].birth,
+          health: tempPets[i].health,
+          allergy: tempPets[i].allergy,
+          gender: tempPets[i].gender,
+          kind: tempPets[i].kind,
+          profileSrc: tempPets[i].profileSrc,
+          name: tempPets[i].name,
+          weight: tempPets[i].weight,
+          uid: tempPets[i].uid,
+        };
+        myPets.push(tempPet);
+      }
     }
+
     setPets(myPets);
     dispatch(updateMember(sessionMember));
     dispatch(updatePetList(myPets));
@@ -268,16 +233,29 @@ const Home = () => {
 
     // const pet = await homeApi.getHomeDataPet();
   };
+  const calculateAge = (birthDate) => {
+    const today = dayjs();
+    const birth = dayjs(birthDate);
+    const years = today.diff(birth, "year");
+    const months = today.diff(birth.add(years, "year"), "month");
 
+    if (years > 0) {
+      return months > 0 ? `${years}살 ${months}개월` : `${years}살`;
+    } else {
+      return `${months}개월`;
+    }
+  };
   dispatch(updateSelectedPet(selectedPet));
 
   console.log("home출력 reduxMember : ", reduxMember);
-  console.log("home출력 Pets : ", pets);
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className={styles.homeWrap}>
       <TopBar isHome={true} />
 
-      {pets == null ? (
+      {pets.length == 0 ? (
         <div></div>
       ) : (
         <AnimalSelect
@@ -297,10 +275,7 @@ const Home = () => {
         setSelectedPet={setSelectedPet}
       />
 
-      <div
-        className={styles.flipCard}
-        // onClick={handleClick}
-      >
+      <div className={styles.flipCard}>
         <div className={styles.flipCardInner}>
           {/* 카드 앞면 */}
           <div className={styles.flipCardFront}>
@@ -308,13 +283,61 @@ const Home = () => {
               <div className={styles.infoWrap}>
                 {reduxPet != null ? (
                   <div className={styles.info}>
-                    <div className={styles.photo}>
-                      <img src={Animal.profileSrc} alt="프로필" />
+                    <div className={styles.infoRow}>
+                      <div className={styles.photo}>
+                        <img src={Animal.profileSrc} alt="프로필" />
+                      </div>
+                      <div className={styles.animalinfoWrap}>
+                        <div className={styles.name}>
+                          <span className={styles.boldText}>{Animal.name}</span>
+                        </div>
+
+                        <div className={styles.age}>
+                          생일:{" "}
+                          <span className={styles.boldText}>
+                            {Animal.birth}
+                            {Animal.birth && (
+                              <span>({calculateAge(Animal.birth)})</span>
+                            )}
+                          </span>
+                        </div>
+                        <div className={styles.gen_kind}>
+                          <div className={styles.breed}>
+                            종:{" "}
+                            <span className={styles.boldText}>
+                              {Animal.kind}
+                            </span>
+                          </div>
+                          <div className={styles.gender}>
+                            성별:{" "}
+                            <span className={styles.boldText}>
+                              {Animal.gender}
+                            </span>
+                          </div>
+                        </div>
+                        <div>
+                          몸무게:{" "}
+                          <span className={styles.boldText}>
+                            {Animal.weight}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <div className={styles.name}>{Animal.name}</div>
-                    <div className={styles.age}>나이: {Animal.birth}</div>
-                    <div className={styles.gender}>성별: {Animal.gender}</div>
-                    <div className={styles.breed}>종: {Animal.kind}</div>
+                    <div className={styles.divider}></div>
+                    <div className={styles.infoBtm}>
+                      <div>
+                        건강사항:{" "}
+                        <span className={styles.boldText}>
+                          {Animal.allergy || "-"}
+                        </span>
+                      </div>
+                      <div>
+                        알러지:{" "}
+                        <span className={styles.boldText}>
+                          {Animal.health || "-"}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   <div className={styles.noAnimalWrap}>
@@ -334,14 +357,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-
-          {/* <div className={styles.flipCardBack}>
-              <div className={styles.info}>
-                <h2>추가 정보</h2>
-                <p>몸무게: {Animal.weight}</p>
-                <p>건강 사항: {Animal.health}</p>
-              </div>
-            </div> */}
         </div>
       </div>
 

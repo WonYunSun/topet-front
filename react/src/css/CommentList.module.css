@@ -30,13 +30,14 @@
 }
 
 .comentText {
-  margin-left: 50px; /* 프로필 이미지의 너비와 동일하게 설정 */
+  margin-left: 40px; /* 프로필 이미지의 너비와 동일하게 설정 */
   margin-top: 5px;
+  margin-bottom : 10px;
   text-align: left;
 }
 
 .repliesContainer {
-  margin-left: 50px; /* 댓글의 답글을 들여쓰기 */
+  margin-left: 40px; /* 댓글의 답글을 들여쓰기 */
 }
 
 .replyItem {
@@ -52,4 +53,61 @@
 .moreIcon {
   font-size: 18px;
   color: gray;
+}
+
+
+
+
+
+.replyInputContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 5px;
+  padding: 10px;
+  align-items: center;
+}
+
+.replyInput {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-left: 25px;
+  font-size: 14px;
+}
+
+.cancelButton, .replyButton {
+  color: black;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.editInputContainer {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  align-items: center;
+}
+
+.editInput {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-left: 30px;
+  font-size: 14px;
+}
+
+.cancelButton, .submitButton {
+  color: black;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 5px;
 }

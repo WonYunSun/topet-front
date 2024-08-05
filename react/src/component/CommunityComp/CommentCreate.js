@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../../css/CommentCreate.module.css';
-import CommunityApi from '../../api/communityApi';
+import commentApi from '../../api/commentApi';
 
 const CommentCreate = ({ comid, onCommentSubmit }) => {
   const [inputValue, setInputValue] = useState('');
@@ -15,7 +15,7 @@ const CommentCreate = ({ comid, onCommentSubmit }) => {
     formData.append("content", inputValue);
     
     try {
-      await CommunityApi.postComment(comid, formData);
+      await commentApi.postComment(comid, formData);
       setInputValue('');
       onCommentSubmit(); // 댓글 등록 후 부모 컴포넌트에 알림
     } catch (error) {
