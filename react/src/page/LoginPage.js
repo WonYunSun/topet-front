@@ -7,9 +7,13 @@ import axios from "axios";
 const LoginPage = () => {
   const goKaKaoLogin = () => {
     axios
-      .get('http://localhost:8081/api/member/kakaoLogin', {
-        withCredentials: true,
-      })
+      .get(
+        // 'http://175.45.202.131:8081/api/member/kakaoLogin',
+        "http://localhost:8081/api/member/kakaoLogin",
+        {
+          withCredentials: true,
+        }
+      )
       .then((response) => {
         window.location.href = response.data;
       })

@@ -56,9 +56,22 @@ class CommentApi {
     }
   }
 
-  async fetchMyComment(page, size){
+  // async fetchMyComment(page, size) {
+  //   try {
+  //     const response = await this.axios.get(
+  //       `/myComment?page=${page}&size=${size}`
+  //     );
+  //     return handleResponse(response);
+  //   } catch (error) {
+  //     handleError(error);
+  //   }
+  // }
+
+  async fetchMyComment(page, size) {
     try {
-      const response = await this.axios.get(`/myComment?page=${page}&size=${size}`);
+      const response = await this.axios.get(
+        `/author/2?page=${page}&size=${size}`
+      );
       return handleResponse(response);
     } catch (error) {
       handleError(error);

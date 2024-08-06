@@ -135,8 +135,8 @@ button:focus-visible {
 }
 .TodayDot {
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   background-color: #ffa62f;
   position: absolute;
   top: 50%;
@@ -151,8 +151,10 @@ button:focus-visible {
   background-color: red;
   border-radius: 50%;
   position: absolute;
-  transform: translate(50%, 100%);
-  bottom: 5px;
+
+  left: 50%;
+  transform: translate(-50%, -0%);
+  bottom: -3px;
 }
 
 .SelectedDate > div {

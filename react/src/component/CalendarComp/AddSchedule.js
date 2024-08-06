@@ -26,9 +26,10 @@ export default function AddSchedule({
   const initialDate = dayjs(selectedDate).isValid()
     ? dayjs(selectedDate).toDate()
     : new Date();
+
   const defaultValues = {
     startDate: initialDate,
-    endDate: initialDate,//.add(5, 'minute'),
+    endDate: dayjs(initialDate).add(5, "minute").toDate(), // startDate 기준으로 5분 더함
     title: "",
     content: "",
     isComplete: false,
@@ -60,8 +61,14 @@ export default function AddSchedule({
   const [btnStyle, setBtnStyle] = useState("gray");
 
   useEffect(() => {
-    setStartDate(initialValues.startDate || defaultValues.startDate);
-    setEndDate(initialValues.endDate || defaultValues.endDate);
+    const updatedStartDate = initialValues.startDate || defaultValues.startDate;
+    setStartDate(updatedStartDate);
+
+    const updatedEndDate = dayjs(updatedStartDate).add(5, "minute").toDate();
+    setEndDate(updatedEndDate);
+
+    // console.log("왜안바뀌냐고", updatedEndDate); // 수정된 endDate 로그
+
     setTitle(initialValues.title || defaultValues.title);
     setContent(initialValues.content || defaultValues.content);
     setIsComplete(initialValues.isComplete || defaultValues.isComplete);
@@ -136,11 +143,13 @@ export default function AddSchedule({
     formData.append("scheduleEditer", "EditorName");
     formData.append("animal", selectedPet.id);
 
-    if (selectedPhoto != null) {formData.append("photo", selectedPhoto);}
+    if (selectedPhoto != null) {
+      formData.append("photo", selectedPhoto);
+    }
     console.log("postSchedule 호출");
-    console.log()
+    console.log();
     const response = await ScheduleApi.postSchedule(formData); // ScheduleService 호출 //post로직
-    setSchedules((schedules)=>[...schedules, response]);
+    setSchedules((schedules) => [...schedules, response]);
   };
 
   const handleButtonClick = async () => {

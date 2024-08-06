@@ -8,6 +8,7 @@ import AnimalGender from "../component/AnimalSelectComp/AnimalGender";
 import AnimalBirth from "../component/AnimalSelectComp/AnimalBirth";
 import AnimalPhotoandName from "../component/AnimalSelectComp/AnimalPhotoandName";
 import AnimalWeightandHealth from "../component/AnimalSelectComp/AnimalWeightandHealth";
+import CheckModal from "../component/CheckModal";
 
 import petApi from "../api/petApi";
 
@@ -197,7 +198,7 @@ const PetRegistration = () => {
     formData.append("kind", selectedKind);
     formData.append("gender", selectedGender);
     formData.append("name", name);
-    formData.append("neutered", selectedNeutered)
+    formData.append("neutered", selectedNeutered);
     formData.append("birth", selectedBirth);
     formData.append("weight", weight);
     formData.append("allergy", allergy ?? null); // undefined이면 null로 설정
@@ -215,9 +216,12 @@ const PetRegistration = () => {
     const resp = await petApi.postPetData(formData);
 
     if (resp.status == 200) {
-      alert("펫 등록에 성공했습니다.");
-      //여기에 모달 띄우든 뭐든 해
-      goHome();
+      // 반려동물 등록 성공 modal창
+      <CheckModal
+        Content={"반려동물이 등록되었습니다."}
+        onClose={goHome}
+        oneBtn={true}
+      />;
     } else {
       alert("펫 등록에 실패했습니다.");
     }

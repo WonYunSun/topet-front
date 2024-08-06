@@ -13,9 +13,19 @@ import { TbCurrentLocation } from "react-icons/tb";
 import { FiRotateCw } from "react-icons/fi";
 import { HiOutlinePlus, HiOutlineMinus } from "react-icons/hi2";
 import CheckModal from "../component/CheckModal";
+import { BiSolidRightArrow } from "react-icons/bi";
+import { useMediaQuery } from "react-responsive";
+import { IoCloseOutline } from "react-icons/io5";
+import MapPlaceList from "../component/MapComp/MapPlaceList";
+// responsive
+import { Mobile, DeskTop } from "../responsive/responsive";
+
 const MapScreen = () => {
   const isLoaded = useKakaoLoader(); // 카카오맵이 로드되었는지 확인하는 변수
-
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const KEYWORD_LIST = [
     { id: 1, value: "동물병원" },
     { id: 2, value: "반려동물동반" },
@@ -39,10 +49,10 @@ const MapScreen = () => {
     lat: 33.450701,
     lng: 126.570667,
   });
-
   const [map, setMap] = useState(null);
   const [keyword, setKeyword] = useState("");
   const [search, setSearch] = useState([]); // 검색 결과를 담는 상태 변수
+  const [recommend, setRecommend] = useState([]); // 검색 결과를 담는 상태 변수
   const [showClearButton, setShowClearButton] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState(null); // 선택된 장소 정보 저장
   const [isVisible, setIsVisible] = useState(false); // 장소 정보(간략정보) 표시 여부
@@ -67,6 +77,11 @@ const MapScreen = () => {
   };
   const handleShowModalClose = () => {
     setShowModal(false);
+    setShowClearButton(false);
+  };
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
   };
 
   // 현재 사용자 위치 받아오기 (geolocation)
@@ -133,6 +148,7 @@ const MapScreen = () => {
       console.error("카카오맵 로드 실패");
       return;
     }
+    setSelectedPlace(null);
     if (keyword.length > 0) {
       setIsSearched(true);
       //선택된 마커 초기화
@@ -164,6 +180,44 @@ const MapScreen = () => {
       handleShowModalOpen();
     }
   };
+  const recommendPlaceSearch = (keyword, location) => {
+    if (!window.kakao || !window.kakao.maps) {
+      console.error("카카오맵 로드 실패");
+      return;
+    }
+    const ps = new window.kakao.maps.services.Places();
+    const options = {
+      location:
+        location ||
+        new window.kakao.maps.LatLng(state.center.lat, state.center.lng),
+      radius: 5000,
+      sort: window.kakao.maps.services.SortBy.ACCURACY,
+      level: 2,
+      size: 5,
+    };
+
+    ps.keywordSearch(
+      keyword,
+      (data, status) => {
+        if (status === window.kakao.maps.services.Status.OK) {
+          setRecommend(data);
+          console.log(data);
+        } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
+          setRecommend([]);
+          console.log("검색 결과가 없습니다.");
+        } else if (status === window.kakao.maps.services.Status.ERROR) {
+          console.error("검색에 실패하였습니다.");
+        }
+      },
+      options
+    );
+  };
+
+  useEffect(() => {
+    if (isLoaded) {
+      recommendPlaceSearch("반려동물");
+    }
+  }, [isLoaded]);
 
   const displayPlaces = (data) => {
     const bounds = new window.kakao.maps.LatLngBounds();
@@ -176,18 +230,6 @@ const MapScreen = () => {
     map.setBounds(bounds);
     setSearch(data);
   };
-
-  // const reSearch = () => {
-  //   const searchKeyword =
-  //     selectedButton !== null ? KEYWORD_LIST[selectedButton].value : keyword;
-
-  //   searchPlaces(
-  //     searchKeyword,
-  //     new window.kakao.maps.LatLng(position.lat, position.lng)
-  //   );
-
-  //   // setSelectedButton(null); // 검색 후 선택된 버튼 초기화
-  // };
 
   const reSearch = () => {
     const searchKeyword = keyword;
@@ -257,6 +299,7 @@ const MapScreen = () => {
   }, [keyword]);
 
   useEffect(() => {
+    if (!isMobile) return; // 모바일이 아닐 경우, useEffect 실행 안 함
     const handleClickOutside = (event) => {
       const placeInfoElement = document.querySelector(`.${styles.placeInfo}`);
       if (placeInfoElement && placeInfoElement.contains(event.target)) return;
@@ -308,6 +351,19 @@ const MapScreen = () => {
     );
   }
 
+  // URL 변환 함수
+  const convertToMobileUrl = (url) => {
+    const regex = /place\.map\.kakao\.com\/(\d+)/;
+    const match = url.match(regex);
+    if (match) {
+      return `https://place.map.kakao.com/m/${match[1]}`;
+    }
+    return url; // 변환할 수 없는 경우 원래 URL 반환
+  };
+  // 변환된 모바일 URL
+  const mobileUrl = selectedPlace
+    ? convertToMobileUrl(selectedPlace.place_url)
+    : "";
   return (
     <>
       <Map
@@ -360,125 +416,272 @@ const MapScreen = () => {
               />
             </React.Fragment>
           ))}
-        <div className={styles.setCenterBtnDiv}>
-          <button
-            className={styles.setCenterBtn}
-            onClick={setCenterToMyPosition}
-          >
-            <TbCurrentLocation size={20} />
-          </button>
-        </div>
 
-        <div className={`${styles.custom_zoomcontrol} ${styles.radius_border}`}>
-          <span onClick={zoomIn} className={styles.pBtn}>
-            <HiOutlinePlus size={25} />
-          </span>
-          <span onClick={zoomOut} className={styles.mBtn}>
-            <HiOutlineMinus size={25} />
-          </span>
-        </div>
-
-        <div className={styles.mapTopWrap}>
-          <div className={styles.topBtnWrap}>
-            <button className={styles.backButton} onClick={goHome}>
-              <FiArrowLeft size={24} color="#666" />
+        <div className={`${isDeskTop ? styles.mapController : ""}`}>
+          <div className={styles.setCenterBtnDiv}>
+            <button
+              className={styles.setCenterBtn}
+              onClick={setCenterToMyPosition}
+            >
+              <TbCurrentLocation size={20} />
             </button>
-            <div className={styles.inputWrap}>
-              <input
-                id="searchBox"
-                className={styles.Mapinput}
-                placeholder="장소를 검색해보세요"
-                onChange={(e) => {
-                  setKeyword(e.target.value);
-                }}
-              />
-              {!showClearButton && (
-                <IoSearch
-                  className={styles.searchbar_icon}
-                  onClick={() => {
-                    setBtnIsSelected(Array(KEYWORD_LIST.length).fill(false)); // 모든 버튼 선택 해제
-                    searchPlaces(keyword);
-                    setShowClearButton(true); // x 버튼 표시
-                  }}
-                />
-              )}
+          </div>
 
-              {showClearButton && (
-                <IoClose
-                  className={styles.searchbar_icon}
-                  onClick={() => {
-                    setKeyword(""); // input 값 초기화
-                    setSearch([]); // 검색 결과 초기화
-                    setShowClearButton(false); // x 버튼 숨기기
-                    setIsSearched(false); // 검색 상태 초기화
-                    document.getElementById("searchBox").value = ""; // input 박스의 값 초기화
+          <div
+            className={`${styles.custom_zoomcontrol} ${styles.radius_border}`}
+          >
+            <span onClick={zoomIn} className={styles.pBtn}>
+              <HiOutlinePlus size={25} />
+            </span>
+            <span onClick={zoomOut} className={styles.mBtn}>
+              <HiOutlineMinus size={25} />
+            </span>
+          </div>
+        </div>
+        <DeskTop>
+          {isSearched && (
+            <button className={styles.reSearchBtn_DT} onClick={reSearch}>
+              현 위치 재검색
+              <FiRotateCw size={17} color="#666" />
+            </button>
+          )}
+        </DeskTop>
+        {/* 모바일 화면일 때 */}
+        <Mobile>
+          <div className={styles.mapTopWrap}>
+            <div className={styles.topBtnWrap}>
+              <button className={styles.backButton} onClick={goHome}>
+                <FiArrowLeft size={24} color="#666" />
+              </button>
+              <div className={styles.inputWrap}>
+                <input
+                  id="searchBox"
+                  className={styles.Mapinput}
+                  placeholder="장소를 검색해보세요"
+                  onChange={(e) => {
+                    setKeyword(e.target.value);
                   }}
                 />
-              )}
-            </div>
-          </div>
-          {!showClearButton && (
-            <div className={styles.CutsomBtnWrap}>
-              {KEYWORD_LIST.map((item, index) => (
-                <CustomButton key={index} num={index} />
-              ))}
-            </div>
-          )}
-        </div>
-        <div className={styles.mapListWrap}>
-          {/* 검색했을때 렌더되어야 함 */}
-          {isSearched && (
-            <>
-              <button
-                className={styles.listButton}
-                onClick={() => {
-                  handleBottomSheetOpen("map");
-                }}
-              >
-                <div className={styles.listinnerDiv}>
-                  <IoIosList />
-                  목록보기
-                </div>
-              </button>
-              <button className={styles.reSearchBtn} onClick={reSearch}>
-                <FiRotateCw size={17} color="#666" />
-              </button>
-            </>
-          )}
-          <BottomSheet
-            show={showBottomSheet}
-            onClose={handleBottomSheetClose}
-            type={bottomSheetType}
-            searchResult={search}
-            moveLatLng={moveLatLng}
-            setSelectedMarker={setSelectedMarker}
-            setSelectedPlace={setSelectedPlace}
-            keyword={keyword}
-          />
-        </div>
-        {selectedPlace && (
-          <div
-            className={`${styles.placeInfo} ${isVisible ? styles.show : ""}`}
-          >
-            <div className={styles.placeInfoContent}>
-              <div className={styles.nameWrap}>
-                <div>{selectedPlace.place_name}</div>
-                <div>{getLastCategoryName(selectedPlace.category_name)}</div>
+                {!showClearButton && (
+                  <IoSearch
+                    className={styles.searchbar_icon}
+                    onClick={() => {
+                      setBtnIsSelected(Array(KEYWORD_LIST.length).fill(false)); // 모든 버튼 선택 해제
+                      searchPlaces(keyword);
+                      setShowClearButton(true); // x 버튼 표시
+                    }}
+                  />
+                )}
+
+                {showClearButton && (
+                  <IoClose
+                    className={styles.searchbar_icon}
+                    onClick={() => {
+                      setKeyword(""); // input 값 초기화
+                      setSearch([]); // 검색 결과 초기화
+                      setShowClearButton(false); // x 버튼 숨기기
+                      setIsSearched(false); // 검색 상태 초기화
+                      document.getElementById("searchBox").value = ""; // input 박스의 값 초기화
+                    }}
+                  />
+                )}
               </div>
-              <div className={styles.addDiv}>{selectedPlace.address_name}</div>
-              <div className={styles.phoneDiv}>{selectedPlace.phone}</div>
+            </div>
+            {!showClearButton && (
+              <div className={styles.CutsomBtnWrap}>
+                {KEYWORD_LIST.map((item, index) => (
+                  <CustomButton key={index} num={index} />
+                ))}
+              </div>
+            )}
+          </div>
+        </Mobile>
+        {/* DeskTop화면 */}
+        <DeskTop>
+          <div className={`${styles.mapContainer}`}>
+            <div
+              className={`${styles.MapSideBar} ${
+                !isSidebarVisible ? styles.hiddensidebar : ""
+              }`}
+            >
               <div
-                className={styles.detailPageDiv}
-                onClick={() => {
-                  // 새 창으로 열기
-                  window.open(selectedPlace.place_url);
-                }}
+                className={`${styles.mapTopWrap_Dt} ${
+                  !isSidebarVisible ? styles.hiddensidebar : ""
+                }`}
               >
-                상세페이지 이동
+                <div className={`${styles.topBtnWrap} ${styles.side_topWrap}`}>
+                  <button className={styles.backButton} onClick={goHome}>
+                    <FiArrowLeft size={24} color="#666" />
+                  </button>
+                  <div className={styles.inputWrap}>
+                    <input
+                      id="searchBox"
+                      className={styles.Mapinput}
+                      placeholder="장소를 검색해보세요"
+                      onChange={(e) => {
+                        setKeyword(e.target.value);
+                      }}
+                    />
+                    {!showClearButton && (
+                      <IoSearch
+                        className={styles.searchbar_icon}
+                        onClick={() => {
+                          setBtnIsSelected(
+                            Array(KEYWORD_LIST.length).fill(false)
+                          );
+                          searchPlaces(keyword);
+                          setShowClearButton(true);
+                        }}
+                      />
+                    )}
+                    {showClearButton && (
+                      <IoClose
+                        className={styles.searchbar_icon}
+                        onClick={() => {
+                          setKeyword("");
+                          setSearch([]);
+                          setShowClearButton(false);
+                          setIsSearched(false);
+                          document.getElementById("searchBox").value = "";
+                        }}
+                      />
+                    )}
+                  </div>
+                </div>
+                {!showClearButton && (
+                  <div
+                    className={`${styles.CutsomBtnWrap} ${styles.side_customBtnWrap}`}
+                  >
+                    {KEYWORD_LIST.map((item, index) => (
+                      <CustomButton key={index} num={index} />
+                    ))}
+                  </div>
+                )}
+                {isSearched ? (
+                  <div className={styles.sideBarResult}>
+                    <MapPlaceList
+                      onClose={() => {}}
+                      searchResult={search}
+                      moveLatLng={moveLatLng}
+                      setSelectedMarker={setSelectedMarker}
+                      setSelectedPlace={setSelectedPlace}
+                    />
+                  </div>
+                ) : (
+                  <div className={styles.placeRecommend}>
+                    <div>내 주변 추천 장소</div>
+                    <div>
+                      <MapPlaceList
+                        onClose={() => {}}
+                        searchResult={recommend}
+                        moveLatLng={moveLatLng}
+                        setSelectedMarker={setSelectedMarker}
+                        setSelectedPlace={setSelectedPlace}
+                        isDeskTop={isDeskTop}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
+
+              <button
+                onClick={toggleSidebar}
+                className={`${styles.toggleButton}`}
+              >
+                <BiSolidRightArrow size={10} />
+              </button>
             </div>
           </div>
-        )}
+        </DeskTop>
+
+        <Mobile>
+          <div className={styles.mapListWrap}>
+            {/* 검색했을때 렌더되어야 함 */}
+            {isSearched && (
+              <>
+                <button
+                  className={styles.listButton}
+                  onClick={() => {
+                    handleBottomSheetOpen("map");
+                  }}
+                >
+                  <div className={styles.listinnerDiv}>
+                    <IoIosList />
+                    목록보기
+                  </div>
+                </button>
+                <button className={styles.reSearchBtn} onClick={reSearch}>
+                  <FiRotateCw size={17} color="#666" />
+                </button>
+              </>
+            )}
+
+            <BottomSheet
+              show={showBottomSheet}
+              onClose={handleBottomSheetClose}
+              type={bottomSheetType}
+              searchResult={search}
+              moveLatLng={moveLatLng}
+              setSelectedMarker={setSelectedMarker}
+              setSelectedPlace={setSelectedPlace}
+              keyword={keyword}
+            />
+          </div>
+        </Mobile>
+        <Mobile>
+          {selectedPlace && (
+            <div
+              className={`${styles.placeInfo} ${isVisible ? styles.show : ""}`}
+            >
+              <div className={styles.placeInfoContent}>
+                <div className={styles.nameWrap}>
+                  <div>{selectedPlace.place_name}</div>
+                  <div>{getLastCategoryName(selectedPlace.category_name)}</div>
+                </div>
+                <div className={styles.addDiv}>
+                  {selectedPlace.address_name}
+                </div>
+                <div className={styles.phoneDiv}>{selectedPlace.phone}</div>
+                <div
+                  className={styles.detailPageDiv}
+                  onClick={() => {
+                    // 새 창으로 열기
+                    window.open(selectedPlace.place_url);
+                  }}
+                >
+                  상세페이지 이동
+                </div>
+              </div>
+            </div>
+          )}
+        </Mobile>
+        <DeskTop>
+          {selectedPlace && (
+            <div className={styles.placeDetailframe}>
+              <div className={styles.topBar}>
+                <button
+                  className={styles.closeButton}
+                  onClick={() => setSelectedPlace(null)}
+                >
+                  <IoCloseOutline />
+                </button>
+              </div>
+              <iframe
+                className={styles.iframebox}
+                src={mobileUrl}
+                style={{
+                  width: "400px", // 또는 원하는 너비
+                  height: "100vh", // 또는 원하는 높이
+                  border: "none",
+                  transform: "scale(0.8)", // 예: 80%로 축소
+                  transformOrigin: "0 0", // 축소 기준점을 왼쪽 상단으로 설정
+                }}
+                allowFullScreen
+                title="Selected Place"
+              ></iframe>
+            </div>
+          )}
+        </DeskTop>
         {showModal && (
           <CheckModal
             onClose={handleShowModalClose}
