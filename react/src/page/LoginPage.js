@@ -12,8 +12,7 @@ const LoginPage = () => {
     axios
       .get(
         // 'http://175.45.202.131:8081/api/member/kakaoLogin',
-        // "http://localhost:8081/api/member/kakaoLogin",
-        "https://thxkyu.kro.kr:5000/api/member/kakaoLogin",
+        "http://localhost:8081/api/member/kakaoLogin",
         {
           withCredentials: true,
         }
