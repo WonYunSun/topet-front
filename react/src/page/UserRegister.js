@@ -2,7 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "../css/mypage_editprofile.module.css";
 import { TbPhoto } from "react-icons/tb";
 import { TiDelete } from "react-icons/ti";
+import homeApi from "../api/homeApi";
+import { useNavigate } from "react-router-dom";
+
 export default function UserRegister() {
+  const navigate = useNavigate();
   const defaultProfileImage =
     "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
 
@@ -44,8 +48,19 @@ export default function UserRegister() {
 
   const handleSubmit = async () => {
     // 프로필 등록
+    console.log("저장");
     const formData = new FormData();
     formData.append("profileName", profileName);
+    if(profilePhoto != null){
+      formData.append("photo", profilePhoto);
+    }
+    const resp = await homeApi.postMemberInfo(formData);
+    if(resp.status == 200){
+      navigate(`/home`);
+    }else{
+      alert("실패");
+      window.location.reload();
+    }
     // navigate(-1);
   };
 
@@ -101,7 +116,7 @@ export default function UserRegister() {
         <div className={styles.save_button_wrapper}>
           <button
             className={`${!canSave ? styles.disabled : styles.save_button}`}
-            onClick={SaveProfile}
+            onClick={handleSubmit}
           >
             {"완료"}
           </button>

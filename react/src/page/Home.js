@@ -56,6 +56,10 @@ const Home = () => {
     }
   }, []);
 
+  useEffect(()=>{
+    getSchedule();
+  },[selectedPet])
+
   useEffect(() => {
     setSelectedPet(reduxPet);
     if (reduxPet) {
@@ -202,6 +206,7 @@ const Home = () => {
 
     const myPets = [];
 
+    if(tempPets != null)
     for (let i = 0; i < tempPets.length; i++) {
       if (tempPets[i] != null) {
         let tempPet = {
@@ -226,13 +231,19 @@ const Home = () => {
     dispatch(updatePetList(myPets));
     //    setPets(returnedMember.pets);
 
-    if (reduxPet != null) {
-      const response = await homeApi.getHomeDataSchedule(reduxPet.id);
-      setSchedule(response);
+    
+      getSchedule();
+          // const pet = await homeApi.getHomeDataPet();
+        
     }
 
-    // const pet = await homeApi.getHomeDataPet();
-  };
+    const getSchedule  = async () =>{
+      if (reduxPet != null) {
+      const response = await homeApi.getHomeDataSchedule(selectedPet.id);
+      setSchedule(response);
+    };
+    }
+
   const calculateAge = (birthDate) => {
     const today = dayjs();
     const birth = dayjs(birthDate);
