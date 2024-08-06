@@ -40,7 +40,7 @@ class petApi {
         },
       })
       .then((response) => {
-        console.log("서버 응답:", response.data);
+        console.log("서버 응답:", response);
         return response;
       })
       .catch((error) => {
@@ -58,7 +58,7 @@ class petApi {
       })
       .then((response) => {
         console.log("서버 응답:", response.data);
-        return response.data;
+        return response;
       })
       .catch((error) => {
         console.error("서버 오류:", error);
