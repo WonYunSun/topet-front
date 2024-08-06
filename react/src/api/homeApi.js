@@ -1,7 +1,8 @@
 import axios from "axios";
 import { handleResponse, handleError } from "./ResponseProcess";
 
-const API_BASE_URL = "http://localhost:8081/api";
+// const API_BASE_URL = "http://localhost:8081/api";
+const API_BASE_URL = "https://thxkyu.kro.kr:5000/api";
 // "http://175.45.202.131:8081/api";
 class homeApi {
   constructor(baseURL) {
