@@ -44,7 +44,7 @@ const LoginPage = () => {
         />
       </div>
       <div className={styles.privacy_notice_text}>
-        시작과 동시에 투펫의{" "}
+        시작과 동시에 투펫의
         <span className={styles.privacy_notice_text_bold}>
           서비스 약관, 개인정보 취급방침
         </span>

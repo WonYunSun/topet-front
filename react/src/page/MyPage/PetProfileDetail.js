@@ -125,20 +125,26 @@ const PetProfileDetail = () => {
         <ProfileInfoDataBox
           Icon={RiWeightFill}
           leftInfoTitle={"체중"}
-          leftInfoData={pet.weight}
+          leftInfoData={pet.weight || "-"}
           rightInfoTitle={"생일"}
-          rightInfoData={pet.birth}
+          rightInfoData={pet.birth || "-"}
         />
         <div className={styles.info_wrapper_long}>
           <BiHealth className={styles.info_icon} />
-          <div className={styles.info_textcontent_wrapper}>
+          <div className={styles.info_container_long_wrapper}>
             <div className={styles.info_container_long}>
               <div className={styles.info_title}>알러지</div>
-              <div className={styles.info_data}>{pet.allergy || "-"}</div>
+              <div className={styles.info_data}>
+                {pet.allergy == "null" || pet.allergy == null
+                  ? "-"
+                  : pet.allergy}
+              </div>
             </div>
             <div className={styles.info_container_long}>
               <div className={styles.info_title}>건강상태</div>
-              <div className={styles.info_data}>{pet.health || "-"}</div>
+              <div className={styles.info_data}>
+                {pet.health == "null" || pet.health == null ? "-" : pet.health}
+              </div>
             </div>
           </div>
         </div>
