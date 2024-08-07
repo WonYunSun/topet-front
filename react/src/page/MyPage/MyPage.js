@@ -74,6 +74,8 @@ const MyPage = () => {
             <div className={styles.profile_photo_container}>
               {reduxMember.src ? (
                 <img className={styles.profile_photo} src={reduxMember.src} />
+                
+          
               ) : (
                 <img
                   className={styles.profile_photo}

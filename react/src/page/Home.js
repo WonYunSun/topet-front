@@ -263,6 +263,7 @@ const Home = () => {
   dispatch(updateSelectedPet(selectedPet));
 
   console.log("home출력 reduxMember : ", reduxMember);
+  console.log(Animal.profileSrc);
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
@@ -300,7 +301,11 @@ const Home = () => {
                     <div className={styles.info}>
                       <div className={styles.infoRow}>
                         <div className={styles.photo}>
-                          <img src={Animal.profileSrc} alt="프로필" />
+                          {/* <img src={Animal.profileSrc} alt="프로필" /> */}
+
+                          <img
+                            source={require(`${Animal.profileSrc}`).default}
+                          />
                         </div>
                         <div className={styles.animalinfoWrap}>
                           <div className={styles.name}>

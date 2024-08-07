@@ -17,7 +17,7 @@
   z-index: 10;
   font-size: 28px;
   color: #fff;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  text-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .photo_container {
@@ -26,6 +26,17 @@
   width: 100%;
   height: 291px;
   overflow: hidden;
+}
+
+.photo_container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.05); /* 어두운 오버레이 */
+  z-index: 5; /* 오버레이가 사진 위에 표시되도록 */
 }
 
 .photo {
@@ -43,8 +54,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 60px;
-  height: 60px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   background-color: #ffa62f;
 }
@@ -57,12 +68,12 @@
 .name {
   position: absolute;
   z-index: 10;
-  top: 225px;
-  left: 20px;
+  top: 217px;
+  left: 28px;
   color: #fff;
-  font-size: 25px;
-  font-weight: bold;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  font-size: 23px;
+  font-weight: 500;
+  text-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .info_container {
@@ -83,13 +94,13 @@
   flex-direction: row;
   align-items: center;
   width: 100%;
-  height: 110px;
+  height: 100px;
   border-bottom: 1px solid #d1d1d159;
 }
 
 .info_icon {
   width: 25%;
-  font-size: 26px;
+  font-size: 23px;
   color: #ffa62f;
 }
 
@@ -105,8 +116,7 @@
 .info_title {
   text-align: left;
   height: 30px;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
   color: #b2b2b2;
 }
 
@@ -114,8 +124,8 @@
   word-wrap: break-word;
   text-align: left;
   height: 30px;
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .info_wrapper_long {
@@ -125,7 +135,7 @@
   width: 100%;
 }
 
-.info_textcontent_wrapper {
+.info_container_long_wrapper {
   width: 75%;
   display: flex;
   flex-direction: column;
