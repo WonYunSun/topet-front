@@ -6,17 +6,23 @@ import isBetween from "dayjs/plugin/isBetween";
 import { generateDate } from "./generateDate"; // 날짜 가져오는 파일
 import styles from "../../css/calendar.module.css"; // CSS 모듈 임포트
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
+/// responsive
 
+import { useMediaQuery } from "react-responsive";
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
 dayjs.extend(isBetween);
 
 export const Calendar = ({ schedules, onDateClick }) => {
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const [date, setDate] = useState(dayjs());
   const [selectedDate, setSelectedDate] = useState(null); // 클릭된 날짜 상태 추가
   const [showYearMonthPicker, setShowYearMonthPicker] = useState(false);
   const dates = ["일", "월", "화", "수", "목", "금", "토"];
-  
+
   const years = Array.from({ length: 100 }, (_, i) => dayjs().year() - 50 + i);
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
 
@@ -32,7 +38,7 @@ export const Calendar = ({ schedules, onDateClick }) => {
 
   const hasSchedule = useCallback(
     (date) => {
-      if(schedules != null){
+      if (schedules != null) {
         return schedules.some((schedule) => {
           const start = dayjs(schedule.startDate);
           const end = dayjs(schedule.endDate);
@@ -40,8 +46,7 @@ export const Calendar = ({ schedules, onDateClick }) => {
           return current.isBetween(start, end, "day", "[]");
         });
       }
-    }
-    ,
+    },
     [schedules]
   );
 
@@ -61,7 +66,7 @@ export const Calendar = ({ schedules, onDateClick }) => {
     setShowYearMonthPicker(false);
   };
   return (
-    <div className={styles.CalendarContainer}>
+    <div className={`${styles.CalendarContainer} ${isDeskTop ? "dtver" : ""}`}>
       {showYearMonthPicker && (
         <>
           <div

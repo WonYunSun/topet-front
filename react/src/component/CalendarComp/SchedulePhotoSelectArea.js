@@ -7,6 +7,7 @@ const SchedulePhotoSelectArea = ({
   onPhotoSelected,
   onRemovePhoto,
 }) => {
+  
   const handlePhotoSelected = (photos) => {
     if (photos.length > 0) {
       onPhotoSelected(photos[0]);

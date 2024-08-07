@@ -1,8 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import styles from "../css/mypage_editpetprofile.module.css";
+import styles from "../css/mypage_editprofile.module.css";
 import { TbPhoto } from "react-icons/tb";
 import { TiDelete } from "react-icons/ti";
+import homeApi from "../api/homeApi";
+import { useNavigate } from "react-router-dom";
+
 export default function UserRegister() {
+  const navigate = useNavigate();
   const defaultProfileImage =
     "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
 
@@ -14,10 +18,7 @@ export default function UserRegister() {
     if (profilePhoto == undefined) {
       setProfilePhoto(defaultProfileImage);
     }
-    if (
-      profileName == ""
-      //   (profileName == currentProfileName && profilePhoto == currentProfilePhoto)
-    ) {
+    if (profileName == "") {
       setCanSave(false);
     } else {
       setCanSave(true);
@@ -44,10 +45,29 @@ export default function UserRegister() {
   const SaveProfile = () => {
     console.log("저장");
   };
+
+  const handleSubmit = async () => {
+    // 프로필 등록
+    console.log("저장");
+    const formData = new FormData();
+    formData.append("profileName", profileName);
+    if(profilePhoto != null){
+      formData.append("photo", profilePhoto);
+    }
+    const resp = await homeApi.postMemberInfo(formData);
+    if(resp.status == 200){
+      navigate(`/home`);
+    }else{
+      alert("실패");
+      window.location.reload();
+    }
+    // navigate(-1);
+  };
+
   return (
     <>
-      <div>어서오세요!</div>
-      <div>프로필 등록</div>
+      <div className={styles.welcome_text}>어서오세요!</div>
+      <div className={styles.pofileregister_text}>프로필을 등록해주세요</div>
       <div className={styles.form_wrapper}>
         <div className={styles.photo_wrapper}>
           <div className={styles.profile_photo_wrapper}>
@@ -96,7 +116,7 @@ export default function UserRegister() {
         <div className={styles.save_button_wrapper}>
           <button
             className={`${!canSave ? styles.disabled : styles.save_button}`}
-            onClick={SaveProfile}
+            onClick={handleSubmit}
           >
             {"완료"}
           </button>

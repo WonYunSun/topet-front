@@ -9,26 +9,33 @@ import MyPageCommonTopBar from "../../component/MyPageComp/MyPageCommonTopBar";
 import styles from "../../css/mypage_editprofile.module.css";
 import { TbPhoto } from "react-icons/tb";
 import { TiDelete } from "react-icons/ti";
+import homeApi from "../../api/homeApi";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const EditProfile = () => {
-
-  
+  const reduxMember = useSelector((state) => state.member.member);
+  const navigate = useNavigate();
   const defaultProfileImage =
     "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
-  const [profilePhoto, setProfilePhoto] = useState(defaultProfileImage);
-  const [profileName, setProfileName] = useState("반려동물1");
+  const [profilePhoto, setProfilePhoto] = useState(reduxMember.profileSrc);
+  const [profileName, setProfileName] = useState(reduxMember.name);
   const [canSave, setCanSave] = useState();
   const fileInputRef = useRef(null);
-  const currentProfilePhoto = defaultProfileImage; // 기존 사진
-  const currentProfileName = "반려동물1"; // 기존 닉네임
+
+  console.log(reduxMember);
+
+  const currentProfilePhoto = reduxMember.profileSrc; // 기존 사진
+  const currentProfileName = reduxMember.name; // 기존 닉네임
 
   useEffect(() => {
     if (profilePhoto == undefined) {
       setProfilePhoto(defaultProfileImage);
     }
     if (
-      profileName == "" ||
-      (profileName == currentProfileName && profilePhoto == currentProfilePhoto)
+      profileName == currentProfileName
+      // &&
+      // profilePhoto == currentProfilePhoto
     ) {
       setCanSave(false);
     } else {
@@ -59,6 +66,23 @@ const EditProfile = () => {
     }
   };
 
+  const handleSubmit = async () => {
+    // 프로필 등록
+    console.log("저장");
+    const formData = new FormData();
+    formData.append("profileName", profileName);
+    if (profilePhoto != null) {
+      formData.append("photo", profilePhoto);
+    }
+    const resp = await homeApi.postMemberInfo(formData);
+    if (resp.status == 200) {
+      navigate(`/home`);
+    } else {
+      alert("실패");
+      window.location.reload();
+    }
+    // navigate(-1);
+  };
   const ProfilePhoto = useMemo(() => {
     return (
       <div
@@ -105,12 +129,9 @@ const EditProfile = () => {
     setProfileName("");
   };
 
+  // 회원탈퇴
   const Secession = () => {
     console.log("회원탈퇴");
-  };
-
-  const SaveProfile = () => {
-    console.log("저장");
   };
 
   return (
@@ -148,7 +169,9 @@ const EditProfile = () => {
       <div className={styles.save_button_wrapper}>
         <button
           className={`${!canSave ? styles.disabled : styles.save_button}`}
-          onClick={SaveProfile}
+          onClick={() => {
+            handleSubmit();
+          }}
         >
           {"저장"}
         </button>

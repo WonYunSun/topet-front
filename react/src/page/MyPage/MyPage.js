@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from "react";
 import ManageBox from "../../component/MyPageComp/ManageBox";
 import CheckModal from "../../component/CheckModal";
-import { MdOutlinePets, MdEdit } from "react-icons/md";
+import homeApi from "../../api/homeApi";
+import { useSelector } from "react-redux";
 import styles from "../../css/mypage.module.css";
 import { useNavigate } from "react-router-dom";
-import { TbLogout } from "react-icons/tb";
-import homeApi from "../../api/homeApi"; 
-import { useSelector } from "react-redux";
+
+// 아이콘
+import { MdEdit, MdOutlinePets } from "react-icons/md"; // 프로필 수정, (보류)내 반려동물
+import { IoIosHeart } from "react-icons/io"; // 내 반려동물 관리
+import { IoDocumentText } from "react-icons/io5"; // 내 게시글
+import { AiFillLike } from "react-icons/ai"; // 좋아요 한 게시글
+import { FaCommentDots } from "react-icons/fa6"; // 내 댓글
+import { TbLogout } from "react-icons/tb"; // 로그아웃
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const defaultProfileImage =
+    "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
   const [showModal, setShowModal] = useState();
 
   const goEditProfile = () => {
@@ -53,31 +61,27 @@ const MyPage = () => {
     homeApi.logout();
     console.log("!! 로그아웃 !!");
 
-
     setShowModal(false);
   };
 
   const Profile = () => {
-
     const reduxMember = useSelector((state) => state.member.member);
-
 
     return (
       <div className={styles.profile_continer_wrapper}>
         <div className={styles.profile_container}>
           <div className={styles.profile_photoandname_container}>
             <div className={styles.profile_photo_container}>
-            {reduxMember.src ?(
-              <img
-                className={styles.profile_photo}
-                src={reduxMember.src}
-              />
-            ):(
+              {reduxMember.src ? (
+                <img className={styles.profile_photo} src={reduxMember.src} />
+                
+          
+              ) : (
                 <img
-                className={styles.profile_photo}
-                src="https://i.pinimg.com/564x/87/09/e7/8709e78fb7d788bb86bbc63be55f3184.jpg"
-              />
-            )}
+                  className={styles.profile_photo}
+                  src={defaultProfileImage}
+                />
+              )}
             </div>
             <div className={styles.username}>{reduxMember.name}</div>
           </div>
@@ -93,22 +97,22 @@ const MyPage = () => {
       <div className={styles.mypage_content_wrapper}>
         <Profile />
         <ManageBox
-          icon={<MdOutlinePets />}
-          managementItemTitle={"내 동물 관리"}
+          icon={<IoIosHeart />}
+          managementItemTitle={"내 반려동물 관리"}
           pageRoute={goManageMyPets}
         />
         <ManageBox
-          icon={<MdOutlinePets />}
+          icon={<IoDocumentText />}
           managementItemTitle={"내 게시글 보기"}
           pageRoute={goSeeMyPosts}
         />
         <ManageBox
-          icon={<MdOutlinePets />}
+          icon={<AiFillLike />}
           managementItemTitle={"좋아요 한 게시글 보기"}
           pageRoute={goSeeLikedPosts}
         />
         <ManageBox
-          icon={<MdOutlinePets />}
+          icon={<FaCommentDots />}
           managementItemTitle={"내 댓글 보기"}
           pageRoute={goSeeMyComments}
         />

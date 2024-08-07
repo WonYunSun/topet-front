@@ -2,8 +2,13 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import styles from "../../css/navBar.module.css";
 import { TbCalendar, TbHome, TbUserCircle, TbMap } from "react-icons/tb";
-
+import { Mobile, DeskTop } from "../../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 function NavBar() {
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   return (
     <nav className={styles.navbar}>
       {/* 홈 화면 이동 */}

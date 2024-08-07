@@ -320,3 +320,37 @@
   border-radius: 15px;
   font-weight: 500;
 }
+
+/* desktopver css */
+.userPetInfo.dtver {
+  display: flex;
+  flex-direction: row;
+  height: 50vh;
+  width: 80vw;
+  margin: 0 auto;
+  align-items: start;
+  gap: 5%;
+  overflow: hidden;
+}
+.scheduleTodayWrap.dtver {
+  width: 40%;
+  height: 100%;
+}
+.flipCardFront.dtver {
+  height: fit-content;
+  margin: 0 auto;
+  width: 90%;
+}
+.flipCard.dtver {
+  width: 60%;
+  padding-top: 0;
+}
+.info.dtver {
+  padding: 3%;
+}
+.areaTitleWrap.dtver {
+  padding: 0;
+}
+.schedules_box_wrap {
+  height: 80%;
+}

@@ -23,7 +23,9 @@ import SeeMyComments from "./page/MyPage/SeeMyComments";
 import SeeLikedPosts from "./page/MyPage/SeeLikedPosts";
 import SeeMyShorts from "./page/MyPage/SeeMyShorts";
 import SeeLikedShorts from "./page/MyPage/SeeLikedShorts";
-import ChoicePetRegister from "./page/ChoicePetRegister";
+import ProfileCompleted from "./page/ProfileCompleted";
+import AddShorts from "./page/AddShorts";
+
 //navbar.js
 import NavBar from "./component/NavBarComp/NavBar";
 //네비게이션바 띄울 화면 import 필요
@@ -32,39 +34,58 @@ import CommunitySearch from "./page/CommunitySearch";
 import LoginPage from "./page/LoginPage";
 import Shorts from "./page/Shorts";
 import UserRegister from "./page/UserRegister";
-import ToPetAi from "./page/ToPetAi";
+// 반응형
+import { Mobile, DeskTop } from "./responsive/responsive";
+import { useMediaQuery } from "react-responsive";
+import ShortsDetail from "./page/ShortsDetail";
+
 function App() {
   const location = useLocation();
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const showNavbarPaths = ["/home", "/schedule", "/map", "/mypage"];
   return (
     <div className="App">
       {showNavbarPaths.includes(location.pathname) && <NavBar />}
       <Routes>
+        
         <Route path="/home" element={<Home />} />
+        
         <Route path="/map" element={<MapScreen />} />
-        <Route
-          path="/community/preview/:animalType/:category"
-          element={<Community />}
-        />
+
+        <Route path="/community/preview/:animalType/:category" element={<Community />}/>
         <Route path="/community/search" element={<CommunitySearch />} />
         <Route path="/community/detail/:comid" element={<CommunityDetail />} />
         <Route path="/community/communitywrite" element={<CommunityWrite />} />
-        <Route path="/topetai" element={<ToPetAi />} />
+        
         <Route path="/schedule" element={<Calendarscreen />} />
+
         <Route path="/petregistration" element={<PetRegistration />} />
+        <Route path="/userregister" element={<UserRegister />} />
+        <Route path="/profilecompleted" element={<ProfileCompleted />} />
+
         <Route path="/mypage" element={<MyPage />} />
+
         <Route path="/editprofile" element={<EditProfile />} />
-        <Route path="/managemypets" element={<ManageMyPets />} />
-        <Route path="/petprofiledetail/:id" element={<PetProfileDetail />} />
         <Route path="/editpetprofile/:id" element={<EditPetProfile />} />
+
+        <Route path="/petprofiledetail/:id" element={<PetProfileDetail />} />
+        <Route path="/managemypets" element={<ManageMyPets />} />
+
         <Route path="/myposts" element={<SeeMyPosts />} />
         <Route path="/mycomments" element={<SeeMyComments />} />
-        <Route path="/likedposts" element={<SeeLikedPosts />} />
         <Route path="/myshorts" element={<SeeMyShorts />} />
+        
+        <Route path="/likedposts" element={<SeeLikedPosts />} />
         <Route path="/likedshorts" element={<SeeLikedShorts />} />
+        
+        
         <Route path="/shorts" element={<Shorts />} />
-        <Route path="/choicepetregister" element={<ChoicePetRegister />} />
-        <Route path="/userregister" element={<UserRegister />} />
+        <Route path="/addshorts" element={<AddShorts />} />
+        <Route path="/shortsDetail/:id" element={<ShortsDetail />} />
+        
         <Route path="/" element={<LoginPage />} />
       </Routes>
     </div>

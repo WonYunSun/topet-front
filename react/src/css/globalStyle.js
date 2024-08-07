@@ -14,7 +14,24 @@ body {
 
 
 }
+::-webkit-scrollbar {
+    width: 7px;
+}
+/* 스크롤바의 트랙 (스크롤바가 지나가는 부분) */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 배경 색상 */
+}
 
+/* 스크롤바의 핸들 (사용자가 드래그하는 부분) */
+::-webkit-scrollbar-thumb {
+  background: #999; /* 핸들의 색상 */
+  border-radius: 6px; /* 핸들의 둥근 모서리 */
+}
+
+/* 핸들이 hover될 때 */
+::-webkit-scrollbar-thumb:hover {
+  background: #777; /* 핸들이 hover될 때 색상 */
+}
 input{
     font-family: "SUIT Variable", sans-serif;
 }

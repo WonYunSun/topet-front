@@ -27,7 +27,7 @@ const ScheduleDetail = ({ onDotsClick, selectedSchedule }) => {
             {dayjs(selectedSchedule.startDate).format("YYYY년 MM월 DD일")}
           </div>
           <div className={`${styles.TimeBox} ${isAllDay ? styles.hidden : ""}`}>
-            <div>{dayjs(selectedSchedule.startDate).format("A HH:mm")}</div>
+            <div>{dayjs(selectedSchedule.startDate).format("A h:mm")}</div>
           </div>
         </div>
         <div> - </div>
@@ -36,7 +36,7 @@ const ScheduleDetail = ({ onDotsClick, selectedSchedule }) => {
             {dayjs(selectedSchedule.endDate).format("YYYY년 MM월 DD일")}
           </div>
           <div className={`${styles.TimeBox} ${isAllDay ? styles.hidden : ""}`}>
-            <div>{dayjs(selectedSchedule.endDate).format("A HH:mm")}</div>
+            <div>{dayjs(selectedSchedule.endDate).format("A h:mm")}</div>
           </div>
         </div>
       </div>

@@ -11,9 +11,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { TbPhoto, TbTriangleInvertedFilled } from "react-icons/tb";
 import petApi from "../../api/petApi";
 
-
-
-
 const EditPetProfile = () => {
   const petData1 = {
     type: "",
@@ -48,25 +45,17 @@ const EditPetProfile = () => {
           health: response.health,
         };
 
-
-
         setMyPet(temp);
         console.log(response);
-        } catch (error) {
-        
+      } catch (error) {
       } finally {
         setIsLoaded(true);
       }
     };
     fetchData();
-  }, [
-    
-  ]);
+  }, []);
 
- 
-
-
-  // const petData1 = 
+  // const petData1 =
   // {
   //   type: "1",
   //   photo:
@@ -93,7 +82,6 @@ const EditPetProfile = () => {
   //   allergy: "단백질류",
   //   health: "비만 꿈나무",
   // };
-
 
   const fileInputRef = useRef(null);
   const defaultProfileImage =
