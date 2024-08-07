@@ -1,0 +1,12 @@
+.reportContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .otherInput {
+    margin-left: 35px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+  }
+  

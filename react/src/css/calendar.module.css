@@ -97,6 +97,9 @@ button:focus-visible {
   margin: 10px auto;
   margin-bottom: 20px;
 }
+.CalendarContainer.dtver {
+  height: 100%;
+}
 
 .CalendarHeader {
   margin: 10px 0 25px 0;

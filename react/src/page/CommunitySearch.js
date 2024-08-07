@@ -22,6 +22,7 @@ const CommunitySearch = () => {
     setShowBottomSheet(false);
   };
 
+
   return (
     <div>
       <TopBar centerChange={centerChange} selectedSearchType={selectedSearchType} handleBottomSheetOpen={handleBottomSheetOpen} searchText={searchText} setSearchText={setSearchText} />
@@ -30,11 +31,6 @@ const CommunitySearch = () => {
         show={showBottomSheet}
         onClose={handleBottomSheetClose}
         type={bottomSheetType}
-        initialTags={[]}
-        setSelectedPet={[]}
-        setSelectedTags={() => {}}
-        selectedTags={[]}
-        selectedDate={new Date()}
         setSelectedSearchType={setSelectedSearchType}
       />
     </div>

@@ -7,7 +7,7 @@ import TopBar from "../component/TopBar";
 import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
 import ScheduleBottom from "../component/CalendarComp/ScheduleBottom";
-import styles from "../css/bottomsheet.css";
+import styles from "../css/calendarscreen.module.css";
 import FloatingBtn from "../component/ButtonComp/FloatingBtn";
 import isBetween from "dayjs/plugin/isBetween";
 import NavBar from "../component/NavBarComp/NavBar";
@@ -15,7 +15,9 @@ import CheckModal from "../component/CheckModal";
 import SubBottomSheet from "../component/SubBottomSheet";
 import { useSelector, useDispatch } from "react-redux";
 import scheduleApi from "../api/scheduleApi";
-
+/// responsive
+import { Mobile, DeskTop } from "../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
 dayjs.extend(isBetween);
@@ -23,7 +25,10 @@ dayjs.extend(isBetween);
 const Calendarscreen = () => {
   const reduxMember = useSelector((state) => state.member.member);
   const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
-
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   //console.log("캘린더에서 출력한 reduxMember : " ,reduxMember);
   //console.log("캘린더에서 출력한 reduxPet : " ,reduxPet);
 
@@ -188,8 +193,14 @@ const Calendarscreen = () => {
           selectedPet={selectedPet}
         />
       )}
-
-      <Calendar schedules={schedules} onDateClick={handleDateClick} />
+      <Mobile>
+        <Calendar schedules={schedules} onDateClick={handleDateClick} />
+        <ScheduleBottom
+          schedules={schedules}
+          selectedDate={selectedDate}
+          onScheduleClick={handleScheduleClick}
+        />
+      </Mobile>
       <BottomSheet
         show={showBottomSheet}
         onClose={
@@ -236,11 +247,17 @@ const Calendarscreen = () => {
         />
       )}
 
-      <ScheduleBottom
-        schedules={schedules}
-        selectedDate={selectedDate}
-        onScheduleClick={handleScheduleClick}
-      />
+      <DeskTop>
+        <div className={styles.CalendarscreenWrap_dtver}>
+          <Calendar schedules={schedules} onDateClick={handleDateClick} />
+          <ScheduleBottom
+            schedules={schedules}
+            selectedDate={selectedDate}
+            onScheduleClick={handleScheduleClick}
+          />
+        </div>
+      </DeskTop>
+
       <SubBottomSheet
         show={showEditDeleteBottomSheet}
         onClose={handleCloseshowEditDeleteBottomSheet}
