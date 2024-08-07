@@ -24,6 +24,8 @@ import SeeLikedPosts from "./page/MyPage/SeeLikedPosts";
 import SeeMyShorts from "./page/MyPage/SeeMyShorts";
 import SeeLikedShorts from "./page/MyPage/SeeLikedShorts";
 import ProfileCompleted from "./page/ProfileCompleted";
+import AddShorts from "./page/AddShorts";
+
 //navbar.js
 import NavBar from "./component/NavBarComp/NavBar";
 //네비게이션바 띄울 화면 import 필요
@@ -59,6 +61,7 @@ function App() {
         <Route path="/mycomments" element={<SeeMyComments />} />
         <Route path="/likedposts" element={<SeeLikedPosts />} />
         <Route path="/myshorts" element={<SeeMyShorts />} />
+        <Route path="/addshorts" element={<AddShorts />} />
         <Route path="/likedshorts" element={<SeeLikedShorts />} />
         <Route path="/shorts" element={<Shorts />} />
         <Route path="/profilecompleted" element={<ProfileCompleted />} />
