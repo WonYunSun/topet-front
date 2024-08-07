@@ -14,11 +14,11 @@ import { FiRotateCw } from "react-icons/fi";
 import { HiOutlinePlus, HiOutlineMinus } from "react-icons/hi2";
 import CheckModal from "../component/CheckModal";
 import { BiSolidRightArrow } from "react-icons/bi";
-import { useMediaQuery } from "react-responsive";
 import { IoCloseOutline } from "react-icons/io5";
 import MapPlaceList from "../component/MapComp/MapPlaceList";
 // responsive
 import { Mobile, DeskTop } from "../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 
 const MapScreen = () => {
   const isLoaded = useKakaoLoader(); // 카카오맵이 로드되었는지 확인하는 변수
