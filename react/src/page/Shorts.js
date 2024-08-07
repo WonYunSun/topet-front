@@ -2,8 +2,12 @@ import React from "react";
 import TopBar from "../component/TopBar";
 import styles from "../css/shortsscreen.module.css";
 import ShortItem from "../component/ShortsComp/ShortItem";
+import shortsApi from "../api/shortsApi";
 
 function Shorts() {
+
+  
+
   // 더미쇼츠리스트(최근인기쇼츠)
   const dummyPopularShortsData = [
     {

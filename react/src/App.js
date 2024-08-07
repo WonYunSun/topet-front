@@ -24,6 +24,8 @@ import SeeLikedPosts from "./page/MyPage/SeeLikedPosts";
 import SeeMyShorts from "./page/MyPage/SeeMyShorts";
 import SeeLikedShorts from "./page/MyPage/SeeLikedShorts";
 import ProfileCompleted from "./page/ProfileCompleted";
+import AddShorts from "./page/AddShorts";
+
 //navbar.js
 import NavBar from "./component/NavBarComp/NavBar";
 //네비게이션바 띄울 화면 import 필요
@@ -32,8 +34,16 @@ import CommunitySearch from "./page/CommunitySearch";
 import LoginPage from "./page/LoginPage";
 import Shorts from "./page/Shorts";
 import UserRegister from "./page/UserRegister";
+// 반응형
+import { Mobile, DeskTop } from "./responsive/responsive";
+import { useMediaQuery } from "react-responsive";
+
 function App() {
   const location = useLocation();
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const showNavbarPaths = ["/home", "/schedule", "/map", "/mypage"];
   return (
     <div className="App">
@@ -59,6 +69,7 @@ function App() {
         <Route path="/mycomments" element={<SeeMyComments />} />
         <Route path="/likedposts" element={<SeeLikedPosts />} />
         <Route path="/myshorts" element={<SeeMyShorts />} />
+        <Route path="/addshorts" element={<AddShorts />} />
         <Route path="/likedshorts" element={<SeeLikedShorts />} />
         <Route path="/shorts" element={<Shorts />} />
         <Route path="/profilecompleted" element={<ProfileCompleted />} />
