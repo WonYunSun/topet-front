@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import TopBar from '../component/TopBar';
 import styles from '../css/community_detail.module.css';
 import { BsChatFill } from "react-icons/bs";
@@ -16,6 +17,7 @@ import EditDeleteBottomSheet from '../component/SubBottomSheet';
 const CommunityDetail = () => {
   const navigate = useNavigate();
   const { comid } = useParams();
+  const reduxMemberId = useSelector((state) => state.member.member);
   const [item, setItem] = useState(null);
   const [hashtags, setHashtags] = useState([]);
   const [error, setError] = useState(null);
@@ -28,7 +30,7 @@ const CommunityDetail = () => {
   const [profileImg, setProfileImg] = useState('https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzBfNjUg%2FMDAxNzE3MDY0NDY1OTE5.RuUuUb2erFc8zs-8wC10KGxHyKOlSCxZM72R5K_PWCkg.7h8cC7tzZrwM8sIWQVuO1tjjpnTX013k2E5OKtE2dWYg.PNG%2Fimage.png&type=sc960_832');
   const [profileName, setProfileName] = useState();
   const [showSubBottomSheet, setShowSubBottomSheet] = useState(false);
-  const [writer, setWriter] = useState(true); // 글 쓴 사람인지 아닌지, 나중에 로직 바꿔야 할 듯
+  const [writer, setWriter] = useState(false); // 글 쓴 사람인지 아닌지 초기 값 false
   const [isLikeLoading, setIsLikeLoading] = useState(false);
 
   const fetchPostDetail = async () => {
@@ -39,12 +41,20 @@ const CommunityDetail = () => {
 
       setItem(detail);
       setLikes(detail.likesList.length);
-      console.log("detail.likeList", detail.likesList)
       setIsLiked(liked);
-      setProfileName(detail.author.name)
+      setProfileName(detail.author.name);
+
       if (detail.hashtag) {
         setHashtags(detail.hashtag.split(',').map(tag => tag.trim()));
       }
+
+      // writer 상태 업데이트
+      if (detail.author.id === reduxMemberId.id) {
+        setWriter(false);
+      } else {
+        setWriter(false);
+      }
+
       setError(null);
     } catch (error) {
       setError(error.message);
@@ -134,6 +144,7 @@ const CommunityDetail = () => {
     }
   };
 
+
   return (
     <div>
       <TopBar />
@@ -195,6 +206,8 @@ const CommunityDetail = () => {
         onClose={() => setShowSubBottomSheet(false)}
         onEditClick={navigateWithParams}
         onDeleteClick={handleDeleteClick}
+        comid={comid}
+        reduxMemberId={reduxMemberId}
       />
     </div>
   );

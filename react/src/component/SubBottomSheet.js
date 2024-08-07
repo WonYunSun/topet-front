@@ -1,23 +1,37 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from "../css/subBottomSheet.module.css";
 import EditDelete from "../component/EditDelete";
 import CommunityEDRB from "./CommunityComp/CommunityEDRB";
+import Report from "./BlockReport/Report";
+import Block from "./BlockReport/Block";
 
 const EditDeleteBottomSheet = ({
   show,
   onClose,
-  type,
+  type: initialType,
   onEditClick,
   selectedSchedule,
   onDeleteClick,
-  onReportClick,
-  onBlockClick,
   onReplyClick,
+  comid,
+  reduxMemberId,
 }) => {
+
+  const [type, setType] = useState(initialType);
 
   const handleCloseBottomSheet = () => {
     onClose();
+    setType(initialType);
   };
+
+  const onReportClick = () => {
+    setType("Report");
+  }
+
+  const onBlockClick = () => {
+    setType("Block");
+  }
+
 
   function getTypeText(type) {
     switch (type) {
@@ -29,6 +43,10 @@ const EditDeleteBottomSheet = ({
       case "ReplyEditDelete":
       case "ReplyReportBlock":
         return "더보기";
+      case "Report":
+        return "신고하기";
+      case "Block":
+        return "차단하기";
       default:
         return "더보기";
     }
@@ -55,7 +73,7 @@ const EditDeleteBottomSheet = ({
       case "CommunityReportBlock":
         return (
           <>
-            <CommunityEDRB type={"CommunityReportBlock"} />
+            <CommunityEDRB type={"CommunityReportBlock"} onBlockClick={onBlockClick} onReportClick={onReportClick}/>
           </>
         )
       case "CommentEditDelete":
@@ -82,6 +100,18 @@ const EditDeleteBottomSheet = ({
             <CommunityEDRB type={"ReplyReportBlock"} />
           </>
         )
+        case "Report":
+          return (
+            <>
+              <Report onClick={handleCloseBottomSheet} comid={comid} reduxMemberId={reduxMemberId}/>
+            </>
+          )
+        case "Block":
+          return (
+            <>
+              <Block onClick={handleCloseBottomSheet} comid={comid} reduxMemberId={reduxMemberId} />
+            </>
+          )
       default:
         return "";
     }

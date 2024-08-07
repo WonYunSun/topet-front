@@ -301,11 +301,11 @@ const Home = () => {
                     <div className={styles.info}>
                       <div className={styles.infoRow}>
                         <div className={styles.photo}>
-                          {/* <img src={Animal.profileSrc} alt="프로필" /> */}
+                          <img src={Animal.profileSrc} alt="프로필" />
 
-                          <img
-                            source={require(`${Animal.profileSrc}`).default}
-                          />
+                          {/* <img */}
+                            {/* // source={require(`${Animal.profileSrc}`).default} */}
+                          {/* /> */}
                         </div>
                         <div className={styles.animalinfoWrap}>
                           <div className={styles.name}>
