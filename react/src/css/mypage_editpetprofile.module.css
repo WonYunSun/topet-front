@@ -141,6 +141,7 @@
 
 .neutered_title {
   width: 20%;
+  white-space: pre-line;
 }
 
 .editable_content {

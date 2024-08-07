@@ -11,7 +11,7 @@ import { TbPhoto } from "react-icons/tb";
 import { TiDelete } from "react-icons/ti";
 import homeApi from "../../api/homeApi";
 import { useNavigate } from "react-router-dom";
-import { useSelector  } from "react-redux";
+import { useSelector } from "react-redux";
 
 const EditProfile = () => {
   const reduxMember = useSelector((state) => state.member.member);
@@ -23,23 +23,19 @@ const EditProfile = () => {
   const [canSave, setCanSave] = useState();
   const fileInputRef = useRef(null);
 
-
-  
   console.log(reduxMember);
 
   const currentProfilePhoto = reduxMember.profileSrc; // 기존 사진
   const currentProfileName = reduxMember.name; // 기존 닉네임
-
-  
-
 
   useEffect(() => {
     if (profilePhoto == undefined) {
       setProfilePhoto(defaultProfileImage);
     }
     if (
-      profileName == "" ||
-      (profileName == currentProfileName && profilePhoto == currentProfilePhoto)
+      profileName == currentProfileName
+      // &&
+      // profilePhoto == currentProfilePhoto
     ) {
       setCanSave(false);
     } else {
@@ -75,13 +71,13 @@ const EditProfile = () => {
     console.log("저장");
     const formData = new FormData();
     formData.append("profileName", profileName);
-    if(profilePhoto != null){
+    if (profilePhoto != null) {
       formData.append("photo", profilePhoto);
     }
     const resp = await homeApi.postMemberInfo(formData);
-    if(resp.status == 200){
+    if (resp.status == 200) {
       navigate(`/home`);
-    }else{
+    } else {
       alert("실패");
       window.location.reload();
     }
@@ -133,14 +129,11 @@ const EditProfile = () => {
     setProfileName("");
   };
 
+  // 회원탈퇴
   const Secession = () => {
     console.log("회원탈퇴");
   };
 
-
-
- 
-  
   return (
     <div className={styles.wrapper}>
       <MyPageCommonTopBar title={"프로필 수정"} />
@@ -176,7 +169,9 @@ const EditProfile = () => {
       <div className={styles.save_button_wrapper}>
         <button
           className={`${!canSave ? styles.disabled : styles.save_button}`}
-          onClick={()=>{handleSubmit()}}
+          onClick={() => {
+            handleSubmit();
+          }}
         >
           {"저장"}
         </button>

@@ -118,6 +118,9 @@ const AnimalBirth = ({
     }
 
     closeDropdown();
+    if (month == "") {
+      toggleDropdown("month");
+    }
   };
 
   const renderYearOptions = () => {
@@ -147,6 +150,9 @@ const AnimalBirth = ({
     }
 
     closeDropdown();
+    if (day == "") {
+      toggleDropdown("day");
+    }
   };
 
   const renderMonthOptions = () => {
@@ -229,25 +235,6 @@ const AnimalBirth = ({
       setNextPossible(true);
     }
   }, [birthDontKnow, year, month, day, setNextPossible]);
-
-  // useEffect(() => {
-  //   if (!birthDontKnow && (!year || !month || !day)) {
-  //     setNextPossible(false);
-  //   } else {
-  //     setNextPossible(true);
-  //   }
-  // }, [birthDontKnow, year, month, day, setNextPossible]);
-
-  // useEffect(() => {
-  //   if (
-  //     birthDontKnow == false &&
-  //     (selectedBirth == "" || selectedBirth == undefined)
-  //   ) {
-  //     setNextPossible(false);
-  //   } else {
-  //     setNextPossible(true);
-  //   }
-  // }, [birthDontKnow, selectedBirth, setNextPossible]);
 
   return (
     <div className={styles.wrapper}>
