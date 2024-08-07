@@ -32,8 +32,16 @@ import CommunitySearch from "./page/CommunitySearch";
 import LoginPage from "./page/LoginPage";
 import Shorts from "./page/Shorts";
 import UserRegister from "./page/UserRegister";
+// 반응형
+import { Mobile, DeskTop } from "./responsive/responsive";
+import { useMediaQuery } from "react-responsive";
+
 function App() {
   const location = useLocation();
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const showNavbarPaths = ["/home", "/schedule", "/map", "/mypage"];
   return (
     <div className="App">
