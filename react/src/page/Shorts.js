@@ -149,6 +149,7 @@ function Shorts() {
             {shorts.map((short) => (
               <ShortItem
                 key={short.id}
+                id={short.id}
                 thumbnailUrl={short.thumbnailUrl}
                 title={short.title}
                 author={short.author}

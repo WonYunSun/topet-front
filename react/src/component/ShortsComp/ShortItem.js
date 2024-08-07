@@ -9,6 +9,7 @@ const ShortItem = ({
   author,
   widthAdjust,
   heightAdjust,
+  id
   
 }) => {
   const navigate = useNavigate();
@@ -22,12 +23,12 @@ const ShortItem = ({
   if (heightAdjust) {
     customStyle.height = heightAdjust;
   }
-  const goDetail = () => {
-    navigate(`/shortsDetail`)
+  const goDetail = (id) => {
+    navigate(`/shortsDetail/${id}`)
   }
 
   return (
-    <div className={styles.shortItem} style={customStyle} onClick={()=>{goDetail()}}>
+    <div className={styles.shortItem} style={customStyle} onClick={()=>{goDetail(id)}}>
       <img src={thumbnailUrl} alt={title} className={styles.thumbnail} />
       <div className={styles.info}>
         <div className={styles.title}>{title}</div>
