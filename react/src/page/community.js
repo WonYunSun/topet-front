@@ -34,10 +34,12 @@ const Community = () => {
   const [selectedCenter, setSelectedCenter] = useState(selectedAnimalType);
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState("");
-  const [currentCategory, setCurrentCategory] = useState(
-    categoryMap[category] || "자유/일상"
-  );
   const [sortListText, setSortListText] = useState("최신순");
+  const [searchMode, setSearchMode] = useState(false);
+  const [selectedSearchType, setSelectedSearchType] = useState("제목+본문");
+  const [searchText, setSearchText] = useState("");
+  const [currentSearchText, setCurrentSearchText] = useState("");
+  const [currentSearchType, setCurrentSearchType] = useState("제목+본문");
 
   const goCommunityWrite = () => {
     const animalKey = animalTypeMap[selectedAnimalType] || "dog";
@@ -71,18 +73,36 @@ const Community = () => {
     navigate(`/community/preview/${animalKey}/${newCategory}`, {
       replace: true,
     });
-    setCurrentCategory(categoryMap[newCategory] || "자유/일상");
   };
 
-  useEffect(() => {
-    setCurrentCategory(categoryMap[category] || "자유/일상");
-  }, [category]);
+  const toggleSearchMode = () => {
+    setSearchMode(!searchMode);
+  };
+
+  const handleSearch = () => {
+    setCurrentSearchText(searchText);
+    setCurrentSearchType(selectedSearchType);
+  };
+
+  const resetSearch = () => {
+    setSearchText("");
+    setSearchMode(false);
+    setCurrentSearchText("");
+    setSelectedSearchType("제목+본문");
+  };
 
   return (
     <div className={styles.community}>
       <TopBar
         centerChange={selectedCenter}
         handleBottomSheetOpen={handleBottomSheetOpen}
+        selectedSearchType={selectedSearchType}
+        searchText={searchText}
+        setSearchText={setSearchText}
+        isSearchMode={searchMode}
+        toggleSearchMode={toggleSearchMode}
+        onSearch={handleSearch}
+        resetSearch={resetSearch}
       />
 
       <div className={styles.category_buttons_area}>
@@ -110,7 +130,9 @@ const Community = () => {
       </div>
 
       <div className={styles.menu_area}>
-        <div className={styles.category_text}>#{currentCategory}</div>
+        <div className={styles.category_text}>
+          {currentSearchText ? `"${currentSearchText}" 검색결과` : ""}
+        </div>
         <div
           className={styles.sort_option}
           onClick={() => handleBottomSheetOpen("sort")}
@@ -122,6 +144,8 @@ const Community = () => {
       <CommunityList
         selectedAnimal={selectedCenter}
         sortListText={sortListText}
+        searchText={currentSearchText}
+        searchType={currentSearchType}
       />
       <FloatingBtn onClick={goCommunityWrite} />
       <BottomSheet
@@ -130,6 +154,7 @@ const Community = () => {
         type={bottomSheetType}
         setSelectedPet={handleSelectPet}
         handleSelectSortListText={handleSelectSortListText}
+        setSelectedSearchType={setSelectedSearchType}
       />
     </div>
   );

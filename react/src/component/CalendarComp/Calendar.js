@@ -6,12 +6,18 @@ import isBetween from "dayjs/plugin/isBetween";
 import { generateDate } from "./generateDate"; // 날짜 가져오는 파일
 import styles from "../../css/calendar.module.css"; // CSS 모듈 임포트
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
+/// responsive
 
+import { useMediaQuery } from "react-responsive";
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
 dayjs.extend(isBetween);
 
 export const Calendar = ({ schedules, onDateClick }) => {
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const [date, setDate] = useState(dayjs());
   const [selectedDate, setSelectedDate] = useState(null); // 클릭된 날짜 상태 추가
   const [showYearMonthPicker, setShowYearMonthPicker] = useState(false);
@@ -60,7 +66,7 @@ export const Calendar = ({ schedules, onDateClick }) => {
     setShowYearMonthPicker(false);
   };
   return (
-    <div className={styles.CalendarContainer}>
+    <div className={`${styles.CalendarContainer} ${isDeskTop ? "dtver" : ""}`}>
       {showYearMonthPicker && (
         <>
           <div

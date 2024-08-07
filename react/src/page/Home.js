@@ -21,11 +21,17 @@ import { updateMember } from "../redux/reducers/memberReducer";
 import { updatePetList } from "../redux/reducers/petListReducer";
 import { updateSelectedPet } from "../redux/reducers/selectedPetReducer";
 import { FiPlus } from "react-icons/fi";
+/// responsive
+import { Mobile, DeskTop } from "../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 
 const Home = () => {
   const reduxMember = useSelector((state) => state.member.member);
   const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
-
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -56,9 +62,9 @@ const Home = () => {
     }
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     getSchedule();
-  },[selectedPet])
+  }, [selectedPet]);
 
   useEffect(() => {
     setSelectedPet(reduxPet);
@@ -198,7 +204,6 @@ const Home = () => {
       id: returnedMember.id,
       email: returnedMember.email,
       name: returnedMember.name,
-      profileSrc : returnedMember.profileSrc,
       socialId: returnedMember.socialId,
     };
 
@@ -207,43 +212,41 @@ const Home = () => {
 
     const myPets = [];
 
-    if(tempPets != null)
-    for (let i = 0; i < tempPets.length; i++) {
-      if (tempPets[i] != null) {
-        let tempPet = {
-          id: tempPets[i].id,
-          type: tempPets[i].type,
-          birth: tempPets[i].birth,
-          health: tempPets[i].health,
-          allergy: tempPets[i].allergy,
-          gender: tempPets[i].gender,
-          kind: tempPets[i].kind,
-          profileSrc: tempPets[i].profileSrc,
-          name: tempPets[i].name,
-          weight: tempPets[i].weight,
-          uid: tempPets[i].uid,
-        };
-        myPets.push(tempPet);
+    if (tempPets != null)
+      for (let i = 0; i < tempPets.length; i++) {
+        if (tempPets[i] != null) {
+          let tempPet = {
+            id: tempPets[i].id,
+            type: tempPets[i].type,
+            birth: tempPets[i].birth,
+            health: tempPets[i].health,
+            allergy: tempPets[i].allergy,
+            gender: tempPets[i].gender,
+            kind: tempPets[i].kind,
+            profileSrc: tempPets[i].profileSrc,
+            name: tempPets[i].name,
+            weight: tempPets[i].weight,
+            uid: tempPets[i].uid,
+          };
+          myPets.push(tempPet);
+        }
       }
-    }
 
     setPets(myPets);
     dispatch(updateMember(sessionMember));
     dispatch(updatePetList(myPets));
     //    setPets(returnedMember.pets);
 
-    
-      getSchedule();
-          // const pet = await homeApi.getHomeDataPet();
-        
-    }
+    getSchedule();
+    // const pet = await homeApi.getHomeDataPet();
+  };
 
-    const getSchedule  = async () =>{
-      if (reduxPet != null) {
+  const getSchedule = async () => {
+    if (reduxPet != null) {
       const response = await homeApi.getHomeDataSchedule(selectedPet.id);
       setSchedule(response);
-    };
     }
+  };
 
   const calculateAge = (birthDate) => {
     const today = dayjs();
@@ -260,150 +263,278 @@ const Home = () => {
   dispatch(updateSelectedPet(selectedPet));
 
   console.log("home출력 reduxMember : ", reduxMember);
-  
+  console.log(Animal.profileSrc);
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
   return (
     <div className={styles.homeWrap}>
       <TopBar isHome={true} />
+      <Mobile>
+        {pets.length == 0 ? (
+          <div></div>
+        ) : (
+          <AnimalSelect
+            onClick={handleOpenPetBottomSheet}
+            selectedPet={selectedPet}
+            setSelectedPet={setSelectedPet}
+            isHome={true}
+            pets={pets}
+          />
+        )}
 
-      {pets.length == 0 ? (
-        <div></div>
-      ) : (
-        <AnimalSelect
-          onClick={handleOpenPetBottomSheet}
-          selectedPet={selectedPet}
+        <BottomSheet
+          show={showBottomSheet}
+          onClose={handleCloseBottomSheet}
+          type={bottomSheetType}
+          initialTags={[]}
           setSelectedPet={setSelectedPet}
-          isHome={true}
-          pets={pets}
         />
-      )}
 
-      <BottomSheet
-        show={showBottomSheet}
-        onClose={handleCloseBottomSheet}
-        type={bottomSheetType}
-        initialTags={[]}
-        setSelectedPet={setSelectedPet}
-      />
+        <div className={styles.flipCard}>
+          <div className={styles.flipCardInner}>
+            {/* 카드 앞면 */}
+            <div className={styles.flipCardFront}>
+              <div className={styles.frontInfoWrap}>
+                <div className={styles.infoWrap}>
+                  {reduxPet != null ? (
+                    <div className={styles.info}>
+                      <div className={styles.infoRow}>
+                        <div className={styles.photo}>
+                          <img src={Animal.profileSrc} alt="프로필" />
 
-      <div className={styles.flipCard}>
-        <div className={styles.flipCardInner}>
-          {/* 카드 앞면 */}
-          <div className={styles.flipCardFront}>
-            <div className={styles.frontInfoWrap}>
-              <div className={styles.infoWrap}>
-                {reduxPet != null ? (
-                  <div className={styles.info}>
-                    <div className={styles.infoRow}>
-                      <div className={styles.photo}>
-                        <img src={Animal.profileSrc} alt="프로필" />
+                          {/* <img */}
+                            {/* // source={require(`${Animal.profileSrc}`).default} */}
+                          {/* /> */}
+                        </div>
+                        <div className={styles.animalinfoWrap}>
+                          <div className={styles.name}>
+                            <span className={styles.boldText}>
+                              {Animal.name}
+                            </span>
+                          </div>
 
-                        {/* <img source={require(`${Animal.profileSrc}`).default}/> */}
+                          <div className={styles.age}>
+                            생일:{" "}
+                            <span className={styles.boldText}>
+                              {Animal.birth}
+                              {Animal.birth && (
+                                <span>({calculateAge(Animal.birth)})</span>
+                              )}
+                            </span>
+                          </div>
+                          <div className={styles.gen_kind}>
+                            <div className={styles.breed}>
+                              종:{" "}
+                              <span className={styles.boldText}>
+                                {Animal.kind}
+                              </span>
+                            </div>
+                            <div className={styles.gender}>
+                              성별:{" "}
+                              <span className={styles.boldText}>
+                                {Animal.gender}
+                              </span>
+                            </div>
+                          </div>
+                          <div>
+                            몸무게:{" "}
+                            <span className={styles.boldText}>
+                              {Animal.weight}
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                      <div className={styles.animalinfoWrap}>
-                        <div className={styles.name}>
-                          <span className={styles.boldText}>{Animal.name}</span>
-                        </div>
-
-                        <div className={styles.age}>
-                          생일:{" "}
+                      <div className={styles.divider}></div>
+                      <div className={styles.infoBtm}>
+                        <div>
+                          건강사항:{" "}
                           <span className={styles.boldText}>
-                            {Animal.birth}
-                            {Animal.birth && (
-                              <span>({calculateAge(Animal.birth)})</span>
-                            )}
+                            {Animal.allergy || "-"}
                           </span>
-                        </div>
-                        <div className={styles.gen_kind}>
-                          <div className={styles.breed}>
-                            종:{" "}
-                            <span className={styles.boldText}>
-                              {Animal.kind}
-                            </span>
-                          </div>
-                          <div className={styles.gender}>
-                            성별:{" "}
-                            <span className={styles.boldText}>
-                              {Animal.gender}
-                            </span>
-                          </div>
                         </div>
                         <div>
-                          몸무게:{" "}
+                          알러지:{" "}
                           <span className={styles.boldText}>
-                            {Animal.weight}
+                            {Animal.health || "-"}
                           </span>
                         </div>
                       </div>
                     </div>
-                    <div className={styles.divider}></div>
-                    <div className={styles.infoBtm}>
-                      <div>
-                        건강사항:{" "}
-                        <span className={styles.boldText}>
-                          {Animal.allergy || "-"}
-                        </span>
+                  ) : (
+                    <div className={styles.noAnimalWrap}>
+                      <div className={styles.noAnimal}>
+                        등록된 반려동물이 없어요
+                        <TbMoodSuprised />
                       </div>
-                      <div>
-                        알러지:{" "}
-                        <span className={styles.boldText}>
-                          {Animal.health || "-"}
-                        </span>
+                      <div
+                        className={styles.petRegiBtn}
+                        onClick={goPetregistration}
+                      >
+                        <FiPlus />
+                        반려동물 등록하기
                       </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className={styles.noAnimalWrap}>
-                    <div className={styles.noAnimal}>
-                      등록된 반려동물이 없어요
-                      <TbMoodSuprised />
-                    </div>
-                    <div
-                      className={styles.petRegiBtn}
-                      onClick={goPetregistration}
-                    >
-                      <FiPlus />
-                      반려동물 등록하기
-                    </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className={styles.homeMenuArea}>
-        <div className={styles.communityMenu}>
-          <div className={styles.Navdiv} onClick={goCommunity}>
-            <IoChatbubbles />
-            <span>커뮤니티</span>
+        <div className={styles.homeMenuArea}>
+          <div className={styles.communityMenu}>
+            <div className={styles.Navdiv} onClick={goCommunity}>
+              <IoChatbubbles />
+              <span>커뮤니티</span>
+            </div>
+          </div>
+          <div className={styles.anyMenu} onClick={goShorts}>
+            <div className={styles.Navdiv}>
+              <HiPlayCircle />
+              <span>쇼츠</span>
+            </div>
+          </div>
+          <div className={styles.promptyMenu}>
+            <div className={styles.Navdiv}>
+              <AiIcon fill="orange" />
+              <span>투펫AI</span>
+            </div>
           </div>
         </div>
-        <div className={styles.anyMenu} onClick={goShorts}>
-          <div className={styles.Navdiv}>
-            <HiPlayCircle />
-            <span>쇼츠</span>
+
+        <div className={styles.scheduleTodayWrap}>
+          <div className={styles.areaTitleWrap}>
+            <div className={styles.areaTitle}>오늘의 일정</div>
+            <SlArrowRight onClick={goCalendar} />
+          </div>
+          <ScheduleToday schedules={schedules} />
+        </div>
+      </Mobile>
+      <DeskTop>
+        {pets.length == 0 ? (
+          <div></div>
+        ) : (
+          <AnimalSelect
+            onClick={handleOpenPetBottomSheet}
+            selectedPet={selectedPet}
+            setSelectedPet={setSelectedPet}
+            isHome={true}
+            pets={pets}
+          />
+        )}
+
+        <BottomSheet
+          show={showBottomSheet}
+          onClose={handleCloseBottomSheet}
+          type={bottomSheetType}
+          initialTags={[]}
+          setSelectedPet={setSelectedPet}
+        />
+        <div className={`${styles.userPetInfo} ${styles.dtver}`}>
+          <div className={`${styles.flipCard} ${styles.dtver}`}>
+            <div className={`${styles.flipCardInner} ${styles.dtver}`}>
+              {/* 카드 앞면 */}
+              <div className={`${styles.flipCardFront} ${styles.dtver}`}>
+                <div className={styles.frontInfoWrap}>
+                  <div className={styles.infoWrap}>
+                    {reduxPet != null ? (
+                      <div className={`${styles.info} ${styles.dtver}`}>
+                        <div className={styles.infoRow}>
+                          <div className={styles.photo}>
+                            <img src={Animal.profileSrc} alt="프로필" />
+                          </div>
+                          <div className={styles.animalinfoWrap}>
+                            <div className={styles.name}>
+                              <span className={styles.boldText}>
+                                {Animal.name}
+                              </span>
+                            </div>
+
+                            <div className={styles.age}>
+                              생일:{" "}
+                              <span className={styles.boldText}>
+                                {Animal.birth}
+                                {Animal.birth && (
+                                  <span>({calculateAge(Animal.birth)})</span>
+                                )}
+                              </span>
+                            </div>
+                            <div className={styles.gen_kind}>
+                              <div className={styles.breed}>
+                                종:{" "}
+                                <span className={styles.boldText}>
+                                  {Animal.kind}
+                                </span>
+                              </div>
+                              <div className={styles.gender}>
+                                성별:{" "}
+                                <span className={styles.boldText}>
+                                  {Animal.gender}
+                                </span>
+                              </div>
+                            </div>
+                            <div>
+                              몸무게:{" "}
+                              <span className={styles.boldText}>
+                                {Animal.weight}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className={styles.divider}></div>
+                        <div className={styles.infoBtm}>
+                          <div>
+                            건강사항:{" "}
+                            <span className={styles.boldText}>
+                              {Animal.allergy || "-"}
+                            </span>
+                          </div>
+                          <div>
+                            알러지:{" "}
+                            <span className={styles.boldText}>
+                              {Animal.health || "-"}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className={styles.noAnimalWrap}>
+                        <div className={styles.noAnimal}>
+                          등록된 반려동물이 없어요
+                          <TbMoodSuprised />
+                        </div>
+                        <div
+                          className={styles.petRegiBtn}
+                          onClick={goPetregistration}
+                        >
+                          <FiPlus />
+                          반려동물 등록하기
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={`${styles.scheduleTodayWrap} ${styles.dtver}`}>
+            <div className={`${styles.areaTitleWrap} ${styles.dtver}`}>
+              <div className={`${styles.areaTitle} ${styles.dtver}`}>
+                오늘의 일정
+              </div>
+            </div>
+            <div className={styles.schedules_box_wrap}>
+              <ScheduleToday
+                schedules={schedules}
+                onScheduleClick={goCalendar}
+                isDeskTop={isDeskTop}
+              />
+            </div>
           </div>
         </div>
-        <div className={styles.promptyMenu}>
-          <div className={styles.Navdiv}>
-            <AiIcon fill="orange" />
-            <span>투펫AI</span>
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.scheduleTodayWrap}>
-        <div className={styles.areaTitleWrap}>
-          <div className={styles.areaTitle}>오늘의 일정</div>
-          <SlArrowRight onClick={goCalendar} />
-        </div>
-        <ScheduleToday schedules={schedules} />
-      </div>
-
+      </DeskTop>
       <div className={styles.shortsPreivewArea}>
         <div className={styles.areaTitleWrap}>
           <div className={styles.areaTitle}>쇼츠</div>

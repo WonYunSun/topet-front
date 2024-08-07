@@ -15,7 +15,7 @@ body {
 
 }
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 7px;
 }
 /* 스크롤바의 트랙 (스크롤바가 지나가는 부분) */
 ::-webkit-scrollbar-track {

@@ -8,7 +8,7 @@ import styles from "../../css/scheduleToday.module.css";
 import "dayjs/locale/ko";
 import ScheduleService from "../../api/scheduleApi"; // postApi
 
-function ScheduleToday({ schedules }) {
+function ScheduleToday({ schedules, onScheduleClick, isDeskTop }) {
   const [updatedSchedules, setUpdatedSchedules] = useState(schedules);
   const [selectedDate, setSelectedDate] = useState(dayjs());
 
@@ -76,13 +76,33 @@ function ScheduleToday({ schedules }) {
   return (
     <div className={styles.scheduleContainer}>
       {schedules.length > 0 ? (
-        <Slider {...settings}>
-          {schedules.map((item) => (
-            <div key={item.scheduleId}>
-              <ScheduleBox item={item} handleCheckBoxClick={handleCheckBoxClick} setUpdatedSchedules={setUpdatedSchedules}/>
-            </div>
-          ))}
-        </Slider>
+        isDeskTop ? (
+          <div className={styles.scrollContainer}>
+            {schedules.map((item) => (
+              <div key={item.scheduleId}>
+                <ScheduleBox
+                  item={item}
+                  handleCheckBoxClick={handleCheckBoxClick}
+                  setUpdatedSchedules={setUpdatedSchedules}
+                  onScheduleClick={onScheduleClick}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <Slider {...settings}>
+            {schedules.map((item) => (
+              <div key={item.scheduleId}>
+                <ScheduleBox
+                  item={item}
+                  handleCheckBoxClick={handleCheckBoxClick}
+                  setUpdatedSchedules={setUpdatedSchedules}
+                  onScheduleClick={onScheduleClick}
+                />
+              </div>
+            ))}
+          </Slider>
+        )
       ) : (
         <div className={styles.noSchedule}>일정이 없습니다.</div>
       )}

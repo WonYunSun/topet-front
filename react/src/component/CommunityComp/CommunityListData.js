@@ -34,8 +34,6 @@ const CommunityListData = ({ item }) => {
     navigate(`/community/detail/${comid}`);
   };
 
-  console.log(item.images)
-
   return (
     <div onClick={() => handlePostClick(item.id)}>
       <div className={styles.each_community_area}>
