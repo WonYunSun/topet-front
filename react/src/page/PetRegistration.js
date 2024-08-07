@@ -41,6 +41,10 @@ const PetRegistration = () => {
 
   const [nextPossible, setNextPossible] = useState(false); //다음단계 가능한가?
 
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
   // 동물 등록 정보
   const [petData, setPetData] = useState({
     type: "", // 동물 타입(강아지, 고양이, 특수동물)
@@ -216,12 +220,9 @@ const PetRegistration = () => {
     const resp = await petApi.postPetData(formData);
 
     if (resp.status == 200) {
+      console.log(resp.status);
       // 반려동물 등록 성공 modal창
-      <CheckModal
-        Content={"반려동물이 등록되었습니다."}
-        onClose={goHome}
-        oneBtn={true}
-      />;
+      toggleModal();
     } else {
       alert("펫 등록에 실패했습니다.");
     }
@@ -443,6 +444,13 @@ const PetRegistration = () => {
     <div>
       <RegisterTopBar stepNum={stepNum} />
       {showStepNum(stepNum)}
+      {showModal && (
+      <CheckModal
+        Content={"반려동물이 등록되었습니다."}
+        onClose={goHome}
+        oneBtn={true}
+      />
+    )}
     </div>
   );
 };
