@@ -32,6 +32,7 @@ import CommunitySearch from "./page/CommunitySearch";
 import LoginPage from "./page/LoginPage";
 import Shorts from "./page/Shorts";
 import UserRegister from "./page/UserRegister";
+import ToPetAi from "./page/ToPetAi";
 function App() {
   const location = useLocation();
   const showNavbarPaths = ["/home", "/schedule", "/map", "/mypage"];
@@ -48,6 +49,7 @@ function App() {
         <Route path="/community/search" element={<CommunitySearch />} />
         <Route path="/community/detail/:comid" element={<CommunityDetail />} />
         <Route path="/community/communitywrite" element={<CommunityWrite />} />
+        <Route path="/topetai" element={<ToPetAi />} />
         <Route path="/schedule" element={<Calendarscreen />} />
         <Route path="/petregistration" element={<PetRegistration />} />
         <Route path="/mypage" element={<MyPage />} />

@@ -86,6 +86,10 @@ const Home = () => {
   const goPetregistration = () => {
     navigate(`/petregistration`);
   };
+
+  const goToPetAi = () => {
+    navigate('/topetai');
+  }
   const handleOpenPetBottomSheet = () => {
     setBottomSheetType("pet");
     setShowBottomSheet(true);
@@ -374,7 +378,7 @@ const Home = () => {
             <span>쇼츠</span>
           </div>
         </div>
-        <div className={styles.promptyMenu}>
+        <div className={styles.promptyMenu} onClick={goToPetAi}>
           <div className={styles.Navdiv}>
             <AiIcon fill="orange" />
             <span>투펫AI</span>

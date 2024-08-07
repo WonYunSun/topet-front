@@ -158,8 +158,21 @@ class CommunityApi {
     }
   }
 
-  // commentAPI 분리
-  // commmunityPost Like API 분리
+  async ReportCommunity(formData) {
+    // 게시물 신고
+    try {
+      const response = await this.axios.post(`/report`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return handleResponse(response);
+    } catch (error) {
+      handleError(error);
+    }
+  }
+
+
 }
 
 export default new CommunityApi();

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useInView } from 'react-intersection-observer';
-import { LoadError, Loading, NoContent } from "./compHandler";
+import { LoadError, Loading, NoContent } from "./CompHandler";
 
 const PAGE_SIZE = 10;
 
