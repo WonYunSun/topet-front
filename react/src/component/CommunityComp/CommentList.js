@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import commentApi from '../../api/commentApi';
 import styles from '../../css/CommentList.module.css';
 import { FiMoreVertical } from "react-icons/fi";
 import EditDeleteBottomSheet from '../SubBottomSheet';
 
 const CommentList = ({ comid, updateCommentCount }) => {
+  const reduxMemberId = useSelector((state) => state.member.member);
   const [comments, setComments] = useState([]);
   const [userProfile, setUserProfile] = useState("https://image.dongascience.com/Photo/2020/03/5bddba7b6574b95d37b6079c199d7101.jpg");
   const [showSubBottomSheet, setShowSubBottomSheet] = useState(false);
@@ -15,16 +17,16 @@ const CommentList = ({ comid, updateCommentCount }) => {
   const [editCommentId, setEditCommentId] = useState(null);
   const [editReplyId, setEditReplyId] = useState(null);
   const [editContent, setEditContent] = useState("");
-
-  const [writer, setWriter] = useState(true); // 글 쓴 사람인지 아닌지, 나중에 로직 바꿔야 할 듯
+  const [isCommentWriter, setIsCommentWriter] = useState(false);
+  const [isReplyWriter, setIsReplyWriter] = useState(false);
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
         const response = await commentApi.fetchComment(comid);
+        console.log(response);
         setComments(response);
-        console.log("댓글 json 형식 :", response)
-        updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
+        updateCommentCount(calculateTotalComments(response));
       } catch (error) {
         console.error("Error fetching comments:", error);
       }
@@ -32,6 +34,31 @@ const CommentList = ({ comid, updateCommentCount }) => {
 
     fetchComments();
   }, [comid, updateCommentCount]);
+
+  useEffect(() => {
+    if (currentCommentId) {
+      const comment = comments.find(comment => comment.id === currentCommentId);
+      if (comment && comment.author.id === reduxMemberId.id) {
+        setIsCommentWriter(true);
+      } else {
+        setIsCommentWriter(false);
+      }
+    } else {
+      setIsCommentWriter(false);
+    }
+
+    if (currentReplyId) {
+      const comment = comments.find(comment => comment.children.some(reply => reply.id === currentReplyId));
+      const reply = comment?.children.find(reply => reply.id === currentReplyId);
+      if (reply && reply.author.id === reduxMemberId.id) {
+        setIsReplyWriter(true);
+      } else {
+        setIsReplyWriter(false);
+      }
+    } else {
+      setIsReplyWriter(false);
+    }
+  }, [currentCommentId, currentReplyId, comments, reduxMemberId.socialId]);
 
   const calculateTotalComments = (comments) => {
     let total = comments.length;
@@ -124,7 +151,7 @@ const CommentList = ({ comid, updateCommentCount }) => {
       setEditContent("");
       const response = await commentApi.fetchComment(comid);
       setComments(response);
-      updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
+      updateCommentCount(calculateTotalComments(response));
     } catch (error) {
       console.error("Error editing comment:", error);
     }
@@ -172,7 +199,7 @@ const CommentList = ({ comid, updateCommentCount }) => {
       setShowSubBottomSheet(false);
       const response = await commentApi.fetchComment(comid);
       setComments(response);
-      updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
+      updateCommentCount(calculateTotalComments(response));
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
@@ -185,7 +212,7 @@ const CommentList = ({ comid, updateCommentCount }) => {
       setShowSubBottomSheet(false);
       const response = await commentApi.fetchComment(comid);
       setComments(response);
-      updateCommentCount(calculateTotalComments(response)); // 댓글 수 업데이트
+      updateCommentCount(calculateTotalComments(response));
     } catch (error) {
       console.error("Error deleting reply:", error);
     }
@@ -269,7 +296,7 @@ const CommentList = ({ comid, updateCommentCount }) => {
       <EditDeleteBottomSheet
         show={showSubBottomSheet}
         onClose={() => setShowSubBottomSheet(false)}
-        type={currentReplyId ? "ReplyEditDelete" : (writer ? "CommentEditDelete" : "CommentReportBlock")}
+        type={currentReplyId ? "ReplyEditDelete" : (isCommentWriter ? "CommentEditDelete" : "CommentReportBlock")}
         onReplyClick={() => handleReplyClick(currentCommentId)}
         onEditClick={() => currentReplyId ? handleReplyEditClick(currentReplyId, comments.find(comment => comment.children.some(reply => reply.id === currentReplyId)).children.find(reply => reply.id === currentReplyId).content) : handleEditClick(currentCommentId, comments.find(comment => comment.id === currentCommentId).content)}
         onDeleteClick={() => currentReplyId ? handleDeleteReplyClick(currentReplyId) : handleDeleteClick(currentCommentId)}

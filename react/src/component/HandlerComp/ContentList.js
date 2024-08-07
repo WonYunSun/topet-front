@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useInView } from 'react-intersection-observer';
-import { LoadError, Loading, NoContent } from "./CompHandler";
+import { LoadError, Loading, NoContent } from "./compHandler";
 
 const PAGE_SIZE = 10;
 
@@ -8,8 +8,10 @@ const ContentList = ({ fetchItems, renderItem, fetchParams }) => {
     const [resources, setResources] = useState([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [hasError, setHasError] = useState(false);
+
+    const fetchParamsMemo = useMemo(() => fetchParams, [JSON.stringify(fetchParams)]);
 
     const loadMoreItems = async () => {
         if (!hasMore || loading) {
@@ -31,13 +33,11 @@ const ContentList = ({ fetchItems, renderItem, fetchParams }) => {
     };
 
     useEffect(() => {
-        setLoading(false);
         setPage(0); // Reset page to 0 when parameters change
         setHasMore(true); // Reset hasMore when params change
         setHasError(false);
         setResources([]); // Clear current resources
-        loadMoreItems(); // Load items based on the new parameters
-    }, [fetchParams]);
+    }, [fetchParamsMemo]);
 
     const { ref, inView } = useInView({
         threshold: 0,

@@ -82,6 +82,58 @@ class CommunityApi {
     }
   }
 
+  async fetchTitleContentSearchCommunityPosts(type, category, page, size, searchText) {
+    // 게시물 제목+본문 검색 최신순 불러오기(+무한스크롤)
+    try {
+      const response = await this.axios.get(
+       `/${type}/${category}?page=${size}&size=${page}&title=${searchText}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("서버 오류:", error);
+      throw error;
+    }
+  }
+
+  async fetchTitleContentSearchSortLikeCommunityPosts(type, category, page, size, searchText) {
+    // 게시물 제목+본문 검색 좋아요순 불러오기(+무한스크롤)
+    try {
+      const response = await this.axios.get(
+        `/${type}/${category}/sortLike?page=${size}&size=${page}&title=${searchText}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("서버 오류:", error);
+      throw error;
+    }
+  }
+
+  async fetchHashTagSearchCommunityPosts(type, category, page, size, searchText) {
+    // 게시물 해시태그 검색 최신순 불러오기(+무한스크롤)
+    try {
+      const response = await this.axios.get(
+       `/${type}/${category}?page=${size}&size=${page}&hashtag=${searchText}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("서버 오류:", error);
+      throw error;
+    }
+  }
+
+  async fetchHashTagSearchSortLikeCommunityPosts(type, category, page, size, searchText) {
+    // 게시물 해시태그 검색 좋아요순 불러오기(+무한스크롤)
+    try {
+      const response = await this.axios.get(
+        `/${type}/${category}/sortLike?page=${size}&size=${page}&hashtag=${searchText}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("서버 오류:", error);
+      throw error;
+    }
+  }
+
   async fetchCommunityDetail(comid) {
     // 게시물 디테일 불러오기
     try {
