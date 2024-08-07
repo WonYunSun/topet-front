@@ -80,8 +80,10 @@ const MapScreen = () => {
     setShowClearButton(false);
   };
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [isDetailVisible, setIsDetailVisible] = useState(true);
   const toggleSidebar = () => {
     setIsSidebarVisible((prev) => !prev);
+    setIsDetailVisible((prev) => !prev);
   };
 
   // 현재 사용자 위치 받아오기 (geolocation)
@@ -143,6 +145,20 @@ const MapScreen = () => {
     };
   }, [map, isLoaded]);
 
+  //사이드 바 오픈 시 오버플로우 처리
+  useEffect(() => {
+    if (selectedPlace) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    // 컴포넌트 언마운트 시 스크롤 복원
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedPlace]);
+
   const searchPlaces = (keyword, location) => {
     if (!window.kakao || !window.kakao.maps) {
       console.error("카카오맵 로드 실패");
@@ -156,7 +172,7 @@ const MapScreen = () => {
       const ps = new window.kakao.maps.services.Places();
       const options = {
         location:
-          location ||
+          // location ||
           new window.kakao.maps.LatLng(state.center.lat, state.center.lng),
         radius: 5000,
         sort: window.kakao.maps.services.SortBy.ACCURACY,
@@ -188,8 +204,7 @@ const MapScreen = () => {
     const ps = new window.kakao.maps.services.Places();
     const options = {
       location:
-        location ||
-        new window.kakao.maps.LatLng(state.center.lat, state.center.lng),
+        location || new window.kakao.maps.LatLng(position.lat, position.lng),
       radius: 5000,
       sort: window.kakao.maps.services.SortBy.ACCURACY,
       level: 2,
@@ -241,7 +256,11 @@ const MapScreen = () => {
   };
 
   const moveLatLng = (data) => {
-    const newLatLng = new window.kakao.maps.LatLng(data.y, data.x);
+    const x = parseFloat(data.x);
+    const y = parseFloat(data.y);
+    const offset = isDeskTop ? -0.005 : 0; // 데스크탑에서는 오프셋 적용, 모바일에서는 적용하지 않음
+
+    const newLatLng = new window.kakao.maps.LatLng(y, x + offset);
     map.panTo(newLatLng);
   };
 
@@ -323,7 +342,10 @@ const MapScreen = () => {
 
   const setCenterToMyPosition = () => {
     if (!map) return;
-    map.panTo(new window.kakao.maps.LatLng(state.center.lat, state.center.lng));
+    const offset = isDeskTop ? -0.003 : 0;
+    map.panTo(
+      new window.kakao.maps.LatLng(state.center.lat, state.center.lng + offset)
+    );
   };
 
   const zoomIn = () => {
@@ -365,7 +387,7 @@ const MapScreen = () => {
     ? convertToMobileUrl(selectedPlace.place_url)
     : "";
   return (
-    <>
+    <div className={styles.noscroll}>
       <Map
         center={state.center}
         style={{
@@ -416,7 +438,18 @@ const MapScreen = () => {
               />
             </React.Fragment>
           ))}
-
+        {selectedPlace && (
+          <MapMarker
+            position={{ lat: selectedPlace.y, lng: selectedPlace.x }}
+            image={{
+              src: "https://cdn-icons-png.flaticon.com/128/2098/2098567.png",
+              size: {
+                width: 35,
+                height: 35,
+              },
+            }}
+          />
+        )}
         <div className={`${isDeskTop ? styles.mapController : ""}`}>
           <div className={styles.setCenterBtnDiv}>
             <button
@@ -583,13 +616,14 @@ const MapScreen = () => {
                   </div>
                 )}
               </div>
-
-              <button
-                onClick={toggleSidebar}
-                className={`${styles.toggleButton}`}
-              >
-                <BiSolidRightArrow size={10} />
-              </button>
+              {selectedPlace == null && (
+                <button
+                  onClick={toggleSidebar}
+                  className={`${styles.toggleButton}`}
+                >
+                  <BiSolidRightArrow size={10} />
+                </button>
+              )}
             </div>
           </div>
         </DeskTop>
@@ -657,13 +691,17 @@ const MapScreen = () => {
         </Mobile>
         <DeskTop>
           {selectedPlace && (
-            <div className={styles.placeDetailframe}>
+            <div
+              className={`${styles.placeDetailframe} ${
+                !isDetailVisible ? styles.hidden : ""
+              }`}
+            >
               <div className={styles.topBar}>
                 <button
                   className={styles.closeButton}
                   onClick={() => setSelectedPlace(null)}
                 >
-                  <IoCloseOutline />
+                  <IoCloseOutline size={20} />
                 </button>
               </div>
               <iframe
@@ -679,6 +717,12 @@ const MapScreen = () => {
                 allowFullScreen
                 title="Selected Place"
               ></iframe>
+              <button
+                onClick={toggleSidebar}
+                className={`${styles.Detail_toggleButton}`}
+              >
+                <BiSolidRightArrow size={10} />
+              </button>
             </div>
           )}
         </DeskTop>
@@ -690,7 +734,7 @@ const MapScreen = () => {
           />
         )}
       </Map>
-    </>
+    </div>
   );
 };
 

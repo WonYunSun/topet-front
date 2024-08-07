@@ -5,6 +5,7 @@
   --top-size: 2.3em;
   --box-shadow: rgba(0, 0, 0, 0.075) 0px 3px 6px,
     rgba(0, 0, 0, 0.123) 0px 3px 6px;
+  --screen-width: 100vw; /* 전체 화면 너비 */
 }
 
 .loading {
@@ -36,20 +37,21 @@
   z-index: 1;
 }
 .MapSideBar {
+  box-sizing: border-box;
   width: 30%;
   position: absolute;
   top: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 100%;
+  height: calc(100vh - 46px);
   z-index: 10;
   transition: transform 0.3s ease;
   box-shadow: var(--box-shadow);
 }
 
 .MapSideBar.hiddensidebar {
-  transform: translateX(-95%);
+  transform: translateX(-99.9%);
 }
 
 .mapTopWrap_Dt {
@@ -72,9 +74,18 @@
   padding: 10px 5px;
   z-index: 11; /* 사이드바 위에 표시되도록 */
   transition: left 0.3s ease;
-  box-shadow: rgba(0, 0, 0, 0.075) 0px 3px 6px, rgba(0, 0, 0, 0.123) 0px 3px 6px;
+  box-shadow: rgba(0, 0, 0, 0.116) 2.4px 2.4px 3.2px;
 }
-
+.Detail_toggleButton {
+  position: absolute;
+  top: 59%; /* 원하는 위치로 조정 */
+  left: 100%; /* 원하는 위치로 조정 */
+  background-color: #fff;
+  border: none;
+  padding: 10px 5px;
+  z-index: 11; /* 사이드바 위에 표시되도록 */
+  box-shadow: rgba(0, 0, 0, 0.116) 2.4px 2.4px 3.2px;
+}
 .hiddensidebar .toggleButton {
   left: 100%; /* 숨겨진 상태에서의 위치 */
 }
@@ -238,20 +249,27 @@
   flex-direction: column;
   align-items: start;
 }
+
 .placeDetailframe {
   position: absolute;
   z-index: 990;
-  right: 30%;
+  left: 31%;
   top: 10px;
+  height: 70vh;
+  transition: transform 0.3s ease;
+  width: calc(400px * 0.8);
+}
+
+.placeDetailframe.hidden {
+  transform: translateX(calc(-100% - (100vw * 0.31)));
 }
 .topBar {
   display: flex;
   justify-content: flex-end;
   background-color: #ffffff;
-  padding: 10px;
+  padding: 10px 5px;
   box-sizing: border-box;
-
-  width: 80%;
+  width: 100%;
   border-radius: 10px 10px 0 0;
 }
 .iframebox,
