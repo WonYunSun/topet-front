@@ -16,6 +16,9 @@ import { TbLogout } from "react-icons/tb"; // 로그아웃
 
 const MyPage = () => {
   const navigate = useNavigate();
+  
+
+
   const defaultProfileImage =
     "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
   const [showModal, setShowModal] = useState();
@@ -72,8 +75,8 @@ const MyPage = () => {
         <div className={styles.profile_container}>
           <div className={styles.profile_photoandname_container}>
             <div className={styles.profile_photo_container}>
-              {reduxMember.src ? (
-                <img className={styles.profile_photo} src={reduxMember.src} />
+              {reduxMember.profileSrc ? (
+                <img className={styles.profile_photo} src={reduxMember.profileSrc} />
                 
           
               ) : (

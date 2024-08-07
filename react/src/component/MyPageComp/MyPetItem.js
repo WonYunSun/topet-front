@@ -15,8 +15,8 @@ const MyPetItem = ({ onOpenModal, photoUrl, name, uid, pet }) => {
         <div className={styles.profile_container}>
             <div className={styles.profile_wrapper}>
                 <div className={styles.photo_container}>
-                    {/* <img src={photoUrl} alt={name} className={styles.photo} /> */}
-                    <img source={require(photoUrl).default} alt={name} className={styles.photo} /> 
+                    <img src={photoUrl} alt={name} className={styles.photo} />
+                    {/* <img source={require(photoUrl).default} alt={name} className={styles.photo} />  */}
                     {/* <img source={require(Animal.profileSrc).default}/>       */}
                 </div>
                 <div className={styles.name}>{name}</div>

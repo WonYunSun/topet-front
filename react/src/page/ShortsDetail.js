@@ -22,7 +22,9 @@ function ShortsDetail() {
         return () => {
             window.removeEventListener('scroll', handleScroll); // Clean up
         };
-    }, []);
+    }, [
+        
+    ]);
 
     useEffect(() => {
         const fetchData = async () => {

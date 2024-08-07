@@ -198,6 +198,7 @@ const Home = () => {
       id: returnedMember.id,
       email: returnedMember.email,
       name: returnedMember.name,
+      profileSrc : returnedMember.profileSrc,
       socialId: returnedMember.socialId,
     };
 
@@ -259,7 +260,7 @@ const Home = () => {
   dispatch(updateSelectedPet(selectedPet));
 
   console.log("home출력 reduxMember : ", reduxMember);
-  console.log(Animal.profileSrc);
+  
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
@@ -297,9 +298,9 @@ const Home = () => {
                   <div className={styles.info}>
                     <div className={styles.infoRow}>
                       <div className={styles.photo}>
-                        {/* <img src={Animal.profileSrc} alt="프로필" /> */}
+                        <img src={Animal.profileSrc} alt="프로필" />
 
-                        <img source={require(`${Animal.profileSrc}`).default}/>
+                        {/* <img source={require(`${Animal.profileSrc}`).default}/> */}
                       </div>
                       <div className={styles.animalinfoWrap}>
                         <div className={styles.name}>
