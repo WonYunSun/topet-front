@@ -30,15 +30,9 @@ function ShortsDetail() {
     const debouncedHandleWheel = debounce(handleWheel, 200); // 200ms 지연
     const debouncedHandleTouchMove = debounce(handleTouchMove, 200);
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll); // Clean up
-        };
-    }, [
-        
-    ]);
+    window.addEventListener("wheel", debouncedHandleWheel);
+    window.addEventListener("touchstart", handleTouchStart);
+    window.addEventListener("touchmove", debouncedHandleTouchMove);
 
     return () => {
       window.removeEventListener("wheel", debouncedHandleWheel);

@@ -50,7 +50,7 @@ const CommunityDetail = () => {
 
       // writer 상태 업데이트
       if (detail.author.id === reduxMemberId.id) {
-        setWriter(false);
+        setWriter(true);
       } else {
         setWriter(false);
       }
