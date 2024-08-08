@@ -32,7 +32,8 @@ const CommunityWrite = () => {
   const [showWriteCancleModal, setShowWriteCancleModal] = useState(false);
   const [showWriteNullCheckModal, setShowWriteNullCheckModal] = useState(false);
 
-  useEffect(() => { // 수정 시 변수 값 세팅
+  useEffect(() => {
+    // 수정 시 변수 값 세팅
     if (state?.edit) {
       setEdit(true);
       setTitleText(state.title);
@@ -42,7 +43,7 @@ const CommunityWrite = () => {
       setComid(state.comid);
     }
     if (state?.hashtag) {
-      const hashtagsArray = state.hashtag.split(',').map(tag => tag.trim());
+      const hashtagsArray = state.hashtag.split(",").map((tag) => tag.trim());
       setSelectedHashTag(hashtagsArray);
     }
     if (state?.animal) {
@@ -53,7 +54,6 @@ const CommunityWrite = () => {
   useEffect(() => {
     conversionHashTag();
   }, [selectedHashTag]);
-  
 
   const handleTitleTextChange = (e) => {
     setTitleText(e.target.value);
@@ -79,30 +79,32 @@ const CommunityWrite = () => {
   };
 
   const conversionHashTag = () => {
-    const conversion = selectedHashTag.join(',');
+    const conversion = selectedHashTag.join(",");
     setConversionStringHashTag(conversion);
-  }
+  };
 
-  const handleSubmit = async () => { // 게시물 생성
+  const handleSubmit = async () => {
+    // 게시물 생성
     const formData = new FormData();
     formData.append("animal", animal);
     formData.append("title", titleText);
     formData.append("content", contentText);
-    formData.append('category', selectedCategory);
-    formData.append('hashtag', conversionStringHashTag);
+    formData.append("category", selectedCategory);
+    formData.append("hashtag", conversionStringHashTag);
     await communityApi.postCommunity(selectedPhotos, formData);
     navigate(-1);
   };
 
-  const handleUpdate = async (comid) => { // 게시물 수정
+  const handleUpdate = async (comid) => {
+    // 게시물 수정
     const formData = new FormData();
     formData.append("title", titleText);
     formData.append("content", contentText);
-    formData.append('category', selectedCategory);
-    formData.append('hashtag', conversionStringHashTag);
+    formData.append("category", selectedCategory);
+    formData.append("hashtag", conversionStringHashTag);
     await communityApi.editCommunity(selectedPhotos, formData, comid);
     navigate(-1);
-  }
+  };
 
   const handleBottomSheetOpen = (type) => {
     setBottomSheetType(type);
@@ -114,7 +116,6 @@ const CommunityWrite = () => {
   };
 
   const isSubmitDisabled = !titleText || !contentText || !selectedCategory;
-
 
   const handleShowCheckModal = () => {
     setShowWriteCancleModal(true);
@@ -143,13 +144,18 @@ const CommunityWrite = () => {
     handleBottomSheetClose();
   };
 
-console.log(animal);
+  console.log(animal);
 
   return (
     <div>
       <TopBar />
       <Title value={titleText} handleTitleTextChange={handleTitleTextChange} />
-      <Content value={contentText} handleContentTextChange={handleContentTextChange} />
+      <Content
+        value={contentText}
+        handleContentTextChange={handleContentTextChange}
+        maxLength={1499}
+        placeholder={"내용을 입력해주세요"}
+      />
       <br />
       <PhotoSelectArea
         selectedPhotos={selectedPhotos}
@@ -165,10 +171,16 @@ console.log(animal);
       />
       <div>
         <Button text={"취소"} btnstyle="white" onClick={handleShowCheckModal} />
-        <Button 
-          text={edit ? "수정 완료" : "작성 완료"} 
-          btnstyle={isSubmitDisabled ? "white_disabled" : "white"} 
-          onClick={isSubmitDisabled ? handleShowNullCheckModal : (edit ? () => handleUpdate(comid) : handleSubmit)} 
+        <Button
+          text={edit ? "수정 완료" : "작성 완료"}
+          btnstyle={isSubmitDisabled ? "white_disabled" : "white"}
+          onClick={
+            isSubmitDisabled
+              ? handleShowNullCheckModal
+              : edit
+              ? () => handleUpdate(comid)
+              : handleSubmit
+          }
         />
       </div>
       {showWriteCancleModal && (
