@@ -58,7 +58,7 @@ class petApi {
       })
       .then((response) => {
         console.log("서버 응답:", response.data);
-        return response;
+        return response.data;
       })
       .catch((error) => {
         console.error("서버 오류:", error);

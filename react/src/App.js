@@ -38,6 +38,7 @@ import UserRegister from "./page/UserRegister";
 import { Mobile, DeskTop } from "./responsive/responsive";
 import { useMediaQuery } from "react-responsive";
 import ShortsDetail from "./page/ShortsDetail";
+import ShortsBox from "./page/ShortsBox";
 
 function App() {
   const location = useLocation();
@@ -84,7 +85,8 @@ function App() {
         
         <Route path="/shorts" element={<Shorts />} />
         <Route path="/addshorts" element={<AddShorts />} />
-        <Route path="/shortsDetail/:id" element={<ShortsDetail />} />
+        <Route path="/shortsDetail/:id" element={<ShortsBox />} />
+        
         
         <Route path="/" element={<LoginPage />} />
       </Routes>
