@@ -263,7 +263,6 @@ const Home = () => {
   dispatch(updateSelectedPet(selectedPet));
 
   console.log("home출력 reduxMember : ", reduxMember);
-  console.log(Animal.profileSrc);
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
