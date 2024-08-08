@@ -1,20 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import TopBar from "../component/TopBar";
-import styles from "../css/shortsscreen.module.css";
-import ShortItem from "../component/ShortsComp/ShortItem";
 import shortsApi from "../api/shortsApi";
 
-function ShortsDetail() {
-    const navigate = useNavigate();
-    const { id } = useParams();
-    const [thsiShorts, setThisShorts] = useState();
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [hasFetchedRandom, setHasFetchedRandom] = useState(false); // 랜덤 쇼츠를 가져왔는지 체크하는 상태
-    const [scrollY, setScrollY] = useState(0); // 현재 스크롤 위치를 추적하는 상태
+// 디바운스 함수 구현
+const debounce = (func, delay) => {
+  let timeoutId;
+  return (...args) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+};
 
-    const screenX = window.outerWidth;
-    const screenY = window.outerHeight;
+function ShortsDetail() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [thisShorts, setThisShorts] = useState();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasFetchedRandom, setHasFetchedRandom] = useState(false);
+  const [touchStartY, setTouchStartY] = useState(0); // 초기값을 null로 설정
+  const screenX = window.outerWidth;
+  const screenY = window.outerHeight;
+
+  useEffect(() => {
+    window.scrollTo(0, 50); // 초기값을 50으로 설정
+    const debouncedHandleWheel = debounce(handleWheel, 200); // 200ms 지연
+    const debouncedHandleTouchMove = debounce(handleTouchMove, 200);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -22,62 +36,102 @@ function ShortsDetail() {
         return () => {
             window.removeEventListener('scroll', handleScroll); // Clean up
         };
-    }, []);
+    }, [
+        
+    ]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                await getShortsDetail();
-            } catch (error) {
-                console.log(error);
-            } finally {
-                setIsLoaded(true);
-            }
-        };
-        fetchData();
-    }, []);
-
-    const getShortsDetail = async () => {
-        const resp = await shortsApi.getShortsDetail(id);
-        setThisShorts(resp);
-        console.log(resp);
+    return () => {
+      window.removeEventListener("wheel", debouncedHandleWheel);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", debouncedHandleTouchMove);
     };
+  }, []);
 
-    const getRandomShorts = async () => {
-        if (!hasFetchedRandom) { // 이미 랜덤 쇼츠를 가져온 경우가 아니라면
-            const resp = await shortsApi.getRandomShorts();
-            console.log(resp); // 랜덤 쇼츠를 콘솔에 출력
-            setHasFetchedRandom(true); // 랜덤 쇼츠를 가져온 상태로 업데이트
-            navigate(`/shortsDetail/${resp}`)
-        }
-    }
-
-    // 스크롤 이벤트를 감지하는 함수
-    const handleScroll = () => {
-        const currentScrollY = window.scrollY;
-        setScrollY(currentScrollY); // 현재 스크롤 위치 업데이트
-
-        if (currentScrollY >= 1) {
-            getRandomShorts(); // 스크롤이 내려가면 랜덤 쇼츠를 가져옴
-        }
-
-        // 스크롤이 위로 올라가는 경우
-        if (currentScrollY < scrollY) {
-            navigate(-1); // 이전 주소로 돌아가기
-        }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await getShortsDetail();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoaded(true);
+      }
     };
+    fetchData();
+  }, [id]);
 
-    if (!isLoaded) {
-        return (<div>Loading...</div>);
+  useEffect(() => {
+    window.scrollTo(0, 50); // id가 변경될 때마다 스크롤을 약간의 여유를 두고 설정
+  }, [id]);
+
+  const getShortsDetail = async () => {
+    const resp = await shortsApi.getShortsDetail(id);
+    setThisShorts(resp);
+  };
+
+  const getRandomShorts = async () => {
+    if (!hasFetchedRandom) {
+      const resp = await shortsApi.getRandomShorts();
+      setHasFetchedRandom(true);
+      navigate(`/shortsDetail/${resp}`);
     }
+  };
 
-    return (
-        <div style={{ margin: "0px", overflow: "hidden" }}>
-            <h1 style={{ zIndex: 1, position: "absolute" }}>ShortsDetail</h1>
-            <video src={thsiShorts.videoSrc} autoPlay loop style={{ width: screenX, height: screenY }}></video>
-            <div>하단여백</div>
-        </div>
-    );
+  const handleWheel = (event) => {
+    if (event.deltaY > 0) {
+      getRandomShorts();
+      window.scrollTo(0, 50); // 스크롤을 약간의 여유를 두고 설정
+    } else if (event.deltaY < 0) {
+      navigate(-1);
+      window.scrollTo(0, 50); // 스크롤을 약간의 여유를 두고 설정
+    }
+  };
+
+  const handleTouchStart = (event) => {
+    if (event.touches.length > 0) {
+      const startY = event.touches[0].clientY;
+      setTouchStartY(startY);
+      console.log("Touch start detected");
+      console.log("touchStartY set to", startY);
+    }
+  };
+
+  const handleTouchMove = (event) => {
+    const touchEndY = event.touches[0].clientY;
+    console.log("touchStartY", touchStartY);
+    console.log("touchEndY", touchEndY);
+
+    if (touchStartY !== null) {
+      if (touchStartY > touchEndY) {
+        console.log("위로스크롤");
+        getRandomShorts();
+        window.scrollTo(0, 50); // 스크롤을 약간의 여유를 두고 설정
+      } else if (touchStartY < touchEndY) {
+        console.log("아래로스크롤");
+        navigate(-1);
+        window.scrollTo(0, 50); // 스크롤을 약간의 여유를 두고 설정
+      }
+    }
+  };
+
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div style={{ margin: "0px", overflow: "hidden" }}>
+      <h1 style={{ zIndex: 1, position: "absolute" }}>ShortsDetail</h1>
+      <div></div>
+      <h2>{id}</h2>
+      <video
+        src={thisShorts?.videoSrc}
+        autoPlay
+        loop
+        style={{ width: screenX, height: screenY * 0.6 }}
+      ></video>
+      <div>하단여백</div>
+    </div>
+  );
 }
 
 export default ShortsDetail;

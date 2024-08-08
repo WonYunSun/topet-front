@@ -87,7 +87,7 @@ const EditPetProfile = () => {
   const defaultProfileImage =
     "https://i.pinimg.com/564x/b5/b0/c0/b5b0c0313bfeb3cd262e16b546499a8c.jpg";
 
-  const [profilePhoto, setProfilePhoto] = useState(myPet.photo);
+  const [profilePhoto, setProfilePhoto] = useState();
   const [gender, setGender] = useState(myPet.gender);
   const [neutered, setNeutered] = useState(myPet.neutered);
   const [weight, setWeight] = useState(myPet.weight); // 체중 단위포함
@@ -192,8 +192,9 @@ const EditPetProfile = () => {
   const SaveProfile = () => {
     console.log("저장");
   };
-
+  
   console.log("canSave: ", canSave);
+  
 
   const ProfilePhoto = useMemo(() => {
     return (
@@ -204,7 +205,7 @@ const EditPetProfile = () => {
         {profilePhoto && typeof profilePhoto === "object" ? (
           <div className={styles.selected_profile_photo_container}>
             <img
-              src={URL.createObjectURL(profilePhoto)}
+              src={myPet.photo}
               className={styles.selected_profile_photo}
               alt="Profile"
             />
@@ -212,7 +213,7 @@ const EditPetProfile = () => {
         ) : (
           <div className={styles.selected_profile_photo_container}>
             <img
-              src={profilePhoto}
+              src={myPet.photo}
               className={styles.selected_profile_photo}
               alt="Profile"
             />

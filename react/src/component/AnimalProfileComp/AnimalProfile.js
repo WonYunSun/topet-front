@@ -22,7 +22,7 @@ const  AnimalProfile = ({ selectedPet, isHome, pets , }) => {
   useEffect(() => {
     if (selectedPet) {
       setAnimalName(selectedPet.name);
-      setAnimalProfileSrc(selectedPet.url);
+      setAnimalProfileSrc(selectedPet.profileSrc);
     }
   }, [
     selectedPet
