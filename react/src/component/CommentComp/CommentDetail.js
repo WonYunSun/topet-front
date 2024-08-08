@@ -12,8 +12,8 @@ const CommentDetail = ({ comment, reduxMemberId, comid, updateCommentCount }) =>
   const [editCommentId, setEditCommentId] = useState(null);
   const [editReplyId, setEditReplyId] = useState(null);
   const [editContent, setEditContent] = useState("");
-  const [isCommentWriter, setIsCommentWriter] = useState(false);
-  const [isReplyWriter, setIsReplyWriter] = useState(false);
+  const [isCommentWriter, setIsCommentWriter] = useState(true);
+  const [isReplyWriter, setIsReplyWriter] = useState(true);
   const [userProfile, setUserProfile] = useState("https://image.dongascience.com/Photo/2020/03/5bddba7b6574b95d37b6079c199d7101.jpg");
 
   const handleMoreClick = (commentId) => {
@@ -77,8 +77,8 @@ const CommentDetail = ({ comment, reduxMemberId, comid, updateCommentCount }) =>
       alert("답글이 등록되었습니다.");
       setReplyContent("");
       setCommentId(null);
-    //   const response = await commentApi.fetchComment(comid);
-    //   updateCommentCount(response.totalCount);
+      const response = await commentApi.fetchComment(comid);
+      updateCommentCount(response.totalCount);
     } catch (error) {
       console.error("Error posting reply:", error);
     }
@@ -99,6 +99,8 @@ const CommentDetail = ({ comment, reduxMemberId, comid, updateCommentCount }) =>
       alert("댓글이 수정되었습니다.");
       setEditCommentId(null);
       setEditContent("");
+      const response = await commentApi.fetchComment(comid);
+      updateCommentCount(response.totalCount);
     } catch (error) {
       console.error("Error editing comment:", error);
     }
@@ -119,6 +121,8 @@ const CommentDetail = ({ comment, reduxMemberId, comid, updateCommentCount }) =>
       alert("답글이 수정되었습니다.");
       setEditReplyId(null);
       setEditContent("");
+      const response = await commentApi.fetchComment(comid);
+      updateCommentCount(response.totalCount);
     } catch (error) {
       console.error("Error editing reply:", error);
     }
@@ -141,8 +145,8 @@ const CommentDetail = ({ comment, reduxMemberId, comid, updateCommentCount }) =>
       await commentApi.deleteComment(commentId);
       alert("댓글이 삭제되었습니다.");
       setShowSubBottomSheet(false);
-    //   const response = await commentApi.fetchComment(comid);
-    //   updateCommentCount(response.totalCount);
+      const response = await commentApi.fetchComment(comid);
+      updateCommentCount(response.totalCount);
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
@@ -153,8 +157,8 @@ const CommentDetail = ({ comment, reduxMemberId, comid, updateCommentCount }) =>
       await commentApi.deleteReply(replyId);
       alert("답글이 삭제되었습니다.");
       setShowSubBottomSheet(false);
-    //   const response = await commentApi.fetchComment(comid);
-    //   updateCommentCount(response.totalCount);
+      const response = await commentApi.fetchComment(comid);
+      updateCommentCount(response.totalCount);
     } catch (error) {
       console.error("Error deleting reply:", error);
     }
