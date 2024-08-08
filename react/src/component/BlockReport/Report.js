@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import RadioButton from './RadioButton';
 import Button from '../ButtonComp/Button';
 import styles from '../../css/report.module.css';
-import communityApi from '../../api/communityApi';
+import ReportAndBlock from '../../api/reportandblock';
+import CheckModal from '../CheckModal';
 
-const Report = ({onClick, comid, reduxMemberId}) => {
+const Report = ({ onClick, comid }) => {
   const [selectedValue, setSelectedValue] = useState('스팸홍보/도배글');
   const [otherText, setOtherText] = useState('');
 
@@ -25,12 +26,11 @@ const Report = ({onClick, comid, reduxMemberId}) => {
   };
 
   const handleSubmit = async () => {
-    // 전송 버튼 클릭 시 처리 로직
     const formData = new FormData();
     const reportValue = selectedValue === '기타' ? otherText : selectedValue;
-    formData.append("content", reportValue)
-    await communityApi.ReportCommunity(formData)
-    console.log("전송 버튼 클릭, 선택된 값:", reportValue);
+    formData.append("reason", reportValue);
+    await ReportAndBlock.ReportCommunity(formData, comid);
+    onClick();
   };
 
   return (
