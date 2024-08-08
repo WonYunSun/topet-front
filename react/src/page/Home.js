@@ -53,13 +53,16 @@ const Home = () => {
   const [schedules, setSchedule] = useState([]);
 
   useEffect(() => {
+    const fetchData = async () => {
     try {
-      getHome();
+      await getHome();
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoaded(true);
     }
+  }
+  fetchData();
   }, []);
 
   useEffect(() => {
@@ -203,6 +206,7 @@ const Home = () => {
     const sessionMember = {
       id: returnedMember.id,
       email: returnedMember.email,
+      profileSrc:returnedMember.profileSrc,
       name: returnedMember.name,
       socialId: returnedMember.socialId,
     };
@@ -263,7 +267,7 @@ const Home = () => {
   dispatch(updateSelectedPet(selectedPet));
 
   console.log("home출력 reduxMember : ", reduxMember);
-  console.log(Animal.profileSrc);
+  
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
