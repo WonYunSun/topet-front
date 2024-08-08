@@ -21,7 +21,7 @@ function ShortsDetail() {
   const [thisShorts, setThisShorts] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasFetchedRandom, setHasFetchedRandom] = useState(false);
-  const [touchStartY, setTouchStartY] = useState(0);
+  const [touchStartY, setTouchStartY] = useState(0); // 초기값을 null로 설정
   const screenX = window.outerWidth;
   const screenY = window.outerHeight;
 
@@ -82,21 +82,29 @@ function ShortsDetail() {
   };
 
   const handleTouchStart = (event) => {
-    console.log("Touch start detected");
-    setTouchStartY(event.touches[0].clientY);
-    console.log("touchStartY set to", event.touches[0].clientY);
+    if (event.touches.length > 0) {
+      const startY = event.touches[0].clientY;
+      setTouchStartY(startY);
+      console.log("Touch start detected");
+      console.log("touchStartY set to", startY);
+    }
   };
 
   const handleTouchMove = (event) => {
     const touchEndY = event.touches[0].clientY;
-    console.log("touchEndY", touchEndY);
     console.log("touchStartY", touchStartY);
-    if (touchStartY > touchEndY) {
-      console.log("위로스크롤");
-      getRandomShorts();
-    } else if (touchStartY > touchEndY) {
-      console.log("아래로스크롤");
-      navigate(-1);
+    console.log("touchEndY", touchEndY);
+
+    if (touchStartY !== null) {
+      if (touchStartY > touchEndY) {
+        console.log("위로스크롤");
+        getRandomShorts();
+        window.scrollTo(0, 50); // 스크롤을 약간의 여유를 두고 설정
+      } else if (touchStartY < touchEndY) {
+        console.log("아래로스크롤");
+        navigate(-1);
+        window.scrollTo(0, 50); // 스크롤을 약간의 여유를 두고 설정
+      }
     }
   };
 
