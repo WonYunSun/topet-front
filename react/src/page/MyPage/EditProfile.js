@@ -23,7 +23,7 @@ const EditProfile = () => {
   const [canSave, setCanSave] = useState();
   const fileInputRef = useRef(null);
 
-  console.log(reduxMember);
+
 
   const currentProfilePhoto = reduxMember.profileSrc; // 기존 사진
   const currentProfileName = reduxMember.name; // 기존 닉네임
@@ -34,8 +34,8 @@ const EditProfile = () => {
     }
     if (
       profileName == currentProfileName
-      // &&
-      // profilePhoto == currentProfilePhoto
+      &&
+      profilePhoto == currentProfilePhoto
     ) {
       setCanSave(false);
     } else {

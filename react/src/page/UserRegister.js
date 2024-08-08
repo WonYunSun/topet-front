@@ -4,9 +4,12 @@ import { TbPhoto } from "react-icons/tb";
 import { TiDelete } from "react-icons/ti";
 import homeApi from "../api/homeApi";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { updateMember } from "../redux/reducers/memberReducer";
 
 export default function UserRegister() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const defaultProfileImage =
     "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
 
@@ -56,6 +59,7 @@ export default function UserRegister() {
     }
     const resp = await homeApi.postMemberInfo(formData);
     if(resp.status == 200){
+      dispatch(updateMember(resp.data));
       navigate(`/home`);
     }else{
       alert("실패");
