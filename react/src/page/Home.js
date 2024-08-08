@@ -51,7 +51,8 @@ const Home = () => {
 
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
   const [schedules, setSchedule] = useState([]);
-
+  const defaultProfileImage =
+    "https://images.unsplash.com/photo-1722031489919-100378463cfc?q=80&w=1285&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
   useEffect(() => {
     const fetchData = async () => {
     try {
@@ -267,7 +268,7 @@ const Home = () => {
   dispatch(updateSelectedPet(selectedPet));
 
   console.log("home출력 reduxMember : ", reduxMember);
-  
+  // console.log(Animal.profileSrc);
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
@@ -291,6 +292,7 @@ const Home = () => {
           show={showBottomSheet}
           onClose={handleCloseBottomSheet}
           type={bottomSheetType}
+          ㅁ
           initialTags={[]}
           setSelectedPet={setSelectedPet}
         />
@@ -306,10 +308,6 @@ const Home = () => {
                       <div className={styles.infoRow}>
                         <div className={styles.photo}>
                           <img src={Animal.profileSrc} alt="프로필" />
-
-                          {/* <img */}
-                            {/* // source={require(`${Animal.profileSrc}`).default} */}
-                          {/* /> */}
                         </div>
                         <div className={styles.animalinfoWrap}>
                           <div className={styles.name}>

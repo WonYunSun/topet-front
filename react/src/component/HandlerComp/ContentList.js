@@ -1,70 +1,74 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { useInView } from 'react-intersection-observer';
+import { useInView } from "react-intersection-observer";
 import { LoadError, Loading, NoContent } from "./CompHandler";
 
 const PAGE_SIZE = 10;
 
 const ContentList = ({ fetchItems, renderItem, fetchParams }) => {
-    const [resources, setResources] = useState([]);
-    const [page, setPage] = useState(0);
-    const [hasMore, setHasMore] = useState(true);
-    const [loading, setLoading] = useState(false);
-    const [hasError, setHasError] = useState(false);
+  const [resources, setResources] = useState([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
-    const fetchParamsMemo = useMemo(() => fetchParams, [JSON.stringify(fetchParams)]);
+  const fetchParamsMemo = useMemo(
+    () => fetchParams,
+    [JSON.stringify(fetchParams)]
+  );
 
-    const loadMoreItems = async () => {
-        if (!hasMore || loading) {
-            return;
-        }
-        try {
-            const newResource = await fetchItems(page, PAGE_SIZE);
-            if (newResource.length < PAGE_SIZE) {
-                setHasMore(false);
-            }
-            setResources(prev => [...prev, ...newResource]);
-            setPage(prev => prev + 1);
-        } catch (err) {
-            setHasError(true);
-            setHasMore(false);
-        } finally {
-            setLoading(false);
-        }
-    };
+  const loadMoreItems = async () => {
+    if (!hasMore || loading) {
+      return;
+    }
+    try {
+      const newResource = await fetchItems(page, PAGE_SIZE);
+      if (newResource.length < PAGE_SIZE) {
+        setHasMore(false);
+      }
+      console.log("hi3");
+      setResources((prev) => [...prev, ...newResource]);
+      console.log("hi2");
+      setPage((prev) => prev + 1);
+      console.log("hi");
+    } catch (err) {
+      setHasError(true);
+      setHasMore(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    useEffect(() => {
-        setPage(0); // Reset page to 0 when parameters change
-        setHasMore(true); // Reset hasMore when params change
-        setHasError(false);
-        setResources([]); // Clear current resources
-    }, [fetchParamsMemo]);
+  useEffect(() => {
+    setPage(0); // Reset page to 0 when parameters change
+    setHasMore(true); // Reset hasMore when params change
+    setHasError(false);
+    setResources([]); // Clear current resources
+  }, [fetchParamsMemo]);
 
-    const { ref, inView } = useInView({
-        threshold: 0,
-    });
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
 
-    useEffect(() => {
-        if (inView && hasMore) {
-            loadMoreItems();
-        }
-    }, [inView, hasMore]);
+  useEffect(() => {
+    if (inView && hasMore) {
+      loadMoreItems();
+    }
+  }, [inView, hasMore]);
 
-    return (
-        <div>
-            {resources.map(renderItem)}
-            {!loading && hasMore &&
-                <div ref={ref}>
-                    <Loading />
-                </div>
-            }
-            {!loading && hasError && 
-                <LoadError />
-            }
-            {!loading && !hasError && !hasMore && resources.length === 0 &&
-                <NoContent />
-            }
+  return (
+    <div>
+      {resources.map(renderItem)}
+      {!loading && hasMore && (
+        <div ref={ref}>
+          <Loading />
         </div>
-    );
+      )}
+      {!loading && hasError && <LoadError />}
+      {!loading && !hasError && !hasMore && resources.length === 0 && (
+        <NoContent />
+      )}
+    </div>
+  );
 };
 
 export default ContentList;
