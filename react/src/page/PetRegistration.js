@@ -12,7 +12,20 @@ import CheckModal from "../component/CheckModal";
 
 import petApi from "../api/petApi";
 
+/// responsive
+import { Mobile, DeskTop } from "../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
+
 const PetRegistration = () => {
+
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 859px)",
+  });
+
   const defaultImage =
     "https://i.pinimg.com/564x/b5/b0/c0/b5b0c0313bfeb3cd262e16b546499a8c.jpg";
 
@@ -267,14 +280,14 @@ const PetRegistration = () => {
         {stepNum == 1 ? (
           ""
         ) : (
-          <button className={styles.prevstep_button} onClick={prevStep}>
+          <button className={`${styles.prevstep_button} ${isDeskTop && styles.dtver}`} onClick={prevStep}>
             이전
           </button>
         )}
         {nextPossible ? (
           stepNum == 6 ? (
             <button
-              className={styles.nextstep_button}
+              className={`${styles.nextstep_button} ${isDeskTop && styles.dtver}`}
               onClick={handleRegistFin}
             >
               {"완료"}
@@ -285,7 +298,7 @@ const PetRegistration = () => {
                 stepNum == 1
                   ? styles.first_nextstep_button
                   : styles.nextstep_button
-              }`}
+              } ${isDeskTop && styles.dtver}`}
               onClick={nextStep}
             >
               {"다음"}
@@ -440,8 +453,9 @@ const PetRegistration = () => {
     }
   };
 
-  return (
-    <div>
+  return (<>
+  {/* <DeskTop>여기다나중에 만들 탑바</DeskTop> */}
+    <div className={`${isDeskTop?styles.DeskTopverWrpper:""}`}>
       <RegisterTopBar stepNum={stepNum} />
       {showStepNum(stepNum)}
       {showModal && (
@@ -452,6 +466,7 @@ const PetRegistration = () => {
       />
     )}
     </div>
+    </>
   );
 };
 
