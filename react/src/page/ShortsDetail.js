@@ -1,115 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import shortsApi from "../api/shortsApi";
+// ShortsDetail.js
+import React from "react";
 
-const debounce = (func, delay) => {
-  let timeoutId;
-  return (...args) => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-    timeoutId = setTimeout(() => {
-      func(...args);
-    }, delay);
-  };
-};
-
-function ShortsDetail() {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const [thisShorts, setThisShorts] = useState();
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [hasFetchedRandom, setHasFetchedRandom] = useState(false);
-  const touchStartY = useRef(0); // useRef로 변경
+function ShortsDetail({ videoSrc, id }) {
   const screenX = window.outerWidth;
   const screenY = window.outerHeight;
-
-  useEffect(() => {
-    window.scrollTo(0, 50);
-    const debouncedHandleWheel = debounce(handleWheel, 200);
-    const debouncedHandleTouchMove = debounce(handleTouchMove, 200);
-
-    window.addEventListener("wheel", debouncedHandleWheel);
-    window.addEventListener("touchstart", handleTouchStart);
-    window.addEventListener("touchmove", debouncedHandleTouchMove);
-
-    return () => {
-      window.removeEventListener("wheel", debouncedHandleWheel);
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", debouncedHandleTouchMove);
-    };
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await getShortsDetail();
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoaded(true);
-      }
-    };
-    fetchData();
-  }, [id]);
-
-  useEffect(() => {
-    window.scrollTo(0, 50);
-  }, [id]);
-
-  const getShortsDetail = async () => {
-    const resp = await shortsApi.getShortsDetail(id);
-    setThisShorts(resp);
-  };
-
-  const getRandomShorts = async () => {
-    if (!hasFetchedRandom) {
-      const resp = await shortsApi.getRandomShorts();
-      setHasFetchedRandom(true);
-      navigate(`/shortsDetail/${resp}`);
-    }
-  };
-
-  const handleWheel = (event) => {
-    if (event.deltaY > 0) {
-      getRandomShorts();
-      window.scrollTo(0, 50);
-    } else if (event.deltaY < 0) {
-      navigate(-1);
-      window.scrollTo(0, 50);
-    }
-  };
-
-  const handleTouchStart = (event) => {
-    if (event.touches.length > 0) {
-      const startY = event.touches[0].clientY;
-      touchStartY.current = startY; // useRef의 current에 저장
-      // console.log("Touch start detected");
-      // console.log("touchStartY set to", startY);
-    }
-  };
-
-  const handleTouchMove = (event) => {
-    const touchEndY = event.touches[0].clientY;
-    // console.log("touchStartY.current", touchStartY.current); // useRef의 current 사용
-    // console.log("touchEndY", touchEndY);
-
-    if (touchStartY.current !== null) {
-      if (touchStartY.current > touchEndY) {
-        // console.log("위로스크롤");
-        getRandomShorts();
-        window.scrollTo(0, 50);
-      } else if (touchStartY.current < touchEndY) {
-        // console.log("아래로스크롤");
-        navigate(-1);
-        window.scrollTo(0, 50);
-      }
-    }
-  };
-
-  if (!isLoaded) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div style={{ margin: "0px", overflow: "hidden" }}>
@@ -117,7 +11,7 @@ function ShortsDetail() {
       <div></div>
       <h2>{id}</h2>
       <video
-        src={thisShorts?.videoSrc}
+        src={videoSrc}
         autoPlay
         loop
         style={{ width: screenX, height: screenY * 0.6 }}
