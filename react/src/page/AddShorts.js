@@ -6,7 +6,9 @@ import Content from "../component/Content";
 import TopBar from "../component/TopBar";
 import Button from "../component/ButtonComp/Button";
 import CheckModal from "../component/CheckModal";
-import styles from "../css/addshorts.modules.css";
+import styles from "../css/addshorts.module.css";
+import { LuUpload } from "react-icons/lu";
+import { IoIosClose } from "react-icons/io";
 
 function AddShorts() {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
@@ -110,13 +112,6 @@ function AddShorts() {
           maxLength={99}
           placeholder={"동영상 설명을 입력해주세요"}
         />
-        <div className={styles.divtext}>썸네일 사진을 선택해주세요</div>
-        {/* SchedulePhotoSelectArea 컴포넌트가 실제로 어떻게 동작하는지에 따라 수정 필요 */}
-        <SchedulePhotoSelectArea
-          selectedPhoto={selectedPhoto}
-          onPhotoSelected={handlePhotoSelected}
-          onRemovePhoto={handleRemovePhoto}
-        />
 
         <input
           type="file"
@@ -128,20 +123,45 @@ function AddShorts() {
         />
 
         {selectedVideo == null ? (
-          <button onClick={videoSelect}>동영상 선택</button>
+          <>
+            <div className={styles.divtext}>동영상을 선택해주세요</div>
+            <div className={styles.upload_div} onClick={videoSelect}>
+              <LuUpload size={30} />
+            </div>
+          </>
         ) : (
           <div></div>
         )}
         {selectedVideo && (
-          <div>
-            <div>동영상 미리보기</div>
-            <video width="400" controls>
-              <source src={videoPreviewUrl} type={selectedVideo.type} />
-              Your browser does not support the video tag.
-            </video>
-            <button onClick={handleRemoveVideo}>동영상 제거</button>
+          <div className={styles.videoPreview_wrap}>
+            <div className={styles.divtext}>동영상 미리보기</div>
+            <div className={styles.videoBoxDiv}>
+              <video
+                className={styles.videoPreview}
+                height="95"
+                controls
+                controlsList="nodownload"
+              >
+                <source src={videoPreviewUrl} type={selectedVideo.type} />
+                Your browser does not support the video tag.
+              </video>
+
+              <div
+                className={styles.videoPreview_rmv}
+                onClick={handleRemoveVideo}
+              >
+                <IoIosClose size={19} />
+              </div>
+            </div>
           </div>
         )}
+        <div className={styles.divtext}>썸네일을 선택해주세요</div>
+        {/* SchedulePhotoSelectArea 컴포넌트가 실제로 어떻게 동작하는지에 따라 수정 필요 */}
+        <SchedulePhotoSelectArea
+          selectedPhoto={selectedPhoto}
+          onPhotoSelected={handlePhotoSelected}
+          onRemovePhoto={handleRemovePhoto}
+        />
       </div>
       <div>
         <Button text={"취소"} btnstyle="white" onClick={handleShowCheckModal} />
