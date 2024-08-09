@@ -27,8 +27,9 @@ import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
 
 const Home = () => {
-  const reduxMember = useSelector((state) => state.member.member);
+
   const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
+  
   const isDeskTop = useMediaQuery({
     query: "(min-width: 1110px)",
   });
@@ -72,16 +73,19 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    getSchedule();
+    if(selectedPet != null){
+      //getSchedule();
+    }
+    
   }, [selectedPet]);
 
-  useEffect(() => {
-    setSelectedPet(reduxPet);
-    if (reduxPet) {
-      const animalTypeValue = animalTypeMap[reduxPet.type];
-      setAnimalType(animalTypeValue);
-    }
-  }, [reduxPet]);
+  // useEffect(() => {
+    
+  //   if (reduxPet) {
+  //     const animalTypeValue = animalTypeMap[reduxPet.type];
+  //     setAnimalType(animalTypeValue);
+  //   }
+  // }, [reduxPet]);
 
   const goCommunity = () => {
     const animalTypeMap = {
@@ -155,17 +159,8 @@ const Home = () => {
   ];
 
   // 프로필 카드 플립 관련
-  const Animal = reduxPet;
-  // const Animal = {
-  //   photo:
-  //     "https://images.unsplash.com/photo-1591703166380-e36be05eb7bf?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  //   name: "코코",
-  //   age: "3살",
-  //   gender: "여",
-  //   breed: "푸들",
-  //   weight: "5kg",
-  //   health: "예방접종 완료, 알러지 없음",
-  // };
+  
+ 
   const dummyCommmuData = [
     {
       title: "First Post",
@@ -199,62 +194,71 @@ const Home = () => {
     },
   ];
 
-  // const [isFlipped, setIsFlipped] = useState(false);
-
-  // const handleClick = () => {
-  //   setIsFlipped(!isFlipped);
-  // };
-
+console.log("home출력 selectedPet : " , selectedPet)
   const getHome = async () => {
     const returnedMember = await homeApi.getHomeDataMember();
-    // member을 redux에넣어야함
+    if(returnedMember != null){
+      const sessionMember = {
+          id: returnedMember.id,
+          email: returnedMember.email,
+          name: returnedMember.name,
+          socialId: returnedMember.socialId,
+      };
+      
+      setMember(sessionMember);
+      dispatch(updateMember(sessionMember));
+    }
+    if(returnedMember != null){
 
-    const sessionMember = {
-      id: returnedMember.id,
-      email: returnedMember.email,
-      name: returnedMember.name,
-      socialId: returnedMember.socialId,
-    };
+      
 
-    setMember(sessionMember);
-    const tempPets = returnedMember.pets;
 
-    const myPets = [];
-
-    if (tempPets != null)
-      for (let i = 0; i < tempPets.length; i++) {
-        if (tempPets[i] != null) {
-          let tempPet = {
-            id: tempPets[i].id,
-            type: tempPets[i].type,
-            birth: tempPets[i].birth,
-            health: tempPets[i].health,
-            allergy: tempPets[i].allergy,
-            gender: tempPets[i].gender,
-            kind: tempPets[i].kind,
-            profileSrc: tempPets[i].profileSrc,
-            name: tempPets[i].name,
-            weight: tempPets[i].weight,
-            uid: tempPets[i].uid,
-          };
-          myPets.push(tempPet);
+      const tempPets = returnedMember.pets;
+      console.log("tempPets : ",tempPets)
+      const myPets = [];
+      if (tempPets != null){
+        for (let i = 0; i < tempPets.length; i++) {
+          if (tempPets[i] != null) {
+            let tempPet = {
+              id: tempPets[i].id,
+              type: tempPets[i].type,
+              birth: tempPets[i].birth,
+              health: tempPets[i].health,
+              allergy: tempPets[i].allergy,
+              gender: tempPets[i].gender,
+              kind: tempPets[i].kind,
+              profileSrc: tempPets[i].profileSrc,
+              name: tempPets[i].name,
+              weight: tempPets[i].weight,
+              uid: tempPets[i].uid,
+            };
+            myPets.push(tempPet);
+          }
         }
+        console.log(myPets);
+        setPets(myPets);
+        dispatch(updatePetList(myPets));
+        if(selectedPet == null || selectedPet == ""){
+          setSelectedPet(myPets[0]);
+          dispatch(updateSelectedPet(myPets[0]))
+        }
+        getSchedule();
+      }else{ //tempPet이 없을때.
+        setPets(null);
+        setSelectedPet(null);
       }
-
-    setPets(myPets);
-    dispatch(updateMember(sessionMember));
-    dispatch(updatePetList(myPets));
-    //    setPets(returnedMember.pets);
-
-    getSchedule();
+    }
+    
+    //getSchedule();
     // const pet = await homeApi.getHomeDataPet();
+  
   };
 
   const getSchedule = async () => {
-    if (reduxPet != null) {
-      const response = await homeApi.getHomeDataSchedule(selectedPet.id);
-      setSchedule(response);
-    }
+    // if (reduxPet != null) {
+    //   const response = await homeApi.getHomeDataSchedule(selectedPet.id);
+    //   setSchedule(response);
+    // }
   };
 
   const calculateAge = (birthDate) => {
@@ -271,7 +275,7 @@ const Home = () => {
   };
   dispatch(updateSelectedPet(selectedPet));
 
-  console.log("home출력 reduxMember : ", reduxMember);
+  
   // console.log(Animal.profileSrc);
   if (!isLoaded) {
     return <div>Loading...</div>;
@@ -302,7 +306,7 @@ const Home = () => {
             show={showBottomSheet}
             onClose={handleCloseBottomSheet}
             type={bottomSheetType}
-            ㅁ
+            
             initialTags={[]}
             setSelectedPet={setSelectedPet}
           />
@@ -313,25 +317,25 @@ const Home = () => {
               <div className={styles.flipCardFront}>
                 <div className={styles.frontInfoWrap}>
                   <div className={styles.infoWrap}>
-                    {reduxPet != null ? (
+                    {selectedPet != null ? (
                       <div className={styles.info}>
                         <div className={styles.infoRow}>
                           <div className={styles.photo}>
-                            <img src={Animal.profileSrc} alt="프로필" />
+                            <img src={selectedPet.profileSrc} alt="프로필" />
                           </div>
                           <div className={styles.animalinfoWrap}>
                             <div className={styles.name}>
                               <span className={styles.boldText}>
-                                {Animal.name}
+                                {selectedPet.name}
                               </span>
                             </div>
 
                             <div className={styles.age}>
                               생일:{" "}
                               <span className={styles.boldText}>
-                                {Animal.birth}
-                                {Animal.birth && (
-                                  <span>({calculateAge(Animal.birth)})</span>
+                                {selectedPet.birth}
+                                {selectedPet.birth && (
+                                  <span>({calculateAge(selectedPet.birth)})</span>
                                 )}
                               </span>
                             </div>
@@ -339,20 +343,20 @@ const Home = () => {
                               <div className={styles.breed}>
                                 종:{" "}
                                 <span className={styles.boldText}>
-                                  {Animal.kind}
+                                  {selectedPet.kind}
                                 </span>
                               </div>
                               <div className={styles.gender}>
                                 성별:{" "}
                                 <span className={styles.boldText}>
-                                  {Animal.gender}
+                                  {selectedPet.gender}
                                 </span>
                               </div>
                             </div>
                             <div>
                               몸무게:{" "}
                               <span className={styles.boldText}>
-                                {Animal.weight}
+                                {selectedPet.weight}
                               </span>
                             </div>
                           </div>
@@ -362,13 +366,13 @@ const Home = () => {
                           <div>
                             건강사항:{" "}
                             <span className={styles.boldText}>
-                              {Animal.allergy || "-"}
+                              {selectedPet.allergy || "-"}
                             </span>
                           </div>
                           <div>
                             알러지:{" "}
                             <span className={styles.boldText}>
-                              {Animal.health || "-"}
+                              {selectedPet.health || "-"}
                             </span>
                           </div>
                         </div>
@@ -462,29 +466,26 @@ const Home = () => {
                 >
                   <div className={styles.frontInfoWrap}>
                     <div className={styles.infoWrap}>
-                      {reduxPet != null ? (
-                        <div
-                          className={`${styles.info}  ${
-                            isTablet ? "" : styles.dtver
-                          }`}
+                      {(reduxPet) ? (///////////////////////////수정
+                        <div className={`${styles.info}  ${isTablet ? "" : styles.dtver}`}
                         >
                           <div className={styles.infoRow}>
                             <div className={styles.photo}>
-                              <img src={Animal.profileSrc} alt="프로필" />
+                              <img src={reduxPet.profileSrc} alt="프로필" />
                             </div>
                             <div className={styles.animalinfoWrap}>
                               <div className={styles.name}>
                                 <span className={styles.boldText}>
-                                  {Animal.name}
+                                  {reduxPet.name}
                                 </span>
                               </div>
 
                               <div className={styles.age}>
                                 생일:{" "}
                                 <span className={styles.boldText}>
-                                  {Animal.birth}
-                                  {Animal.birth && (
-                                    <span>({calculateAge(Animal.birth)})</span>
+                                  {reduxPet.birth}
+                                  {reduxPet.birth && (
+                                    <span>({calculateAge(reduxPet.birth)})</span>
                                   )}
                                 </span>
                               </div>
@@ -492,20 +493,20 @@ const Home = () => {
                                 <div className={styles.breed}>
                                   종:{" "}
                                   <span className={styles.boldText}>
-                                    {Animal.kind}
+                                    {reduxPet.kind}
                                   </span>
                                 </div>
                                 <div className={styles.gender}>
                                   성별:{" "}
                                   <span className={styles.boldText}>
-                                    {Animal.gender}
+                                    {reduxPet.gender}
                                   </span>
                                 </div>
                               </div>
                               <div>
                                 몸무게:{" "}
                                 <span className={styles.boldText}>
-                                  {Animal.weight}
+                                  {reduxPet.weight}
                                 </span>
                               </div>
                             </div>
@@ -515,13 +516,13 @@ const Home = () => {
                             <div>
                               건강사항:{" "}
                               <span className={styles.boldText}>
-                                {Animal.allergy || "-"}
+                                {reduxPet.allergy || "-"}
                               </span>
                             </div>
                             <div>
                               알러지:{" "}
                               <span className={styles.boldText}>
-                                {Animal.health || "-"}
+                                {reduxPet.health || "-"}
                               </span>
                             </div>
                           </div>
