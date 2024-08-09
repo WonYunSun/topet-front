@@ -48,7 +48,7 @@ const BottomSheet = ({
   const handleSelectPet = (pet) => {
     console.log("bottomSheet에서 출력한 Pet : " ,pet);
     setSelectedPet(pet);
-    dispatch(updateSelectedPet)
+    dispatch(updateSelectedPet(pet))
     handleCloseBottomSheet();
   };
 

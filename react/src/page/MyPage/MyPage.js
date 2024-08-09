@@ -23,6 +23,9 @@ const MyPage = () => {
   const dispatch = useDispatch();
 
   
+  const reduxMember = useSelector((state) => state.member.member);
+  console.log(reduxMember);
+
 
   const defaultProfileImage =
     "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
@@ -77,8 +80,8 @@ const MyPage = () => {
   };
 
   const Profile = () => {
-    const reduxMember = useSelector((state) => state.member.member);
-    console.log(reduxMember);
+
+
     return (
       <div className={styles.profile_continer_wrapper}>
         <div className={styles.profile_container}>
@@ -145,7 +148,7 @@ const MyPage = () => {
         {showModal ? (
           <CheckModal
             onClose={handleCloseLogoutModal}
-            onContinue={handleLogout}
+            onContinue={()=>{handleLogout()}}
             Content={"로그아웃 하시겠습니까?"}
             CancleBtnContent={"취소"}
             ContinueBtnContent={"확인"}

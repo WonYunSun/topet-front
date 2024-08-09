@@ -18,12 +18,16 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const defaultProfileImage =
     "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
-  const [profilePhoto, setProfilePhoto] = useState(reduxMember.profileSrc);
-  const [profileName, setProfileName] = useState(reduxMember.name);
+  const [profilePhoto, setProfilePhoto] = useState();
+  const [profileName, setProfileName] = useState();
   const [canSave, setCanSave] = useState();
   const fileInputRef = useRef(null);
 
 
+  if(reduxMember != null){
+    setProfileName(reduxMember.name);
+    setProfilePhoto(reduxMember.profileSrc);
+  }
 
   const currentProfilePhoto = reduxMember.profileSrc; // 기존 사진
   const currentProfileName = reduxMember.name; // 기존 닉네임

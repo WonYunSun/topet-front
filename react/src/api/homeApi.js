@@ -120,6 +120,16 @@ class homeApi {
     }
   }
 
+  async getMypage(){
+    try{
+      await this.client.get("/member/getMyPage");
+      
+      
+    }catch(error){
+      throw error;
+    }
+  }
+
   // async getHomeDataPet(){
   //     try {
   //         const response = await this.client.get("/home_pet", {
