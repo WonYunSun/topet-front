@@ -17,6 +17,9 @@ export const Calendar = ({ schedules, onDateClick }) => {
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 1204px)",
+  });
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const [date, setDate] = useState(dayjs());
   const [selectedDate, setSelectedDate] = useState(null); // 클릭된 날짜 상태 추가
@@ -66,7 +69,11 @@ export const Calendar = ({ schedules, onDateClick }) => {
     setShowYearMonthPicker(false);
   };
   return (
-    <div className={`${styles.CalendarContainer} ${isDeskTop ? "dtver" : ""}`}>
+    <div
+      className={`${styles.CalendarContainer} ${
+        isDeskTop && !isTablet ? styles.dtver : ""
+      }`}
+    >
       {showYearMonthPicker && (
         <>
           <div
@@ -133,7 +140,11 @@ export const Calendar = ({ schedules, onDateClick }) => {
           </div>
         ))}
       </div>
-      <div className={styles.DayContainer}>
+      <div
+        className={`${styles.DayContainer} ${
+          isDeskTop && !isTablet ? styles.dtver : ""
+        }`}
+      >
         {records.map(({ date, currentMonth }, index) => {
           const isToday = dayjs(date).isToday();
           const isSelected =
@@ -155,10 +166,18 @@ export const Calendar = ({ schedules, onDateClick }) => {
             >
               <div>{date.date()}</div>
               {isToday && currentMonth && (
-                <div className={styles.TodayDot}></div>
+                <div
+                  className={`${styles.TodayDot} ${
+                    isDeskTop && !isTablet ? styles.dtver : ""
+                  }`}
+                ></div>
               )}
               {currentMonth && hasSchedule(date) && (
-                <div className={styles.scheduleDot}></div>
+                <div
+                  className={`${styles.scheduleDot} ${
+                    isDeskTop && !isTablet ? styles.dtver : ""
+                  }`}
+                ></div>
               )}
             </div>
           );

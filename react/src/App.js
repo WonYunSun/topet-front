@@ -38,6 +38,8 @@ import UserRegister from "./page/UserRegister";
 import { Mobile, DeskTop } from "./responsive/responsive";
 import { useMediaQuery } from "react-responsive";
 import ShortsDetail from "./page/ShortsDetail";
+//TopBarWeb
+import TopBarWeb from "./component/TopBarWeb";
 import ShortsBox from "./page/ShortsBox";
 
 function App() {
@@ -47,20 +49,27 @@ function App() {
   });
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const showNavbarPaths = ["/home", "/schedule", "/map", "/mypage"];
+  const showNavbarWebPaths = ["/", "/home", "/schedule", "/mypage", "/shorts"];
+
   return (
     <div className="App">
-      {showNavbarPaths.includes(location.pathname) && <NavBar />}
+      {showNavbarWebPaths.includes(location.pathname) && isDeskTop && (
+        <TopBarWeb />
+      )}
+      {showNavbarPaths.includes(location.pathname) && isMobile && <NavBar />}
       <Routes>
-        
         <Route path="/home" element={<Home />} />
-        
+
         <Route path="/map" element={<MapScreen />} />
 
-        <Route path="/community/preview/:animalType/:category" element={<Community />}/>
+        <Route
+          path="/community/preview/:animalType/:category"
+          element={<Community />}
+        />
         <Route path="/community/search" element={<CommunitySearch />} />
         <Route path="/community/detail/:comid" element={<CommunityDetail />} />
         <Route path="/community/communitywrite" element={<CommunityWrite />} />
-        
+
         <Route path="/schedule" element={<Calendarscreen />} />
 
         <Route path="/petregistration" element={<PetRegistration />} />
@@ -78,16 +87,14 @@ function App() {
         <Route path="/myposts" element={<SeeMyPosts />} />
         <Route path="/mycomments" element={<SeeMyComments />} />
         <Route path="/myshorts" element={<SeeMyShorts />} />
-        
+
         <Route path="/likedposts" element={<SeeLikedPosts />} />
         <Route path="/likedshorts" element={<SeeLikedShorts />} />
-        
-        
+
         <Route path="/shorts" element={<Shorts />} />
         <Route path="/addshorts" element={<AddShorts />} />
         <Route path="/shortsDetail/:id" element={<ShortsBox />} />
-        
-        
+
         <Route path="/" element={<LoginPage />} />
       </Routes>
     </div>

@@ -1,13 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import '../../css/animal_profile.css'
 
 
 const PetList = ({ onSelectPet }) => {
+  
   const petList = useSelector(state => state.petList.petList);
   
   const handleSelectPet = (pet) => {
     onSelectPet(pet);
+
 //    console.log("PetList에서 출력한 pet :  ", pet);
   };
 
