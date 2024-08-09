@@ -1,9 +1,14 @@
 .stepbutton_wrapper {
-  min-height: 50px;
-  width: 100%;
   position: fixed;
-  bottom: 0;
-  margin-bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  margin-top: 5px;
+  max-width: 768px;
 }
 
 .prevstep_button {
@@ -11,10 +16,11 @@
   font-weight: 500;
   color: #ffffff;
   width: 28%;
+  margin-right: 2%;
   height: 48px;
   border-radius: 10px;
   background-color: #dadada;
-  margin: 5px;
+  box-sizing: border-box; /* padding과 border가 width에 포함되도록 설정 */
 }
 
 .nextstep_button {
@@ -23,7 +29,8 @@
   color: #ffffff;
   width: 63%;
   height: 48px;
-  margin: 5px;
+  margin: 5px 0; /* 좌우 margin을 제거 */
+  box-sizing: border-box; /* padding과 border가 width에 포함되도록 설정 */
   border-radius: 10px;
   background-color: #ffa62f;
 }
@@ -34,7 +41,8 @@
   color: #ffffff;
   width: 92%;
   height: 48px;
-  margin: 5px;
+  margin: 5px 0; /* 좌우 margin을 제거 */
+  box-sizing: border-box; /* padding과 border가 width에 포함되도록 설정 */
   border-radius: 10px;
   background-color: #ffa62f;
 }
@@ -62,16 +70,51 @@
   background-color: #dadada;
   pointer-events: none;
 }
+
+.component_wrapper {
+  position: relative;
+  width: 100%;
+}
+
 /* 반응형(deskTop) */
-.DeskTopverWrpper {
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1200px;
   margin: 0 auto;
+}
+
+.wrapper.mbver {
+  width: 100%;
+}
+
+.wrapper.dtver {
+  width: 50%;
+  max-width: 450px;
+}
+
+.stepbutton_wrapper.dtver {
+  max-width: 450px;
+  top: 700px;
   width: 50%;
 }
 
-.first_nextstep_button.dtver {
-  max-width: 840px;
+.stepbutton_wrapper.mbver {
+  max-width: 768px;
+  width: 100%;
+  bottom: 10px;
 }
 
 .prevstep_button.dtver {
+  width: 44%;
+}
 
+.prevstep_button.dtver,
+.nextstep_button.dtver,
+.first_nextstep_button.dtver,
+.disabled_first_nextstep_button.dtver,
+.disabled_nextstep_button.dtver {
+  border-radius: 20px;
 }
