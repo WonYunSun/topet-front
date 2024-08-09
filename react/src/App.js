@@ -49,7 +49,15 @@ function App() {
   });
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const showNavbarPaths = ["/home", "/schedule", "/map", "/mypage"];
-  const showNavbarWebPaths = ["/", "/home", "/schedule", "/mypage", "/shorts"];
+  const showNavbarWebPaths = [
+    "/",
+    "/home",
+    "/schedule",
+    "/mypage",
+    "/shorts",
+    "/petregistration",
+    "/userregister",
+  ];
 
   return (
     <div className="App">
