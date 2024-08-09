@@ -60,6 +60,17 @@ class shortsApi {
   }
   }
 
+  async getMyShorts(){
+    try{
+      const response = await this.axios.get('/myshorts');
+      console.log(response);
+      return response.data;
+    }catch(error){
+      console.log("오류", error)
+      throw error;
+    }
+  }
+
 }
 export default new shortsApi();
 

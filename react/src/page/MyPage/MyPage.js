@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ManageBox from "../../component/MyPageComp/ManageBox";
 import CheckModal from "../../component/CheckModal";
 import homeApi from "../../api/homeApi";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "../../css/mypage.module.css";
 import { useNavigate } from "react-router-dom";
 
@@ -14,10 +14,15 @@ import { AiFillLike } from "react-icons/ai"; // 좋아요 한 게시글
 import { FaCommentDots } from "react-icons/fa6"; // 내 댓글
 import { TbLogout } from "react-icons/tb"; // 로그아웃
 
+import { updateMember } from "../../redux/reducers/memberReducer"; 
+import { updatePetList } from "../../redux/reducers/petListReducer"; 
+import { updateSelectedPet } from "../../redux/reducers/selectedPetReducer"; 
+
 const MyPage = () => {
   const navigate = useNavigate();
-  
+  const dispatch = useDispatch();
 
+  
 
   const defaultProfileImage =
     "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
@@ -61,6 +66,10 @@ const MyPage = () => {
 
   // 로그아웃
   const handleLogout = () => {
+    dispatch(updateMember(""));
+    dispatch(updatePetList([]));
+    dispatch(updateSelectedPet(""));
+    
     homeApi.logout();
     console.log("!! 로그아웃 !!");
 
