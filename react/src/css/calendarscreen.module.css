@@ -1,5 +1,15 @@
 .CalendarscreenWrap_dtver {
+  width: 100%;
   display: flex;
-  height: 100vh;
-  /* 100vh-탑바크기 해야함 */
+  height: 80vh; /* 100vh에서 탑바의 높이를 뺀 값 */
+}
+.CalendarscreenWrap_dtver > div:nth-child(1) {
+  flex: 2.5 1 auto; /* flex-grow: 2, flex-shrink: 1, flex-basis: auto */
+}
+.CalendarscreenWrap_dtver > div:nth-child(2) {
+  flex: 1.5 1 auto; /* flex-grow: 1, flex-shrink: 1, flex-basis: auto */
+}
+.Calendarwrapper {
+  width: 55%;
+  margin: 0 auto;
 }

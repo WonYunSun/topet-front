@@ -6,37 +6,35 @@ import ScheduleBox from "./scheduleBox";
 import styles from "../../css/schedule_bottom.module.css";
 import "dayjs/locale/ko";
 import ScheduleService from "../../api/scheduleApi"; // postApi
-
+import { useMediaQuery } from "react-responsive";
 dayjs.extend(customParseFormat);
 dayjs.extend(localizedFormat);
 dayjs.locale("ko");
 
 const ScheduleBottom = ({ schedules, selectedDate, onScheduleClick }) => {
   const [updatedSchedules, setUpdatedSchedules] = useState(schedules);
-
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
   useEffect(() => {
     setUpdatedSchedules(schedules);
   }, [schedules]);
   useEffect(() => {
-    console.log("변경됨")
-    console.log(schedules)
+    console.log("변경됨");
+    console.log(schedules);
   }, [schedules]);
 
-
-
   const getSchedule = useCallback(
-    
     (date) => {
-        const day = updatedSchedules.filter((schedule) => {
+      const day = updatedSchedules.filter((schedule) => {
         const start = dayjs(schedule.startDate);
         const end = dayjs(schedule.endDate);
         const targetDate = dayjs(date);
-      return targetDate.isBetween(start, end, "day", "[]");
+        return targetDate.isBetween(start, end, "day", "[]");
       });
 
       return day.length > 0 ? day : [];
-    
-  },
+    },
     [updatedSchedules]
   );
 
@@ -64,29 +62,33 @@ const ScheduleBottom = ({ schedules, selectedDate, onScheduleClick }) => {
   );
 
   return (
-    <div className={styles.ScheduleContainer}>
+    <div
+      className={`${styles.ScheduleContainer} ${isDeskTop ? styles.dtver : ""}`}
+    >
       {dayformatter && (
-        <div className={styles.ScheduleWrap}>
+        <div
+          className={`${styles.ScheduleWrap} ${isDeskTop ? styles.dtver : ""}`}
+        >
           <div className={styles.SelectedDate}>{dayformatter}</div>
           <div className={styles.ScheduleBoxWrap}>
-            {
-            (updatedSchedules != null)?  
-            getSchedule(selectedDate).length > 0 ? (
-              getSchedule(selectedDate).map((item, index) => (
-                <ScheduleBox
-                  key={index}
-                  item={item}
-                  onScheduleClick={onScheduleClick}
-                  //handleCheckBoxClick={handleCheckBoxClick}
-                  setUpdatedSchedules={setUpdatedSchedules}
-                  updatedSchedules={updatedSchedules}
-                />
-              ))
+            {updatedSchedules != null ? (
+              getSchedule(selectedDate).length > 0 ? (
+                getSchedule(selectedDate).map((item, index) => (
+                  <ScheduleBox
+                    key={index}
+                    item={item}
+                    onScheduleClick={onScheduleClick}
+                    //handleCheckBoxClick={handleCheckBoxClick}
+                    setUpdatedSchedules={setUpdatedSchedules}
+                    updatedSchedules={updatedSchedules}
+                  />
+                ))
+              ) : (
+                <p className={styles.Noschedule}>일정이 없습니다.</p>
+              )
             ) : (
               <p className={styles.Noschedule}>일정이 없습니다.</p>
-            ):
-            <p className={styles.Noschedule}>일정이 없습니다.</p>
-          }
+            )}
           </div>
         </div>
       )}

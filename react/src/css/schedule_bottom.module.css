@@ -10,7 +10,11 @@
   overflow: hidden;
   transition: height 0.3s ease; /* 높이 변화를 애니메이션화 */
 }
-
+.ScheduleContainer.dtver {
+  box-shadow: none;
+  height: 100%;
+  margin: 10px auto;
+}
 .ScheduleBoxWrap {
   padding-bottom: 25%;
 }
