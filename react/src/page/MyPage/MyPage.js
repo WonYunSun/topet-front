@@ -69,7 +69,7 @@ const MyPage = () => {
 
   const Profile = () => {
     const reduxMember = useSelector((state) => state.member.member);
-
+    console.log(reduxMember);
     return (
       <div className={styles.profile_continer_wrapper}>
         <div className={styles.profile_container}>

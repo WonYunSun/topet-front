@@ -2,9 +2,6 @@ import createAxios from "./createAxios";
 
 const MID_URL = "/shorts";
 
-
-
-
 class shortsApi {
   
   constructor() {
@@ -43,7 +40,7 @@ class shortsApi {
   async getShortsDetail(id){
     try{
       const response  = await this.axios.get(`/detail/${id}`);
-      console.log("서버 응답:", response); // 응답 데이터 출력
+      
     return response.data; // 응답 데이터 반환 (필요 시)
   }catch(error){
     console.error("서버 오류:", error);
@@ -55,7 +52,7 @@ class shortsApi {
   async getRandomShorts(){
     try{
       const response = await this.axios.get('/random');
-      console.log("서버 응답:", response); // 응답 데이터 출력
+      
       return response.data; // 응답 데이터 반환 (필요 시)
     } catch(error){
       console.error("서버 오류:", error); 

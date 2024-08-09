@@ -52,7 +52,7 @@ const CommunityDetail = () => {
 
       // writer 상태 업데이트
       if (detail.author.id === reduxMemberId.id) {
-        setWriter(false);
+        setWriter(true);
       } else {
         setWriter(false);
       }
@@ -168,8 +168,8 @@ const CommunityDetail = () => {
       <div className={styles.content}>{content}</div>
       {images && images.length > 0 && (
         <div className={styles.images_container}>
-          {images.map((url, index) => (
-            <img key={index} src={url} alt={`이미지 ${index + 1}`} />
+          {images.map((item, index) => (
+            <img key={index} src={ item.filePath } alt={`이미지 ${index + 1}`} />
           ))}
         </div>
       )}
