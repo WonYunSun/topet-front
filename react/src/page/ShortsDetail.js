@@ -91,7 +91,7 @@ function ShortsDetail() {
 
   const handleTouchMove = (event) => {
     const touchEndY = event.touches[0].clientY;
-    // console.log("touchStartY", touchStartY.current); // useRef의 current 사용
+    // console.log("touchStartY.current", touchStartY.current); // useRef의 current 사용
     // console.log("touchEndY", touchEndY);
 
     if (touchStartY.current !== null) {

@@ -147,17 +147,30 @@ button:focus-visible {
   transform: translate(-50%, -50%);
   z-index: -1;
 }
-
+.TodayDot.dtver {
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  background-color: #ffa62f;
+  position: absolute;
+  top: 29%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
 .scheduleDot {
   width: 8px;
   height: 8px;
   background-color: red;
   border-radius: 50%;
   position: absolute;
-
   left: 50%;
   transform: translate(-50%, -0%);
   bottom: -3px;
+}
+.scheduleDot.dtver {
+  bottom: 15px;
+  transform: translate(-50%, -0%);
 }
 
 .SelectedDate > div {
@@ -177,6 +190,9 @@ button:focus-visible {
 .DayContainer {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+}
+.DayContainer.dtver {
+  height: 75%;
 }
 
 .YearMonthPickerModal {

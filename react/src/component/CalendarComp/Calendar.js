@@ -133,7 +133,9 @@ export const Calendar = ({ schedules, onDateClick }) => {
           </div>
         ))}
       </div>
-      <div className={styles.DayContainer}>
+      <div
+        className={`${styles.DayContainer} ${isDeskTop ? styles.dtver : ""}`}
+      >
         {records.map(({ date, currentMonth }, index) => {
           const isToday = dayjs(date).isToday();
           const isSelected =
@@ -155,10 +157,18 @@ export const Calendar = ({ schedules, onDateClick }) => {
             >
               <div>{date.date()}</div>
               {isToday && currentMonth && (
-                <div className={styles.TodayDot}></div>
+                <div
+                  className={`${styles.TodayDot} ${
+                    isDeskTop ? styles.dtver : ""
+                  }`}
+                ></div>
               )}
               {currentMonth && hasSchedule(date) && (
-                <div className={styles.scheduleDot}></div>
+                <div
+                  className={`${styles.scheduleDot} ${
+                    isDeskTop ? styles.dtver : ""
+                  }`}
+                ></div>
               )}
             </div>
           );
