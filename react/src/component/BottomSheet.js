@@ -10,7 +10,10 @@ import HashTagContent from "./HashTagComp/HashTagContent";
 import RegisterMyPetBottomSheet from "../component/MyPageComp/RegisterMyPetBottomSheet";
 import { useSelector, useDispatch } from "react-redux";
 import { updateSelectedPet } from "../redux/reducers/selectedPetReducer";
-
+import { CgClose } from "react-icons/cg";
+/// responsive
+import { Mobile, DeskTop } from "../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 const BottomSheet = ({
   show,
   onClose,
@@ -38,17 +41,24 @@ const BottomSheet = ({
   setSelectedMarker, //지도마커표시관련
   setSelectedPlace,
   keyword,
-  handleSelectSortListText
+  handleSelectSortListText,
 }) => {
   const dispatch = useDispatch();
   const handleCloseBottomSheet = () => {
     onClose();
   };
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 1204px)",
+  });
 
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const handleSelectPet = (pet) => {
-    console.log("bottomSheet에서 출력한 Pet : " ,pet);
+    console.log("bottomSheet에서 출력한 Pet : ", pet);
     setSelectedPet(pet);
-    dispatch(updateSelectedPet)
+    dispatch(updateSelectedPet);
     handleCloseBottomSheet();
   };
 
@@ -198,8 +208,18 @@ const BottomSheet = ({
       case "sort":
         return (
           <div>
-            <div className="bottom_sheet_button" onClick={() => handleSelectSortListText("최신순")}>최신순</div>
-            <div className="bottom_sheet_button" onClick={() => handleSelectSortListText("좋아요순")}>좋아요순</div>
+            <div
+              className="bottom_sheet_button"
+              onClick={() => handleSelectSortListText("최신순")}
+            >
+              최신순
+            </div>
+            <div
+              className="bottom_sheet_button"
+              onClick={() => handleSelectSortListText("좋아요순")}
+            >
+              좋아요순
+            </div>
           </div>
         );
       default:
@@ -210,8 +230,21 @@ const BottomSheet = ({
   return (
     <>
       {show && <div className="overlay" onClick={handleCloseBottomSheet}></div>}
-      <div className={`bottom_sheet ${show ? "show" : ""}`}>
-        <div className="bottom_sheet_title">{getTypeText(type)}</div>
+      <div
+        className={`bottom_sheet ${show ? "show" : ""} ${
+          isDeskTop ? "dtver" : ""
+        }`}
+      >
+        <div className="bottom_sheet_title">
+          {getTypeText(type)}
+          <CgClose
+            color="#444"
+            size={20}
+            className="closeIcon"
+            onClick={handleCloseBottomSheet}
+          />
+        </div>
+
         <div className="bottom_sheet_content">{getSheetContent(type)}</div>
       </div>
     </>

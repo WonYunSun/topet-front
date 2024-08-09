@@ -3,10 +3,9 @@
   height: fit-content;
   padding-top: 25px;
   padding-bottom: 15px;
-
+  margin-bottom: 10px;
   box-sizing: border-box;
   box-shadow: rgba(0, 0, 0, 0.07) 0px 3px 4px 0px;
-  /* margin-bottom: 30px; */
 }
 
 .nabbarInner {
@@ -25,38 +24,47 @@
 .navLinks {
   display: flex;
   justify-content: center;
-  flex-grow: 0.5; /* 중앙 정렬을 위한 flex-grow 설정 */
-  justify-content: space-around;
+  flex-grow: 1;
 }
 
-.navLink {
+.navLinks {
   color: rgb(44, 44, 44);
-  margin-right: 20px;
+  padding: 0 5%;
+  box-sizing: border-box;
+  max-width: 800px;
   text-decoration: none;
   transition: color 0.3s ease;
   font-weight: 700;
   font-size: 15px;
   cursor: pointer;
+  justify-content: space-around;
+}
+.navItem,
+.activeNavItem {
+  text-decoration: none;
+  font-weight: 700;
 }
 
 .navLink:last-child {
-  margin-right: 0; /* 마지막 링크의 마진 제거 */
+  margin-right: 0;
 }
 
-.navLink:hover {
+.navItem:hover {
   color: #ffa62f;
 }
 
+.activeNavItem {
+  color: #ffa62f;
+}
 .right {
   display: flex;
   align-items: center;
-  flex-shrink: 0; /* 크기 줄이기 방지 */
+  flex-shrink: 0;
 }
 
 .profile {
   display: flex;
   align-items: center;
-  cursor: pointer;
 }
 
 .profileImage {
@@ -79,7 +87,6 @@
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s ease;
-  cursor: pointer;
 }
 
 .loginBtn:hover {

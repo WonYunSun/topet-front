@@ -33,6 +33,7 @@
   font-weight: 600;
   margin-right: 5px;
   font-size: 14px;
+  text-align: start;
 }
 .radiobtn {
   display: flex;

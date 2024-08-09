@@ -25,6 +25,10 @@ dayjs.extend(isBetween);
 const Calendarscreen = () => {
   const reduxMember = useSelector((state) => state.member.member);
   const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 1204px)",
+  });
+
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
@@ -184,24 +188,21 @@ const Calendarscreen = () => {
 
   return (
     <>
-      <TopBar />
+      <Mobile>
+        <TopBar />
+      </Mobile>
+
       <div className={`${isDeskTop ? styles.Calendarwrapper : ""}`}>
-        {reduxPet == null ? (
-          <></>
-        ) : (
-          <AnimalSelect
-            onClick={handleOpenPetBottomSheet}
-            selectedPet={selectedPet}
-          />
-        )}
-        <Mobile>
-          <Calendar schedules={schedules} onDateClick={handleDateClick} />
-          <ScheduleBottom
-            schedules={schedules}
-            selectedDate={selectedDate}
-            onScheduleClick={handleScheduleClick}
-          />
-        </Mobile>
+        {(isMobile || isTablet) &&
+          (reduxPet == null ? (
+            <></>
+          ) : (
+            <AnimalSelect
+              onClick={handleOpenPetBottomSheet}
+              selectedPet={selectedPet}
+            />
+          ))}
+
         <BottomSheet
           show={showBottomSheet}
           onClose={
@@ -248,20 +249,46 @@ const Calendarscreen = () => {
           />
         )}
 
+        <Mobile>
+          <Calendar schedules={schedules} onDateClick={handleDateClick} />
+          <ScheduleBottom
+            schedules={schedules}
+            selectedDate={selectedDate}
+            onScheduleClick={handleScheduleClick}
+          />
+        </Mobile>
         <DeskTop>
-          <div className={styles.CalendarscreenWrap_dtver}>
-            <div>
-              <Calendar schedules={schedules} onDateClick={handleDateClick} />
+          {!isTablet ? (
+            <div className={`${styles.CalendarscreenWrap_dtver}`}>
+              <div>
+                <Calendar schedules={schedules} onDateClick={handleDateClick} />
+              </div>
+              <div>
+                {reduxPet == null ? (
+                  <></>
+                ) : (
+                  <AnimalSelect
+                    onClick={handleOpenPetBottomSheet}
+                    selectedPet={selectedPet}
+                  />
+                )}
+                <ScheduleBottom
+                  schedules={schedules}
+                  selectedDate={selectedDate}
+                  onScheduleClick={handleScheduleClick}
+                />
+              </div>
             </div>
-            <div>
+          ) : (
+            <>
+              <Calendar schedules={schedules} onDateClick={handleDateClick} />
               <ScheduleBottom
                 schedules={schedules}
                 selectedDate={selectedDate}
                 onScheduleClick={handleScheduleClick}
-                className={styles.ScheduleBottom_dtver}
               />
-            </div>
-          </div>
+            </>
+          )}
         </DeskTop>
 
         <SubBottomSheet
