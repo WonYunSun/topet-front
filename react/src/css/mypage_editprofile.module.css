@@ -1,9 +1,14 @@
 /* wrapper div */
 
 .wrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
 }
 
 /* 프로필 등록, 수정 공통 css */
@@ -116,9 +121,8 @@
 .save_button_wrapper {
   min-height: 50px;
   width: 100%;
+  max-width: 420px;
   position: fixed;
-  bottom: 0;
-  margin-bottom: 8px;
 }
 
 .save_button {
@@ -132,16 +136,8 @@
   background-color: #ffa62f;
 }
 
-.disabled {
-  font-size: 16px;
-  font-weight: bold;
-  color: #ffffff;
-  width: 92%;
-  height: 50px;
-  margin: 5px;
-  border-radius: 10px;
+.save_button.disabled {
   background-color: #dadada;
-  pointer-events: none;
 }
 
 .profile_name_length {
@@ -152,6 +148,10 @@
 }
 
 /* 프로필 등록 css */
+
+.wrapper.dtver {
+  width: 50%;
+}
 
 .welcome_text {
   margin-top: 25%;
@@ -170,6 +170,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  width: 100%;
 }
 
 /* 프로필 수정 css */
@@ -249,4 +250,23 @@
 .register_later_button {
   padding: 8px;
   color: #adadad;
+}
+
+/* 반응형 */
+.wrapper.dtver {
+  width: 50%;
+}
+
+.save_button_wrapper.mbver {
+  bottom: 0;
+  margin-bottom: 8px;
+}
+
+.save_button_wrapper.dtver {
+  top: 700px;
+  margin-bottom: 10px;
+}
+
+.save_button.dtver {
+  border-radius: 20px;
 }

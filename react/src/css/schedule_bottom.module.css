@@ -12,9 +12,13 @@
 }
 .ScheduleContainer.dtver {
   box-shadow: none;
-  height: 100%;
-  margin: 10px auto;
+  height: 85%;
+  margin: auto;
 }
+.ScheduleContainer.tbver {
+  box-shadow: none;
+}
+
 .ScheduleBoxWrap {
   padding-bottom: 25%;
 }

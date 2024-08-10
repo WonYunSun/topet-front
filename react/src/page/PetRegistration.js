@@ -17,7 +17,6 @@ import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
 
 const PetRegistration = () => {
-
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
@@ -276,18 +275,27 @@ const PetRegistration = () => {
 
   const NextPossibleComp = () => {
     return (
-      <div>
+      <div
+        className={`${styles.stepbutton_wrapper} ${
+          isDeskTop ? styles.dtver : styles.mbver
+        }`}
+      >
         {stepNum == 1 ? (
           ""
         ) : (
-          <button className={`${styles.prevstep_button} ${isDeskTop && styles.dtver}`} onClick={prevStep}>
+          <button
+            className={`${styles.prevstep_button} ${
+              isDeskTop ? styles.dtver : styles.mbver
+            }`}
+            onClick={prevStep}
+          >
             이전
           </button>
         )}
         {nextPossible ? (
           stepNum == 6 ? (
             <button
-              className={`${styles.nextstep_button} ${isDeskTop && styles.dtver}`}
+              className={styles.nextstep_button}
               onClick={handleRegistFin}
             >
               {"완료"}
@@ -298,7 +306,7 @@ const PetRegistration = () => {
                 stepNum == 1
                   ? styles.first_nextstep_button
                   : styles.nextstep_button
-              } ${isDeskTop && styles.dtver}`}
+              } ${isDeskTop ? styles.dtver : styles.mbver}`}
               onClick={nextStep}
             >
               {"다음"}
@@ -310,7 +318,7 @@ const PetRegistration = () => {
               stepNum == 1
                 ? styles.disabled_first_nextstep_button
                 : styles.disabled_nextstep_button
-            }`}
+            } ${isDeskTop ? styles.dtver : styles.mbver}`}
             // onClick={stepNum == 6 ? goHome() : ""}
           >
             {stepNum < 6 ? "다음" : "완료"}
@@ -339,21 +347,19 @@ const PetRegistration = () => {
     switch (stepNum) {
       case 1:
         return (
-          <div>
+          <div className={styles.component_wrapper}>
             <AnimalType
               setSelectedType={setSelectedType}
               handleSelectedTypeChange={handleSelectedTypeChange}
               setSelectedKind={setSelectedKind}
               petData={petData}
             />
-            <div className={styles.stepbutton_wrapper}>
-              <NextPossibleComp />
-            </div>
+            <NextPossibleComp />
           </div>
         );
       case 2:
         return (
-          <div>
+          <div className={styles.component_wrapper}>
             <AnimalKind
               handleSelectedKindChange={handleSelectedKindChange}
               selectedType={selectedType}
@@ -361,14 +367,12 @@ const PetRegistration = () => {
               nextPossible={nextPossible}
               setNextPossible={setNextPossible}
             />
-            <div className={styles.stepbutton_wrapper}>
-              <NextPossibleComp />
-            </div>
+            <NextPossibleComp />
           </div>
         );
       case 3:
         return (
-          <div>
+          <div className={styles.component_wrapper}>
             <AnimalGender
               handleSelectedGenderChange={handleSelectedGenderChange}
               selectedGender={selectedGender}
@@ -380,14 +384,12 @@ const PetRegistration = () => {
               setCheckedGender={setCheckedGender}
               setNextPossible={setNextPossible}
             />
-            <div className={styles.stepbutton_wrapper}>
-              <NextPossibleComp />
-            </div>
+            <NextPossibleComp />
           </div>
         );
       case 4:
         return (
-          <div>
+          <div className={styles.component_wrapper}>
             <AnimalPhotoandName
               defaultImage={defaultImage}
               selectedPhoto={selectedPhoto}
@@ -401,14 +403,12 @@ const PetRegistration = () => {
               nextPossible={nextPossible}
               setNextPossible={setNextPossible}
             />
-            <div className={styles.stepbutton_wrapper}>
-              <NextPossibleComp />
-            </div>
+            <NextPossibleComp />
           </div>
         );
       case 5:
         return (
-          <div>
+          <div className={styles.component_wrapper}>
             <AnimalBirth
               selectedBirth={selectedBirth}
               setSelectedBirth={setSelectedBirth}
@@ -422,14 +422,12 @@ const PetRegistration = () => {
               birthDontKnow={birthDontKnow}
               setBirthDontKnow={setBirthDontKnow}
             />
-            <div className={styles.stepbutton_wrapper}>
-              <NextPossibleComp />
-            </div>
+            <NextPossibleComp />
           </div>
         );
       case 6:
         return (
-          <div>
+          <div className={styles.component_wrapper}>
             <AnimalWeightandHealth
               weight={weight}
               allergy={allergy}
@@ -443,9 +441,7 @@ const PetRegistration = () => {
               weightDontKnow={weightDontKnow}
               setWeightDontKnow={setWeightDontKnow}
             />
-            <div className={styles.stepbutton_wrapper}>
-              <NextPossibleComp />
-            </div>
+            <NextPossibleComp />
           </div>
         );
       default:
@@ -453,19 +449,24 @@ const PetRegistration = () => {
     }
   };
 
-  return (<>
-  {/* <DeskTop>여기다나중에 만들 탑바</DeskTop> */}
-    <div className={`${isDeskTop?styles.DeskTopverWrpper:""}`}>
-      <RegisterTopBar stepNum={stepNum} />
-      {showStepNum(stepNum)}
-      {showModal && (
-      <CheckModal
-        Content={"반려동물이 등록되었습니다."}
-        onClose={goHome}
-        oneBtn={true}
-      />
-    )}
-    </div>
+  return (
+    <>
+      {/* <DeskTop>여기다나중에 만들 탑바</DeskTop> */}
+      <div
+        className={`${styles.wrapper} ${
+          isDeskTop ? styles.dtver : styles.mdver
+        }`}
+      >
+        <RegisterTopBar stepNum={stepNum} />
+        {showStepNum(stepNum)}
+        {showModal && (
+          <CheckModal
+            Content={"반려동물이 등록되었습니다."}
+            onClose={goHome}
+            oneBtn={true}
+          />
+        )}
+      </div>
     </>
   );
 };

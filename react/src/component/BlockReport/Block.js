@@ -3,7 +3,7 @@ import RadioButton from './RadioButton';
 import Button from '../ButtonComp/Button';
 import styles from '../../css/report.module.css';
 
-const Block = ({onClick, comid, reduxMemberId}) => {
+const Block = ({onClick, comid}) => {
   const [selectedValue, setSelectedValue] = useState('이 게시물만 차단');
 
   const handleChange = (event) => {

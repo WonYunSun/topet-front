@@ -392,7 +392,7 @@ const MapScreen = () => {
         center={state.center}
         style={{
           width: "100%",
-          height: "calc(100vh - 40px)",
+          height: "calc(100vh )",
         }}
         level={3}
         onCreate={setMap}

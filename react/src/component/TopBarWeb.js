@@ -1,6 +1,6 @@
 import React from "react";
-import { useSelector } from "react-redux"; // Redux 사용을 위한 훅
-import { useNavigate } from "react-router-dom"; // 페이지 이동을 위한 훅
+import { useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
 import styles from "../css/tobBarWeb.module.css";
 import { ReactComponent as Logo } from "../asset/icon/TopetLogo.svg";
 
@@ -8,25 +8,8 @@ const TopBarWeb = () => {
   const reduxMember = useSelector((state) => state.member.member);
   const navigate = useNavigate();
 
-  // 페이지 이동 함수들
-  const goHome = () => {
-    navigate(`/home`);
-  };
-
-  const goCalendar = () => {
-    navigate(`/schedule`);
-  };
-
-  const goMap = () => {
-    navigate(`/map`);
-  };
-
   const goMypage = () => {
     navigate(`/mypage`);
-  };
-
-  const goShorts = () => {
-    navigate(`/shorts`);
   };
 
   return (
@@ -36,27 +19,52 @@ const TopBarWeb = () => {
           <Logo
             width={37}
             height={37}
-            onClick={goHome}
+            onClick={() => navigate(`/home`)}
             style={{ cursor: "pointer" }}
             className={styles.logo}
           />
         </div>
         <div className={styles.navLinks}>
-          <span onClick={goHome} className={styles.navLink}>
+          <NavLink
+            to="/home"
+            className={({ isActive }) =>
+              isActive ? styles.activeNavItem : styles.navItem
+            }
+          >
             홈
-          </span>
-          <span onClick={goCalendar} className={styles.navLink}>
+          </NavLink>
+          <NavLink
+            to="/schedule"
+            className={({ isActive }) =>
+              isActive ? styles.activeNavItem : styles.navItem
+            }
+          >
             캘린더
-          </span>
-          <span onClick={goMap} className={styles.navLink}>
+          </NavLink>
+          <NavLink
+            to="/map"
+            className={({ isActive }) =>
+              isActive ? styles.activeNavItem : styles.navItem
+            }
+          >
             지도
-          </span>
-          <span onClick={goMap} className={styles.navLink}>
+          </NavLink>
+          <NavLink
+            to="/community"
+            className={({ isActive }) =>
+              isActive ? styles.activeNavItem : styles.navItem
+            }
+          >
             커뮤니티
-          </span>
-          <span onClick={goShorts} className={styles.navLink}>
+          </NavLink>
+          <NavLink
+            to="/shorts"
+            className={({ isActive }) =>
+              isActive ? styles.activeNavItem : styles.navItem
+            }
+          >
             쇼츠
-          </span>
+          </NavLink>
         </div>
         <div className={styles.right}>
           {reduxMember ? (

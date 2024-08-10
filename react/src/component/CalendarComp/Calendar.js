@@ -17,6 +17,9 @@ export const Calendar = ({ schedules, onDateClick }) => {
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 1204px)",
+  });
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const [date, setDate] = useState(dayjs());
   const [selectedDate, setSelectedDate] = useState(null); // 클릭된 날짜 상태 추가
@@ -66,7 +69,11 @@ export const Calendar = ({ schedules, onDateClick }) => {
     setShowYearMonthPicker(false);
   };
   return (
-    <div className={`${styles.CalendarContainer} ${isDeskTop ? "dtver" : ""}`}>
+    <div
+      className={`${styles.CalendarContainer} ${
+        isDeskTop && !isTablet ? styles.dtver : ""
+      }`}
+    >
       {showYearMonthPicker && (
         <>
           <div
@@ -134,7 +141,9 @@ export const Calendar = ({ schedules, onDateClick }) => {
         ))}
       </div>
       <div
-        className={`${styles.DayContainer} ${isDeskTop ? styles.dtver : ""}`}
+        className={`${styles.DayContainer} ${
+          isDeskTop && !isTablet ? styles.dtver : ""
+        }`}
       >
         {records.map(({ date, currentMonth }, index) => {
           const isToday = dayjs(date).isToday();
@@ -159,14 +168,14 @@ export const Calendar = ({ schedules, onDateClick }) => {
               {isToday && currentMonth && (
                 <div
                   className={`${styles.TodayDot} ${
-                    isDeskTop ? styles.dtver : ""
+                    isDeskTop && !isTablet ? styles.dtver : ""
                   }`}
                 ></div>
               )}
               {currentMonth && hasSchedule(date) && (
                 <div
                   className={`${styles.scheduleDot} ${
-                    isDeskTop ? styles.dtver : ""
+                    isDeskTop && !isTablet ? styles.dtver : ""
                   }`}
                 ></div>
               )}

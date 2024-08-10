@@ -16,6 +16,10 @@ const ScheduleBottom = ({ schedules, selectedDate, onScheduleClick }) => {
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 1204px)",
+  });
+
   useEffect(() => {
     setUpdatedSchedules(schedules);
   }, [schedules]);
@@ -63,11 +67,15 @@ const ScheduleBottom = ({ schedules, selectedDate, onScheduleClick }) => {
 
   return (
     <div
-      className={`${styles.ScheduleContainer} ${isDeskTop ? styles.dtver : ""}`}
+      className={`${styles.ScheduleContainer} ${
+        isDeskTop && !isTablet ? styles.dtver : ""
+      } ${isTablet ? styles.tbver : ""}`}
     >
       {dayformatter && (
         <div
-          className={`${styles.ScheduleWrap} ${isDeskTop ? styles.dtver : ""}`}
+          className={`${styles.ScheduleWrap} ${
+            isDeskTop && !isTablet ? styles.dtver : ""
+          } `}
         >
           <div className={styles.SelectedDate}>{dayformatter}</div>
           <div className={styles.ScheduleBoxWrap}>

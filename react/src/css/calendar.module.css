@@ -98,7 +98,7 @@ button:focus-visible {
   margin-bottom: 20px;
 }
 .CalendarContainer.dtver {
-  height: 100%;
+  height: 85%;
 }
 
 .CalendarHeader {
@@ -125,6 +125,7 @@ button:focus-visible {
   /* padding: 20px; */
   margin: auto; /* 기본 색상 */
   padding: 10px;
+  height: 100%;
 }
 
 .DateLabel.currentMonth.Today {
@@ -142,7 +143,7 @@ button:focus-visible {
   height: 26px;
   background-color: #ffa62f;
   position: absolute;
-  top: 50%;
+  top: 32%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: -1;
@@ -153,7 +154,7 @@ button:focus-visible {
   height: 26px;
   background-color: #ffa62f;
   position: absolute;
-  top: 29%;
+  top: 23.5%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: -1;
@@ -166,10 +167,10 @@ button:focus-visible {
   position: absolute;
   left: 50%;
   transform: translate(-50%, -0%);
-  bottom: -3px;
+  bottom: 10px;
 }
 .scheduleDot.dtver {
-  bottom: 15px;
+  bottom: 30px;
   transform: translate(-50%, -0%);
 }
 
