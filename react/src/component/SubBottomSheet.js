@@ -14,7 +14,6 @@ const EditDeleteBottomSheet = ({
   onDeleteClick,
   onReplyClick,
   comid,
-  reduxMemberId,
 }) => {
 
   const [type, setType] = useState(initialType);
@@ -103,13 +102,13 @@ const EditDeleteBottomSheet = ({
         case "Report":
           return (
             <>
-              <Report onClick={handleCloseBottomSheet} comid={comid} reduxMemberId={reduxMemberId}/>
+              <Report onClick={handleCloseBottomSheet} comid={comid} />
             </>
           )
         case "Block":
           return (
             <>
-              <Block onClick={handleCloseBottomSheet} comid={comid} reduxMemberId={reduxMemberId} />
+              <Block onClick={handleCloseBottomSheet} comid={comid} />
             </>
           )
       default:

@@ -32,15 +32,17 @@ const CommunityDetail = () => {
   const [showSubBottomSheet, setShowSubBottomSheet] = useState(false);
   const [writer, setWriter] = useState(false); // 글 쓴 사람인지 아닌지 초기 값 false
   const [isLikeLoading, setIsLikeLoading] = useState(false);
+  const [commentListKey, setCommentListKey] = useState(0);  // key 상태 추가
 
   const fetchPostDetail = async () => {
     setLoading(true);
     try {
       const detail = await CommunityApi.fetchCommunityDetail(comid);
+      console.log("게시물 디테일 : ", detail);
       const liked = await CommunityLikesApi.fetchLikedByCurrentUser(comid);
 
       setItem(detail);
-      setLikes(detail.likesList.length);
+      setLikes(detail.likeCount);
       setIsLiked(liked);
       setProfileName(detail.author.name);
 
@@ -50,7 +52,7 @@ const CommunityDetail = () => {
 
       // writer 상태 업데이트
       if (detail.author.id === reduxMemberId.id) {
-        setWriter(false);
+        setWriter(true);
       } else {
         setWriter(false);
       }
@@ -90,6 +92,10 @@ const CommunityDetail = () => {
 
   const updateCommentCount = (count) => {
     setCommentCount(count);
+  };
+
+  const handleCommentSubmit = () => {
+    setCommentListKey(prevKey => prevKey + 1);  // key 값을 증가시켜 CommentList를 리렌더링
   };
 
   if (loading) {
@@ -144,7 +150,6 @@ const CommunityDetail = () => {
     }
   };
 
-
   return (
     <div>
       <TopBar />
@@ -188,8 +193,8 @@ const CommunityDetail = () => {
       </div>
 
       <div className={styles.coment_area}>
-        <CommentCreate comid={comid} onCommentSubmit={fetchPostDetail} />
-        <CommentList comid={comid} updateCommentCount={updateCommentCount} />
+        <CommentCreate comid={comid} onCommentSubmit={handleCommentSubmit} />
+        <CommentList key={commentListKey} comid={comid} />
       </div>
 
       {modalIsOpen && (

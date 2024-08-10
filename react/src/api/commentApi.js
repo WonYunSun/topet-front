@@ -46,10 +46,10 @@ class CommentApi {
     }
   }
 
-  async fetchComment(comid) {
+  async fetchComment(comid, page, pageSize) {
     // 댓글 불러오기(답글 같이 불러와짐)
     try {
-      const response = await this.axios.get(`/get/${comid} `);
+      const response = await this.axios.get(`/get/${comid}?page=${page}&size=${pageSize} `);
       return handleResponse(response);
     } catch (error) {
       handleError(error);
@@ -68,6 +68,7 @@ class CommentApi {
   // }
 
   async fetchMyComment(page, size) {
+    //내 댓글 불러오기
     try {
       const response = await this.axios.get(
         `/author/2?page=${page}&size=${size}`

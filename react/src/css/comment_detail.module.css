@@ -1,0 +1,56 @@
+/* CommentDetail.module.css */
+.commentContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .commentHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .authorInfo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profileImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .authorName {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .commentContent {
+    margin-top: 5px;
+    margin-left: 50px;
+    color: #555;
+    text-align: left;
+  }
+  
+  .replyContainer {
+    margin-top: 10px;
+    padding-left: 40px;
+    /* border-left: 2px solid #f0f0f0; */
+  }
+  
+  .replyItem {
+    margin-bottom: 10px;
+  }
+  
+  .moreIcon {
+    cursor: pointer;
+    color: #888;
+  }
+  

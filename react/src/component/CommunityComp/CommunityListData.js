@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const CommunityListData = ({ item }) => {
   const navigate = useNavigate();
+
   const formatHashtags = hashtagString => {
     if(hashtagString == null){
       return;
@@ -30,6 +31,7 @@ const CommunityListData = ({ item }) => {
       </>
     );
   };
+
   const handlePostClick = (comid) => {
     navigate(`/community/detail/${comid}`);
   };
@@ -54,7 +56,7 @@ const CommunityListData = ({ item }) => {
         <div className={styles.like_and_coment}>
           <div className="icon-group">
             <BiSolidLike className={styles.icon}/>
-            <span> {item.likesList ? item.likesList.length : 0}</span> {/* 좋아요 수 */}
+            <span> {item.likeCount ? item.likeCount : 0}</span> {/* 좋아요 수 */}
           </div>
           <div className="icon-group">
             <BsChatFill className={styles.icon}/>
