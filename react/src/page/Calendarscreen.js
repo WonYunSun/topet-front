@@ -25,6 +25,10 @@ dayjs.extend(isBetween);
 const Calendarscreen = () => {
   const reduxMember = useSelector((state) => state.member.member);
   const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 1204px)",
+  });
+
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
@@ -183,96 +187,126 @@ const Calendarscreen = () => {
   }
 
   return (
-    <div>
-      <TopBar />
-      {reduxPet == null ? (
-        <></>
-      ) : (
-        <AnimalSelect
-          onClick={handleOpenPetBottomSheet}
-          selectedPet={selectedPet}
-        />
-      )}
+    <>
       <Mobile>
-        <Calendar schedules={schedules} onDateClick={handleDateClick} />
-        <ScheduleBottom
-          schedules={schedules}
-          selectedDate={selectedDate}
-          onScheduleClick={handleScheduleClick}
-        />
+        <TopBar />
       </Mobile>
-      <BottomSheet
-        show={showBottomSheet}
-        onClose={
-          bottomSheetType === "addSchedule" ||
-          bottomSheetType === "editSchedule"
-            ? handleAddScheduleBottomSheetClose
-            : handleCloseBottomSheet
-        }
-        scheduleSubmittedSuccessfully={scheduleSubmittedSuccessfully}
-        setScheduleSubmittedSuccessfully={setScheduleSubmittedSuccessfully} // 전달된 부분
-        type={bottomSheetType}
-        initialTags={[]}
-        selectedDate={selectedDate}
-        schedules={schedules}
-        setSchedules={setSchedules}
-        selectedPet={selectedPet}
-        setSelectedPet={setSelectedPet}
-        initialAddScheduleValues={initialAddScheduleValues}
-        schedule={bottomSheetContent}
-        onDotsClick={handleDotsClick}
-        onEditClick={handleEditClick}
-        selectedSchedule={selectedSchedule}
-        reduxPet={reduxPet}
-      />
-      {showCancleModal &&
-        (bottomSheetType === "addSchedule" ||
-          bottomSheetType === "editSchedule") && (
+
+      <div className={`${isDeskTop ? styles.Calendarwrapper : ""}`}>
+        {(isMobile || isTablet) &&
+          (reduxPet == null ? (
+            <></>
+          ) : (
+            <AnimalSelect
+              onClick={handleOpenPetBottomSheet}
+              selectedPet={selectedPet}
+            />
+          ))}
+
+        <BottomSheet
+          show={showBottomSheet}
+          onClose={
+            bottomSheetType === "addSchedule" ||
+            bottomSheetType === "editSchedule"
+              ? handleAddScheduleBottomSheetClose
+              : handleCloseBottomSheet
+          }
+          scheduleSubmittedSuccessfully={scheduleSubmittedSuccessfully}
+          setScheduleSubmittedSuccessfully={setScheduleSubmittedSuccessfully} // 전달된 부분
+          type={bottomSheetType}
+          initialTags={[]}
+          selectedDate={selectedDate}
+          schedules={schedules}
+          setSchedules={setSchedules}
+          selectedPet={selectedPet}
+          setSelectedPet={setSelectedPet}
+          initialAddScheduleValues={initialAddScheduleValues}
+          schedule={bottomSheetContent}
+          onDotsClick={handleDotsClick}
+          onEditClick={handleEditClick}
+          selectedSchedule={selectedSchedule}
+          reduxPet={reduxPet}
+        />
+        {showCancleModal &&
+          (bottomSheetType === "addSchedule" ||
+            bottomSheetType === "editSchedule") && (
+            <CheckModal
+              Content="일정 작성을 취소하시겠어요?"
+              CancleBtnContent="작성 취소"
+              ContinueBtnContent="계속 작성"
+              onClose={handleCloseCancleModal}
+              onContinue={handleContinueWriting}
+            />
+          )}
+
+        {ScheduleDelete && (
           <CheckModal
-            Content="일정 작성을 취소하시겠어요?"
-            CancleBtnContent="작성 취소"
-            ContinueBtnContent="계속 작성"
+            Content="일정을 삭제하시겠어요?"
+            CancleBtnContent="삭제"
+            ContinueBtnContent="삭제 취소"
             onClose={handleCloseCancleModal}
             onContinue={handleContinueWriting}
           />
         )}
 
-      {ScheduleDelete && (
-        <CheckModal
-          Content="일정을 삭제하시겠어요?"
-          CancleBtnContent="삭제"
-          ContinueBtnContent="삭제 취소"
-          onClose={handleCloseCancleModal}
-          onContinue={handleContinueWriting}
-        />
-      )}
-
-      <DeskTop>
-        <div className={styles.CalendarscreenWrap_dtver}>
+        <Mobile>
           <Calendar schedules={schedules} onDateClick={handleDateClick} />
           <ScheduleBottom
             schedules={schedules}
             selectedDate={selectedDate}
             onScheduleClick={handleScheduleClick}
           />
-        </div>
-      </DeskTop>
+        </Mobile>
+        <DeskTop>
+          {!isTablet ? (
+            <div className={`${styles.CalendarscreenWrap_dtver}`}>
+              <div>
+                <Calendar schedules={schedules} onDateClick={handleDateClick} />
+              </div>
+              <div>
+                {reduxPet == null ? (
+                  <></>
+                ) : (
+                  <AnimalSelect
+                    onClick={handleOpenPetBottomSheet}
+                    selectedPet={selectedPet}
+                  />
+                )}
+                <ScheduleBottom
+                  schedules={schedules}
+                  selectedDate={selectedDate}
+                  onScheduleClick={handleScheduleClick}
+                />
+              </div>
+            </div>
+          ) : (
+            <>
+              <Calendar schedules={schedules} onDateClick={handleDateClick} />
+              <ScheduleBottom
+                schedules={schedules}
+                selectedDate={selectedDate}
+                onScheduleClick={handleScheduleClick}
+              />
+            </>
+          )}
+        </DeskTop>
 
-      <SubBottomSheet
-        show={showEditDeleteBottomSheet}
-        onClose={handleCloseshowEditDeleteBottomSheet}
-        type={editDeleteBottomSheettype}
-        onEditClick={handleEditClick}
-        selectedSchedule={selectedSchedule}
-        onDeleteClick={handleDeleteClick}
-      />
+        <SubBottomSheet
+          show={showEditDeleteBottomSheet}
+          onClose={handleCloseshowEditDeleteBottomSheet}
+          type={editDeleteBottomSheettype}
+          onEditClick={handleEditClick}
+          selectedSchedule={selectedSchedule}
+          onDeleteClick={handleDeleteClick}
+        />
 
-      {reduxPet === null ? (
-        ""
-      ) : (
-        <FloatingBtn onClick={handleFloatingBtnClick} />
-      )}
-    </div>
+        {reduxPet === null ? (
+          ""
+        ) : (
+          <FloatingBtn onClick={handleFloatingBtnClick} />
+        )}
+      </div>
+    </>
   );
 };
 

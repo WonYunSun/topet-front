@@ -46,7 +46,7 @@ const CommunityListData = ({ item }) => {
           </div>
           {item.images && item.images.length > 0 && (
             <div className={styles.community_photo}>
-              <img src={item.images[0]} alt={item.images[0].origFileName} />
+              <img src={item.images[0].filePath} alt={item.images[0].filePath} />
             </div>
           )}
         </div>

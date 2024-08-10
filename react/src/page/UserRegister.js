@@ -4,9 +4,24 @@ import { TbPhoto } from "react-icons/tb";
 import { TiDelete } from "react-icons/ti";
 import homeApi from "../api/homeApi";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { updateMember } from "../redux/reducers/memberReducer";
+
+/// responsive
+import { Mobile, DeskTop } from "../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 
 export default function UserRegister() {
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 859px)",
+  });
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const defaultProfileImage =
     "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
 
@@ -51,13 +66,14 @@ export default function UserRegister() {
     console.log("저장");
     const formData = new FormData();
     formData.append("profileName", profileName);
-    if(profilePhoto != null){
+    if (profilePhoto != null) {
       formData.append("photo", profilePhoto);
     }
     const resp = await homeApi.postMemberInfo(formData);
-    if(resp.status == 200){
+    if (resp.status == 200) {
+      dispatch(updateMember(resp.data));
       navigate(`/home`);
-    }else{
+    } else {
       alert("실패");
       window.location.reload();
     }
@@ -65,7 +81,7 @@ export default function UserRegister() {
   };
 
   return (
-    <>
+    <div className={`${styles.wrapper} ${isDeskTop && styles.dtver}`}>
       <div className={styles.welcome_text}>어서오세요!</div>
       <div className={styles.pofileregister_text}>프로필을 등록해주세요</div>
       <div className={styles.form_wrapper}>
@@ -113,15 +129,21 @@ export default function UserRegister() {
             {profileName.length}/25
           </div>
         </div>
-        <div className={styles.save_button_wrapper}>
+        <div
+          className={`${styles.save_button_wrapper} ${
+            isDeskTop ? styles.dtver : styles.mbver
+          }`}
+        >
           <button
-            className={`${!canSave ? styles.disabled : styles.save_button}`}
+            className={`${styles.save_button} ${!canSave && styles.disabled} ${
+              isDeskTop && styles.dtver
+            }`}
             onClick={handleSubmit}
           >
             {"완료"}
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

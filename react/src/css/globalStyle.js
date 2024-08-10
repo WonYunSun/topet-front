@@ -35,6 +35,9 @@ body {
 input{
     font-family: "SUIT Variable", sans-serif;
 }
+textarea{
+  font-family: "SUIT Variable", sans-serif;
+}
 select{
     font-family: "SUIT Variable", sans-serif;
     outline:none;

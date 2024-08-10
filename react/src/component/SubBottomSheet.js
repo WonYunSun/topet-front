@@ -1,10 +1,13 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styles from "../css/subBottomSheet.module.css";
 import EditDelete from "../component/EditDelete";
 import CommunityEDRB from "./CommunityComp/CommunityEDRB";
 import Report from "./BlockReport/Report";
 import Block from "./BlockReport/Block";
-
+import { CgClose } from "react-icons/cg";
+/// responsive
+import { Mobile, DeskTop } from "../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 const EditDeleteBottomSheet = ({
   show,
   onClose,
@@ -15,7 +18,14 @@ const EditDeleteBottomSheet = ({
   onReplyClick,
   comid,
 }) => {
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 1204px)",
+  });
 
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const [type, setType] = useState(initialType);
 
   const handleCloseBottomSheet = () => {
@@ -25,19 +35,18 @@ const EditDeleteBottomSheet = ({
 
   const onReportClick = () => {
     setType("Report");
-  }
+  };
 
   const onBlockClick = () => {
     setType("Block");
-  }
-
+  };
 
   function getTypeText(type) {
     switch (type) {
       case "EditDelete":
       case "CommunityEditDelete":
       case "CommunityReportBlock":
-      case "CommentEditDelete" :
+      case "CommentEditDelete":
       case "CommentReportBlock":
       case "ReplyEditDelete":
       case "ReplyReportBlock":
@@ -66,31 +75,53 @@ const EditDeleteBottomSheet = ({
       case "CommunityEditDelete":
         return (
           <>
-            <CommunityEDRB type={"CommunityEditDelete"} onEditClick={onEditClick} onDeleteClick={onDeleteClick} onClose={onClose}/> {/* 여기 추가 */}
+            <CommunityEDRB
+              type={"CommunityEditDelete"}
+              onEditClick={onEditClick}
+              onDeleteClick={onDeleteClick}
+              onClose={onClose}
+            />{" "}
+            {/* 여기 추가 */}
           </>
-        )
+        );
       case "CommunityReportBlock":
         return (
           <>
-            <CommunityEDRB type={"CommunityReportBlock"} onBlockClick={onBlockClick} onReportClick={onReportClick}/>
+            <CommunityEDRB
+              type={"CommunityReportBlock"}
+              onBlockClick={onBlockClick}
+              onReportClick={onReportClick}
+            />
           </>
-        )
+        );
       case "CommentEditDelete":
         return (
           <>
-            <CommunityEDRB type={"CommentEditDelete"} onReplyClick={onReplyClick} onEditClick={onEditClick} onDeleteClick={onDeleteClick} />
+            <CommunityEDRB
+              type={"CommentEditDelete"}
+              onReplyClick={onReplyClick}
+              onEditClick={onEditClick}
+              onDeleteClick={onDeleteClick}
+            />
           </>
         );
       case "CommentReportBlock":
         return (
           <>
-            <CommunityEDRB type={"CommentReportBlock"} onReplyClick={onReplyClick}/>
+            <CommunityEDRB
+              type={"CommentReportBlock"}
+              onReplyClick={onReplyClick}
+            />
           </>
         );
       case "ReplyEditDelete":
         return (
           <>
-            <CommunityEDRB type={"ReplyEditDelete"} onEditClick={onEditClick} onDeleteClick={onDeleteClick} />
+            <CommunityEDRB
+              type={"ReplyEditDelete"}
+              onEditClick={onEditClick}
+              onDeleteClick={onDeleteClick}
+            />
           </>
         );
       case "ReplyReportBlock":
@@ -121,8 +152,20 @@ const EditDeleteBottomSheet = ({
       {show && (
         <div className={styles.overlay} onClick={handleCloseBottomSheet}></div>
       )}
-      <div className={`${styles.bottomSheet} ${show ? styles.show : ""}`}>
-        <div className={styles.bottomSheetTitle}>{getTypeText(type)}</div>
+      <div
+        className={`${styles.bottomSheet} ${show ? styles.show : ""} ${
+          isDeskTop ? styles.dtver : ""
+        }`}
+      >
+        <div className={styles.bottomSheetTitle}>
+          {getTypeText(type)}
+          <CgClose
+            color="#444"
+            size={20}
+            className={styles.closeIcon}
+            onClick={handleCloseBottomSheet}
+          />
+        </div>
         <div className={styles.bottomSheetContent}>{getSheetContent(type)}</div>
       </div>
     </>

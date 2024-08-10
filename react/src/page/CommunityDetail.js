@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import TopBar from '../component/TopBar';
-import styles from '../css/community_detail.module.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import TopBar from "../component/TopBar";
+import styles from "../css/community_detail.module.css";
 import { BsChatFill } from "react-icons/bs";
 import { BiSolidLike } from "react-icons/bi";
 import { FaSpinner } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
-import CommunityApi from '../api/communityApi';
-import CommunityLikesApi from '../api/communityLikesApi';
-import CheckModal from '../component/CheckModal';
-import CommentCreate from '../component/CommunityComp/CommentCreate';
-import CommentList from '../component/CommunityComp/CommentList';
-import EditDeleteBottomSheet from '../component/SubBottomSheet';
+import CommunityApi from "../api/communityApi";
+import CommunityLikesApi from "../api/communityLikesApi";
+import CheckModal from "../component/CheckModal";
+import CommentCreate from "../component/CommunityComp/CommentCreate";
+import CommentList from "../component/CommunityComp/CommentList";
+import EditDeleteBottomSheet from "../component/SubBottomSheet";
 
 const CommunityDetail = () => {
   const navigate = useNavigate();
@@ -23,11 +23,13 @@ const CommunityDetail = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
+  const [modalMessage, setModalMessage] = useState("");
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
-  const [profileImg, setProfileImg] = useState('https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzBfNjUg%2FMDAxNzE3MDY0NDY1OTE5.RuUuUb2erFc8zs-8wC10KGxHyKOlSCxZM72R5K_PWCkg.7h8cC7tzZrwM8sIWQVuO1tjjpnTX013k2E5OKtE2dWYg.PNG%2Fimage.png&type=sc960_832');
+  const [profileImg, setProfileImg] = useState(
+    "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzBfNjUg%2FMDAxNzE3MDY0NDY1OTE5.RuUuUb2erFc8zs-8wC10KGxHyKOlSCxZM72R5K_PWCkg.7h8cC7tzZrwM8sIWQVuO1tjjpnTX013k2E5OKtE2dWYg.PNG%2Fimage.png&type=sc960_832"
+  );
   const [profileName, setProfileName] = useState();
   const [showSubBottomSheet, setShowSubBottomSheet] = useState(false);
   const [writer, setWriter] = useState(false); // 글 쓴 사람인지 아닌지 초기 값 false
@@ -47,7 +49,7 @@ const CommunityDetail = () => {
       setProfileName(detail.author.name);
 
       if (detail.hashtag) {
-        setHashtags(detail.hashtag.split(',').map(tag => tag.trim()));
+        setHashtags(detail.hashtag.split(",").map((tag) => tag.trim()));
       }
 
       // writer 상태 업데이트
@@ -60,7 +62,7 @@ const CommunityDetail = () => {
       setError(null);
     } catch (error) {
       setError(error.message);
-      setModalMessage('게시물을 불러오는 데 실패했습니다.');
+      setModalMessage("게시물을 불러오는 데 실패했습니다.");
       setModalIsOpen(true);
     } finally {
       setLoading(false);
@@ -82,7 +84,7 @@ const CommunityDetail = () => {
     try {
       await CommunityLikesApi.postLike(comid);
       setIsLiked(!isLiked);
-      setLikes(prevCount => prevCount + (isLiked ? -1 : 1));
+      setLikes((prevCount) => prevCount + (isLiked ? -1 : 1));
     } catch (error) {
       console.error("Error liking the post:", error);
     } finally {
@@ -124,7 +126,16 @@ const CommunityDetail = () => {
     return <div>Loading...</div>;
   }
 
-  const { animal, title, content, images, category, hashtag, photos, likesList } = item;
+  const {
+    animal,
+    title,
+    content,
+    images,
+    category,
+    hashtag,
+    photos,
+    likesList,
+  } = item;
 
   const navigateWithParams = () => {
     const params = {
@@ -145,7 +156,7 @@ const CommunityDetail = () => {
       await CommunityApi.deleteCommunity(comid);
       navigate(-1);
     } catch (error) {
-      setModalMessage('게시물 삭제에 실패했습니다.');
+      setModalMessage("게시물 삭제에 실패했습니다.");
       setModalIsOpen(true);
     }
   };
@@ -154,7 +165,7 @@ const CommunityDetail = () => {
     <div>
       <TopBar />
       <div className={styles.profile}>
-        <img src={profileImg} alt='' className={styles.profileImg} />
+        <img src={profileImg} alt="" className={styles.profileImg} />
         <div className={styles.profileDetails}>
           <div className={styles.profileName}>{profileName}</div>
         </div>
@@ -163,14 +174,16 @@ const CommunityDetail = () => {
       <div className={styles.content}>{content}</div>
       {images && images.length > 0 && (
         <div className={styles.images_container}>
-          {images.map((url, index) => (
-            <img key={index} src={url} alt={`이미지 ${index + 1}`} />
+          {images.map((item, index) => (
+            <img key={index} src={ item.filePath } alt={`이미지 ${index + 1}`} />
           ))}
         </div>
       )}
       <div className={styles.hashtags}>
         {hashtags.map((hashtag, index) => (
-          <span key={index} className={styles.hashtag}>#{hashtag}</span>
+          <span key={index} className={styles.hashtag}>
+            #{hashtag}
+          </span>
         ))}
       </div>
 
@@ -179,7 +192,11 @@ const CommunityDetail = () => {
           <BiSolidLike
             className={styles.icon}
             onClick={toggleLike}
-            style={{ color: isLiked ? 'red' : 'gray', cursor: 'pointer', pointerEvents: isLikeLoading ? 'none' : 'auto' }}
+            style={{
+              color: isLiked ? "red" : "gray",
+              cursor: "pointer",
+              pointerEvents: isLikeLoading ? "none" : "auto",
+            }}
           />
           <span> {likes}</span>
         </div>
@@ -188,7 +205,10 @@ const CommunityDetail = () => {
           <span> {commentCount}</span>
         </div>
         <div className={styles.moreIconContainer}>
-          <FiMoreVertical className={styles.moreIcon} onClick={() => setShowSubBottomSheet(true)} />
+          <FiMoreVertical
+            className={styles.moreIcon}
+            onClick={() => setShowSubBottomSheet(true)}
+          />
         </div>
       </div>
 
@@ -198,11 +218,7 @@ const CommunityDetail = () => {
       </div>
 
       {modalIsOpen && (
-        <CheckModal
-          onClose={closeModal}
-          Content={modalMessage}
-          oneBtn={true}
-        />
+        <CheckModal onClose={closeModal} Content={modalMessage} oneBtn={true} />
       )}
 
       <EditDeleteBottomSheet

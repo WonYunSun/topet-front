@@ -26,6 +26,22 @@
   border-top-right-radius: 15px;
   z-index: 600; /* overlay 위에 오도록 설정 */
 }
+.bottom_sheet.dtver {
+  max-height: 60%;
+  min-height: 40%;
+  height: fit-content;
+  width: 40%;
+  border-radius: 15px;
+  /* 화면 중앙에 위치시키기 위한 변환 */
+
+  transition: none;
+}
+.bottom_sheet.dtver.show {
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+}
 
 .bottom_sheet.show {
   /* max-height랑 overflow-y 부분 캘린더스크린때문에 적용해놨습니다 문제있으면 말해주세요 */
@@ -43,6 +59,11 @@
   margin: 20px;
   font-size: 16px; /* 텍스트 크기 설정 */
   font-weight: bold; /* 텍스트 굵기 설정 */
+  position: relative;
+}
+.closeIcon {
+  position: absolute;
+  right: 0;
 }
 
 .bottom_sheet_buttons {
