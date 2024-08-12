@@ -57,6 +57,7 @@ function App() {
     "/shorts",
     "/petregistration",
     "/userregister",
+    "/profilecompleted",
   ];
 
   return (

@@ -81,67 +81,72 @@ export default function UserRegister() {
   };
 
   return (
-    <div className={`${styles.wrapper} ${isDeskTop && styles.dtver}`}>
-      <div className={styles.welcome_text}>어서오세요!</div>
-      <div className={styles.pofileregister_text}>프로필을 등록해주세요</div>
-      <div className={styles.form_wrapper}>
-        <div className={styles.photo_wrapper}>
-          <div className={styles.profile_photo_wrapper}>
-            <div className={styles.selected_profile_photo_container}>
-              <img
-                src={
-                  profilePhoto && typeof profilePhoto === "object"
-                    ? URL.createObjectURL(profilePhoto)
-                    : profilePhoto
-                }
-                className={styles.selected_profile_photo}
-                alt="Profile"
+    <div className={`${styles.container} ${isDeskTop && styles.dtver}`}>
+      <div className={styles.wrapper}>
+        <div className={styles.welcome_text}>어서오세요!</div>
+        <div className={styles.pofileregister_text}>프로필을 등록해주세요</div>
+        <div className={styles.form_wrapper}>
+          <div className={styles.photo_wrapper}>
+            <div className={styles.profile_photo_wrapper}>
+              <div className={styles.selected_profile_photo_container}>
+                <img
+                  src={
+                    profilePhoto && typeof profilePhoto === "object"
+                      ? URL.createObjectURL(profilePhoto)
+                      : profilePhoto
+                  }
+                  className={styles.selected_profile_photo}
+                  alt="Profile"
+                />
+              </div>
+            </div>
+            <div
+              className={styles.selecting_photo_button}
+              onClick={photoSelect}
+            >
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+                accept="image/*"
               />
+              <TbPhoto className={styles.selecting_photo_icon} />
             </div>
           </div>
-          <div className={styles.selecting_photo_button} onClick={photoSelect}>
-            <input
-              type="file"
-              ref={fileInputRef}
-              style={{ display: "none" }}
-              onChange={handleFileChange}
-              accept="image/*"
-            />
-            <TbPhoto className={styles.selecting_photo_icon} />
+          <div className={styles.profile_name_wrapper}>
+            <div className={styles.profile_name_title}>닉네임</div>
+            <div className={styles.profile_name_inputbar_wrapper}>
+              <input
+                className={styles.profile_name_inputbar}
+                value={profileName}
+                maxLength={25}
+                onChange={handleProfileNameChange}
+                placeholder="닉네임을 작성해주세요"
+              />
+              <TiDelete
+                className={styles.input_delete_icon}
+                onClick={DeleteInputText}
+              />
+            </div>
+            <div className={styles.profile_name_length}>
+              {profileName.length}/25
+            </div>
           </div>
-        </div>
-        <div className={styles.profile_name_wrapper}>
-          <div className={styles.profile_name_title}>닉네임</div>
-          <div className={styles.profile_name_inputbar_wrapper}>
-            <input
-              className={styles.profile_name_inputbar}
-              value={profileName}
-              maxLength={25}
-              onChange={handleProfileNameChange}
-              placeholder="닉네임을 작성해주세요"
-            />
-            <TiDelete
-              className={styles.input_delete_icon}
-              onClick={DeleteInputText}
-            />
-          </div>
-          <div className={styles.profile_name_length}>
-            {profileName.length}/25
-          </div>
-        </div>
-        <div
-          className={`${styles.save_button_wrapper} ${
-            isDeskTop ? styles.dtver : styles.mbver
-          }`}
-        >
-          <button
-            className={`${styles.save_button} ${!canSave && styles.disabled} ${
-              isDeskTop && styles.dtver
+          <div
+            className={`${styles.save_button_wrapper} ${
+              isDeskTop ? styles.dtver : styles.mbver
             }`}
-            onClick={handleSubmit}
           >
-            {"완료"}
-          </button>
+            <button
+              className={`${styles.save_button} ${
+                !canSave && styles.disabled
+              } ${isDeskTop && styles.dtver}`}
+              onClick={handleSubmit}
+            >
+              {"완료"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

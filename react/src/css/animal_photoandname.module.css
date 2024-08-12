@@ -80,6 +80,7 @@
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border-radius: 15px;
   width: 88%;
+  max-width: 316px;
   height: 51px;
   display: flex;
 }
@@ -89,9 +90,14 @@
   flex-direction: row;
   justify-content: end;
   width: 100%;
+  max-width: 375px;
   font-size: 13px;
   font-weight: 300;
   margin-top: 10px;
   margin-right: 100px;
   color: #adadad;
+}
+
+.profilename_bar_wrapper.dtver {
+  width: 330px;
 }

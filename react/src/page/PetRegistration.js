@@ -347,7 +347,11 @@ const PetRegistration = () => {
     switch (stepNum) {
       case 1:
         return (
-          <div className={styles.component_wrapper}>
+          <div
+            className={`${styles.component_wrapper} ${
+              isDeskTop && styles.dtver
+            }`}
+          >
             <AnimalType
               setSelectedType={setSelectedType}
               handleSelectedTypeChange={handleSelectedTypeChange}
@@ -359,7 +363,11 @@ const PetRegistration = () => {
         );
       case 2:
         return (
-          <div className={styles.component_wrapper}>
+          <div
+            className={`${styles.component_wrapper} ${
+              isDeskTop && styles.dtver
+            }`}
+          >
             <AnimalKind
               handleSelectedKindChange={handleSelectedKindChange}
               selectedType={selectedType}
@@ -372,7 +380,11 @@ const PetRegistration = () => {
         );
       case 3:
         return (
-          <div className={styles.component_wrapper}>
+          <div
+            className={`${styles.component_wrapper} ${
+              isDeskTop && styles.dtver
+            }`}
+          >
             <AnimalGender
               handleSelectedGenderChange={handleSelectedGenderChange}
               selectedGender={selectedGender}
@@ -389,7 +401,11 @@ const PetRegistration = () => {
         );
       case 4:
         return (
-          <div className={styles.component_wrapper}>
+          <div
+            className={`${styles.component_wrapper} ${
+              isDeskTop && styles.dtver
+            }`}
+          >
             <AnimalPhotoandName
               defaultImage={defaultImage}
               selectedPhoto={selectedPhoto}
@@ -408,7 +424,11 @@ const PetRegistration = () => {
         );
       case 5:
         return (
-          <div className={styles.component_wrapper}>
+          <div
+            className={`${styles.component_wrapper} ${
+              isDeskTop && styles.dtver
+            }`}
+          >
             <AnimalBirth
               selectedBirth={selectedBirth}
               setSelectedBirth={setSelectedBirth}
@@ -427,7 +447,11 @@ const PetRegistration = () => {
         );
       case 6:
         return (
-          <div className={styles.component_wrapper}>
+          <div
+            className={`${styles.component_wrapper} ${
+              isDeskTop && styles.dtver
+            }`}
+          >
             <AnimalWeightandHealth
               weight={weight}
               allergy={allergy}
@@ -450,8 +474,7 @@ const PetRegistration = () => {
   };
 
   return (
-    <>
-      {/* <DeskTop>여기다나중에 만들 탑바</DeskTop> */}
+    <div className={`${styles.container} ${isDeskTop && styles.dtver}`}>
       <div
         className={`${styles.wrapper} ${
           isDeskTop ? styles.dtver : styles.mdver
@@ -467,7 +490,7 @@ const PetRegistration = () => {
           />
         )}
       </div>
-    </>
+    </div>
   );
 };
 
