@@ -25,11 +25,8 @@ const ContentList = ({ fetchItems, renderItem, fetchParams }) => {
       if (newResource.length < PAGE_SIZE) {
         setHasMore(false);
       }
-      console.log("hi3");
       setResources((prev) => [...prev, ...newResource]);
-      console.log("hi2");
       setPage((prev) => prev + 1);
-      console.log("hi");
     } catch (err) {
       setHasError(true);
       setHasMore(false);

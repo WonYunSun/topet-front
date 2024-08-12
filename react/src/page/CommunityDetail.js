@@ -10,8 +10,8 @@ import { FiMoreVertical } from "react-icons/fi";
 import CommunityApi from "../api/communityApi";
 import CommunityLikesApi from "../api/communityLikesApi";
 import CheckModal from "../component/CheckModal";
-import CommentCreate from "../component/CommunityComp/CommentCreate";
-import CommentList from "../component/CommunityComp/CommentList";
+import CommentCreate from "../component/CommentComp/CommentCreate";
+import CommentList from "../component/CommentComp/CommentList";
 import EditDeleteBottomSheet from "../component/SubBottomSheet";
 
 const CommunityDetail = () => {
@@ -35,6 +35,7 @@ const CommunityDetail = () => {
   const [writer, setWriter] = useState(false); // 글 쓴 사람인지 아닌지 초기 값 false
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [commentListKey, setCommentListKey] = useState(0);  // key 상태 추가
+  const [communityAuthorId, setCommunityAuthorId] = useState();
 
   const fetchPostDetail = async () => {
     setLoading(true);
@@ -47,6 +48,7 @@ const CommunityDetail = () => {
       setLikes(detail.likeCount);
       setIsLiked(liked);
       setProfileName(detail.author.name);
+      setCommunityAuthorId(detail.author.id);
 
       if (detail.hashtag) {
         setHashtags(detail.hashtag.split(",").map((tag) => tag.trim()));
@@ -224,11 +226,13 @@ const CommunityDetail = () => {
       <EditDeleteBottomSheet
         show={showSubBottomSheet}
         type={writer ? "CommunityEditDelete" : "CommunityReportBlock"}
+        genre ={"게시글"}
         onClose={() => setShowSubBottomSheet(false)}
         onEditClick={navigateWithParams}
         onDeleteClick={handleDeleteClick}
         comid={comid}
-        reduxMemberId={reduxMemberId}
+        reduxMemberId={reduxMemberId.id}
+        communityAuthorId={communityAuthorId}
       />
     </div>
   );

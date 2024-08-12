@@ -17,6 +17,9 @@ const EditDeleteBottomSheet = ({
   onDeleteClick,
   onReplyClick,
   comid,
+  genre,
+  reduxMemberId,
+  communityAuthorId
 }) => {
   const isTablet = useMediaQuery({
     query: "(min-width: 769px) and (max-width: 1204px)",
@@ -52,9 +55,9 @@ const EditDeleteBottomSheet = ({
       case "ReplyReportBlock":
         return "더보기";
       case "Report":
-        return "신고하기";
+        return `${genre} 신고하기`;
       case "Block":
-        return "차단하기";
+        return `차단하기`;
       default:
         return "더보기";
     }
@@ -79,9 +82,7 @@ const EditDeleteBottomSheet = ({
               type={"CommunityEditDelete"}
               onEditClick={onEditClick}
               onDeleteClick={onDeleteClick}
-              onClose={onClose}
-            />{" "}
-            {/* 여기 추가 */}
+            />
           </>
         );
       case "CommunityReportBlock":
@@ -111,6 +112,8 @@ const EditDeleteBottomSheet = ({
             <CommunityEDRB
               type={"CommentReportBlock"}
               onReplyClick={onReplyClick}
+              onBlockClick={onBlockClick}
+              onReportClick={onReportClick}
             />
           </>
         );
@@ -127,19 +130,23 @@ const EditDeleteBottomSheet = ({
       case "ReplyReportBlock":
         return (
           <>
-            <CommunityEDRB type={"ReplyReportBlock"} />
+            <CommunityEDRB 
+            type={"ReplyReportBlock"}
+            onBlockClick={onBlockClick}
+            onReportClick={onReportClick} 
+            />
           </>
         )
         case "Report":
           return (
             <>
-              <Report onClick={handleCloseBottomSheet} comid={comid} />
+              <Report onClick={handleCloseBottomSheet} comid={comid} genre={genre} />
             </>
           )
         case "Block":
           return (
             <>
-              <Block onClick={handleCloseBottomSheet} comid={comid} />
+              <Block onClick={handleCloseBottomSheet} comid={comid} genre={genre} blockedId={communityAuthorId} blockerId={reduxMemberId} />
             </>
           )
       default:

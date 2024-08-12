@@ -19,49 +19,44 @@ const CommentList = ({ comid }) => {
   const [isEditingReply, setIsEditingReply] = useState(null); // 답글 수정 모드 관리
 
   const bottomsheetClose = () => {
+    //바텀시트 닫기
     setShowSubBottomSheet(false);
   };
 
   const activateReplyInput = (commentId) => {
+    // 답글 달기 박스 활성화
     bottomsheetClose();
     setActiveReplyInput(commentId);
   };
 
-  const determineType = () => {
-    if (commentId && isCommentWriter) {
-      return { type: "CommentEditDelete", deleteHandler: handleDeleteComment, editHandler: () => handleEditComment(commentId) };
-    } else if (commentId) {
-      return { type: "CommentReportBlock", deleteHandler: null };
-    } else if (replyId && isReplyWriter) {
-      return { type: "ReplyEditDelete", deleteHandler: handleDeleteReply, editHandler: () => handleEditReply(replyId) };
-    } else {
-      return { type: "ReplyReportBlock", deleteHandler: null };
-    }
-  };
-
   const handleDeleteComment = async () => {
+    // 댓글 삭제
     await commentApi.deleteComment(commentId);
     setShowSubBottomSheet(false);
     setFetchKey(prevKey => prevKey + 1);
   };
 
   const handleDeleteReply = async () => {
+    // 답글 삭제
     await commentApi.deleteReply(replyId);
     setShowSubBottomSheet(false);
     setFetchKey(prevKey => prevKey + 1);
   };
 
   const handleEditComment = (id) => {
+    // 댓글 수정
     setIsEditingComment(id);
     setShowSubBottomSheet(false);
   };
 
   const handleEditReply = (id) => {
+    // 답글 수정
     setIsEditingReply(id);
     setShowSubBottomSheet(false);
   };
 
   const handleEditSubmit = async (id, content, isComment) => {
+    // 댓글 수정 후 등록
     try {
       const formData = new FormData();
       formData.append("id", id);
@@ -80,12 +75,8 @@ const CommentList = ({ comid }) => {
     }
   };
 
-  const handleEditCancel = () => {
-    setIsEditingComment(null);
-    setIsEditingReply(null);
-  };
-
   const handleReplySubmit = async (parentCommentId, replyContent) => {
+    // 답글 수정 후 등록
     if (parentCommentId && replyContent && replyContent.trim()) {
       try {
         const formData = new FormData();
@@ -100,6 +91,27 @@ const CommentList = ({ comid }) => {
       }
     }
   };
+
+  const handleEditCancel = () => {
+    // 댓글, 답글 수정 취소
+    setIsEditingComment(null);
+    setIsEditingReply(null);
+  };
+
+  const determineType = () => {
+    // 바텀시트 케이스 분류
+    if (commentId && isCommentWriter) {
+      return { type: "CommentEditDelete", deleteHandler: handleDeleteComment, editHandler: () => handleEditComment(commentId) };
+    } else if (commentId) {
+      return { type: "CommentReportBlock", deleteHandler: null };
+    } else if (replyId && isReplyWriter) {
+      return { type: "ReplyEditDelete", deleteHandler: handleDeleteReply, editHandler: () => handleEditReply(replyId) };
+    } else {
+      return { type: "ReplyReportBlock", deleteHandler: null };
+    }
+  };
+
+  //
 
   const fetchComments = async (page, pageSize) => {
     try {
@@ -144,6 +156,7 @@ const CommentList = ({ comid }) => {
           show={showSubBottomSheet}
           onClose={bottomsheetClose}
           type={determineType().type}
+          genre={"댓글"}
           onReplyClick={() => activateReplyInput(commentId)}
           onDeleteClick={determineType().deleteHandler}
           onEditClick={determineType().editHandler} 

@@ -54,7 +54,9 @@
 .MapSideBar.hiddensidebar {
   transform: translateX(-99.9%);
 }
-
+.MapSideBar.tbver {
+  font-size: 13px;
+}
 .mapTopWrap_Dt {
   /* padding: 1em; */
   background-color: #fff;
@@ -65,7 +67,9 @@
   width: 100%;
   height: 100%;
 }
-
+.side_customBtnWrap.tbver {
+  font-size: 10.5px;
+}
 .toggleButton {
   position: absolute;
   top: 50%; /* 원하는 위치로 조정 */
@@ -116,10 +120,16 @@
 }
 .side_topWrap {
   width: 100%;
-  height: 100px;
+  height: fit-content;
   background-color: var(--main-color);
-  padding: 1em;
+  padding: 0 1em;
+  padding-top: 20px;
+  padding-bottom: 20px;
   box-sizing: border-box;
+}
+.side_topWrap > * {
+  outline: #ffa62f 1px solid;
+  border-radius: 20px;
 }
 .side_customBtnWrap {
   padding: 0 1em;
@@ -397,4 +407,15 @@
 }
 .placeRecommend {
   overflow-y: auto;
+}
+
+.rec_title {
+  padding-left: 10px;
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  text-align: start;
+  font-weight: 600;
+  gap: 5px;
+  font-size: 16px;
 }
