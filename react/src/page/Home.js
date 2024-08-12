@@ -17,7 +17,11 @@ import TopBarWeb from "../component/TopBarWeb";
 import styles from "../css/homescreen.module.css";
 // import CommunityList from "../component/CommunityComp/CommunityList"; //작업 연기
 import CommunityListData from "../component/CommunityComp/CommunityListData";
-import homeApi from "../api/homeApi";
+
+import memberApi from "../api/memberApi";
+import scheduleApi from "../api/scheduleApi";
+
+
 import { updateMember } from "../redux/reducers/memberReducer";
 import { updatePetList } from "../redux/reducers/petListReducer";
 import { updateSelectedPet } from "../redux/reducers/selectedPetReducer";
@@ -200,7 +204,7 @@ const Home = () => {
 
 console.log("home출력 selectedPet : " , selectedPet)
   const getHome = async () => {
-    const returnedMember = await homeApi.getHomeDataMember();
+    const returnedMember = await memberApi.getHomeDataMember();
     if(returnedMember != null){
       const sessionMember = {
           id: returnedMember.id,
@@ -261,7 +265,7 @@ console.log("home출력 selectedPet : " , selectedPet)
   const getSchedule = async () => {
     if (selectedPet != null) {
       console.log("selectedPet.id : " , selectedPet.id)
-      const response = await homeApi.getHomeDataSchedule(selectedPet.id);
+      const response = await scheduleApi.getHomeDataSchedule(selectedPet.id);
       setSchedule(response);
     }
   };
