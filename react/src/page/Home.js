@@ -59,16 +59,19 @@ const Home = () => {
 
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
   const [schedules, setSchedule] = useState([]);
-  const defaultProfileImage =
-    "https://images.unsplash.com/photo-1722031489919-100378463cfc?q=80&w=1285&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+
   useEffect(() => {
-    try {
-      getHome();
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoaded(true);
-    }
+    const fetchData = async () => {
+      try {
+        await getHome();
+        await getSchedule();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoaded(true);
+      }
+    };
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -235,7 +238,7 @@ const Home = () => {
           setSelectedPet(myPets[0]);
           dispatch(updateSelectedPet(myPets[0]));
         }
-        getSchedule();
+        // getSchedule();
       } else {
         //tempPet이 없을때.
         setPets(null);
@@ -248,10 +251,11 @@ const Home = () => {
   };
 
   const getSchedule = async () => {
-    // if (reduxPet != null) {
-    //   const response = await homeApi.getHomeDataSchedule(selectedPet.id);
-    //   setSchedule(response);
-    // }
+    if (selectedPet != null) {
+      console.log("selectedPet.id : ", selectedPet.id);
+      const response = await homeApi.getHomeDataSchedule(selectedPet.id);
+      setSchedule(response);
+    }
   };
 
   const calculateAge = (birthDate) => {
@@ -282,7 +286,7 @@ const Home = () => {
       </DeskTop> */}
       <div className={`${styles.homeWrap} ${isDeskTop ? styles.dtver : ""}`}>
         <Mobile>
-          {pets.length == 0 ? (
+          {pets == null ? (
             <div></div>
           ) : (
             <AnimalSelect
@@ -421,7 +425,7 @@ const Home = () => {
           </div>
         </Mobile>
         <DeskTop>
-          {pets.length == 0 ? (
+          {pets == null ? (
             <div></div>
           ) : (
             <AnimalSelect

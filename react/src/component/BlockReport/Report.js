@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import RadioButton from './RadioButton';
 import Button from '../ButtonComp/Button';
 import styles from '../../css/report.module.css';
-import ReportAndBlock from '../../api/reportandblock';
-import CheckModal from '../CheckModal';
+import ReportAndBlock from '../../api/reportAndBlockApi';
 
 const Report = ({ onClick, comid }) => {
   const [selectedValue, setSelectedValue] = useState('스팸홍보/도배글');

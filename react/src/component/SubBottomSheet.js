@@ -17,7 +17,6 @@ const EditDeleteBottomSheet = ({
   onDeleteClick,
   onReplyClick,
   comid,
-  reduxMemberId,
 }) => {
   const isTablet = useMediaQuery({
     query: "(min-width: 769px) and (max-width: 1204px)",
@@ -130,27 +129,19 @@ const EditDeleteBottomSheet = ({
           <>
             <CommunityEDRB type={"ReplyReportBlock"} />
           </>
-        );
-      case "Report":
-        return (
-          <>
-            <Report
-              onClick={handleCloseBottomSheet}
-              comid={comid}
-              reduxMemberId={reduxMemberId}
-            />
-          </>
-        );
-      case "Block":
-        return (
-          <>
-            <Block
-              onClick={handleCloseBottomSheet}
-              comid={comid}
-              reduxMemberId={reduxMemberId}
-            />
-          </>
-        );
+        )
+        case "Report":
+          return (
+            <>
+              <Report onClick={handleCloseBottomSheet} comid={comid} />
+            </>
+          )
+        case "Block":
+          return (
+            <>
+              <Block onClick={handleCloseBottomSheet} comid={comid} />
+            </>
+          )
       default:
         return "";
     }

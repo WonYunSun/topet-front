@@ -70,6 +70,7 @@ class CommentApi {
   // }
 
   async fetchMyComment(page, size) {
+    //내 댓글 불러오기
     try {
       const response = await this.axios.get(
         `/author/2?page=${page}&size=${size}`
