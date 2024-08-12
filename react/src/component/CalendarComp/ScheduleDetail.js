@@ -67,15 +67,17 @@ const ScheduleDetail = ({ onDotsClick, selectedSchedule }) => {
         <span>메모</span>
         <div>{selectedSchedule.scheduleContent}</div>
       </div>
-      <div className={styles.scheduleImg}></div>
+      <div className={styles.scheduleImg}>
+        <img src={selectedSchedule.photoSrc}></img>
+      </div>
       <div className={styles.WritEditWrap}>
         <div className={styles.scheduleWriterWrap}>
           <span>작성자</span>
-          {selectedSchedule.scheduleWriter}
+          {selectedSchedule.author.name}
         </div>
         <div className={styles.scheduleEditerWrap}>
           <span>수정자</span>
-          {selectedSchedule.scheduleEditer}
+          {selectedSchedule.updateAuthor}
         </div>
       </div>
     </div>

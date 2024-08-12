@@ -154,7 +154,7 @@ button:focus-visible {
   height: 26px;
   background-color: #ffa62f;
   position: absolute;
-  top: 23.5%;
+  top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: -1;
@@ -170,7 +170,7 @@ button:focus-visible {
   bottom: 10px;
 }
 .scheduleDot.dtver {
-  bottom: 30px;
+  bottom: 50px;
   transform: translate(-50%, -0%);
 }
 
@@ -193,7 +193,8 @@ button:focus-visible {
   grid-template-columns: repeat(7, 1fr);
 }
 .DayContainer.dtver {
-  height: 75%;
+  height: 90%;
+  min-height: 530px;
 }
 
 .YearMonthPickerModal {

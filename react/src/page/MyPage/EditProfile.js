@@ -15,37 +15,57 @@ import { useSelector } from "react-redux";
 
 const EditProfile = () => {
   const reduxMember = useSelector((state) => state.member.member);
+  console.log(reduxMember);
+
+
   const navigate = useNavigate();
   const defaultProfileImage =
     "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
   const [profilePhoto, setProfilePhoto] = useState();
   const [profileName, setProfileName] = useState();
   const [canSave, setCanSave] = useState();
+
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const fileInputRef = useRef(null);
-
-
-  if(reduxMember != null){
-    setProfileName(reduxMember.name);
-    setProfilePhoto(reduxMember.profileSrc);
-  }
 
   const currentProfilePhoto = reduxMember.profileSrc; // 기존 사진
   const currentProfileName = reduxMember.name; // 기존 닉네임
 
   useEffect(() => {
-    if (profilePhoto == undefined) {
-      setProfilePhoto(defaultProfileImage);
+    try{
+      if(reduxMember != null){
+        setProfileName(reduxMember.name);
+        setProfilePhoto(reduxMember.profileSrc);
+      }
+  
+  
+      if (profilePhoto == undefined) {
+        setProfilePhoto(defaultProfileImage);
+      }
+      if (
+        profileName == currentProfileName
+        &&
+        profilePhoto == currentProfilePhoto
+      ) {
+        setCanSave(false);
+      } else {
+        setCanSave(true);
+      }
     }
-    if (
-      profileName == currentProfileName
-      &&
-      profilePhoto == currentProfilePhoto
-    ) {
-      setCanSave(false);
-    } else {
-      setCanSave(true);
+    catch(error){
+      console.log(error);
     }
-  }, [canSave, profileName, profilePhoto]);
+    finally{
+      setIsLoaded(true);
+
+    }
+    
+  }, [
+    canSave, 
+    //profileName, 
+    //profilePhoto
+  ]);
 
   const photoSelect = useCallback(() => {
     fileInputRef.current.click();
@@ -138,6 +158,9 @@ const EditProfile = () => {
     console.log("회원탈퇴");
   };
 
+  if(!isLoaded){
+    return(<div>Loading...</div>)
+  }
   return (
     <div className={styles.wrapper}>
       <MyPageCommonTopBar title={"프로필 수정"} />

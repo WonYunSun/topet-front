@@ -29,7 +29,7 @@ function MapPlaceList({
 
   if (!searchResult || searchResult.length === 0) {
     return (
-      <div>
+      <div className={styles.noResultdiv}>
         검색 결과가 없어요 <FaRegSadTear />
       </div>
     );
