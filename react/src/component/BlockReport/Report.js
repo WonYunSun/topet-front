@@ -4,7 +4,7 @@ import Button from '../ButtonComp/Button';
 import styles from '../../css/report.module.css';
 import ReportAndBlock from '../../api/reportAndBlockApi';
 
-const Report = ({ onClick, comid }) => {
+const Report = ({ onClick, comid, commentid, genre }) => {
   const [selectedValue, setSelectedValue] = useState('스팸홍보/도배글');
   const [otherText, setOtherText] = useState('');
 
@@ -28,7 +28,13 @@ const Report = ({ onClick, comid }) => {
     const formData = new FormData();
     const reportValue = selectedValue === '기타' ? otherText : selectedValue;
     formData.append("reason", reportValue);
+    if(genre === "게시글") {
+      console.log("게시글 신고")
     await ReportAndBlock.ReportCommunity(formData, comid);
+    } else if (genre === "댓글") {
+    await ReportAndBlock.ReportComment(formData, commentid);
+      console.log("댓글 신고")
+    }
     onClick();
   };
 

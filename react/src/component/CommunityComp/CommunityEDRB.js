@@ -117,10 +117,10 @@ const CommunityEDRB = ({ type, onEditClick, onDeleteClick, onBlockClick, onRepor
       )}
       {type === "ReplyReportBlock" && (
         <>
-          <div className={styles.editBtn} onClick={handleClick(onEditClick)}>
+          <div className={styles.editBtn} onClick={handleClick(onBlockClick)}>
             {firstText}
           </div>
-          <div className={styles.DeleteBtn} onClick={handleClick(onDeleteClick)}>
+          <div className={styles.DeleteBtn} onClick={handleClick(onReportClick)}>
             {secondText}
           </div>
         </>
