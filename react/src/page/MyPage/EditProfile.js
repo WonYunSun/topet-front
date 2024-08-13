@@ -9,7 +9,9 @@ import MyPageCommonTopBar from "../../component/MyPageComp/MyPageCommonTopBar";
 import styles from "../../css/mypage_editprofile.module.css";
 import { TbPhoto } from "react-icons/tb";
 import { TiDelete } from "react-icons/ti";
-import homeApi from "../../api/homeApi";
+
+import memberApi from "../../api/memberApi";
+
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -98,7 +100,7 @@ const EditProfile = () => {
     if (profilePhoto != null) {
       formData.append("photo", profilePhoto);
     }
-    const resp = await homeApi.postMemberInfo(formData);
+    const resp = await memberApi.postMemberInfo(formData);
     if (resp.status == 200) {
       navigate(`/home`);
     } else {

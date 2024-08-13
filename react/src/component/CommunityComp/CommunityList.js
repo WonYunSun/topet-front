@@ -21,7 +21,7 @@ const CommunityList = ({ sortListText, searchText, searchType }) => {
       }
     } else {
       return sortListText === "최신순" 
-        ? CommunityApi.fetchCommunityPosts(animalType, category, pageSize, page)
+        ?  CommunityApi.fetchCommunityPosts(animalType, category, pageSize, page)
         : CommunityApi.fetchSortLikeCommunityPosts(animalType, category, pageSize, page);
     }
   }

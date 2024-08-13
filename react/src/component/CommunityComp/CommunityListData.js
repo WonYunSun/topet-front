@@ -56,7 +56,7 @@ const CommunityListData = ({ item }) => {
         <div className={styles.like_and_coment}>
           <div className="icon-group">
             <BiSolidLike className={styles.icon}/>
-            <span> {item.likeCount ? item.likeCount : 0}</span> {/* 좋아요 수 */}
+            <span> {item.likeCount}</span> {/* 좋아요 수 */}
           </div>
           <div className="icon-group">
             <BsChatFill className={styles.icon}/>

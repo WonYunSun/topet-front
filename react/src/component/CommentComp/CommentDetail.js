@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FiMoreVertical } from "react-icons/fi";
 import styles from "../../css/comment_detail.module.css";
 
-const CommentDetail = ({ 
+const CommentDetail = ({
   comment, 
   reduxMemberId, 
   setIsCommentWriter, 
@@ -17,15 +17,20 @@ const CommentDetail = ({
   isEditingReply,
   handleEditSubmit,
   handleEditCancel,
-  handleReplySubmit 
+  handleReplySubmit,
+  setCommentAuthorId,
+  setreplyAuthorId,
 }) => {
-  const [replyContent, setReplyContent] = useState("");
-  const [editContent, setEditContent] = useState("");  // 수정 중인 내용을 관리
 
+  const [replyContent, setReplyContent] = useState("");
+  const [editContent, setEditContent] = useState("");
+
+  //임시 유저 프로필 주소
   const src = "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzEyMDZfNTYg%2FMDAxNzAxODQ1MDQ3OTEy.3nTCEkxraOwSwPN3iGXsityOqeGL37xSYSwzlNpvtN0g.1uI0TfuUpdgH463RXWgf98KONJHKbyncpRmIKE0W9Rgg.JPEG.ddogddogcafe%2F267.jpg&type=sc960_832";
   
-  // 수정 모드가 활성화될 때 기존 내용을 editContent에 설정
+  
   useEffect(() => {
+    // 수정 모드가 활성화될 때 기존 내용을 editContent에 설정
     if (isEditingComment === comment.id) {
       setEditContent(comment.content);
     } else if (isEditingReply === replyId) {
@@ -37,28 +42,35 @@ const CommentDetail = ({
   }, [isEditingComment, isEditingReply, comment, replyId]);
 
   const handleCommentMoreClick = () => {
+    // 댓글 더보기 버튼 클릭
     if (reduxMemberId === comment.author.id) {
       setIsCommentWriter(true);
     } else {
       setIsCommentWriter(false);
     }
     setCommentId(comment.id);
+    setCommentAuthorId(comment.author.id);
+    setreplyAuthorId(null);
     setReplyId(null);
     setShowSubBottomSheet(true);
   };
 
   const handleReplyMoreClick = (reply) => {
+    // 답글 더보기 버튼 클릭
     if (reduxMemberId === reply.author.id) {
       setIsReplyWriter(true);
     } else {
       setIsReplyWriter(false);
     }
     setReplyId(reply.id);
+    setreplyAuthorId(reply.author.id);
+    setCommentAuthorId(null);
     setCommentId(null);
     setShowSubBottomSheet(true);
   };
 
   const writeReplyCancel = () => {
+    // 답글 작성 취소
     setActiveReplyInput(null);
     setReplyContent("");
   };
@@ -88,7 +100,7 @@ const CommentDetail = ({
             type="text"
             value={editContent}
             onChange={(e) => setEditContent(e.target.value)}
-            className={styles.editInput}
+            className={styles.inputBox}
           />
           <button onClick={handleEditCancel}>취소</button>
           <button onClick={() => handleEditSubmit(comment.id, editContent, true)}>등록</button>
@@ -105,6 +117,7 @@ const CommentDetail = ({
             placeholder="답글을 입력하세요."
             value={replyContent}
             onChange={(e) => setReplyContent(e.target.value)}
+            className={styles.inputBox}
           />
           <button onClick={writeReplyCancel}>취소</button>
           <button onClick={() => handleReplySubmit(comment.id, replyContent)}>등록</button>
@@ -134,7 +147,7 @@ const CommentDetail = ({
                   type="text"
                   value={editContent}
                   onChange={(e) => setEditContent(e.target.value)}
-                  className={styles.editInput}
+                  className={styles.inputBox}
                 />
                 <button onClick={handleEditCancel}>취소</button>
                 <button onClick={() => handleEditSubmit(reply.id, editContent, false)}>등록</button>

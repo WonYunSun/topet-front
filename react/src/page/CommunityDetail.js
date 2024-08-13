@@ -10,8 +10,8 @@ import { FiMoreVertical } from "react-icons/fi";
 import CommunityApi from "../api/communityApi";
 import CommunityLikesApi from "../api/communityLikesApi";
 import CheckModal from "../component/CheckModal";
-import CommentCreate from "../component/CommunityComp/CommentCreate";
-import CommentList from "../component/CommunityComp/CommentList";
+import CommentCreate from "../component/CommentComp/CommentCreate";
+import CommentList from "../component/CommentComp/CommentList";
 import EditDeleteBottomSheet from "../component/SubBottomSheet";
 
 const CommunityDetail = () => {
@@ -26,7 +26,6 @@ const CommunityDetail = () => {
   const [modalMessage, setModalMessage] = useState("");
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(0);
-  const [commentCount, setCommentCount] = useState(0);
   const [profileImg, setProfileImg] = useState(
     "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzBfNjUg%2FMDAxNzE3MDY0NDY1OTE5.RuUuUb2erFc8zs-8wC10KGxHyKOlSCxZM72R5K_PWCkg.7h8cC7tzZrwM8sIWQVuO1tjjpnTX013k2E5OKtE2dWYg.PNG%2Fimage.png&type=sc960_832"
   );
@@ -35,6 +34,7 @@ const CommunityDetail = () => {
   const [writer, setWriter] = useState(false); // 글 쓴 사람인지 아닌지 초기 값 false
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [commentListKey, setCommentListKey] = useState(0);  // key 상태 추가
+  const [communityAuthorId, setCommunityAuthorId] = useState();
 
   const fetchPostDetail = async () => {
     setLoading(true);
@@ -47,6 +47,7 @@ const CommunityDetail = () => {
       setLikes(detail.likeCount);
       setIsLiked(liked);
       setProfileName(detail.author.name);
+      setCommunityAuthorId(detail.author.id);
 
       if (detail.hashtag) {
         setHashtags(detail.hashtag.split(",").map((tag) => tag.trim()));
@@ -92,9 +93,6 @@ const CommunityDetail = () => {
     }
   };
 
-  const updateCommentCount = (count) => {
-    setCommentCount(count);
-  };
 
   const handleCommentSubmit = () => {
     setCommentListKey(prevKey => prevKey + 1);  // key 값을 증가시켜 CommentList를 리렌더링
@@ -135,6 +133,7 @@ const CommunityDetail = () => {
     hashtag,
     photos,
     likesList,
+    commentCount
   } = item;
 
   const navigateWithParams = () => {
@@ -202,7 +201,7 @@ const CommunityDetail = () => {
         </div>
         <div className="icon-group">
           <BsChatFill className={styles.icon} />
-          <span> {commentCount}</span>
+          <span> {item.commentCount}</span>
         </div>
         <div className={styles.moreIconContainer}>
           <FiMoreVertical
@@ -224,11 +223,13 @@ const CommunityDetail = () => {
       <EditDeleteBottomSheet
         show={showSubBottomSheet}
         type={writer ? "CommunityEditDelete" : "CommunityReportBlock"}
+        genre ={"게시글"}
         onClose={() => setShowSubBottomSheet(false)}
         onEditClick={navigateWithParams}
         onDeleteClick={handleDeleteClick}
         comid={comid}
-        reduxMemberId={reduxMemberId}
+        reduxMemberId={reduxMemberId.id}
+        communityAuthorId={communityAuthorId}
       />
     </div>
   );
