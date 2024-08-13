@@ -5,7 +5,11 @@ import ContentList from '../HandlerComp/ContentList';
 import { useSelector } from 'react-redux';
 import EditDeleteBottomSheet from '../SubBottomSheet';
 
-const CommentList = ({ comid }) => {
+const CommentList = ({ 
+  comid, 
+  setShowModal, 
+  setModalText, 
+}) => {
   const reduxMemberId = useSelector((state) => state.member.member.id);
 
   const [isCommentWriter, setIsCommentWriter] = useState(false);
@@ -15,8 +19,10 @@ const CommentList = ({ comid }) => {
   const [showSubBottomSheet, setShowSubBottomSheet] = useState(false);
   const [activeReplyInput, setActiveReplyInput] = useState(false);
   const [fetchKey, setFetchKey] = useState(0);
-  const [isEditingComment, setIsEditingComment] = useState(null); // 댓글 수정 모드 관리
-  const [isEditingReply, setIsEditingReply] = useState(null); // 답글 수정 모드 관리
+  const [isEditingComment, setIsEditingComment] = useState(null);
+  const [isEditingReply, setIsEditingReply] = useState(null);
+  const [commentAuthorId, setCommentAuthorId] = useState(null);
+  const [replyAuthorId, setreplyAuthorId] = useState(null);
 
   const bottomsheetClose = () => {
     //바텀시트 닫기
@@ -34,6 +40,8 @@ const CommentList = ({ comid }) => {
     await commentApi.deleteComment(commentId);
     setShowSubBottomSheet(false);
     setFetchKey(prevKey => prevKey + 1);
+    setModalText("댓글이 삭제 되었습니다.");
+    setShowModal(true);
   };
 
   const handleDeleteReply = async () => {
@@ -41,6 +49,8 @@ const CommentList = ({ comid }) => {
     await commentApi.deleteReply(replyId);
     setShowSubBottomSheet(false);
     setFetchKey(prevKey => prevKey + 1);
+    setModalText("답글이 삭제 되었습니다.");
+    setShowModal(true);
   };
 
   const handleEditComment = (id) => {
@@ -54,6 +64,7 @@ const CommentList = ({ comid }) => {
     setIsEditingReply(id);
     setShowSubBottomSheet(false);
   };
+
 
   const handleEditSubmit = async (id, content, isComment) => {
     // 댓글 수정 후 등록
@@ -70,6 +81,8 @@ const CommentList = ({ comid }) => {
         setIsEditingReply(null);
       }
       setFetchKey(prevKey => prevKey + 1);
+      setModalText("댓글이 수정 되었습니다.");
+      setShowModal(true);
     } catch (error) {
       console.error("Error updating content:", error);
     }
@@ -86,6 +99,8 @@ const CommentList = ({ comid }) => {
         await commentApi.postReplyComment(comid, formData);
         setActiveReplyInput(null);  // 답글 입력란을 닫음
         setFetchKey(prevKey => prevKey + 1);
+        setModalText("답글이 수정 되었습니다.");
+        setShowModal(true);
       } catch (error) {
         console.error("Error posting reply:", error);
       }
@@ -140,9 +155,14 @@ const CommentList = ({ comid }) => {
         handleEditSubmit={handleEditSubmit}
         handleEditCancel={handleEditCancel}
         handleReplySubmit={handleReplySubmit}
+        setCommentAuthorId={setCommentAuthorId}
+        setreplyAuthorId={setreplyAuthorId}
       />
     );
   };
+
+  console.log("댓글 쓴 사람",commentAuthorId)
+  console.log("답글 쓴 사람",replyAuthorId)
 
   return (
     <div>
@@ -159,7 +179,12 @@ const CommentList = ({ comid }) => {
           genre={"댓글"}
           onReplyClick={() => activateReplyInput(commentId)}
           onDeleteClick={determineType().deleteHandler}
-          onEditClick={determineType().editHandler} 
+          onEditClick={determineType().editHandler}
+          commentId={commentId}
+          replyId={replyId}
+          reduxMemberId={reduxMemberId}
+          commentAuthorId={commentAuthorId}
+          replyAuthorId={replyAuthorId}
         />
       )}
     </div>

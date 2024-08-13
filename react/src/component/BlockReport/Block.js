@@ -20,10 +20,9 @@ const Block = ({onClick, blockerId, blockedId}) => {
 
   const handleSubmit = async () => {
     await ReportAndBlock.BlockUser(blockerId, blockedId);
+    onClick();
   };
 
-  console.log("차단하는 사람 : ",blockerId)
-  console.log("차단 당하는 사람 : ",blockedId)
 
   return (
     <div className={styles.reportContainer}>
