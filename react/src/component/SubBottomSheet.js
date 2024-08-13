@@ -24,6 +24,8 @@ const EditDeleteBottomSheet = ({
   communityAuthorId,
   commentAuthorId,
   replyAuthorId,
+  setModalIsOpen,
+  setModalMessage,
 }) => {
 
   const isTablet = useMediaQuery({
@@ -156,13 +158,13 @@ const EditDeleteBottomSheet = ({
         case "Report":
           return (
             <>
-              <Report onClick={handleCloseBottomSheet} comid={comid} commentId={commentId} replyId={replyId} genre={genre} />
+              <Report onClick={handleCloseBottomSheet} comid={comid} commentId={commentId} replyId={replyId} genre={genre} setModalIsOpen={setModalIsOpen} setModalMessage={setModalMessage} />
             </>
           )
         case "Block":
           return (
             <>
-              <Block onClick={handleCloseBottomSheet} comid={comid} genre={genre} blockedId={blockedId} blockerId={reduxMemberId} />
+              <Block onClick={handleCloseBottomSheet} comid={comid} genre={genre} blockedId={blockedId} blockerId={reduxMemberId} setModalIsOpen={setModalIsOpen} setModalMessage={setModalMessage} />
             </>
           )
       default:

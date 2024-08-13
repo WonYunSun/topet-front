@@ -4,11 +4,10 @@ import CommentDetail from '../CommentComp/CommentDetail';
 import ContentList from '../HandlerComp/ContentList';
 import { useSelector } from 'react-redux';
 import EditDeleteBottomSheet from '../SubBottomSheet';
+import CheckModal from '../CheckModal';
 
-const CommentList = ({ 
+const CommentList = ({
   comid, 
-  setShowModal, 
-  setModalText, 
 }) => {
   const reduxMemberId = useSelector((state) => state.member.member.id);
 
@@ -23,51 +22,57 @@ const CommentList = ({
   const [isEditingReply, setIsEditingReply] = useState(null);
   const [commentAuthorId, setCommentAuthorId] = useState(null);
   const [replyAuthorId, setreplyAuthorId] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   const bottomsheetClose = () => {
-    //바텀시트 닫기
     setShowSubBottomSheet(false);
   };
 
   const activateReplyInput = (commentId) => {
-    // 답글 달기 박스 활성화
     bottomsheetClose();
     setActiveReplyInput(commentId);
   };
 
   const handleDeleteComment = async () => {
-    // 댓글 삭제
-    await commentApi.deleteComment(commentId);
-    setShowSubBottomSheet(false);
-    setFetchKey(prevKey => prevKey + 1);
-    setModalText("댓글이 삭제 되었습니다.");
-    setShowModal(true);
+    try {
+      await commentApi.deleteComment(commentId);
+      setShowSubBottomSheet(false);
+      setFetchKey(prevKey => prevKey + 1);
+      setModalMessage("댓글이 삭제되었습니다.");
+      setModalIsOpen(true);
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+      setModalMessage("댓글 삭제에 실패했습니다.");
+      setModalIsOpen(true);
+    }
   };
 
   const handleDeleteReply = async () => {
-    // 답글 삭제
-    await commentApi.deleteReply(replyId);
-    setShowSubBottomSheet(false);
-    setFetchKey(prevKey => prevKey + 1);
-    setModalText("답글이 삭제 되었습니다.");
-    setShowModal(true);
+    try {
+      await commentApi.deleteReply(replyId);
+      setShowSubBottomSheet(false);
+      setFetchKey(prevKey => prevKey + 1);
+      setModalMessage("답글이 삭제되었습니다.");
+      setModalIsOpen(true);
+    } catch (error) {
+      console.error("Error deleting reply:", error);
+      setModalMessage("답글 삭제에 실패했습니다.");
+      setModalIsOpen(true);
+    }
   };
 
   const handleEditComment = (id) => {
-    // 댓글 수정
     setIsEditingComment(id);
     setShowSubBottomSheet(false);
   };
 
   const handleEditReply = (id) => {
-    // 답글 수정
     setIsEditingReply(id);
     setShowSubBottomSheet(false);
   };
 
-
   const handleEditSubmit = async (id, content, isComment) => {
-    // 댓글 수정 후 등록
     try {
       const formData = new FormData();
       formData.append("id", id);
@@ -76,20 +81,22 @@ const CommentList = ({
       if (isComment) {
         await commentApi.updateComment(formData);
         setIsEditingComment(null);
+        setModalMessage("댓글이 수정되었습니다.");
       } else {
         await commentApi.updateReply(formData);
         setIsEditingReply(null);
+        setModalMessage("답글이 수정되었습니다.");
       }
       setFetchKey(prevKey => prevKey + 1);
-      setModalText("댓글이 수정 되었습니다.");
-      setShowModal(true);
+      setModalIsOpen(true);
     } catch (error) {
       console.error("Error updating content:", error);
+      setModalMessage("수정에 실패했습니다.");
+      setModalIsOpen(true);
     }
   };
 
   const handleReplySubmit = async (parentCommentId, replyContent) => {
-    // 답글 수정 후 등록
     if (parentCommentId && replyContent && replyContent.trim()) {
       try {
         const formData = new FormData();
@@ -97,24 +104,24 @@ const CommentList = ({
         formData.append("content", replyContent);
         
         await commentApi.postReplyComment(comid, formData);
-        setActiveReplyInput(null);  // 답글 입력란을 닫음
+        setActiveReplyInput(null);
         setFetchKey(prevKey => prevKey + 1);
-        setModalText("답글이 수정 되었습니다.");
-        setShowModal(true);
+        setModalMessage("답글이 등록되었습니다.");
+        setModalIsOpen(true);
       } catch (error) {
         console.error("Error posting reply:", error);
+        setModalMessage("답글 등록에 실패했습니다.");
+        setModalIsOpen(true);
       }
     }
   };
 
   const handleEditCancel = () => {
-    // 댓글, 답글 수정 취소
     setIsEditingComment(null);
     setIsEditingReply(null);
   };
 
   const determineType = () => {
-    // 바텀시트 케이스 분류
     if (commentId && isCommentWriter) {
       return { type: "CommentEditDelete", deleteHandler: handleDeleteComment, editHandler: () => handleEditComment(commentId) };
     } else if (commentId) {
@@ -126,8 +133,6 @@ const CommentList = ({
     }
   };
 
-  //
-
   const fetchComments = async (page, pageSize) => {
     try {
       return await commentApi.fetchComment(comid, page, pageSize);
@@ -136,33 +141,28 @@ const CommentList = ({
     }
   };
 
-  const renderComments = (comment) => {
-    return (
-      <CommentDetail
-        key={comment.id}
-        comment={comment}
-        reduxMemberId={reduxMemberId}
-        activeReplyInput={activeReplyInput}
-        replyId={replyId}
-        setActiveReplyInput={setActiveReplyInput}
-        setIsCommentWriter={setIsCommentWriter}
-        setIsReplyWriter={setIsReplyWriter}
-        setCommentId={setCommentId}
-        setReplyId={setReplyId}
-        setShowSubBottomSheet={setShowSubBottomSheet}
-        isEditingComment={isEditingComment}
-        isEditingReply={isEditingReply}
-        handleEditSubmit={handleEditSubmit}
-        handleEditCancel={handleEditCancel}
-        handleReplySubmit={handleReplySubmit}
-        setCommentAuthorId={setCommentAuthorId}
-        setreplyAuthorId={setreplyAuthorId}
-      />
-    );
-  };
-
-  console.log("댓글 쓴 사람",commentAuthorId)
-  console.log("답글 쓴 사람",replyAuthorId)
+  const renderComments = (comment) => (
+    <CommentDetail
+      key={comment.id}
+      comment={comment}
+      reduxMemberId={reduxMemberId}
+      activeReplyInput={activeReplyInput}
+      replyId={replyId}
+      setActiveReplyInput={setActiveReplyInput}
+      setIsCommentWriter={setIsCommentWriter}
+      setIsReplyWriter={setIsReplyWriter}
+      setCommentId={setCommentId}
+      setReplyId={setReplyId}
+      setShowSubBottomSheet={setShowSubBottomSheet}
+      isEditingComment={isEditingComment}
+      isEditingReply={isEditingReply}
+      handleEditSubmit={handleEditSubmit}
+      handleEditCancel={handleEditCancel}
+      handleReplySubmit={handleReplySubmit}
+      setCommentAuthorId={setCommentAuthorId}
+      setreplyAuthorId={setreplyAuthorId}
+    />
+  );
 
   return (
     <div>
@@ -185,6 +185,16 @@ const CommentList = ({
           reduxMemberId={reduxMemberId}
           commentAuthorId={commentAuthorId}
           replyAuthorId={replyAuthorId}
+          setModalIsOpen={setModalIsOpen}
+          setModalMessage={setModalMessage}
+
+        />
+      )}
+      {modalIsOpen && (
+        <CheckModal 
+          Content={modalMessage}
+          onClose={() => setModalIsOpen(false)}
+          oneBtn={true}
         />
       )}
     </div>

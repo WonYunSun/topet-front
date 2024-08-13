@@ -35,8 +35,6 @@ const CommunityDetail = () => {
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [commentListKey, setCommentListKey] = useState(0);  // key 상태 추가
   const [communityAuthorId, setCommunityAuthorId] = useState();
-  const [showModal, setShowModal] = useState(false);
-  const [modalText, setModalText] = useState("");
 
   const fetchPostDetail = async () => {
     setLoading(true);
@@ -199,7 +197,7 @@ const CommunityDetail = () => {
               pointerEvents: isLikeLoading ? "none" : "auto",
             }}
           />
-          <span>{likes}</span>
+          <span> {likes}</span>
         </div>
         <div className="icon-group">
           <BsChatFill className={styles.icon} />
@@ -215,10 +213,7 @@ const CommunityDetail = () => {
 
       <div className={styles.coment_area}>
         <CommentCreate comid={comid} onCommentSubmit={handleCommentSubmit} />
-        <CommentList key={commentListKey} comid={comid} 
-        setShowModal={modalText} 
-        setModalText={setModalText} 
-        />
+        <CommentList key={commentListKey} comid={comid} />
       </div>
 
       {modalIsOpen && (
@@ -236,13 +231,6 @@ const CommunityDetail = () => {
         reduxMemberId={reduxMemberId.id}
         communityAuthorId={communityAuthorId}
       />
-      {showModal && (
-        <CheckModal 
-          Content={modalText}
-          onClose={() => setShowModal(false)}
-          oneBtn={true}
-        />
-      )}
     </div>
   );
 };

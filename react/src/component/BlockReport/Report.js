@@ -4,7 +4,7 @@ import Button from '../ButtonComp/Button';
 import styles from '../../css/report.module.css';
 import ReportAndBlock from '../../api/reportAndBlockApi';
 
-const Report = ({ onClick, comid, commentId, replyId, genre }) => {
+const Report = ({ onClick, comid, commentId, replyId, genre, setModalIsOpen, setModalMessage }) => {
   const [selectedValue, setSelectedValue] = useState('스팸홍보/도배글');
   const [otherText, setOtherText] = useState('');
 
