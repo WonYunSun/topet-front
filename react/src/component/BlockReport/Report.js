@@ -4,7 +4,7 @@ import Button from '../ButtonComp/Button';
 import styles from '../../css/report.module.css';
 import ReportAndBlock from '../../api/reportAndBlockApi';
 
-const Report = ({ onClick, comid, commentid, genre }) => {
+const Report = ({ onClick, comid, commentId, replyId, genre, setModalIsOpen, setModalMessage }) => {
   const [selectedValue, setSelectedValue] = useState('스팸홍보/도배글');
   const [otherText, setOtherText] = useState('');
 
@@ -28,15 +28,26 @@ const Report = ({ onClick, comid, commentid, genre }) => {
     const formData = new FormData();
     const reportValue = selectedValue === '기타' ? otherText : selectedValue;
     formData.append("reason", reportValue);
-    if(genre === "게시글") {
-      console.log("게시글 신고")
-    await ReportAndBlock.ReportCommunity(formData, comid);
+    
+    if (genre === "게시글") {
+        console.log("게시글 신고");
+        await ReportAndBlock.ReportCommunity(formData, comid);
     } else if (genre === "댓글") {
-    await ReportAndBlock.ReportComment(formData, commentid);
-      console.log("댓글 신고")
+        if (commentId === null && replyId !== null) {
+            // 댓글이 null이면서 답글 ID가 있을 때
+            console.log("답글 신고");
+            await ReportAndBlock.ReportComment(formData, replyId);
+        } else if (commentId !== null && replyId === null) {
+            // 댓글 ID가 있고 답글 ID가 null일 때
+            console.log("댓글 신고");
+            await ReportAndBlock.ReportComment(formData, commentId);
+        }
     }
     onClick();
-  };
+};
+
+console.log("댓글ID : ", commentId)
+console.log("답글ID : ", replyId)
 
   return (
     <div className={styles.reportContainer}>

@@ -17,10 +17,17 @@ const EditDeleteBottomSheet = ({
   onDeleteClick,
   onReplyClick,
   comid,
+  commentId,
+  replyId,
   genre,
   reduxMemberId,
-  communityAuthorId
+  communityAuthorId,
+  commentAuthorId,
+  replyAuthorId,
+  setModalIsOpen,
+  setModalMessage,
 }) => {
+
   const isTablet = useMediaQuery({
     query: "(min-width: 769px) and (max-width: 1204px)",
   });
@@ -64,6 +71,17 @@ const EditDeleteBottomSheet = ({
   }
 
   function getSheetContent(type) {
+
+    let blockedId = null;
+
+    if (communityAuthorId) {
+      blockedId = communityAuthorId;
+    } else if (commentAuthorId) {
+      blockedId = commentAuthorId;
+    } else if (replyAuthorId) {
+      blockedId = replyAuthorId;
+    }
+
     switch (type) {
       case "EditDelete":
         return (
@@ -140,13 +158,13 @@ const EditDeleteBottomSheet = ({
         case "Report":
           return (
             <>
-              <Report onClick={handleCloseBottomSheet} comid={comid} genre={genre} />
+              <Report onClick={handleCloseBottomSheet} comid={comid} commentId={commentId} replyId={replyId} genre={genre} setModalIsOpen={setModalIsOpen} setModalMessage={setModalMessage} />
             </>
           )
         case "Block":
           return (
             <>
-              <Block onClick={handleCloseBottomSheet} comid={comid} genre={genre} blockedId={communityAuthorId} blockerId={reduxMemberId} />
+              <Block onClick={handleCloseBottomSheet} comid={comid} genre={genre} blockedId={blockedId} blockerId={reduxMemberId} setModalIsOpen={setModalIsOpen} setModalMessage={setModalMessage} />
             </>
           )
       default:

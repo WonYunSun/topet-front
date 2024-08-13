@@ -1,4 +1,5 @@
 .CalendarscreenWrap_dtver {
+  max-width: 1050px;
   min-width: 665px;
   width: 100%;
   display: flex;

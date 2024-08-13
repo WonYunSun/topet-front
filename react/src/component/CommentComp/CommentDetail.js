@@ -17,7 +17,9 @@ const CommentDetail = ({
   isEditingReply,
   handleEditSubmit,
   handleEditCancel,
-  handleReplySubmit 
+  handleReplySubmit,
+  setCommentAuthorId,
+  setreplyAuthorId,
 }) => {
 
   const [replyContent, setReplyContent] = useState("");
@@ -47,6 +49,8 @@ const CommentDetail = ({
       setIsCommentWriter(false);
     }
     setCommentId(comment.id);
+    setCommentAuthorId(comment.author.id);
+    setreplyAuthorId(null);
     setReplyId(null);
     setShowSubBottomSheet(true);
   };
@@ -59,6 +63,8 @@ const CommentDetail = ({
       setIsReplyWriter(false);
     }
     setReplyId(reply.id);
+    setreplyAuthorId(reply.author.id);
+    setCommentAuthorId(null);
     setCommentId(null);
     setShowSubBottomSheet(true);
   };

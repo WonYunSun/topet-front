@@ -85,10 +85,10 @@
   border: none;
   padding: 5px 10px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 10px;
   transition: background-color 0.3s ease;
 }
 
 .loginBtn:hover {
-  background-color: #e59426;
+  background-color: #eea641;
 }

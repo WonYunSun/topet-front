@@ -4,7 +4,7 @@ import Button from '../ButtonComp/Button';
 import styles from '../../css/report.module.css';
 import ReportAndBlock from '../../api/reportAndBlockApi';
 
-const Block = ({onClick, blockerId, blockedId}) => {
+const Block = ({onClick, blockerId, blockedId, setModalIsOpen, setModalMessage}) => {
   const [selectedValue, setSelectedValue] = useState('이 사용자 차단');
 
 
@@ -19,11 +19,18 @@ const Block = ({onClick, blockerId, blockedId}) => {
   };
 
   const handleSubmit = async () => {
-    await ReportAndBlock.BlockUser(blockerId, blockedId);
+    try {
+      await ReportAndBlock.BlockUser(blockerId, blockedId);
+      setModalMessage("차단 되었습니다.");
+    } catch (error) {
+      console.error("차단에 실패했습니다.", error);
+      setModalMessage("차단에 실패했습니다.");
+    } finally {
+      setModalIsOpen(true);
+      onClick();
+    }
   };
 
-  console.log("차단하는 사람 : ",blockerId)
-  console.log("차단 당하는 사람 : ",blockedId)
 
   return (
     <div className={styles.reportContainer}>

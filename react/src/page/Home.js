@@ -55,11 +55,11 @@ const Home = () => {
   const [pets, setPets] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const animalTypeMap = {
-    1: "강아지",
-    2: "고양이",
-    3: "특수동물",
-  };
+  // const animalTypeMap = {
+  //   1: "강아지",
+  //   2: "고양이",
+  //   3: "특수동물",
+  // };
 
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
   const [schedules, setSchedule] = useState([]);
