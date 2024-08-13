@@ -2,16 +2,7 @@ import createAxios from "./createAxios";
 
 const MID_URL = "/pet";
 
-// const API_BASE_URL =
-// "http://localhost:8081/api";
-// // "http://175.45.202.131:8081/api";
-
 class petApi {
-  // constructor(baseURL) {
-  //     this.client = axios.create({
-  //     baseURL: baseURL,
-  //     });
-  // }
   constructor() {
     this.axios = createAxios(MID_URL);
   }
