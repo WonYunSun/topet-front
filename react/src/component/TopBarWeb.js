@@ -11,11 +11,6 @@ const TopBarWeb = () => {
 
   const [animalType, setAnimalType] = useState("강아지"); // 유저가 선택한 동물 타입 저장
 
-  // const goCommunity = () => {
-  //   const currentAnimalType = animalTypeMap[animalType] || "dog";
-  //   // navigate(`/community/preview/${currentAnimalType}/freedomAndDaily`);
-  // };
-
   const animalTypeMap = {
     1: "dog",
     2: "cat",
@@ -24,8 +19,8 @@ const TopBarWeb = () => {
 
   useEffect(() => {
     let animalTypeValue = null;
-    if (!reduxPet === undefined) {
-      animalTypeValue = animalTypeMap[Number(reduxPet.type)];
+    if (reduxPet) {
+      animalTypeValue = animalTypeMap[reduxPet.type];
     } else if (reduxPet === undefined) {
       animalTypeValue = animalTypeMap[1];
     }

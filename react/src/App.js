@@ -57,14 +57,13 @@ function App() {
     "/shorts",
     "/petregistration",
     "/userregister",
-    "/community",
   ];
 
   return (
     <div className="App">
-      {showNavbarWebPaths.includes(location.pathname) && isDeskTop && (
-        <TopBarWeb />
-      )}
+      {(showNavbarWebPaths.includes(location.pathname) ||
+        location.pathname.includes("/community")) &&
+        isDeskTop && <TopBarWeb />}
       {showNavbarPaths.includes(location.pathname) && isMobile && <NavBar />}
       <Routes>
         <Route path="/home" element={<Home />} />
