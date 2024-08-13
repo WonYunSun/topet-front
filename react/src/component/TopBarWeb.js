@@ -12,27 +12,25 @@ const TopBarWeb = () => {
   const [animalType, setAnimalType] = useState("강아지"); // 유저가 선택한 동물 타입 저장
 
   // const goCommunity = () => {
-
   //   const currentAnimalType = animalTypeMap[animalType] || "dog";
   //   // navigate(`/community/preview/${currentAnimalType}/freedomAndDaily`);
   // };
 
-  // const animalTypeMap = {
-  //   1: "dog",
-  //   2: "cat",
-  //   3: "exoticpet",
-  // };
+  const animalTypeMap = {
+    1: "dog",
+    2: "cat",
+    3: "exoticpet",
+  };
 
-  // useEffect(() => {
-  //   const animalTypeValue =
-  //   if (reduxPet) {
-  //     = animalTypeMap[Number(reduxPet.type)];
-  //   } else {
-  //     const animalTypeValue = animalTypeMap[1];
-  //   }
-  //   setAnimalType(animalTypeValue);
-  //   console.log("현재펫넘버는?", reduxPet.type);
-  // }, [reduxPet]);
+  useEffect(() => {
+    let animalTypeValue = null;
+    if (!reduxPet === undefined) {
+      animalTypeValue = animalTypeMap[Number(reduxPet.type)];
+    } else if (reduxPet === undefined) {
+      animalTypeValue = animalTypeMap[1];
+    }
+    setAnimalType(animalTypeValue);
+  }, [reduxPet]);
 
   const goMypage = () => {
     navigate(`/mypage`);
@@ -76,7 +74,7 @@ const TopBarWeb = () => {
             지도
           </NavLink>
           <NavLink
-            // to={`/community/preview/${animalType}/freedomAndDaily`}
+            to={`/community/preview/${animalType}/freedomAndDaily`}
             className={({ isActive }) =>
               isActive ? styles.activeNavItem : styles.navItem
             }

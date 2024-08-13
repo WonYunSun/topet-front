@@ -25,9 +25,6 @@
   display: flex;
   justify-content: center;
   flex-grow: 1;
-}
-
-.navLinks {
   color: rgb(44, 44, 44);
   padding: 0 5%;
   box-sizing: border-box;
@@ -39,9 +36,11 @@
   cursor: pointer;
   justify-content: space-around;
 }
+
 .navItem,
 .activeNavItem {
   text-decoration: none;
+  color: rgb(44, 44, 44);
   font-weight: 700;
 }
 

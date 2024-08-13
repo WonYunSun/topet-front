@@ -21,7 +21,6 @@ import CommunityListData from "../component/CommunityComp/CommunityListData";
 import memberApi from "../api/memberApi";
 import scheduleApi from "../api/scheduleApi";
 
-
 import { updateMember } from "../redux/reducers/memberReducer";
 import { updatePetList } from "../redux/reducers/petListReducer";
 import { updateSelectedPet } from "../redux/reducers/selectedPetReducer";
@@ -54,7 +53,7 @@ const Home = () => {
   const [member, setMember] = useState();
   const [pets, setPets] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
-
+  // console.log("왜 널이 아니냐", pets);
   // const animalTypeMap = {
   //   1: "강아지",
   //   2: "고양이",
@@ -201,7 +200,7 @@ const Home = () => {
   console.log("home출력 selectedPet : ", selectedPet);
   const getHome = async () => {
     const returnedMember = await memberApi.getHomeDataMember();
-    if(returnedMember != null){
+    if (returnedMember != null) {
       const sessionMember = {
         id: returnedMember.id,
         email: returnedMember.email,
@@ -256,7 +255,7 @@ const Home = () => {
 
   const getSchedule = async () => {
     if (selectedPet != null) {
-      console.log("selectedPet.id : " , selectedPet.id)
+      console.log("selectedPet.id : ", selectedPet.id);
       const response = await scheduleApi.getHomeDataSchedule(selectedPet.id);
       setSchedule(response);
     }
