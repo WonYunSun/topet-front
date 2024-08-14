@@ -103,6 +103,7 @@ const CommentList = ({ comid }) => {
         const formData = new FormData();
         formData.append("parentId", parentCommentId);
         formData.append("content", replyContent);
+        formData.append("author", reduxMemberId)
         
         await commentApi.postReplyComment(comid, formData);
         setActiveReplyInput(null);
