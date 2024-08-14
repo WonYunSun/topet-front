@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import styles from '../../css/CommentCreate.module.css';
 import commentApi from '../../api/commentApi';
 import { useSelector } from 'react-redux';
-
-const CommentCreate = ({ comid, onCommentSubmit }) => {
+import { useParams } from 'react-router-dom';
+const CommentCreate = ({ type , comid, onCommentSubmit }) => {
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
 
   const reduxMemberId = useSelector((state) => state.member.member.id)
-
+  
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
@@ -17,6 +17,12 @@ const CommentCreate = ({ comid, onCommentSubmit }) => {
     const formData = new FormData();
     formData.append("content", inputValue);
     formData.append("author", reduxMemberId);
+    if(type === "community"){
+      formData.append("community", comid);
+    }
+    if(type === "shorts"){
+      formData.append("shorts", comid);
+    }
     
     try {
       await commentApi.postComment(comid, formData);

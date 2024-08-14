@@ -9,8 +9,11 @@ import CheckModal from "../component/CheckModal";
 import styles from "../css/addshorts.module.css";
 import { LuUpload } from "react-icons/lu";
 import { IoIosClose } from "react-icons/io";
-
+import { useSelector } from "react-redux";
 function AddShorts() {
+  const reduxMember = useSelector((state) => state.member.member);
+
+
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [videoPreviewUrl, setVideoPreviewUrl] = useState("");
@@ -93,7 +96,7 @@ function AddShorts() {
     formData.append("content", content);
     formData.append("thumbnailPhoto", selectedPhoto);
     formData.append("video", selectedVideo);
-
+    formData.append("author" , reduxMember.id);
     const resp = shortsApi.postShorts(formData);
     if (resp.status === 200) {
     } else {

@@ -144,7 +144,7 @@ function Shorts() {
         <div>
           <div>전체 쇼츠</div>
           <div className={styles.shortsGridContainer}>
-            {dummyPopularShortsData.map((short) => (
+            {shorts.map((short) => (
               <ShortItem
                 key={short.id}
                 id={short.id}

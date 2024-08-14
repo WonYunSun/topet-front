@@ -29,7 +29,6 @@ const EditPetProfile = () => {
     health: "",
   };
 
-
   
   const [myPet, setMyPet] = useState(petData1);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -53,7 +52,7 @@ const EditPetProfile = () => {
         // };
 
         setMyPet(response);
-        console.log(response);
+        console.log(myPet);
       } catch (error) {
       } finally {
         setIsLoaded(true);
@@ -169,7 +168,15 @@ const EditPetProfile = () => {
     setHealth(tempHealth);
   };
 
-  const SaveProfile = () => {
+  const SaveProfile = async() => {
+    const formData = new FormData();
+    formData.append("weight", weight);
+    formData.append("health", health);
+    formData.append("neutered", neutered);
+    const resp = await petApi.updatePet();
+
+
+
     console.log("저장");
   };
   
@@ -185,7 +192,7 @@ const EditPetProfile = () => {
         {profilePhoto && typeof profilePhoto === "object" ? (
           <div className={styles.selected_profile_photo_container}>
             <img
-              src={myPet.profileSrc}
+              src={URL.createObjectURL(profilePhoto)}
               className={styles.selected_profile_photo}
               alt="Profile"
             />
@@ -230,7 +237,7 @@ const EditPetProfile = () => {
             <input
               type="radio"
               value={option}
-              checked={gender === option}
+              checked={gender == option}
               onChange={() => setGender(option)}
               className={styles.checkbox}
             />
