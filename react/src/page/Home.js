@@ -84,7 +84,7 @@ const Home = () => {
 
   useEffect(() => {
     if (selectedPet != null) {
-      //getSchedule();
+      getSchedule();
     }
   }, [selectedPet]);
 
