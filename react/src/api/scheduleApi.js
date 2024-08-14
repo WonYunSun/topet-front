@@ -73,7 +73,7 @@ class scheduleApi {
 
   async getHomeDataSchedule(id) {
     try {
-      const response = await this.client.get(`/schedule/home/${id}`, {
+      const response = await this.axios.get(`/${id}`, {
         withCredentials: true,
       });
       console.log("서버 응답:", response.data); // 응답 데이터 출력
