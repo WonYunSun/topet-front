@@ -20,8 +20,9 @@ import CommunityListData from "../component/CommunityComp/CommunityListData";
 
 import memberApi from "../api/memberApi";
 import scheduleApi from "../api/scheduleApi";
+import petApi from "../api/petApi";
 
-import { updateMember } from "../redux/reducers/memberReducer";
+
 import { updatePetList } from "../redux/reducers/petListReducer";
 import { updateSelectedPet } from "../redux/reducers/selectedPetReducer";
 import { FiPlus } from "react-icons/fi";
@@ -32,6 +33,8 @@ import { useMediaQuery } from "react-responsive";
 const Home = () => {
   const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
 
+  console.log(reduxPet);
+  const reduxMember = useSelector((state) => state.member.member);
   const isDeskTop = useMediaQuery({
     query: "(min-width: 1110px)",
   });
@@ -64,10 +67,12 @@ const Home = () => {
   const [schedules, setSchedule] = useState([]);
 
   useEffect(() => {
+    
     const fetchData = async () => {
       try {
-        await getHome();
+        await getMyPets(reduxMember.id);
         await getSchedule();
+        //returnedMember에 따른 pet정보를 가져오는 api필요
       } catch (error) {
         console.log(error);
       } finally {
@@ -165,9 +170,7 @@ const Home = () => {
       author: "Author 5",
     },
   ];
-
   // 프로필 카드 플립 관련
-
   const dummyCommmuData = [
     {
       title: "First Post",
@@ -201,61 +204,21 @@ const Home = () => {
     },
   ];
 
-  console.log("home출력 selectedPet : ", selectedPet);
-  const getHome = async () => {
-    const returnedMember = await memberApi.getHomeDataMember();
-    if (returnedMember != null) {
-      const sessionMember = {
-        id: returnedMember.id,
-        email: returnedMember.email,
-        name: returnedMember.name,
-        socialId: returnedMember.socialId,
-      };
+  const getMyPets =async (id)=>{
+    const resp = await petApi.getMyPets(id);
+    setPets(resp)
+    if(resp != null){
+      dispatch(updatePetList(resp));
 
-      setMember(sessionMember);
-      dispatch(updateMember(sessionMember));
-    }
-    if (returnedMember != null) {
-      const tempPets = returnedMember.pets;
-      console.log("tempPets : ", tempPets);
-      const myPets = [];
-      if (tempPets != null) {
-        for (let i = 0; i < tempPets.length; i++) {
-          if (tempPets[i] != null) {
-            let tempPet = {
-              id: tempPets[i].id,
-              type: tempPets[i].type,
-              birth: tempPets[i].birth,
-              health: tempPets[i].health,
-              allergy: tempPets[i].allergy,
-              gender: tempPets[i].gender,
-              kind: tempPets[i].kind,
-              profileSrc: tempPets[i].profileSrc,
-              name: tempPets[i].name,
-              weight: tempPets[i].weight,
-              uid: tempPets[i].uid,
-            };
-            myPets.push(tempPet);
-          }
-        }
-        console.log(myPets);
-        setPets(myPets);
-        dispatch(updatePetList(myPets));
-        if (selectedPet == null || selectedPet == "") {
-          setSelectedPet(myPets[0]);
-          dispatch(updateSelectedPet(myPets[0]));
-        }
-        // getSchedule();
-      } else {
-        //tempPet이 없을때.
-        setPets(null);
-        setSelectedPet(null);
+      if(reduxPet==null || reduxPet == ""){
+        setSelectedPet(resp[0]);
+        dispatch(updateSelectedPet(resp[0]));
+      }else{
+        setSelectedPet(reduxPet);
       }
     }
-
-    //getSchedule();
-    // const pet = await homeApi.getHomeDataPet();
-  };
+    
+  }
 
   const getSchedule = async () => {
     if (selectedPet != null) {

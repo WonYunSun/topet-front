@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styles from "../../css/animal_weightandhealth.module.css";
 import { TbTriangleInvertedFilled } from "react-icons/tb";
+/// responsive
+import { Mobile, DeskTop } from "../../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 
 const InputPetHealth = ({ value, onChange, title, inputText }) => {
   const handleInputChange = (e) => {
@@ -152,12 +155,20 @@ const AnimalWeightandHealth = ({
   setWeightDontKnow,
   setNextPossible,
 }) => {
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 859px)",
+  });
+
   if (weightDontKnow) {
     setNextPossible(true);
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} ${isDeskTop && styles.dtver}`}>
       <h2 className={styles.title}>반려동물의 건강상태를 알려주세요</h2>
       <div className={styles.container}>
         <InputWeight

@@ -58,6 +58,7 @@ function App() {
     "/shorts",
     "/petregistration",
     "/userregister",
+    "/profilecompleted",
   ];
 
   return (
@@ -90,9 +91,9 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
 
         <Route path="/editprofile" element={<EditProfile />} />
-        <Route path="/editpetprofile/:id" element={<EditPetProfile />} />
+        <Route path="/editpetprofile" element={<EditPetProfile />} />
 
-        <Route path="/petprofiledetail/:id" element={<PetProfileDetail />} />
+        <Route path="/petprofiledetail" element={<PetProfileDetail />} />
         <Route path="/managemypets" element={<ManageMyPets />} />
 
         <Route path="/myposts" element={<SeeMyPosts />} />
@@ -106,7 +107,7 @@ function App() {
         <Route path="/addshorts" element={<AddShorts />} />
         <Route path="/shortsDetail/:id" element={<ShortsBox />} />
 
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </div>
   );

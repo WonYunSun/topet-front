@@ -8,6 +8,9 @@ import React, {
 import { FaCamera } from "react-icons/fa";
 import { TbPhoto } from "react-icons/tb";
 import styles from "../../css/animal_photoandname.module.css";
+/// responsive
+import { Mobile, DeskTop } from "../../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 
 const AnimalPhotoandName = ({
   name,
@@ -20,6 +23,14 @@ const AnimalPhotoandName = ({
   handleSelectedProfilePhotoChange,
   handleNameChange,
 }) => {
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 859px)",
+  });
+
   const fileInputRef = useRef(null);
   useEffect(() => {
     if (selectedPhoto == undefined) {
@@ -85,15 +96,19 @@ const AnimalPhotoandName = ({
   }, [photoSelect, handleFileChange]);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} ${isDeskTop && styles.dtver}`}>
       <div className={styles.title}>이름을 알려주세요</div>
       <div className={styles.photo_wrapper}>
         {ProfilePhoto}
         {SelectingPhoto}
       </div>
-      <div className={styles.profilename_bar_wrapper}>
+      <div
+        className={`${styles.profilename_bar_wrapper} ${
+          isDeskTop && styles.dtver
+        }`}
+      >
         <input
-          className={styles.profilename_bar}
+          className={`${styles.profilename_bar} ${isDeskTop && styles.dtver}`}
           value={name || ""}
           maxLength={25}
           onChange={handleNameChange}
