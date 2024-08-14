@@ -73,28 +73,35 @@ const ManageMyPets = () => {
 
   return (
     <>
-      <MyPageCommonTopBar title={"내 동물 관리"} />
-      {/* <div className={styles.divider}></div> */}
-      <MyPetList petList={petList} />{" "}
-      <FaCirclePlus
-        className={styles.register_icon}
-        onClick={() => handleOpenBottomSheet("petRegister")}
-      />
-      <BottomSheet
-        handleOpenInputPetCodeModal={handleOpenInputPetCodeModal}
-        show={showBottomSheet}
-        onClose={handleCloseBottomSheet}
-        type={bottomSheetType}
-      />
-      {showModal && (
-        <PetCodeModal
-          type={"코드등록"}
-          onClose={handleCloseModal}
-          onRegister={onRegister}
-          modalTitle={"반려동물 코드 입력"}
-          setPetCode={setPetCode}
-        />
-      )}
+      <div className={`${isDeskTop && styles.wrapper_dtver}`}>
+        <div className={`${isDeskTop && styles.inner_wrapper}`}>
+          {isDeskTop && <MyPageSideBar option={"내 동물 관리"} />}
+          <div className={`${isDeskTop && styles.rightside_wrapper}`}>
+            <MyPageCommonTopBar title={"내 동물 관리"} />
+            {/* <div className={styles.divider}></div> */}
+            <MyPetList petList={petList} />{" "}
+            <FaCirclePlus
+              className={styles.register_icon}
+              onClick={() => handleOpenBottomSheet("petRegister")}
+            />
+            <BottomSheet
+              handleOpenInputPetCodeModal={handleOpenInputPetCodeModal}
+              show={showBottomSheet}
+              onClose={handleCloseBottomSheet}
+              type={bottomSheetType}
+            />
+            {showModal && (
+              <PetCodeModal
+                type={"코드등록"}
+                onClose={handleCloseModal}
+                onRegister={onRegister}
+                modalTitle={"반려동물 코드 입력"}
+                setPetCode={setPetCode}
+              />
+            )}
+          </div>
+        </div>
+      </div>
     </>
   );
 };

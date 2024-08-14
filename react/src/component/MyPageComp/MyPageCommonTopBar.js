@@ -23,13 +23,21 @@ const MyPageCommonTopBar = ({ title }) => {
   };
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.inner_wrapper}>
+    <div
+      className={`${styles.wrapper} ${isDeskTop ? styles.dtver : styles.mbver}`}
+    >
+      <div
+        className={`${styles.inner_wrapper} ${
+          isDeskTop ? styles.dtver : styles.mbver
+        }`}
+      >
         <GoArrowLeft
           className={`${styles.back_icon} ${isDeskTop && styles.none}`}
           onClick={goBack}
         />
-        <div className={styles.page_title}>{title}</div>
+        <div className={`${styles.page_title} ${isDeskTop && styles.dtver}`}>
+          {title}
+        </div>
       </div>
     </div>
   );

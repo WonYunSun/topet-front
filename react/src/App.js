@@ -59,6 +59,13 @@ function App() {
     "/petregistration",
     "/userregister",
     "/profilecompleted",
+    "/managemypets",
+    "/myposts",
+    "/likedposts",
+    "/mycomments",
+    "/myshorts",
+    "/likedshorts",
+    "/editprofile",
   ];
 
   return (
