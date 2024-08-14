@@ -52,6 +52,7 @@ function App() {
   const showNavbarPaths = ["/home", "/schedule", "/map", "/mypage"];
   const showNavbarWebPaths = [
     "/",
+    "/login",
     "/home",
     "/schedule",
     "/mypage",
