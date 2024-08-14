@@ -19,7 +19,7 @@ const MyPetItem = ({ onOpenModal, photoUrl, name, uid, pet }) => {
   const navigate = useNavigate();
 
   const goPetDetail = (pet) => {
-    navigate(`/petprofiledetail/${pet.id}`);
+    navigate("/petprofiledetail",  { state: { id: pet.id } });
     console.log(pet.id);
   };
 

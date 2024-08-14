@@ -16,7 +16,7 @@ class scheduleApi {
 
   async updateScheduleStatus(item) {
     try {
-      const response = await this.axios.post(`/post/status/${item.id}`, item, {
+      const response = await this.axios.patch(`/status/${item.id}`, item, {
         headers: {
           "Content-Type": "application/json",
         },

@@ -93,10 +93,10 @@ constructor() {
 
     
     
-    async postMemberInfo(formData) {
+    async memberUpdate(formData) {
         try {
-        const response = await this.axios.post(
-            "/userregister",
+        const response = await this.axios.patch(
+            "/update",
             formData,
             {
             headers: {

@@ -29,7 +29,7 @@ export default function AddSchedule({
     ? dayjs(selectedDate).toDate()
     : new Date();
     const reduxMember = useSelector((state) => state.member.member);
-    const reduxPet = useSelector((state)=>state.selectePet.selectePet);
+    const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
   const defaultValues = {
     startDate: initialDate,
     endDate: dayjs(initialDate).add(5, "minute").toDate(), // startDate 기준으로 5분 더함

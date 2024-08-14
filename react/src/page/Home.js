@@ -391,7 +391,9 @@ const Home = () => {
               <div className={styles.areaTitle}>오늘의 일정</div>
               <SlArrowRight onClick={goCalendar} />
             </div>
+            
             <ScheduleToday schedules={schedules} />
+            
           </div>
         </Mobile>
         <DeskTop>

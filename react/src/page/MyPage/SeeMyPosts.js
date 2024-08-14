@@ -74,7 +74,7 @@ const SeeMyPosts = () => {
   return (
     <div>
       <MyPageCommonTopBar title={"내 게시글"} />
-      <MyPostList />
+      <MyPostList postType={"mypost"}/>
     </div>
   );
 };
