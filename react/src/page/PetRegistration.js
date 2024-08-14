@@ -451,7 +451,6 @@ const PetRegistration = () => {
 
   return (
     <>
-      {/* <DeskTop>여기다나중에 만들 탑바</DeskTop> */}
       <div
         className={`${styles.wrapper} ${
           isDeskTop ? styles.dtver : styles.mdver
