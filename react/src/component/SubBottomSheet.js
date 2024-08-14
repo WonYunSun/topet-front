@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../css/subBottomSheet.module.css";
 import EditDelete from "../component/EditDelete";
 import CommunityEDRB from "./CommunityComp/CommunityEDRB";
@@ -24,8 +24,6 @@ const EditDeleteBottomSheet = ({
   communityAuthorId,
   commentAuthorId,
   replyAuthorId,
-  setModalIsOpen,
-  setModalMessage,
 }) => {
 
   const isTablet = useMediaQuery({
@@ -158,13 +156,15 @@ const EditDeleteBottomSheet = ({
         case "Report":
           return (
             <>
-              <Report onClick={handleCloseBottomSheet} comid={comid} commentId={commentId} replyId={replyId} genre={genre} setModalIsOpen={setModalIsOpen} setModalMessage={setModalMessage} />
+              <Report onClick={handleCloseBottomSheet} comid={comid} commentId={commentId} replyId={replyId} genre={genre} />
             </>
           )
         case "Block":
           return (
             <>
-              <Block onClick={handleCloseBottomSheet} comid={comid} genre={genre} blockedId={blockedId} blockerId={reduxMemberId} setModalIsOpen={setModalIsOpen} setModalMessage={setModalMessage} />
+              <Block onClick={handleCloseBottomSheet} comid={comid} 
+              genre={genre} blockedId={blockedId} blockerId={reduxMemberId}
+               />
             </>
           )
       default:
