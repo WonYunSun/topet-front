@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "../css/mypage_editprofile.module.css";
 import { TbPhoto } from "react-icons/tb";
 import { TiDelete } from "react-icons/ti";
-import homeApi from "../api/homeApi";
+import memberApi from "../api/memberApi";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateMember } from "../redux/reducers/memberReducer";
@@ -69,7 +69,7 @@ export default function UserRegister() {
     if (profilePhoto != null) {
       formData.append("photo", profilePhoto);
     }
-    const resp = await homeApi.postMemberInfo(formData);
+    const resp = await memberApi.postMemberInfo(formData);
     if (resp.status == 200) {
       dispatch(updateMember(resp.data));
       navigate(`/home`);

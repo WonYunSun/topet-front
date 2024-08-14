@@ -1,0 +1,54 @@
+#chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .message {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 80%;
+  }
+  
+  .message.나 {
+    background-color: #e1ffc7;
+    align-self: flex-end;
+  }
+  
+  .message.투펫AI {
+    background-color: #f1f0f0;
+    align-self: flex-start;
+  }
+  
+  #user-input {
+    display: flex;
+    padding: 10px;
+    background-color: #eee;
+  }
+  
+  #user-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 16px;
+  }
+  
+  #user-input button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  #user-input button:hover {
+    background-color: #0056b3;
+  }
+  

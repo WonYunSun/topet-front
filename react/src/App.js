@@ -41,6 +41,7 @@ import ShortsDetail from "./page/ShortsDetail";
 //TopBarWeb
 import TopBarWeb from "./component/TopBarWeb";
 import ShortsBox from "./page/ShortsBox";
+import ToPetAi from "./page/ToPetAi";
 
 function App() {
   const location = useLocation();
@@ -62,9 +63,9 @@ function App() {
 
   return (
     <div className="App">
-      {showNavbarWebPaths.includes(location.pathname) && isDeskTop && (
-        <TopBarWeb />
-      )}
+      {(showNavbarWebPaths.includes(location.pathname) ||
+        location.pathname.includes("/community")) &&
+        isDeskTop && <TopBarWeb />}
       {showNavbarPaths.includes(location.pathname) && isMobile && <NavBar />}
       <Routes>
         <Route path="/home" element={<Home />} />
@@ -75,9 +76,11 @@ function App() {
           path="/community/preview/:animalType/:category"
           element={<Community />}
         />
-        <Route path="/community/search" element={<CommunitySearch />} />
+
         <Route path="/community/detail/:comid" element={<CommunityDetail />} />
         <Route path="/community/communitywrite" element={<CommunityWrite />} />
+
+        <Route path="/topetai" element={<ToPetAi />} />
 
         <Route path="/schedule" element={<Calendarscreen />} />
 
@@ -88,9 +91,9 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
 
         <Route path="/editprofile" element={<EditProfile />} />
-        <Route path="/editpetprofile/:id" element={<EditPetProfile />} />
+        <Route path="/editpetprofile" element={<EditPetProfile />} />
 
-        <Route path="/petprofiledetail/:id" element={<PetProfileDetail />} />
+        <Route path="/petprofiledetail" element={<PetProfileDetail />} />
         <Route path="/managemypets" element={<ManageMyPets />} />
 
         <Route path="/myposts" element={<SeeMyPosts />} />
@@ -104,7 +107,7 @@ function App() {
         <Route path="/addshorts" element={<AddShorts />} />
         <Route path="/shortsDetail/:id" element={<ShortsBox />} />
 
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </div>
   );

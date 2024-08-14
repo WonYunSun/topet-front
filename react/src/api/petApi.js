@@ -1,28 +1,20 @@
 import createAxios from "./createAxios";
-
+import { handleResponse } from "./ResponseProcess";
+import { handleError } from "./ResponseProcess";
 const MID_URL = "/pet";
 
-// const API_BASE_URL =
-// "http://localhost:8081/api";
-// // "http://175.45.202.131:8081/api";
-
 class petApi {
-  // constructor(baseURL) {
-  //     this.client = axios.create({
-  //     baseURL: baseURL,
-  //     });
-  // }
   constructor() {
     this.axios = createAxios(MID_URL);
   }
 
   async getMyPet(id){
-      return await
-      this.axios.get(`/getMyPet/${id}`, {
+    return await
+      this.axios.get(`/petProfileDetail/${id}`, {
           headers: {},  
           withCredentials: true,
       }).then((response) => {
-          console.log("서버 응답:", response.data);
+          console.log("서버 응답:", response);
           return response.data;
       }).catch((error) => {
           console.error("서버 오류:", error);
@@ -30,7 +22,15 @@ class petApi {
       });
     }
 
+  async getMyPets(id){
 
+    try{
+      const response = await this.axios.get(`/home/getMyPets/${id}`);
+      return handleResponse(response);
+    }catch(error){
+      return handleError(error);
+    }
+  }
   
   async postPetData(petDomain) {
     return await this.axios

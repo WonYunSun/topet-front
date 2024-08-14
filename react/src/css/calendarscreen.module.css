@@ -1,4 +1,5 @@
 .CalendarscreenWrap_dtver {
+  max-width: 1050px;
   min-width: 665px;
   width: 100%;
   display: flex;
@@ -13,6 +14,7 @@
   flex: 1.5 1 auto; /* flex-grow: 1, flex-shrink: 1, flex-basis: auto */
 }
 .Calendarwrapper {
-  width: 55%;
+  max-width: 1150px;
+  width: 70%;
   margin: 0 auto;
 }

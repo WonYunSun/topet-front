@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation  } from "react-router-dom";
 import styles from "../../css/mypage_petprofile.module.css";
 import dayjs from "dayjs";
 import { GoArrowLeft } from "react-icons/go";
@@ -9,17 +9,19 @@ import { RiWeightFill } from "react-icons/ri";
 import petApi from "../../api/petApi";
 
 const PetProfileDetail = () => {
+  const location = useLocation();
+  const id = location.state?.id; 
+
   const navigate = useNavigate();
-  const { id } = useParams();
   const [myPet, setMyPet] = useState(null); // 초기값을 null로 설정
   const [isLoaded, setIsLoaded] = useState(false);
-
+  console.log("petProfileDetail Id : " , id);
   const goBack = () => {
     navigate(-1); // 뒤로가기
   };
 
   const goEditPetProfile = () => {
-    navigate(`/editpetprofile/${id}`);
+    navigate(`/editpetprofile/`,  { state: { id: id } });
   };
 
   useEffect(() => {

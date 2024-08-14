@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import styles from "../css/tobBarWeb.module.css";
 import { ReactComponent as Logo } from "../asset/icon/TopetLogo.svg";
 
 const TopBarWeb = () => {
+  const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
   const reduxMember = useSelector((state) => state.member.member);
   const navigate = useNavigate();
+
+  const [animalType, setAnimalType] = useState("강아지"); // 유저가 선택한 동물 타입 저장
+
+  const animalTypeMap = {
+    1: "dog",
+    2: "cat",
+    3: "exoticpet",
+  };
+
+  useEffect(() => {
+    let animalTypeValue = null;
+    if (reduxPet) {
+      animalTypeValue = animalTypeMap[reduxPet.type];
+    } else if (reduxPet === undefined) {
+      animalTypeValue = animalTypeMap[1];
+    }
+    setAnimalType(animalTypeValue);
+  }, [reduxPet]);
 
   const goMypage = () => {
     navigate(`/mypage`);
@@ -50,7 +69,7 @@ const TopBarWeb = () => {
             지도
           </NavLink>
           <NavLink
-            to="/community"
+            to={`/community/preview/${animalType}/freedomAndDaily`}
             className={({ isActive }) =>
               isActive ? styles.activeNavItem : styles.navItem
             }
@@ -77,7 +96,9 @@ const TopBarWeb = () => {
               <span className={styles.profileName}>{reduxMember.name}</span>
             </div>
           ) : (
-            <button className={styles.loginBtn}>로그인하기</button>
+            <button className={styles.loginBtn} onClick={() => navigate(`/`)}>
+              로그인하기
+            </button>
           )}
         </div>
       </div>

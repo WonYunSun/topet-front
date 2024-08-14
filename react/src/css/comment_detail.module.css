@@ -1,0 +1,100 @@
+.commentContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.commentHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.authorInfo {
+  display: flex;
+  align-items: center;
+}
+
+.profileImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.authorName {
+  font-weight: bold;
+  color: #333;
+}
+
+.commentContent {
+  margin-top: 5px;
+  margin-left: 50px;
+  color: #555;
+  text-align: left;
+}
+
+.replyContainer {
+  margin-top: 10px;
+  padding-left: 40px;
+  margin-top: 20px;
+  /* border-left: 2px solid #f0f0f0; */
+}
+
+.replyItem {
+  margin-bottom: 10px;
+}
+
+.moreIcon {
+  cursor: pointer;
+  color: #888;
+}
+.replyInputWrap {
+  font-size: 15px;
+  margin-left: 35px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 10px;
+  padding-right: 10px;
+
+  box-sizing: border-box;
+}
+.inputBox {
+  flex-grow: 1;
+  height: 40px;
+  line-height: 100px;
+  text-align: left;
+  font-size: 15px;
+  box-sizing: border-box;
+  outline: none;
+  padding: 10px;
+  background-color: white;
+  resize: none; /* textarea 크기 조절 비활성화 */
+  overflow: auto;
+}
+.inputBox::placeholder {
+  color: #a5a5a5;
+}
+.inputBox:focus {
+  border: none;
+}
+.replyInputWrap > button {
+  color: #999;
+}
+
+.replyInputWrap > button:hover {
+  color: #1a1a1a;
+}

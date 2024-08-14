@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^5.16.7",
     "@redux-devtools/extension": "^3.3.0",
     "@reduxjs/toolkit": "^2.2.6",
     "@testing-library/jest-dom": "^5.17.0",
@@ -32,7 +35,7 @@
     "styled-components": "^6.1.11",
     "web-vitals": "^2.1.4"
   },
-  "proxy": "http://175.45.202.131:8081",
+  "proxy": "http://localhost:8081/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

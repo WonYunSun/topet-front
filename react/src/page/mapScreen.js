@@ -16,6 +16,7 @@ import CheckModal from "../component/CheckModal";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { IoCloseOutline } from "react-icons/io5";
 import MapPlaceList from "../component/MapComp/MapPlaceList";
+import { MdPlace } from "react-icons/md";
 // responsive
 import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
@@ -63,10 +64,14 @@ const MapScreen = () => {
   ); // 버튼의 선택 상태 저장 (초기값: arr 전체 false)
   const [isSearched, setIsSearched] = useState(false); // 선택된 버튼 인덱스 저장
   const [showModal, setShowModal] = useState(false);
+
   const handleBottomSheetOpen = (type) => {
     setBottomSheetType(type);
     setShowBottomSheet(true);
   };
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 1204px)",
+  });
 
   const handleBottomSheetClose = () => {
     setShowBottomSheet(false);
@@ -122,6 +127,13 @@ const MapScreen = () => {
     }
   }, []);
 
+  // state.center가 변경될 때마다 recommendPlaceSearch 실행
+  useEffect(() => {
+    if (isLoaded && state.center.lat && state.center.lng) {
+      recommendPlaceSearch("반려동물");
+    }
+  }, [isLoaded, state.center]);
+
   useEffect(() => {
     if (!map || !isLoaded) return;
 
@@ -172,7 +184,7 @@ const MapScreen = () => {
       const ps = new window.kakao.maps.services.Places();
       const options = {
         location:
-          // location ||
+          location ||
           new window.kakao.maps.LatLng(state.center.lat, state.center.lng),
         radius: 5000,
         sort: window.kakao.maps.services.SortBy.ACCURACY,
@@ -196,6 +208,7 @@ const MapScreen = () => {
       handleShowModalOpen();
     }
   };
+
   const recommendPlaceSearch = (keyword, location) => {
     if (!window.kakao || !window.kakao.maps) {
       console.error("카카오맵 로드 실패");
@@ -204,7 +217,8 @@ const MapScreen = () => {
     const ps = new window.kakao.maps.services.Places();
     const options = {
       location:
-        location || new window.kakao.maps.LatLng(position.lat, position.lng),
+        location ||
+        new window.kakao.maps.LatLng(state.center.lat, state.center.lng),
       radius: 5000,
       sort: window.kakao.maps.services.SortBy.ACCURACY,
       level: 2,
@@ -216,7 +230,6 @@ const MapScreen = () => {
       (data, status) => {
         if (status === window.kakao.maps.services.Status.OK) {
           setRecommend(data);
-          console.log(data);
         } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
           setRecommend([]);
           console.log("검색 결과가 없습니다.");
@@ -227,12 +240,6 @@ const MapScreen = () => {
       options
     );
   };
-
-  useEffect(() => {
-    if (isLoaded) {
-      recommendPlaceSearch("반려동물");
-    }
-  }, [isLoaded]);
 
   const displayPlaces = (data) => {
     const bounds = new window.kakao.maps.LatLngBounds();
@@ -249,6 +256,8 @@ const MapScreen = () => {
   const reSearch = () => {
     const searchKeyword = keyword;
 
+    console.log("포지션", position.lat, position.lng);
+    console.log("스테이트", state.center.lat, state.center.lng);
     searchPlaces(
       searchKeyword,
       new window.kakao.maps.LatLng(position.lat, position.lng)
@@ -531,11 +540,15 @@ const MapScreen = () => {
         </Mobile>
         {/* DeskTop화면 */}
         <DeskTop>
-          <div className={`${styles.mapContainer}`}>
+          <div
+            className={`${styles.mapContainer}  ${
+              isTablet ? styles.tbver : ""
+            }`}
+          >
             <div
               className={`${styles.MapSideBar} ${
                 !isSidebarVisible ? styles.hiddensidebar : ""
-              }`}
+              } ${isTablet ? styles.tbver : ""}`}
             >
               <div
                 className={`${styles.mapTopWrap_Dt} ${
@@ -583,7 +596,9 @@ const MapScreen = () => {
                 </div>
                 {!showClearButton && (
                   <div
-                    className={`${styles.CutsomBtnWrap} ${styles.side_customBtnWrap}`}
+                    className={`${styles.CutsomBtnWrap} ${
+                      styles.side_customBtnWrap
+                    } ${isTablet ? styles.tbver : ""}`}
                   >
                     {KEYWORD_LIST.map((item, index) => (
                       <CustomButton key={index} num={index} />
@@ -601,19 +616,23 @@ const MapScreen = () => {
                     />
                   </div>
                 ) : (
-                  <div className={styles.placeRecommend}>
-                    <div>내 주변 추천 장소</div>
-                    <div>
-                      <MapPlaceList
-                        onClose={() => {}}
-                        searchResult={recommend}
-                        moveLatLng={moveLatLng}
-                        setSelectedMarker={setSelectedMarker}
-                        setSelectedPlace={setSelectedPlace}
-                        isDeskTop={isDeskTop}
-                      />
+                  <>
+                    <div className={styles.placeRecommend}>
+                      <div className={styles.rec_title}>
+                        <MdPlace size={20} color={"#ffa62f"} />내 주변 장소는?
+                      </div>
+                      <div>
+                        <MapPlaceList
+                          onClose={() => {}}
+                          searchResult={recommend}
+                          moveLatLng={moveLatLng}
+                          setSelectedMarker={setSelectedMarker}
+                          setSelectedPlace={setSelectedPlace}
+                          isDeskTop={isDeskTop}
+                        />
+                      </div>
                     </div>
-                  </div>
+                  </>
                 )}
               </div>
               {selectedPlace == null && (
@@ -709,7 +728,7 @@ const MapScreen = () => {
                 src={mobileUrl}
                 style={{
                   width: "400px", // 또는 원하는 너비
-                  height: "100vh", // 또는 원하는 높이
+                  height: "110vh", // 또는 원하는 높이
                   border: "none",
                   transform: "scale(0.8)", // 예: 80%로 축소
                   transformOrigin: "0 0", // 축소 기준점을 왼쪽 상단으로 설정

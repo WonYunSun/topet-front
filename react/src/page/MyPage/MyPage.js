@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ManageBox from "../../component/MyPageComp/ManageBox";
 import CheckModal from "../../component/CheckModal";
-import homeApi from "../../api/homeApi";
+
+import memberApi from "../../api/memberApi";
+
 import { useSelector, useDispatch } from "react-redux";
 import styles from "../../css/mypage.module.css";
 import { useNavigate } from "react-router-dom";
@@ -80,12 +82,14 @@ const MyPage = () => {
   };
 
   // 로그아웃
-  const handleLogout = () => {
-    dispatch(updateMember(""));
-    dispatch(updatePetList([]));
-    dispatch(updateSelectedPet(""));
-
-    homeApi.logout();
+  const handleLogout = async () => {
+    const response = await memberApi.logout();
+    if (response.status == 200 && response.data === "success") {
+      dispatch(updateMember(""));
+      dispatch(updatePetList([]));
+      dispatch(updateSelectedPet(""));
+      navigate(`/login`);
+    }
     console.log("!! 로그아웃 !!");
 
     setShowModal(false);

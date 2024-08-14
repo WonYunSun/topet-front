@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import RadioButton from './RadioButton';
 import Button from '../ButtonComp/Button';
 import styles from '../../css/report.module.css';
+import ReportAndBlock from '../../api/reportAndBlockApi';
 
-const Block = ({onClick, comid, reduxMemberId}) => {
-  const [selectedValue, setSelectedValue] = useState('이 게시물만 차단');
+const Block = ({onClick, blockerId, blockedId }) => {
+  const navigate = useNavigate();
+
+  const [selectedValue, setSelectedValue] = useState('이 사용자 차단');
+
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -16,22 +21,26 @@ const Block = ({onClick, comid, reduxMemberId}) => {
     console.log("취소 버튼 클릭");
   };
 
-  const handleSubmit = () => {
-    console.log("전송 버튼 클릭, 선택된 값:", selectedValue);
+  const handleSubmit = async () => {
+    try {
+      await ReportAndBlock.BlockUser(blockerId, blockedId);
+      navigate(-1);
+    } catch (error) {
+      console.error("차단에 실패했습니다.", error);
+
+    } finally {
+      onClick();
+    }
   };
+
+
 
   return (
     <div className={styles.reportContainer}>
       <RadioButton
-        label="이 게시물만 차단"
-        value="이 게시물만 차단"
-        checked={selectedValue === '이 게시물만 차단'}
-        onChange={handleChange}
-      />
-      <RadioButton
-        label="사용자 차단"
-        value="사용자 차단"
-        checked={selectedValue === '사용자 차단'}
+        label="이 사용자 차단"
+        value=" 이 사용자 차단"
+        checked={selectedValue === '이 사용자 차단'}
         onChange={handleChange}
       />
       

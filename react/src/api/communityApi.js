@@ -73,7 +73,7 @@ class CommunityApi {
     // 게시물 리스트 좋아요순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
-        `/${type}/${category}/sortLike?page=${size}&size=${page}`
+        `/${type}/${category}?page=${size}&size=${page}&orderby=likes`
       );
       return response.data;
     } catch (error) {
@@ -111,7 +111,7 @@ class CommunityApi {
     // 게시물 제목+본문 검색 좋아요순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
-        `/${type}/${category}/sortLike?page=${size}&size=${page}&title=${searchText}`
+        `/${type}/${category}?page=${size}&size=${page}&title=${searchText}&orderby=likes`
       );
       return response.data;
     } catch (error) {
@@ -149,7 +149,7 @@ class CommunityApi {
     // 게시물 해시태그 검색 좋아요순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
-        `/${type}/${category}/sortLike?page=${size}&size=${page}&hashtag=${searchText}`
+        `/${type}/${category}?page=${size}&size=${page}&hashtag=${searchText}&orderby=likes`
       );
       return response.data;
     } catch (error) {

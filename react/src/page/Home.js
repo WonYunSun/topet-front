@@ -17,8 +17,12 @@ import TopBarWeb from "../component/TopBarWeb";
 import styles from "../css/homescreen.module.css";
 // import CommunityList from "../component/CommunityComp/CommunityList"; //작업 연기
 import CommunityListData from "../component/CommunityComp/CommunityListData";
-import homeApi from "../api/homeApi";
-import { updateMember } from "../redux/reducers/memberReducer";
+
+import memberApi from "../api/memberApi";
+import scheduleApi from "../api/scheduleApi";
+import petApi from "../api/petApi";
+
+
 import { updatePetList } from "../redux/reducers/petListReducer";
 import { updateSelectedPet } from "../redux/reducers/selectedPetReducer";
 import { FiPlus } from "react-icons/fi";
@@ -27,9 +31,10 @@ import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
 
 const Home = () => {
-
   const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
-  
+
+  console.log(reduxPet);
+  const reduxMember = useSelector((state) => state.member.member);
   const isDeskTop = useMediaQuery({
     query: "(min-width: 1110px)",
   });
@@ -51,36 +56,40 @@ const Home = () => {
   const [member, setMember] = useState();
   const [pets, setPets] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
-
-  const animalTypeMap = {
-    1: "강아지",
-    2: "고양이",
-    3: "특수동물",
-  };
+  // console.log("왜 널이 아니냐", pets);
+  // const animalTypeMap = {
+  //   1: "강아지",
+  //   2: "고양이",
+  //   3: "특수동물",
+  // };
 
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
   const [schedules, setSchedule] = useState([]);
-  const defaultProfileImage =
-    "https://images.unsplash.com/photo-1722031489919-100378463cfc?q=80&w=1285&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+
   useEffect(() => {
-    try {
-      getHome();
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoaded(true);
-    }
+    
+    const fetchData = async () => {
+      try {
+        await getMyPets(reduxMember.id);
+        await getSchedule();
+        //returnedMember에 따른 pet정보를 가져오는 api필요
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoaded(true);
+      }
+    };
+    fetchData();
   }, []);
 
   useEffect(() => {
-    if(selectedPet != null){
+    if (selectedPet != null) {
       //getSchedule();
     }
-    
   }, [selectedPet]);
 
   // useEffect(() => {
-    
+
   //   if (reduxPet) {
   //     const animalTypeValue = animalTypeMap[reduxPet.type];
   //     setAnimalType(animalTypeValue);
@@ -105,6 +114,10 @@ const Home = () => {
   const goShorts = () => {
     navigate(`/shorts`);
   };
+
+  const goTopetAi = () => {
+    navigate('/topetai')
+  }
 
   const goPetregistration = () => {
     navigate(`/petregistration`);
@@ -157,10 +170,7 @@ const Home = () => {
       author: "Author 5",
     },
   ];
-
   // 프로필 카드 플립 관련
-  
- 
   const dummyCommmuData = [
     {
       title: "First Post",
@@ -194,71 +204,28 @@ const Home = () => {
     },
   ];
 
-console.log("home출력 selectedPet : " , selectedPet)
-  const getHome = async () => {
-    const returnedMember = await homeApi.getHomeDataMember();
-    if(returnedMember != null){
-      const sessionMember = {
-          id: returnedMember.id,
-          email: returnedMember.email,
-          name: returnedMember.name,
-          socialId: returnedMember.socialId,
-      };
-      
-      setMember(sessionMember);
-      dispatch(updateMember(sessionMember));
-    }
-    if(returnedMember != null){
+  const getMyPets =async (id)=>{
+    const resp = await petApi.getMyPets(id);
+    setPets(resp)
+    if(resp != null){
+      dispatch(updatePetList(resp));
 
-      
-
-
-      const tempPets = returnedMember.pets;
-      console.log("tempPets : ",tempPets)
-      const myPets = [];
-      if (tempPets != null){
-        for (let i = 0; i < tempPets.length; i++) {
-          if (tempPets[i] != null) {
-            let tempPet = {
-              id: tempPets[i].id,
-              type: tempPets[i].type,
-              birth: tempPets[i].birth,
-              health: tempPets[i].health,
-              allergy: tempPets[i].allergy,
-              gender: tempPets[i].gender,
-              kind: tempPets[i].kind,
-              profileSrc: tempPets[i].profileSrc,
-              name: tempPets[i].name,
-              weight: tempPets[i].weight,
-              uid: tempPets[i].uid,
-            };
-            myPets.push(tempPet);
-          }
-        }
-        console.log(myPets);
-        setPets(myPets);
-        dispatch(updatePetList(myPets));
-        if(selectedPet == null || selectedPet == ""){
-          setSelectedPet(myPets[0]);
-          dispatch(updateSelectedPet(myPets[0]))
-        }
-        getSchedule();
-      }else{ //tempPet이 없을때.
-        setPets(null);
-        setSelectedPet(null);
+      if(reduxPet==null || reduxPet == ""){
+        setSelectedPet(resp[0]);
+        dispatch(updateSelectedPet(resp[0]));
+      }else{
+        setSelectedPet(reduxPet);
       }
     }
     
-    //getSchedule();
-    // const pet = await homeApi.getHomeDataPet();
-  
-  };
+  }
 
   const getSchedule = async () => {
-    // if (reduxPet != null) {
-    //   const response = await homeApi.getHomeDataSchedule(selectedPet.id);
-    //   setSchedule(response);
-    // }
+    if (selectedPet != null) {
+      console.log("selectedPet.id : ", selectedPet.id);
+      const response = await scheduleApi.getHomeDataSchedule(selectedPet.id);
+      setSchedule(response);
+    }
   };
 
   const calculateAge = (birthDate) => {
@@ -275,7 +242,6 @@ console.log("home출력 selectedPet : " , selectedPet)
   };
   dispatch(updateSelectedPet(selectedPet));
 
-  
   // console.log(Animal.profileSrc);
   if (!isLoaded) {
     return <div>Loading...</div>;
@@ -290,7 +256,7 @@ console.log("home출력 selectedPet : " , selectedPet)
       </DeskTop> */}
       <div className={`${styles.homeWrap} ${isDeskTop ? styles.dtver : ""}`}>
         <Mobile>
-          {pets.length == 0 ? (
+          {pets == null ? (
             <div></div>
           ) : (
             <AnimalSelect
@@ -306,7 +272,6 @@ console.log("home출력 selectedPet : " , selectedPet)
             show={showBottomSheet}
             onClose={handleCloseBottomSheet}
             type={bottomSheetType}
-            
             initialTags={[]}
             setSelectedPet={setSelectedPet}
           />
@@ -335,7 +300,9 @@ console.log("home출력 selectedPet : " , selectedPet)
                               <span className={styles.boldText}>
                                 {selectedPet.birth}
                                 {selectedPet.birth && (
-                                  <span>({calculateAge(selectedPet.birth)})</span>
+                                  <span>
+                                    ({calculateAge(selectedPet.birth)})
+                                  </span>
                                 )}
                               </span>
                             </div>
@@ -411,7 +378,7 @@ console.log("home출력 selectedPet : " , selectedPet)
                 <span>쇼츠</span>
               </div>
             </div>
-            <div className={styles.promptyMenu}>
+            <div className={styles.promptyMenu} onClick={goTopetAi}>
               <div className={styles.Navdiv}>
                 <AiIcon fill="orange" />
                 <span>투펫AI</span>
@@ -428,7 +395,7 @@ console.log("home출력 selectedPet : " , selectedPet)
           </div>
         </Mobile>
         <DeskTop>
-          {pets.length == 0 ? (
+          {pets == null ? (
             <div></div>
           ) : (
             <AnimalSelect
@@ -451,7 +418,9 @@ console.log("home출력 selectedPet : " , selectedPet)
             className={`${styles.userPetInfo} ${isTablet ? "" : styles.dtver}`}
           >
             <div
-              className={`${styles.flipCard}  ${isTablet ? "" : styles.dtver}`}
+              className={`${styles.flipCard}  ${
+                isTablet ? styles.tbver : styles.dtver
+              }`}
             >
               <div
                 className={`${styles.flipCardInner}  ${
@@ -466,8 +435,11 @@ console.log("home출력 selectedPet : " , selectedPet)
                 >
                   <div className={styles.frontInfoWrap}>
                     <div className={styles.infoWrap}>
-                      {(reduxPet) ? (///////////////////////////수정
-                        <div className={`${styles.info}  ${isTablet ? "" : styles.dtver}`}
+                      {reduxPet ? ( ///////////////////////////수정
+                        <div
+                          className={`${styles.info}  ${
+                            isTablet ? "" : styles.dtver
+                          }`}
                         >
                           <div className={styles.infoRow}>
                             <div className={styles.photo}>
@@ -485,7 +457,9 @@ console.log("home출력 selectedPet : " , selectedPet)
                                 <span className={styles.boldText}>
                                   {reduxPet.birth}
                                   {reduxPet.birth && (
-                                    <span>({calculateAge(reduxPet.birth)})</span>
+                                    <span>
+                                      ({calculateAge(reduxPet.birth)})
+                                    </span>
                                   )}
                                 </span>
                               </div>

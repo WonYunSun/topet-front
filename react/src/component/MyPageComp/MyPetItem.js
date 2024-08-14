@@ -5,6 +5,7 @@ import { MdEdit, MdShare } from "react-icons/md";
 /// responsive
 import { Mobile, DeskTop } from "../../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
+import PetProfileDetail from "../../page/MyPage/PetProfileDetail";
 
 const MyPetItem = ({ onOpenModal, photoUrl, name, uid, pet }) => {
   const isDeskTop = useMediaQuery({

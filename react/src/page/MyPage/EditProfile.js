@@ -9,7 +9,9 @@ import MyPageCommonTopBar from "../../component/MyPageComp/MyPageCommonTopBar";
 import styles from "../../css/mypage_editprofile.module.css";
 import { TbPhoto } from "react-icons/tb";
 import { TiDelete } from "react-icons/ti";
-import homeApi from "../../api/homeApi";
+
+import memberApi from "../../api/memberApi";
+
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -27,6 +29,8 @@ const EditProfile = () => {
   });
 
   const reduxMember = useSelector((state) => state.member.member);
+  console.log(reduxMember);
+
   const navigate = useNavigate();
   const defaultProfileImage =
     "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
@@ -35,6 +39,9 @@ const EditProfile = () => {
   const [profilePhoto, setProfilePhoto] = useState(currentProfilePhoto);
   const [profileName, setProfileName] = useState(currentProfileName);
   const [canSave, setCanSave] = useState();
+
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -86,7 +93,7 @@ const EditProfile = () => {
     if (profilePhoto != null) {
       formData.append("photo", profilePhoto);
     }
-    const resp = await homeApi.postMemberInfo(formData);
+    const resp = await memberApi.postMemberInfo(formData);
     if (resp.status == 200) {
       navigate(`/home`);
     } else {
@@ -146,6 +153,9 @@ const EditProfile = () => {
     console.log("회원탈퇴");
   };
 
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className={styles.wrapper}>
       <MyPageCommonTopBar title={"프로필 수정"} />

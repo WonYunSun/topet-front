@@ -1,6 +1,6 @@
 .BtnContiner {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   z-index: 400;
   position: fixed;
   bottom: 70px;
@@ -14,12 +14,13 @@
   filter: drop-shadow(2px 5px 4px #75757544);
 }
 .AddscdBtn div {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   color: #fff;
   margin: 0 auto;
-  padding-top: 5px;
 }
 .AddscdBtn p {
   margin: 0;
