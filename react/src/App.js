@@ -41,6 +41,7 @@ import ShortsDetail from "./page/ShortsDetail";
 //TopBarWeb
 import TopBarWeb from "./component/TopBarWeb";
 import ShortsBox from "./page/ShortsBox";
+import ToPetAi from "./page/ToPetAi";
 
 function App() {
   const location = useLocation();
@@ -71,13 +72,12 @@ function App() {
 
         <Route path="/map" element={<MapScreen />} />
 
-        <Route
-          path="/community/preview/:animalType/:category"
-          element={<Community />}
-        />
-        <Route path="/community/search" element={<CommunitySearch />} />
+        <Route path="/community/preview/:animalType/:category" element={<Community />} />
+
         <Route path="/community/detail/:comid" element={<CommunityDetail />} />
         <Route path="/community/communitywrite" element={<CommunityWrite />} />
+
+        <Route path="/topetai" element={<ToPetAi />} />
 
         <Route path="/schedule" element={<Calendarscreen />} />
 
