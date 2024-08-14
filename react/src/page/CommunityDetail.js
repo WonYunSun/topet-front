@@ -252,21 +252,21 @@ const CommunityDetail = () => {
               <button
                 className={`${styles.category_button} ${styles.dtver}`}
                 onClick={() => handleCategoryChange("freedomAndDaily")}
-                disabled={category === "freedomAndDaily"}
+                disabled={CategoryName === "freedomAndDaily"}
               >
                 #자유/일상
               </button>
               <button
                 className={styles.category_button}
                 onClick={() => handleCategoryChange("curious")}
-                disabled={category === "curious"}
+                disabled={CategoryName === "curious"}
               >
                 #궁금해요
               </button>
               <button
                 className={styles.category_button}
                 onClick={() => handleCategoryChange("sharingInformation")}
-                disabled={category === "sharingInformation"}
+                disabled={CategoryName === "sharingInformation"}
               >
                 #정보공유
               </button>

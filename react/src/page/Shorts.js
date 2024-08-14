@@ -7,39 +7,38 @@ import shortsApi from "../api/shortsApi";
 import { all } from "axios";
 
 function Shorts() {
-
   const [shorts, setShorts] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
 
-
-  useEffect(()=>{
-    const fetchData = async () =>{
-      try{await getAllShorts();}
-      catch(error){console.log(error)}
-      finally{setIsLoaded(true)};
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await getAllShorts();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoaded(true);
+      }
+    };
     fetchData();
+  }, []);
 
-  },[])
-
-  const getAllShorts = async() =>{
+  const getAllShorts = async () => {
     const resp = await shortsApi.getAllShorts();
     const allShorts = [];
-    for(let i= 0  ; i< resp.length; i++){
+    for (let i = 0; i < resp.length; i++) {
       let tempShorts = {
-        id : resp[i].id,
-        videoUrl : resp[i].videoSrc,
-        thumbnailUrl : resp[i].thumbnailPhotoSrc,
-        author : resp[i].author
-      }
+        id: resp[i].id,
+        videoUrl: resp[i].videoSrc,
+        thumbnailUrl: resp[i].thumbnailPhotoSrc,
+        author: resp[i].author,
+      };
       allShorts.push(tempShorts);
     }
     setShorts(allShorts);
 
-    console.log(allShorts)
-  }
-  
-
+    console.log(allShorts);
+  };
 
   // 더미쇼츠리스트(최근인기쇼츠)
   const dummyPopularShortsData = [
@@ -119,8 +118,8 @@ function Shorts() {
   //     author: "Author 6",
   //   },
   // ];
-  if(!isLoaded){
-    return (<div>Loading...</div>)
+  if (!isLoaded) {
+    return <div>Loading...</div>;
   }
   return (
     <>
@@ -135,7 +134,6 @@ function Shorts() {
                 thumbnailUrl={short.thumbnailUrl}
                 title={short.title}
                 author={short.author}
-                
                 widthAdjust="30%"
                 heightAdjust="100%"
               />
@@ -146,14 +144,13 @@ function Shorts() {
         <div>
           <div>전체 쇼츠</div>
           <div className={styles.shortsGridContainer}>
-            {shorts.map((short) => (
+            {dummyPopularShortsData.map((short) => (
               <ShortItem
                 key={short.id}
                 id={short.id}
                 thumbnailUrl={short.thumbnailUrl}
                 title={short.title}
                 author={short.author}
-                
                 widthAdjust="100%" // 그리드 내에서 너비를 조정
                 heightAdjust="250px" // 필요 시 높이를 조정
               />
