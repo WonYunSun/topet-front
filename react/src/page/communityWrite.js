@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import styles from "../css/communityWrite.module.css";
 import TopBar from "../component/TopBar";
 import Title from "../component/Title";
 import Content from "../component/Content";
@@ -11,8 +12,24 @@ import Button from "../component/ButtonComp/Button";
 import communityApi from "../api/communityApi";
 import CheckModal from "../component/CheckModal";
 import HashTag from "../component/HashTagComp/HashTag";
+/// responsive
+import { Mobile, DeskTop } from "../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 
 const CommunityWrite = () => {
+  // responsive
+  const isDeskTop = useMediaQuery({
+    query: "(min-width: 1110px)",
+  });
+
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 859px)",
+  });
+
+  const isMobile = useMediaQuery({
+    query: "(max-width: 768px)",
+  });
+  // -------------------------
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
@@ -144,45 +161,99 @@ const CommunityWrite = () => {
     handleBottomSheetClose();
   };
 
-  console.log(animal);
+  // console.log(animal);
 
   return (
     <div>
-      <TopBar />
-      <Title value={titleText} handleTitleTextChange={handleTitleTextChange} />
-      <Content
-        value={contentText}
-        handleContentTextChange={handleContentTextChange}
-        maxLength={1499}
-        placeholder={"내용을 입력해주세요"}
-      />
-      <br />
-      <PhotoSelectArea
-        selectedPhotos={selectedPhotos}
-        onPhotosSelected={handlePhotosSelected}
-        onRemovePhoto={handleRemovePhoto}
-        cnt={5}
-      />
-      <br />
-      <HashTag
-        selectedCategory={selectedCategory}
-        selectedHashTag={selectedHashTag}
-        handleBottomSheetOpen={handleBottomSheetOpen}
-      />
-      <div>
-        <Button text={"취소"} btnstyle="white" onClick={handleShowCheckModal} />
-        <Button
-          text={edit ? "수정 완료" : "작성 완료"}
-          btnstyle={isSubmitDisabled ? "white_disabled" : "white"}
-          onClick={
-            isSubmitDisabled
-              ? handleShowNullCheckModal
-              : edit
-              ? () => handleUpdate(comid)
-              : handleSubmit
-          }
+      <Mobile>
+        <TopBar />
+        <Title
+          value={titleText}
+          handleTitleTextChange={handleTitleTextChange}
         />
-      </div>
+        <Content
+          value={contentText}
+          handleContentTextChange={handleContentTextChange}
+          maxLength={1499}
+          placeholder={"내용을 입력해주세요"}
+        />
+        <br />
+        <PhotoSelectArea
+          selectedPhotos={selectedPhotos}
+          onPhotosSelected={handlePhotosSelected}
+          onRemovePhoto={handleRemovePhoto}
+          cnt={5}
+        />
+        <br />
+        <HashTag
+          selectedCategory={selectedCategory}
+          selectedHashTag={selectedHashTag}
+          handleBottomSheetOpen={handleBottomSheetOpen}
+        />
+        <div>
+          <Button
+            text={"취소"}
+            btnstyle="white"
+            onClick={handleShowCheckModal}
+          />
+          <Button
+            text={edit ? "수정 완료" : "작성 완료"}
+            btnstyle={isSubmitDisabled ? "white_disabled" : "white"}
+            onClick={
+              isSubmitDisabled
+                ? handleShowNullCheckModal
+                : edit
+                ? () => handleUpdate(comid)
+                : handleSubmit
+            }
+          />
+        </div>
+      </Mobile>
+      <DeskTop>
+        <div className={styles.comm_write_wrap}>
+          <Title
+            value={titleText}
+            handleTitleTextChange={handleTitleTextChange}
+          />
+          <Content
+            value={contentText}
+            handleContentTextChange={handleContentTextChange}
+            maxLength={1499}
+            placeholder={"내용을 입력해주세요"}
+          />
+          <br />
+          <PhotoSelectArea
+            selectedPhotos={selectedPhotos}
+            onPhotosSelected={handlePhotosSelected}
+            onRemovePhoto={handleRemovePhoto}
+            cnt={5}
+          />
+          <br />
+          <HashTag
+            selectedCategory={selectedCategory}
+            selectedHashTag={selectedHashTag}
+            handleBottomSheetOpen={handleBottomSheetOpen}
+          />
+          <div>
+            <Button
+              text={"취소"}
+              btnstyle="white"
+              onClick={handleShowCheckModal}
+            />
+            <Button
+              text={edit ? "수정 완료" : "작성 완료"}
+              btnstyle={isSubmitDisabled ? "white_disabled" : "white"}
+              onClick={
+                isSubmitDisabled
+                  ? handleShowNullCheckModal
+                  : edit
+                  ? () => handleUpdate(comid)
+                  : handleSubmit
+              }
+            />
+          </div>
+        </div>
+      </DeskTop>
       {showWriteCancleModal && (
         <CheckModal
           Content="게시물 작성을 취소하시겠어요?"

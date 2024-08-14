@@ -74,7 +74,7 @@ function App() {
           path="/community/preview/:animalType/:category"
           element={<Community />}
         />
-        <Route path="/community/search" element={<CommunitySearch />} />
+        {/* <Route path="/community/search" element={<CommunitySearch />} /> */}
         <Route path="/community/detail/:comid" element={<CommunityDetail />} />
         <Route path="/community/communitywrite" element={<CommunityWrite />} />
 
