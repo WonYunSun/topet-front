@@ -59,48 +59,71 @@
 
 /* desktop */
 .community.dtver {
-  height: calc(100vh - 88px);
+  margin: 0 auto;
+  margin-top: 50px;
+  max-width: 1050px;
+  width: 80%;
+  /* height: calc(100vh - 88px); */
   display: flex;
   flex-direction: row;
   align-items: start;
-  gap: 100px;
+  gap: 1%;
 }
+
 .comm_listbox {
-  width: 80%;
+  /* width: 80%;
   max-width: 1190px;
-  margin-top: 15px;
-  margin-right: 18%;
+  margin-top: 15px; */
+  width: calc(100% - 159px);
 }
 .commu_sidebar {
-  padding-left: 3%;
+  /* padding-left: 3%;
   /* margin-top: 15px; */
-  width: 30%;
+  /* width: 30%;
   max-width: 250px;
-  height: 101%;
+  height: 101%; */
   /* border-radius: 0 20px 20px 0; */
-  border-right: 1px solid #dddddd4d;
-  box-shadow: rgba(0, 0, 0, 0.07) 0px 3px 4px 0px;
+  /* border-right: 1px solid #dddddd4d;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 3px 4px 0px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  text-align: left;
+  width: 15%;
+}
+.sidebarTitle {
+  margin-left: 1%;
+  width: fit-content;
+  color: #ffa62f;
+  margin-bottom: 30px;
+  font-size: 22px;
+  font-weight: 700;
 }
 .category_buttons_area.dtver {
   flex-direction: column;
   margin: 0;
-  padding: 10px 0;
-  gap: 5px;
+
+  /* gap: 5px; */
 }
 .category_buttons_area.dtver > div {
-  font-size: 17px;
   font-weight: 700;
-  height: 60px;
   box-sizing: border-box;
-  line-height: 60px;
   text-align: center;
+}
+.categoryTitle {
+  padding-bottom: 10px;
+  font-size: 16.5px;
 }
 .category_buttons_area.dtver > button {
   font-size: 15px;
   margin: 0;
   border-radius: 15px;
-  width: 80%;
-  height: 40px;
+  margin-left: 10px;
+  margin-bottom: 10px;
   border: none;
   text-align: start;
+}
+.comm_listbox > .menu_area {
+  margin: 0;
 }

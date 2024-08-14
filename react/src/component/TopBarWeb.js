@@ -96,7 +96,10 @@ const TopBarWeb = () => {
               <span className={styles.profileName}>{reduxMember.name}</span>
             </div>
           ) : (
-            <button className={styles.loginBtn} onClick={() => navigate(`/`)}>
+            <button
+              className={styles.loginBtn}
+              onClick={() => navigate(`/login`)}
+            >
               로그인하기
             </button>
           )}

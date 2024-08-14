@@ -234,7 +234,7 @@ const CommunityWrite = () => {
             selectedHashTag={selectedHashTag}
             handleBottomSheetOpen={handleBottomSheetOpen}
           />
-          <div>
+          <div className={styles.dtBtn}>
             <Button
               text={"취소"}
               btnstyle="white"
