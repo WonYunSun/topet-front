@@ -6,9 +6,8 @@ import { useSelector } from 'react-redux';
 import EditDeleteBottomSheet from '../SubBottomSheet';
 import CheckModal from '../CheckModal';
 
-const CommentList = ({
-  comid, 
-}) => {
+const CommentList = ({ comid }) => {
+
   const reduxMemberId = useSelector((state) => state.member.member.id);
 
   const [isCommentWriter, setIsCommentWriter] = useState(false);
@@ -72,6 +71,8 @@ const CommentList = ({
     setShowSubBottomSheet(false);
   };
 
+ 
+
   const handleEditSubmit = async (id, content, isComment) => {
     try {
       const formData = new FormData();
@@ -133,6 +134,8 @@ const CommentList = ({
     }
   };
 
+
+
   const fetchComments = async (page, pageSize) => {
     try {
       return await commentApi.fetchComment(comid, page, pageSize);
@@ -164,6 +167,7 @@ const CommentList = ({
     />
   );
 
+
   return (
     <div>
       <ContentList 
@@ -185,9 +189,6 @@ const CommentList = ({
           reduxMemberId={reduxMemberId}
           commentAuthorId={commentAuthorId}
           replyAuthorId={replyAuthorId}
-          setModalIsOpen={setModalIsOpen}
-          setModalMessage={setModalMessage}
-
         />
       )}
       {modalIsOpen && (

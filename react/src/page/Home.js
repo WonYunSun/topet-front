@@ -115,6 +115,10 @@ const Home = () => {
     navigate(`/shorts`);
   };
 
+  const goTopetAi = () => {
+    navigate('/topetai')
+  }
+
   const goPetregistration = () => {
     navigate(`/petregistration`);
   };
@@ -374,7 +378,7 @@ const Home = () => {
                 <span>쇼츠</span>
               </div>
             </div>
-            <div className={styles.promptyMenu}>
+            <div className={styles.promptyMenu} onClick={goTopetAi}>
               <div className={styles.Navdiv}>
                 <AiIcon fill="orange" />
                 <span>투펫AI</span>

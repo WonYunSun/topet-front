@@ -6,6 +6,9 @@ import styles from "../css/community.module.css";
 import CommunityList from "../component/CommunityComp/CommunityList";
 import FloatingBtn from "../component/ButtonComp/FloatingBtn";
 import { IoMdArrowDropdown } from "react-icons/io";
+/// responsive
+import { Mobile, DeskTop } from "../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 
 const animalTypeMapReverse = {
   dog: "강아지",
@@ -26,6 +29,20 @@ const categoryMap = {
 };
 
 const Community = () => {
+  // responsive
+  const isDeskTop = useMediaQuery({
+    query: "(min-width: 1110px)",
+  });
+
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 859px)",
+  });
+
+  const isMobile = useMediaQuery({
+    query: "(max-width: 768px)",
+  });
+  // -------------------------
+
   const navigate = useNavigate();
   const { animalType, category } = useParams();
 
@@ -92,71 +109,136 @@ const Community = () => {
   };
 
   return (
-    <div className={styles.community}>
-      <TopBar
-        centerChange={selectedCenter}
-        handleBottomSheetOpen={handleBottomSheetOpen}
-        selectedSearchType={selectedSearchType}
-        searchText={searchText}
-        setSearchText={setSearchText}
-        isSearchMode={searchMode}
-        toggleSearchMode={toggleSearchMode}
-        onSearch={handleSearch}
-        resetSearch={resetSearch}
-      />
+    <>
+      <Mobile>
+        <div className={styles.community}>
+          <TopBar
+            isDeskTop={isDeskTop}
+            centerChange={selectedCenter}
+            handleBottomSheetOpen={handleBottomSheetOpen}
+            selectedSearchType={selectedSearchType}
+            searchText={searchText}
+            setSearchText={setSearchText}
+            isSearchMode={searchMode}
+            toggleSearchMode={toggleSearchMode}
+            onSearch={handleSearch}
+            resetSearch={resetSearch}
+          />
 
-      <div className={styles.category_buttons_area}>
-        <button
-          className={styles.category_button}
-          onClick={() => handleCategoryChange("freedomAndDaily")}
-          disabled={category === "freedomAndDaily"}
-        >
-          #자유/일상
-        </button>
-        <button
-          className={styles.category_button}
-          onClick={() => handleCategoryChange("curious")}
-          disabled={category === "curious"}
-        >
-          #궁금해요
-        </button>
-        <button
-          className={styles.category_button}
-          onClick={() => handleCategoryChange("sharingInformation")}
-          disabled={category === "sharingInformation"}
-        >
-          #정보공유
-        </button>
-      </div>
+          <div className={styles.category_buttons_area}>
+            <button
+              className={styles.category_button}
+              onClick={() => handleCategoryChange("freedomAndDaily")}
+              disabled={category === "freedomAndDaily"}
+            >
+              #자유/일상
+            </button>
+            <button
+              className={styles.category_button}
+              onClick={() => handleCategoryChange("curious")}
+              disabled={category === "curious"}
+            >
+              #궁금해요
+            </button>
+            <button
+              className={styles.category_button}
+              onClick={() => handleCategoryChange("sharingInformation")}
+              disabled={category === "sharingInformation"}
+            >
+              #정보공유
+            </button>
+          </div>
 
-      <div className={styles.menu_area}>
-        <div className={styles.category_text}>
-          {currentSearchText ? `"${currentSearchText}" 검색결과` : ""}
+          <div className={styles.menu_area}>
+            <div className={styles.category_text}>
+              {currentSearchText ? `"${currentSearchText}" 검색결과` : ""}
+            </div>
+            <div
+              className={styles.sort_option}
+              onClick={() => handleBottomSheetOpen("sort")}
+            >
+              {sortListText}
+              <IoMdArrowDropdown />
+            </div>
+          </div>
+          <CommunityList
+            selectedAnimal={selectedCenter}
+            sortListText={sortListText}
+            searchText={currentSearchText}
+            searchType={currentSearchType}
+          />
+          <FloatingBtn onClick={goCommunityWrite} />
+          <BottomSheet
+            show={showBottomSheet}
+            onClose={handleBottomSheetClose}
+            type={bottomSheetType}
+            setSelectedPet={handleSelectPet}
+            handleSelectSortListText={handleSelectSortListText}
+            setSelectedSearchType={setSelectedSearchType}
+          />
         </div>
-        <div
-          className={styles.sort_option}
-          onClick={() => handleBottomSheetOpen("sort")}
-        >
-          {sortListText}
-          <IoMdArrowDropdown />
+      </Mobile>
+      <DeskTop>
+        <div className={`${styles.community} ${styles.dtver}`}>
+          <div className={`${styles.commu_sidebar}`}>
+            <div className={`${styles.category_buttons_area} ${styles.dtver}`}>
+              <div># 카테고리</div>
+              <button
+                className={`${styles.category_button} ${styles.dtver}`}
+                onClick={() => handleCategoryChange("freedomAndDaily")}
+                disabled={category === "freedomAndDaily"}
+              >
+                #자유/일상
+              </button>
+              <button
+                className={styles.category_button}
+                onClick={() => handleCategoryChange("curious")}
+                disabled={category === "curious"}
+              >
+                #궁금해요
+              </button>
+              <button
+                className={styles.category_button}
+                onClick={() => handleCategoryChange("sharingInformation")}
+                disabled={category === "sharingInformation"}
+              >
+                #정보공유
+              </button>
+            </div>
+          </div>
+          <div className={`${styles.comm_listbox} ${styles.dtver}`}>
+            <TopBar
+              isDeskTop={isDeskTop}
+              centerChange={selectedCenter}
+              handleBottomSheetOpen={handleBottomSheetOpen}
+              selectedSearchType={selectedSearchType}
+              searchText={searchText}
+              setSearchText={setSearchText}
+              isSearchMode={searchMode}
+              toggleSearchMode={toggleSearchMode}
+              onSearch={handleSearch}
+              resetSearch={resetSearch}
+            />
+
+            <CommunityList
+              selectedAnimal={selectedCenter}
+              sortListText={sortListText}
+              searchText={currentSearchText}
+              searchType={currentSearchType}
+            />
+          </div>
+          <BottomSheet
+            show={showBottomSheet}
+            onClose={handleBottomSheetClose}
+            type={bottomSheetType}
+            setSelectedPet={handleSelectPet}
+            handleSelectSortListText={handleSelectSortListText}
+            setSelectedSearchType={setSelectedSearchType}
+          />
         </div>
-      </div>
-      <CommunityList
-        selectedAnimal={selectedCenter}
-        sortListText={sortListText}
-        searchText={currentSearchText}
-        searchType={currentSearchType}
-      />
-      <FloatingBtn onClick={goCommunityWrite} />
-      <BottomSheet
-        show={showBottomSheet}
-        onClose={handleBottomSheetClose}
-        type={bottomSheetType}
-        setSelectedPet={handleSelectPet}
-        handleSelectSortListText={handleSelectSortListText}
-        setSelectedSearchType={setSelectedSearchType}
-      />
-    </div>
+        <FloatingBtn onClick={goCommunityWrite} />
+      </DeskTop>
+    </>
   );
 };
 
