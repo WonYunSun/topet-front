@@ -7,11 +7,15 @@ import React, {
 } from "react";
 import MyPageCommonTopBar from "../../component/MyPageComp/MyPageCommonTopBar";
 import styles from "../../css/mypage_editpetprofile.module.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation  } from "react-router-dom";
 import { TbPhoto, TbTriangleInvertedFilled } from "react-icons/tb";
 import petApi from "../../api/petApi";
 
 const EditPetProfile = () => {
+  const location = useLocation();
+  const id = location.state?.id; 
+  
+  
   const petData1 = {
     type: "",
     photo: "",
@@ -24,7 +28,9 @@ const EditPetProfile = () => {
     allergy: "",
     health: "",
   };
-  const { id } = useParams();
+
+
+  
   const [myPet, setMyPet] = useState(petData1);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -32,20 +38,21 @@ const EditPetProfile = () => {
     const fetchData = async () => {
       try {
         let response = await petApi.getMyPet(id);
-        const temp = {
-          type: response.type,
-          photo: response.profileSrc,
-          name: response.name,
-          kind: response.kind,
-          gender: response.gender,
-          neutered: response.neutered,
-          birth: response.birth,
-          weight: response.weight,
-          allergy: response.allergy,
-          health: response.health,
-        };
+        console.log("editPetProfile : ", response);
+        // const temp = {
+        //   type: response.type,
+        //   photo: response.profileSrc,
+        //   name: response.name,
+        //   kind: response.kind,
+        //   gender: response.gender,
+        //   neutered: response.neutered,
+        //   birth: response.birth,
+        //   weight: response.weight,
+        //   allergy: response.allergy,
+        //   health: response.health,
+        // };
 
-        setMyPet(temp);
+        setMyPet(response);
         console.log(response);
       } catch (error) {
       } finally {
@@ -55,34 +62,7 @@ const EditPetProfile = () => {
     fetchData();
   }, []);
 
-  // const petData1 =
-  // {
-  //   type: "1",
-  //   photo:
-  //     "https://i.pinimg.com/236x/b8/50/10/b850101663c7da6734b03f83fc8c57f9.jpg",
-  //   name: "단추",
-  //   kind: "비숑 프리제",
-  //   gender: "남아",
-  //   neutered: "중성화",
-  //   birth: "2020/04/13",
-  //   weight: "7kg",
-  //   allergy: "단백질류",
-  //   health: "비만 꿈나무",
-  // };
-  // {
-  //   type: myPet.type,
-  //   photo:
-  //     myPet.profileSrc,
-  //   name: myPet.name,
-  //   kind: myPet.kind,
-  //   gender: myPet.gender,
-  //   neutered: "중성화",
-  //   birth: myPet.birth,
-  //   weight: myPet.weight,
-  //   allergy: "단백질류",
-  //   health: "비만 꿈나무",
-  // };
-
+  
   const fileInputRef = useRef(null);
   const defaultProfileImage =
     "https://i.pinimg.com/564x/b5/b0/c0/b5b0c0313bfeb3cd262e16b546499a8c.jpg";
@@ -205,7 +185,7 @@ const EditPetProfile = () => {
         {profilePhoto && typeof profilePhoto === "object" ? (
           <div className={styles.selected_profile_photo_container}>
             <img
-              src={myPet.photo}
+              src={myPet.profileSrc}
               className={styles.selected_profile_photo}
               alt="Profile"
             />
@@ -213,7 +193,7 @@ const EditPetProfile = () => {
         ) : (
           <div className={styles.selected_profile_photo_container}>
             <img
-              src={myPet.photo}
+              src={myPet.profileSrc}
               className={styles.selected_profile_photo}
               alt="Profile"
             />

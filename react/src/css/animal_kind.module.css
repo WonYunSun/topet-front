@@ -89,3 +89,17 @@
   width: 100%;
   height: 500px;
 }
+
+/* 반응형 */
+
+.wrapper.dtver {
+  height: 500px;
+}
+
+.kind_list_container.dtver {
+  height: 290px;
+}
+
+.kind_wrapper.dtver {
+  height: 290px;
+}

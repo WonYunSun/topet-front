@@ -44,15 +44,29 @@ constructor() {
     async getHomeDataMember() {
         try {
             const response = await this.axios.get("/home", {});
-            console.log("서버 응답:", response.data); // 응답 데이터 출력
-            return response.data; // 응답 데이터 반환 (필요 시)
+            console.log("서버 응답:", response); // 응답 데이터 출력
+            return response; // 응답 데이터 반환 (필요 시)
         } catch (error) {
-        console.error("서버 오류:", error);
-        throw error; // 오류 처리
+            console.error("서버 오류:", error);
+            throw error; // 오류 처리
         }
     }
     
-    
+    async kakaoLogin(){
+        try{
+            const response = await this.axios.get(
+            // 'http://175.45.202.131:8081/api/member/kakaoLogin',
+            "/kakaoLogin",
+            {
+                withCredentials: true,
+            }
+            );
+            console.log(response);
+            return response.data;
+        }catch(error){
+            throw error;
+        }
+    }
     // async getHomeDataPet(){
     //     try {
     //         const response = await this.client.get("/home_pet", {
@@ -66,29 +80,14 @@ constructor() {
     //     }
     // }
     
-    logout() {
+    async logout() {
         console.log("로그아웃 로직 처리하기 시작");
         try {
-        this.client
-            .post(
-            "/logout",
-            {},
-            {
-                headers: {
-                "Content-Type": "application/json",
-                },
-                withCredentials: true,
-            }
-            )
-            .then((response) => {
-            if (response.data === "success") {
-                window.location.href = "/";
-            } else {
-                window.location.href = "／myPage";
-            }
-            });
-        } catch {
-        console.log("로그아웃실패");
+            const response = await this.axios.post("/logout");
+            console.log(response);
+            return response;
+        }catch {
+            console.log("로그아웃실패");
         }
     }
 
@@ -96,7 +95,7 @@ constructor() {
     
     async postMemberInfo(formData) {
         try {
-        const response = await this.client.post(
+        const response = await this.axios.post(
             "/userregister",
             formData,
             {

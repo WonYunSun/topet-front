@@ -11,21 +11,26 @@
   height: calc(60vh - 20px);
   font-size: 15px;
   padding: 10px;
-
   border: none;
   box-sizing: border-box;
   outline: none;
   resize: none;
   overflow: scroll;
 }
-
+.div_line {
+  border: 1px solid #aaaaaa4d;
+  transform: scaleY(0.5);
+}
+textarea::-webkit-scrollbar {
+  display: none;
+}
 .contentwrite textarea::placeholder {
   color: #aaa;
 }
 
 .contentcount {
   position: absolute;
-  bottom: 5px;
+  bottom: 0px;
   right: 10px;
   font-size: 12px;
   color: #555;

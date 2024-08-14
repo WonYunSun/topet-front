@@ -1,13 +1,24 @@
-/* wrapper div */
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 420px;
+  height: 100vh; /* 화면 높이만큼 차지 */
+  overflow: auto; /* 스크롤 가능하게 */
+}
 
 .wrapper {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   width: 100%;
   max-width: 420px;
+  height: 80vh;
   margin: 0 auto;
 }
 
@@ -122,7 +133,6 @@
   min-height: 50px;
   width: 100%;
   max-width: 420px;
-  position: fixed;
 }
 
 .save_button {
@@ -138,6 +148,7 @@
 
 .save_button.disabled {
   background-color: #dadada;
+  pointer-events: none;
 }
 
 .profile_name_length {
@@ -223,12 +234,10 @@
 }
 
 .button_wrapper {
-  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  bottom: 30%;
   width: 100%;
 }
 
@@ -257,16 +266,34 @@
   width: 50%;
 }
 
+.secession_wrapper.mbver {
+  max-width: 380px;
+}
+
 .save_button_wrapper.mbver {
+  position: fixed;
   bottom: 0;
   margin-bottom: 8px;
 }
 
 .save_button_wrapper.dtver {
-  top: 700px;
-  margin-bottom: 10px;
+  margin-top: 130px;
 }
 
 .save_button.dtver {
   border-radius: 20px;
+}
+
+.button_wrapper.dtver {
+  position: absolute;
+  top: 50%;
+}
+
+.complete.button_wrapper.dtver {
+  margin-top: 150px;
+}
+
+.button_wrapper.mbver {
+  position: absolute;
+  bottom: 15%;
 }

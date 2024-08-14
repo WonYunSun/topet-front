@@ -1,5 +1,6 @@
 import createAxios from "./createAxios";
-
+import { handleResponse } from "./ResponseProcess";
+import { handleError } from "./ResponseProcess";
 const MID_URL = "/pet";
 
 class petApi {
@@ -8,12 +9,12 @@ class petApi {
   }
 
   async getMyPet(id){
-      return await
-      this.axios.get(`/getMyPet/${id}`, {
+    return await
+      this.axios.get(`/petProfileDetail/${id}`, {
           headers: {},  
           withCredentials: true,
       }).then((response) => {
-          console.log("서버 응답:", response.data);
+          console.log("서버 응답:", response);
           return response.data;
       }).catch((error) => {
           console.error("서버 오류:", error);
@@ -21,7 +22,15 @@ class petApi {
       });
     }
 
+  async getMyPets(id){
 
+    try{
+      const response = await this.axios.get(`/home/getMyPets/${id}`);
+      return handleResponse(response);
+    }catch(error){
+      return handleError(error);
+    }
+  }
   
   async postPetData(petDomain) {
     return await this.axios

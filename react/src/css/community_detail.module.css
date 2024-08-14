@@ -128,14 +128,16 @@
 .coment_area {
   height: 100%;
   max-height: fit-content;
-  border-top: 1px solid rgb(190, 190, 190);
+  border-top: 1px solid #e0e0e0;
   margin-top: 20px;
 }
 
 /* desktop */
 
 .community.dtver {
-  height: calc(100vh - 88px);
+  /* height: calc(100vh - 88px); */
+  align-content: stretch;
+
   display: flex;
   flex-direction: row;
   align-items: start;
@@ -146,7 +148,7 @@
   /* margin-top: 15px; */
   width: 30%;
   max-width: 250px;
-  height: 101%;
+  height: 100vh;
   /* border-radius: 0 20px 20px 0; */
   border-right: 1px solid #dddddd4d;
   box-shadow: rgba(0, 0, 0, 0.07) 0px 3px 4px 0px;

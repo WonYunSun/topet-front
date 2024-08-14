@@ -1,7 +1,13 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .stepbutton_wrapper {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -77,13 +83,14 @@
 }
 
 /* 반응형(deskTop) */
-.wrapper {
+.container.dtver {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  max-width: 1200px;
   margin: 0 auto;
+  height: 760px;
 }
 
 .wrapper.mbver {
@@ -91,17 +98,30 @@
 }
 
 .wrapper.dtver {
+  margin-top: 15px;
   width: 50%;
   max-width: 450px;
+}
+
+.component_wrapper.dtver {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 680px;
 }
 
 .stepbutton_wrapper.dtver {
   max-width: 450px;
-  top: 790px;
-  width: 50%;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  width: 100%;
 }
 
 .stepbutton_wrapper.mbver {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
   max-width: 768px;
   width: 100%;
   bottom: 10px;

@@ -9,6 +9,7 @@ import AnimalBirth from "../component/AnimalSelectComp/AnimalBirth";
 import AnimalPhotoandName from "../component/AnimalSelectComp/AnimalPhotoandName";
 import AnimalWeightandHealth from "../component/AnimalSelectComp/AnimalWeightandHealth";
 import CheckModal from "../component/CheckModal";
+import { useSelector, useDispatch } from "react-redux";
 
 import petApi from "../api/petApi";
 
@@ -17,6 +18,8 @@ import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
 
 const PetRegistration = () => {
+  const reduxMember = useSelector((state) => state.member.member);
+
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
@@ -219,6 +222,9 @@ const PetRegistration = () => {
     formData.append("weight", weight);
     formData.append("allergy", allergy ?? null); // undefined이면 null로 설정
     formData.append("health", health ?? null); // undefined이면 null로 설정
+
+    formData.append("member", reduxMember.id);
+
     if (selectedPhoto != null) {
       formData.append("photo", selectedPhoto);
     }
@@ -347,7 +353,11 @@ const PetRegistration = () => {
     switch (stepNum) {
       case 1:
         return (
-          <div className={styles.component_wrapper}>
+          <div
+            className={`${styles.component_wrapper} ${
+              isDeskTop && styles.dtver
+            }`}
+          >
             <AnimalType
               setSelectedType={setSelectedType}
               handleSelectedTypeChange={handleSelectedTypeChange}
@@ -359,7 +369,11 @@ const PetRegistration = () => {
         );
       case 2:
         return (
-          <div className={styles.component_wrapper}>
+          <div
+            className={`${styles.component_wrapper} ${
+              isDeskTop && styles.dtver
+            }`}
+          >
             <AnimalKind
               handleSelectedKindChange={handleSelectedKindChange}
               selectedType={selectedType}
@@ -372,7 +386,11 @@ const PetRegistration = () => {
         );
       case 3:
         return (
-          <div className={styles.component_wrapper}>
+          <div
+            className={`${styles.component_wrapper} ${
+              isDeskTop && styles.dtver
+            }`}
+          >
             <AnimalGender
               handleSelectedGenderChange={handleSelectedGenderChange}
               selectedGender={selectedGender}
@@ -389,7 +407,11 @@ const PetRegistration = () => {
         );
       case 4:
         return (
-          <div className={styles.component_wrapper}>
+          <div
+            className={`${styles.component_wrapper} ${
+              isDeskTop && styles.dtver
+            }`}
+          >
             <AnimalPhotoandName
               defaultImage={defaultImage}
               selectedPhoto={selectedPhoto}
@@ -408,7 +430,11 @@ const PetRegistration = () => {
         );
       case 5:
         return (
-          <div className={styles.component_wrapper}>
+          <div
+            className={`${styles.component_wrapper} ${
+              isDeskTop && styles.dtver
+            }`}
+          >
             <AnimalBirth
               selectedBirth={selectedBirth}
               setSelectedBirth={setSelectedBirth}
@@ -427,7 +453,11 @@ const PetRegistration = () => {
         );
       case 6:
         return (
-          <div className={styles.component_wrapper}>
+          <div
+            className={`${styles.component_wrapper} ${
+              isDeskTop && styles.dtver
+            }`}
+          >
             <AnimalWeightandHealth
               weight={weight}
               allergy={allergy}
@@ -450,8 +480,7 @@ const PetRegistration = () => {
   };
 
   return (
-    <>
-      {/* <DeskTop>여기다나중에 만들 탑바</DeskTop> */}
+    <div className={`${styles.container} ${isDeskTop && styles.dtver}`}>
       <div
         className={`${styles.wrapper} ${
           isDeskTop ? styles.dtver : styles.mdver
@@ -467,7 +496,7 @@ const PetRegistration = () => {
           />
         )}
       </div>
-    </>
+    </div>
   );
 };
 

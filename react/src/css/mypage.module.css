@@ -10,7 +10,7 @@
 }
 
 .profile_continer_wrapper {
-  border-bottom: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e7e7e79a;
 }
 
 .profile_container {
@@ -44,6 +44,11 @@
 }
 
 .username {
+  text-align: left;
+  width: calc(100% - 77px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 15px;
   font-weight: 600;
 }
@@ -99,4 +104,54 @@
   font-size: 15px;
   font-weight: 400;
   display: flex;
+}
+
+/* 반응형 */
+.wrapper_dtver {
+  margin: 0 auto;
+  margin-top: 50px;
+  width: 80%;
+  max-width: 1050px;
+}
+
+.inner_wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.rightside_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  width: calc(100% - 159px);
+  margin-left: 30px;
+}
+
+.profile_continer_wrapper.dtver {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  width: 100%;
+  border-radius: 25px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  height: 12vh;
+}
+
+.profile_container.dtver {
+  margin: 0;
+  width: 90%;
+}
+
+.profile_photoandname_container.dtver {
+  width: 80%;
+}
+
+.username.dtver {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.edit_icon.dtver {
+  font-size: 24px;
 }

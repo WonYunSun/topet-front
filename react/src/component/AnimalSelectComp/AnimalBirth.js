@@ -3,6 +3,9 @@ import years from "../../data/year";
 import dayjs from "dayjs";
 import styles from "../../css/animal_birth.module.css";
 import { TbTriangleInvertedFilled } from "react-icons/tb";
+/// responsive
+import { Mobile, DeskTop } from "../../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 
 const AnimalBirth = ({
   year,
@@ -17,6 +20,14 @@ const AnimalBirth = ({
   birthDontKnow,
   setBirthDontKnow,
 }) => {
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 859px)",
+  });
+
   const [dropdown, setDropdown] = useState({
     year: false,
     month: false,
@@ -237,7 +248,7 @@ const AnimalBirth = ({
   }, [birthDontKnow, year, month, day, setNextPossible]);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} ${isDeskTop && styles.dtver}`}>
       <h1 className={styles.title}>생일을 알려주세요</h1>
       <div className={styles.birth_wrapper}>
         <div
