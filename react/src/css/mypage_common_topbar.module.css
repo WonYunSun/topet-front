@@ -4,20 +4,17 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  /* background-color: #fff; */
-  height: 65px;
 }
 
 .inner_wrapper {
   width: 92%;
-  height: 30px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
 
-.inner_wrapper::after {
+.inner_wrapper.mbver::after {
   content: "";
   padding-left: 24px;
 }
@@ -37,4 +34,20 @@
 /* 반응형 */
 .back_icon.none {
   display: none;
+}
+
+.wrapper.dtver {
+}
+
+.wrapper.mbver {
+  height: 65px;
+}
+
+.inner_wrapper.mbver {
+  height: 30px;
+}
+
+.page_title.dtver {
+  font-size: 22px;
+  font-weight: 700;
 }
