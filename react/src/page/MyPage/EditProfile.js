@@ -13,34 +13,42 @@ import homeApi from "../../api/homeApi";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+/// responsive
+import { Mobile, DeskTop } from "../../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
+
 const EditProfile = () => {
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 859px)",
+  });
+
   const reduxMember = useSelector((state) => state.member.member);
   const navigate = useNavigate();
   const defaultProfileImage =
     "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
-  const [profilePhoto, setProfilePhoto] = useState();
-  const [profileName, setProfileName] = useState();
+  const currentProfilePhoto = reduxMember.profileSrc || defaultProfileImage;
+  const currentProfileName = reduxMember.name; // 기존 닉네임
+  const [profilePhoto, setProfilePhoto] = useState(currentProfilePhoto);
+  const [profileName, setProfileName] = useState(currentProfileName);
   const [canSave, setCanSave] = useState();
   const fileInputRef = useRef(null);
 
-
-  if(reduxMember != null){
-    setProfileName(reduxMember.name);
-    setProfilePhoto(reduxMember.profileSrc);
-  }
-
-  const currentProfilePhoto = reduxMember.profileSrc; // 기존 사진
-  const currentProfileName = reduxMember.name; // 기존 닉네임
-
   useEffect(() => {
+    const isDefaultPhotoUnchanged =
+      profilePhoto === defaultProfileImage &&
+      currentProfilePhoto === defaultProfileImage;
+
+    const isNameUnchangedOrEmpty =
+      profileName === "" || profileName === currentProfileName;
+
     if (profilePhoto == undefined) {
       setProfilePhoto(defaultProfileImage);
     }
-    if (
-      profileName == currentProfileName
-      &&
-      profilePhoto == currentProfilePhoto
-    ) {
+    if (isDefaultPhotoUnchanged && isNameUnchangedOrEmpty) {
       setCanSave(false);
     } else {
       setCanSave(true);
@@ -161,20 +169,26 @@ const EditProfile = () => {
           />
         </div>
         <div className={styles.profile_name_length}>
-          {profileName.length}/25
+          {profileName ? profileName.length : "0"}/25
         </div>
       </div>
-      <div className={styles.secession_wrapper}>
+      <div
+        className={`${styles.secession_wrapper} ${isMobile && styles.mbver}`}
+      >
         <div className={styles.secession_phrase}>회원을 탈퇴하시겠습니까?</div>
         <div className={styles.secession_button} onClick={Secession}>
           회원탈퇴
         </div>
       </div>
-      <div className={styles.save_button_wrapper}>
+      <div
+        className={`${styles.save_button_wrapper} ${isMobile && styles.mbver}`}
+      >
         <button
-          className={`${!canSave ? styles.disabled : styles.save_button}`}
+          className={`${styles.save_button} ${!canSave && styles.disabled}`}
           onClick={() => {
-            handleSubmit();
+            if (canSave) {
+              handleSubmit();
+            }
           }}
         >
           {"저장"}

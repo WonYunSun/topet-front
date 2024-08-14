@@ -148,6 +148,7 @@
 
 .save_button.disabled {
   background-color: #dadada;
+  pointer-events: none;
 }
 
 .profile_name_length {
@@ -263,6 +264,10 @@
 /* 반응형 */
 .wrapper.dtver {
   width: 50%;
+}
+
+.secession_wrapper.mbver {
+  max-width: 380px;
 }
 
 .save_button_wrapper.mbver {

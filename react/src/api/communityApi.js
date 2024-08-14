@@ -82,11 +82,17 @@ class CommunityApi {
     }
   }
 
-  async fetchTitleContentSearchCommunityPosts(type, category, page, size, searchText) {
+  async fetchTitleContentSearchCommunityPosts(
+    type,
+    category,
+    page,
+    size,
+    searchText
+  ) {
     // 게시물 제목+본문 검색 최신순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
-       `/${type}/${category}?page=${size}&size=${page}&title=${searchText}`
+        `/${type}/${category}?page=${size}&size=${page}&title=${searchText}`
       );
       return response.data;
     } catch (error) {
@@ -95,7 +101,13 @@ class CommunityApi {
     }
   }
 
-  async fetchTitleContentSearchSortLikeCommunityPosts(type, category, page, size, searchText) {
+  async fetchTitleContentSearchSortLikeCommunityPosts(
+    type,
+    category,
+    page,
+    size,
+    searchText
+  ) {
     // 게시물 제목+본문 검색 좋아요순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
@@ -108,11 +120,17 @@ class CommunityApi {
     }
   }
 
-  async fetchHashTagSearchCommunityPosts(type, category, page, size, searchText) {
+  async fetchHashTagSearchCommunityPosts(
+    type,
+    category,
+    page,
+    size,
+    searchText
+  ) {
     // 게시물 해시태그 검색 최신순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
-       `/${type}/${category}?page=${size}&size=${page}&hashtag=${searchText}`
+        `/${type}/${category}?page=${size}&size=${page}&hashtag=${searchText}`
       );
       return response.data;
     } catch (error) {
@@ -121,7 +139,13 @@ class CommunityApi {
     }
   }
 
-  async fetchHashTagSearchSortLikeCommunityPosts(type, category, page, size, searchText) {
+  async fetchHashTagSearchSortLikeCommunityPosts(
+    type,
+    category,
+    page,
+    size,
+    searchText
+  ) {
     // 게시물 해시태그 검색 좋아요순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
@@ -137,10 +161,8 @@ class CommunityApi {
   async fetchCommunityDetail(comid) {
     // 게시물 디테일 불러오기
     try {
-      const response = await this.axios.get(`/detail/${comid}`, {
-        
-      });
-      console.log(response)
+      const response = await this.axios.get(`/detail/${comid}`, {});
+      console.log(response);
       return handleResponse(response);
     } catch (error) {
       handleError(error);
@@ -158,7 +180,16 @@ class CommunityApi {
     }
   }
 
-
+  async getLikedCommunity(id) {
+    try {
+      const response = await this.axios.get(`/myCommunity/${id}`); // !! 수정 필요 !!
+      console.log("api Response : ", response);
+      return handleResponse(response);
+    } catch (error) {
+      console.log("api Response : ", error);
+      handleError(error);
+    }
+  }
 }
 
 export default new CommunityApi();
