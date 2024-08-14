@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import styles from '../../css/CommentCreate.module.css';
 import commentApi from '../../api/commentApi';
+import { useSelector } from 'react-redux';
 
 const CommentCreate = ({ comid, onCommentSubmit }) => {
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+
+  const reduxMemberId = useSelector((state) => state.member.member.id)
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -13,6 +16,7 @@ const CommentCreate = ({ comid, onCommentSubmit }) => {
   const handleCommentSubmit = async () => {
     const formData = new FormData();
     formData.append("content", inputValue);
+    formData.append("author", reduxMemberId);
     
     try {
       await commentApi.postComment(comid, formData);

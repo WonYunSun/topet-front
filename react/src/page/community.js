@@ -182,7 +182,8 @@ const Community = () => {
         <div className={`${styles.community} ${styles.dtver}`}>
           <div className={`${styles.commu_sidebar}`}>
             <div className={`${styles.category_buttons_area} ${styles.dtver}`}>
-              <div># 카테고리</div>
+              <div className={styles.sidebarTitle}>커뮤니티</div>
+              <div className={styles.categoryTitle}># 카테고리</div>
               <button
                 className={`${styles.category_button} ${styles.dtver}`}
                 onClick={() => handleCategoryChange("freedomAndDaily")}
@@ -219,7 +220,18 @@ const Community = () => {
               onSearch={handleSearch}
               resetSearch={resetSearch}
             />
-
+            <div className={styles.menu_area}>
+              <div className={styles.category_text}>
+                {currentSearchText ? `"${currentSearchText}" 검색결과` : ""}
+              </div>
+              <div
+                className={styles.sort_option}
+                onClick={() => handleBottomSheetOpen("sort")}
+              >
+                {sortListText}
+                <IoMdArrowDropdown />
+              </div>
+            </div>
             <CommunityList
               selectedAnimal={selectedCenter}
               sortListText={sortListText}

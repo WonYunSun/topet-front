@@ -247,26 +247,26 @@ const CommunityDetail = () => {
         <div className={`${styles.community} ${styles.dtver}`}>
           <div className={`${styles.commu_sidebar}`}>
             <div className={`${styles.category_buttons_area} ${styles.dtver}`}>
-              <div># 카테고리</div>
-
+              <div className={styles.sidebarTitle}>커뮤니티</div>
+              <div className={styles.categoryTitle}># 카테고리</div>
               <button
                 className={`${styles.category_button} ${styles.dtver}`}
                 onClick={() => handleCategoryChange("freedomAndDaily")}
-                disabled={CategoryName === "freedomAndDaily"}
+                disabled={category === "freedomAndDaily"}
               >
                 #자유/일상
               </button>
               <button
                 className={styles.category_button}
                 onClick={() => handleCategoryChange("curious")}
-                disabled={CategoryName === "curious"}
+                disabled={category === "curious"}
               >
                 #궁금해요
               </button>
               <button
                 className={styles.category_button}
                 onClick={() => handleCategoryChange("sharingInformation")}
-                disabled={CategoryName === "sharingInformation"}
+                disabled={category === "sharingInformation"}
               >
                 #정보공유
               </button>

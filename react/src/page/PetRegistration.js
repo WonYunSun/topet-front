@@ -18,8 +18,6 @@ import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
 
 const PetRegistration = () => {
-
-
   const reduxMember = useSelector((state) => state.member.member);
 
   const isDeskTop = useMediaQuery({
@@ -225,7 +223,7 @@ const PetRegistration = () => {
     formData.append("allergy", allergy ?? null); // undefined이면 null로 설정
     formData.append("health", health ?? null); // undefined이면 null로 설정
 
-    formData.append("member" , reduxMember.id);
+    formData.append("member", reduxMember.id);
 
     if (selectedPhoto != null) {
       formData.append("photo", selectedPhoto);
