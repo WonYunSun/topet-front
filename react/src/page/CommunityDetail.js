@@ -13,6 +13,9 @@ import CheckModal from "../component/CheckModal";
 import CommentCreate from "../component/CommentComp/CommentCreate";
 import CommentList from "../component/CommentComp/CommentList";
 import EditDeleteBottomSheet from "../component/SubBottomSheet";
+/// responsive
+import { Mobile, DeskTop } from "../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 
 const CommunityDetail = () => {
   const navigate = useNavigate();
@@ -33,7 +36,7 @@ const CommunityDetail = () => {
   const [showSubBottomSheet, setShowSubBottomSheet] = useState(false);
   const [writer, setWriter] = useState(false); // 글 쓴 사람인지 아닌지 초기 값 false
   const [isLikeLoading, setIsLikeLoading] = useState(false);
-  const [commentListKey, setCommentListKey] = useState(0);  // key 상태 추가
+  const [commentListKey, setCommentListKey] = useState(0); // key 상태 추가
   const [communityAuthorId, setCommunityAuthorId] = useState();
 
   const fetchPostDetail = async () => {
@@ -92,10 +95,29 @@ const CommunityDetail = () => {
       setIsLikeLoading(false);
     }
   };
+  const handleCategoryChange = (newCategory) => {
+    const animalKey = item.animal || "dog";
+    navigate(`/community/preview/${animalKey}/${newCategory}`, {
+      replace: true,
+    });
+  };
+  const categoryMap = {
+    "자유/일상": "freedomAndDaily",
+    궁금해요: "curious",
+    정보공유: "sharingInformation",
+  };
+  const animalTypeMap = {
+    강아지: "dog",
+    고양이: "cat",
+    특수동물: "exoticpet",
+  };
 
+  const CategoryName = item?.category
+    ? categoryMap[item.category] || "freedomAndDaily"
+    : "freedomAndDaily";
 
   const handleCommentSubmit = () => {
-    setCommentListKey(prevKey => prevKey + 1);  // key 값을 증가시켜 CommentList를 리렌더링
+    setCommentListKey((prevKey) => prevKey + 1); // key 값을 증가시켜 CommentList를 리렌더링
   };
 
   if (loading) {
@@ -133,7 +155,7 @@ const CommunityDetail = () => {
     hashtag,
     photos,
     likesList,
-    commentCount
+    commentCount,
   } = item;
 
   const navigateWithParams = () => {
@@ -162,60 +184,157 @@ const CommunityDetail = () => {
 
   return (
     <div>
-      <TopBar />
-      <div className={styles.profile}>
-        <img src={profileImg} alt="" className={styles.profileImg} />
-        <div className={styles.profileDetails}>
-          <div className={styles.profileName}>{profileName}</div>
+      <Mobile>
+        <TopBar />
+        <div className={styles.profile}>
+          <img src={profileImg} alt="" className={styles.profileImg} />
+          <div className={styles.profileDetails}>
+            <div className={styles.profileName}>{profileName}</div>
+          </div>
         </div>
-      </div>
-      <div className={styles.title}>{title}</div>
-      <div className={styles.content}>{content}</div>
-      {images && images.length > 0 && (
-        <div className={styles.images_container}>
-          {images.map((item, index) => (
-            <img key={index} src={ item.filePath } alt={`이미지 ${index + 1}`} />
+        <div className={styles.title}>{title}</div>
+        <div className={styles.content}>{content}</div>
+        {images && images.length > 0 && (
+          <div className={styles.images_container}>
+            {images.map((item, index) => (
+              <img
+                key={index}
+                src={item.filePath}
+                alt={`이미지 ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
+        <div className={styles.hashtags}>
+          {hashtags.map((hashtag, index) => (
+            <span key={index} className={styles.hashtag}>
+              #{hashtag}
+            </span>
           ))}
         </div>
-      )}
-      <div className={styles.hashtags}>
-        {hashtags.map((hashtag, index) => (
-          <span key={index} className={styles.hashtag}>
-            #{hashtag}
-          </span>
-        ))}
-      </div>
 
-      <div className={styles.like_and_coment}>
-        <div className="icon-group">
-          <BiSolidLike
-            className={styles.icon}
-            onClick={toggleLike}
-            style={{
-              color: isLiked ? "red" : "gray",
-              cursor: "pointer",
-              pointerEvents: isLikeLoading ? "none" : "auto",
-            }}
-          />
-          <span> {likes}</span>
+        <div className={styles.like_and_coment}>
+          <div className="icon-group">
+            <BiSolidLike
+              className={styles.icon}
+              onClick={toggleLike}
+              style={{
+                color: isLiked ? "red" : "gray",
+                cursor: "pointer",
+                pointerEvents: isLikeLoading ? "none" : "auto",
+              }}
+            />
+            <span> {likes}</span>
+          </div>
+          <div className="icon-group">
+            <BsChatFill className={styles.icon} />
+            <span> {item.commentCount}</span>
+          </div>
+          <div className={styles.moreIconContainer}>
+            <FiMoreVertical
+              className={styles.moreIcon}
+              onClick={() => setShowSubBottomSheet(true)}
+            />
+          </div>
         </div>
-        <div className="icon-group">
-          <BsChatFill className={styles.icon} />
-          <span> {item.commentCount}</span>
-        </div>
-        <div className={styles.moreIconContainer}>
-          <FiMoreVertical
-            className={styles.moreIcon}
-            onClick={() => setShowSubBottomSheet(true)}
-          />
-        </div>
-      </div>
 
-      <div className={styles.coment_area}>
-        <CommentCreate comid={comid} onCommentSubmit={handleCommentSubmit} />
-        <CommentList key={commentListKey} comid={comid} />
-      </div>
+        <div className={styles.coment_area}>
+          <CommentCreate comid={comid} onCommentSubmit={handleCommentSubmit} />
+          <CommentList key={commentListKey} comid={comid} />
+        </div>
+      </Mobile>
+      <DeskTop>
+        <div className={`${styles.community} ${styles.dtver}`}>
+          <div className={`${styles.commu_sidebar}`}>
+            <div className={`${styles.category_buttons_area} ${styles.dtver}`}>
+              <div># 카테고리</div>
 
+              <button
+                className={`${styles.category_button} ${styles.dtver}`}
+                onClick={() => handleCategoryChange("freedomAndDaily")}
+                disabled={CategoryName === "freedomAndDaily"}
+              >
+                #자유/일상
+              </button>
+              <button
+                className={styles.category_button}
+                onClick={() => handleCategoryChange("curious")}
+                disabled={CategoryName === "curious"}
+              >
+                #궁금해요
+              </button>
+              <button
+                className={styles.category_button}
+                onClick={() => handleCategoryChange("sharingInformation")}
+                disabled={CategoryName === "sharingInformation"}
+              >
+                #정보공유
+              </button>
+            </div>
+          </div>
+          <div className={`${styles.comm_listbox} ${styles.dtver}`}>
+            <div className={styles.profile}>
+              <img src={profileImg} alt="" className={styles.profileImg} />
+              <div className={styles.profileDetails}>
+                <div className={styles.profileName}>{profileName}</div>
+              </div>
+            </div>
+            <div className={styles.title}>{title}</div>
+            <div className={styles.content}>{content}</div>
+            {images && images.length > 0 && (
+              <div className={styles.images_container}>
+                {images.map((item, index) => (
+                  <img
+                    key={index}
+                    src={item.filePath}
+                    alt={`이미지 ${index + 1}`}
+                  />
+                ))}
+              </div>
+            )}
+            <div className={styles.hashtags}>
+              {hashtags.map((hashtag, index) => (
+                <span key={index} className={styles.hashtag}>
+                  #{hashtag}
+                </span>
+              ))}
+            </div>
+
+            <div className={styles.like_and_coment}>
+              <div className="icon-group">
+                <BiSolidLike
+                  className={styles.icon}
+                  onClick={toggleLike}
+                  style={{
+                    color: isLiked ? "red" : "gray",
+                    cursor: "pointer",
+                    pointerEvents: isLikeLoading ? "none" : "auto",
+                  }}
+                />
+                <span> {likes}</span>
+              </div>
+              <div className="icon-group">
+                <BsChatFill className={styles.icon} />
+                <span> {item.commentCount}</span>
+              </div>
+              <div className={styles.moreIconContainer}>
+                <FiMoreVertical
+                  className={styles.moreIcon}
+                  onClick={() => setShowSubBottomSheet(true)}
+                />
+              </div>
+            </div>
+
+            <div className={styles.coment_area}>
+              <CommentCreate
+                comid={comid}
+                onCommentSubmit={handleCommentSubmit}
+              />
+              <CommentList key={commentListKey} comid={comid} />
+            </div>
+          </div>
+        </div>
+      </DeskTop>
       {modalIsOpen && (
         <CheckModal onClose={closeModal} Content={modalMessage} oneBtn={true} />
       )}
@@ -223,7 +342,7 @@ const CommunityDetail = () => {
       <EditDeleteBottomSheet
         show={showSubBottomSheet}
         type={writer ? "CommunityEditDelete" : "CommunityReportBlock"}
-        genre ={"게시글"}
+        genre={"게시글"}
         onClose={() => setShowSubBottomSheet(false)}
         onEditClick={navigateWithParams}
         onDeleteClick={handleDeleteClick}

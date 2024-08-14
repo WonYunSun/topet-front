@@ -6,6 +6,11 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import styles from "../css/topbar.module.css";
 import { ReactComponent as Logo } from "../asset/icon/TopetLogo.svg";
+import { CgClose } from "react-icons/cg";
+import { CgSearch } from "react-icons/cg";
+/// responsive
+import { Mobile, DeskTop } from "../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 
 const TopBar = ({
   centerChange,
@@ -17,7 +22,7 @@ const TopBar = ({
   isSearchMode,
   toggleSearchMode,
   onSearch,
-  resetSearch
+  resetSearch,
 }) => {
   const navigate = useNavigate();
 
@@ -44,25 +49,54 @@ const TopBar = ({
   const renderTopBar = () => {
     if (isSearchMode) {
       return (
-        <div className={styles.topbar}>
-          <GoArrowLeft className={styles.icon} onClick={goBack} />
-          <div className={styles.searchContainer}>
-            <input
-              className={styles.searchInput}
-              placeholder="검색어를 입력하세요"
-              value={searchText}
-              onChange={handleSearchTextChange}
-            />
-            <button
-              className={styles.dropdownButton}
-              onClick={() => handleBottomSheetOpen("검색")}
-            >
-              {selectedSearchType}
-              <IoMdArrowDropdown />
-            </button>
-          </div>
-          <button className={styles.searchButton} onClick={onSearch}>검색</button>
-        </div>
+        <>
+          <Mobile>
+            <div className={styles.topbar}>
+              <GoArrowLeft className={styles.icon} onClick={goBack} />
+              <div className={styles.searchContainer}>
+                <input
+                  className={styles.searchInput}
+                  placeholder="검색어를 입력하세요"
+                  value={searchText}
+                  onChange={handleSearchTextChange}
+                />
+                <button
+                  className={styles.dropdownButton}
+                  onClick={() => handleBottomSheetOpen("검색")}
+                >
+                  {selectedSearchType}
+                  <IoMdArrowDropdown />
+                </button>
+              </div>
+              <button className={styles.searchButton} onClick={onSearch}>
+                검색
+              </button>
+            </div>
+          </Mobile>
+          <DeskTop>
+            <div className={`${styles.topbar} ${styles.dtver}`}>
+              <CgClose className={styles.icon} onClick={goBack} />
+              <div className={`${styles.searchContainer} ${styles.dtver}`}>
+                <input
+                  className={styles.searchInput}
+                  placeholder="검색어를 입력하세요"
+                  value={searchText}
+                  onChange={handleSearchTextChange}
+                />
+                <button
+                  className={styles.dropdownButton}
+                  onClick={() => handleBottomSheetOpen("검색")}
+                >
+                  {selectedSearchType}
+                  <IoMdArrowDropdown />
+                </button>
+              </div>
+              <button className={styles.searchButton} onClick={onSearch}>
+                <CgSearch className={styles.icon} />
+              </button>
+            </div>
+          </DeskTop>
+        </>
       );
     } else {
       switch (centerChange) {
@@ -70,17 +104,40 @@ const TopBar = ({
         case "고양이":
         case "특수동물":
           return (
-            <div className={styles.topbar}>
-              <GoArrowLeft className={styles.icon} onClick={goBack} />
-              <div
-                className={styles.animalSelectBox}
-                onClick={handleAnimalSelectClick}
-              >
-                {centerChange}
-                <GoChevronDown className="arrow-bottom" />
-              </div>
-              <CiSearch className={styles.icon} onClick={toggleSearchMode} />
-            </div>
+            <>
+              <Mobile>
+                <div className={styles.topbar}>
+                  <GoArrowLeft className={styles.icon} onClick={goBack} />
+
+                  <div
+                    className={styles.animalSelectBox}
+                    onClick={handleAnimalSelectClick}
+                  >
+                    {centerChange}
+                    <GoChevronDown className="arrow-bottom" />
+                  </div>
+                  <CgSearch
+                    className={styles.icon}
+                    onClick={toggleSearchMode}
+                  />
+                </div>
+              </Mobile>
+              <DeskTop>
+                <div className={`${styles.topbar}  ${styles.dtver}`}>
+                  <div
+                    className={`${styles.animalSelectBox} ${styles.dtver}`}
+                    onClick={handleAnimalSelectClick}
+                  >
+                    {centerChange}
+                    <GoChevronDown className="arrow-bottom" />
+                  </div>
+                  <CgSearch
+                    className={styles.icon}
+                    onClick={toggleSearchMode}
+                  />
+                </div>
+              </DeskTop>
+            </>
           );
         case "로고":
         case "쇼츠":
@@ -94,7 +151,7 @@ const TopBar = ({
                   value={searchText}
                   onChange={handleSearchTextChange}
                 />
-                <IoSearch color="#333" />
+                <CgSearch color="#333" />
               </div>
               <GoHome className={styles.icon} onClick={goHome} />
             </div>

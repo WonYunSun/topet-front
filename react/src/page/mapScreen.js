@@ -126,7 +126,14 @@ const MapScreen = () => {
       }));
     }
   }, []);
-  // console.log(position.lat, position.lng);
+
+  // state.center가 변경될 때마다 recommendPlaceSearch 실행
+  useEffect(() => {
+    if (isLoaded && state.center.lat && state.center.lng) {
+      recommendPlaceSearch("반려동물");
+    }
+  }, [isLoaded, state.center]);
+
   useEffect(() => {
     if (!map || !isLoaded) return;
 
@@ -223,7 +230,6 @@ const MapScreen = () => {
       (data, status) => {
         if (status === window.kakao.maps.services.Status.OK) {
           setRecommend(data);
-          console.log(data);
         } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
           setRecommend([]);
           console.log("검색 결과가 없습니다.");
@@ -234,12 +240,6 @@ const MapScreen = () => {
       options
     );
   };
-
-  useEffect(() => {
-    if (isLoaded) {
-      recommendPlaceSearch("반려동물");
-    }
-  }, [isLoaded]);
 
   const displayPlaces = (data) => {
     const bounds = new window.kakao.maps.LatLngBounds();
