@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import TopBar from '../component/TopBar';
 import styles from '../css/toPetAi.module.css';
 
@@ -24,16 +25,14 @@ const ToPetAi = () => {
 
   const fetchAIResponse = async (prompt) => {
       try {
-          const response = await fetch('http://localhost:8081/api/chatgpt/ask', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ prompt }),
-              withCredentials: true,
-          });
-          const data = await response.json();
-          return data.response;
+          const response = await axios.post('http://localhost:8081/api/chatgpt/ask', 
+              { prompt },
+              {
+                  headers: { 'Content-Type': 'application/json' },
+                  withCredentials: true,
+              }
+          );
+          return response.data.response;
       } catch (error) {
           console.error('백엔드 API 호출 중 오류 발생:', error);
           return '백엔드 API 호출 중 오류 발생';
