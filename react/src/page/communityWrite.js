@@ -15,8 +15,11 @@ import HashTag from "../component/HashTagComp/HashTag";
 /// responsive
 import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
+import { useSelector } from "react-redux";
 
 const CommunityWrite = () => {
+
+   const reduxMemberId = useSelector((state) => state.member.member.id)
   // responsive
   const isDeskTop = useMediaQuery({
     query: "(min-width: 1110px)",
@@ -108,6 +111,7 @@ const CommunityWrite = () => {
     formData.append("content", contentText);
     formData.append("category", selectedCategory);
     formData.append("hashtag", conversionStringHashTag);
+    formData.append("author", reduxMemberId)
     await communityApi.postCommunity(selectedPhotos, formData);
     navigate(-1);
   };
