@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "../css/loginpage.module.css";
@@ -9,8 +9,17 @@ import { ReactComponent as MainImg } from "../asset/icon/MainImg.svg";
 /// responsive
 import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
+import { useSelector, useDispatch } from "react-redux";
+import { updateMember } from "../redux/reducers/memberReducer";
+
+import memberApi from "../api/memberApi";
 
 const LoginPage = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [isLoaded, setIsLoaded] = useState(false);
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
@@ -19,24 +28,37 @@ const LoginPage = () => {
     query: "(min-width: 769px) and (max-width: 859px)",
   });
 
-  const goKaKaoLogin = () => {
-    axios
-      .get(
-        // 'http://175.45.202.131:8081/api/member/kakaoLogin',
-        "http://localhost:8081/api/member/kakaoLogin",
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        window.location.href = response.data;
-      })
-      .catch((error) => {
-        console.log("서버 응답:", error);
-        return error;
-      });
+  useEffect(()=>{
+    const fetchData =async()=>{
+      try{
+        await getMember()
+      }catch(error){
+        
+      }finally{
+        setIsLoaded(true);
+      }
+    }
+    fetchData();
+  },[])
+  
+  const getMember = async() =>{
+    const resp = await memberApi.getHomeDataMember();
+    if(resp.status == 200 && resp.data != null){
+      dispatch(updateMember(resp.data));
+      navigate(`/home`);
+    }
+  }
+
+  const goKaKaoLogin = async() => {
+    const resp = await memberApi.kakaoLogin();
+    window.location.href = resp;
+    
+    
   };
 
+  if(!isLoaded){
+    return(<div>Loading...</div>)
+  }
   return (
     <>
       <Mobile>

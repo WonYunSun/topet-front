@@ -9,6 +9,7 @@ import AnimalBirth from "../component/AnimalSelectComp/AnimalBirth";
 import AnimalPhotoandName from "../component/AnimalSelectComp/AnimalPhotoandName";
 import AnimalWeightandHealth from "../component/AnimalSelectComp/AnimalWeightandHealth";
 import CheckModal from "../component/CheckModal";
+import { useSelector, useDispatch } from "react-redux";
 
 import petApi from "../api/petApi";
 
@@ -17,6 +18,10 @@ import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
 
 const PetRegistration = () => {
+
+
+  const reduxMember = useSelector((state) => state.member.member);
+
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
@@ -219,6 +224,9 @@ const PetRegistration = () => {
     formData.append("weight", weight);
     formData.append("allergy", allergy ?? null); // undefined이면 null로 설정
     formData.append("health", health ?? null); // undefined이면 null로 설정
+
+    formData.append("member" , reduxMember.id);
+
     if (selectedPhoto != null) {
       formData.append("photo", selectedPhoto);
     }

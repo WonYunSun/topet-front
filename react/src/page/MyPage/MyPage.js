@@ -70,12 +70,14 @@ const MyPage = () => {
   };
 
   // 로그아웃
-  const handleLogout = () => {
-    dispatch(updateMember(""));
-    dispatch(updatePetList([]));
-    dispatch(updateSelectedPet(""));
-    
-    memberApi.logout();
+  const handleLogout = async() => {
+    const response = await memberApi.logout();
+    if(response.status == 200 && response.data === "success"){
+      dispatch(updateMember(""));
+      dispatch(updatePetList([]));
+      dispatch(updateSelectedPet(""));
+      navigate(`/login`);
+    }
     console.log("!! 로그아웃 !!");
 
     setShowModal(false);
@@ -150,7 +152,7 @@ const MyPage = () => {
         {showModal ? (
           <CheckModal
             onClose={handleCloseLogoutModal}
-            onContinue={()=>{handleLogout()}}
+            onContinue={()=>handleLogout()}
             Content={"로그아웃 하시겠습니까?"}
             CancleBtnContent={"취소"}
             ContinueBtnContent={"확인"}

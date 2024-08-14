@@ -2,12 +2,15 @@ import React from "react";
 import { useNavigate } from 'react-router-dom';
 import styles from '../../css/mypage_managemypets.module.css';
 import { MdEdit, MdShare } from "react-icons/md";
+import PetProfileDetail from "../../page/MyPage/PetProfileDetail";
 
 const MyPetItem = ({ onOpenModal, photoUrl, name, uid, pet }) => {
     const navigate = useNavigate();
 
     const goPetDetail = (pet) => {
-        navigate(`/petprofiledetail/${pet.id}`);
+        
+        // navigate(`/petprofiledetail/${pet.id}`);
+        navigate(`/petprofiledetail`,  { state: { id: pet.id } });
         console.log(pet.id);
     }
 
