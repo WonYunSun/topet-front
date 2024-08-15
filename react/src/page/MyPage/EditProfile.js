@@ -11,13 +11,11 @@ import { TbPhoto } from "react-icons/tb";
 import { TiDelete } from "react-icons/ti";
 
 import memberApi from "../../api/memberApi";
-
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
 /// responsive
-import { Mobile, DeskTop } from "../../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
+import { updateMember } from "../../redux/reducers/memberReducer";
 
 const EditProfile = () => {
   const isDeskTop = useMediaQuery({
@@ -29,38 +27,30 @@ const EditProfile = () => {
   });
 
   const reduxMember = useSelector((state) => state.member.member);
-  console.log(reduxMember);
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const defaultProfileImage =
     "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
   const currentProfilePhoto = reduxMember.profileSrc || defaultProfileImage;
   const currentProfileName = reduxMember.name; // 기존 닉네임
-  const [profilePhoto, setProfilePhoto] = useState(currentProfilePhoto);
-  const [profileName, setProfileName] = useState(currentProfileName);
-  const [canSave, setCanSave] = useState();
 
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState();
+  const [profileName, setProfileName] = useState(currentProfileName);
+  const [canSave, setCanSave] = useState(false);
 
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    const isDefaultPhotoUnchanged =
-      profilePhoto === defaultProfileImage &&
-      currentProfilePhoto === defaultProfileImage;
+    const isPhotoChanged = profilePhoto && profilePhoto !== currentProfilePhoto;
+    const isNameChanged = profileName !== currentProfileName;
 
-    const isNameUnchangedOrEmpty =
-      profileName === "" || profileName === currentProfileName;
-
-    if (profilePhoto == undefined) {
-      setProfilePhoto(defaultProfileImage);
-    }
-    if (isDefaultPhotoUnchanged && isNameUnchangedOrEmpty) {
-      setCanSave(false);
-    } else {
+    // If either the profile photo or the profile name is changed
+    if (isPhotoChanged || isNameChanged) {
       setCanSave(true);
+    } else {
+      setCanSave(false);
     }
-  }, [canSave, profileName, profilePhoto]);
+  }, [profilePhoto, profileName, currentProfilePhoto, currentProfileName]);
 
   const photoSelect = useCallback(() => {
     fileInputRef.current.click();
@@ -74,41 +64,30 @@ const EditProfile = () => {
     [setProfilePhoto]
   );
 
-  const handleProfilePhotoChange = (value) => {
-    setProfilePhoto(value);
-  };
-
   const handleProfileNameChange = (e) => {
-    const tempname = e.target.value;
-    if (tempname.length <= 25) {
-      setProfileName(tempname);
+    const tempName = e.target.value;
+    if (tempName.length <= 25) {
+      setProfileName(tempName);
     }
   };
 
   const handleSubmit = async () => {
-    // 프로필 등록
-    console.log("저장");
     const formData = new FormData();
-    formData.append("profileName", profileName);
+    formData.append("name", profileName);
+    formData.append("id", reduxMember.id);
     if (profilePhoto != null) {
       formData.append("photo", profilePhoto);
     }
-    const resp = await memberApi.postMemberInfo(formData);
-    if (resp.status == 200) {
-      navigate(`/home`);
-    } else {
-      alert("실패");
-      window.location.reload();
-    }
-    // navigate(-1);
+    const resp = await memberApi.memberUpdate(formData);
+    dispatch(updateMember(resp.data));
+
+    navigate(`/mypage`);
   };
-  const ProfilePhoto = useMemo(() => {
+
+  const ProfilePhoto1 = useMemo(() => {
     return (
-      <div
-        className={styles.profile_photo_wrapper}
-        onChange={handleProfilePhotoChange}
-      >
-        {profilePhoto && typeof profilePhoto === "object" ? (
+      <div className={styles.profile_photo_wrapper}>
+        {profilePhoto ? (
           <div className={styles.selected_profile_photo_container}>
             <img
               src={URL.createObjectURL(profilePhoto)}
@@ -119,7 +98,7 @@ const EditProfile = () => {
         ) : (
           <div className={styles.selected_profile_photo_container}>
             <img
-              src={profilePhoto}
+              src={currentProfilePhoto}
               className={styles.selected_profile_photo}
               alt="Profile"
             />
@@ -127,7 +106,7 @@ const EditProfile = () => {
         )}
       </div>
     );
-  }, [setProfilePhoto, handleProfilePhotoChange]);
+  }, [profilePhoto, currentProfilePhoto]);
 
   const SelectingPhoto = useMemo(() => {
     return (
@@ -153,14 +132,11 @@ const EditProfile = () => {
     console.log("회원탈퇴");
   };
 
-  if (!isLoaded) {
-    return <div>Loading...</div>;
-  }
   return (
     <div className={styles.wrapper}>
       <MyPageCommonTopBar title={"프로필 수정"} />
       <div className={styles.photo_wrapper}>
-        {ProfilePhoto}
+        {ProfilePhoto1}
         {SelectingPhoto}
       </div>
       <div className={styles.profile_name_wrapper}>

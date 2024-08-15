@@ -25,7 +25,7 @@ class petApi {
   async getMyPets(id){
 
     try{
-      const response = await this.axios.get(`/home/getMyPets/${id}`);
+      const response = await this.axios.get(`/getMyPets/${id}`);
       return handleResponse(response);
     }catch(error){
       return handleError(error);

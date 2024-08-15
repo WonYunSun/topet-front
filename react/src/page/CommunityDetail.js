@@ -239,8 +239,8 @@ const CommunityDetail = () => {
         </div>
 
         <div className={styles.coment_area}>
-          <CommentCreate comid={comid} onCommentSubmit={handleCommentSubmit} />
-          <CommentList key={commentListKey} comid={comid} />
+          <CommentCreate type={"community"}comid={comid} onCommentSubmit={handleCommentSubmit} />
+          <CommentList key={commentListKey} comid={comid} boardType={"community"} />
         </div>
       </Mobile>
       <DeskTop>

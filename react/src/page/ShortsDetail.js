@@ -7,6 +7,9 @@ import { FaPlay, FaPause } from "react-icons/fa";
 import { BsChatFill } from "react-icons/bs";
 import { BiSolidLike } from "react-icons/bi";
 import { HiDotsHorizontal } from "react-icons/hi";
+import ShortsBottom from "../component/ShortsBottom";
+
+// 디바운스 함수 구현
 const debounce = (func, delay) => {
   let timeoutId;
   return (...args) => {
@@ -193,6 +196,7 @@ function ShortsDetail() {
           ></div>
         </div>
       </div>
+      <ShortsBottom id={id} />
     </div>
   );
 }

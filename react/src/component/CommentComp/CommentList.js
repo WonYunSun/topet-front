@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import EditDeleteBottomSheet from '../SubBottomSheet';
 import CheckModal from '../CheckModal';
 
-const CommentList = ({ comid }) => {
+const CommentList = ({ comid , boardType}) => {
 
   const reduxMemberId = useSelector((state) => state.member.member.id);
 
@@ -139,7 +139,7 @@ const CommentList = ({ comid }) => {
 
   const fetchComments = async (page, pageSize) => {
     try {
-      return await commentApi.fetchComment(comid, page, pageSize);
+      return await commentApi.fetchComment(comid, page, pageSize, boardType);
     } catch (error) {
       console.error("댓글을 불러오는 중 오류 발생:", error);
     }
