@@ -61,6 +61,7 @@
 .nopet_text {
   margin-top: 28px;
   font-size: 15px;
+  letter-spacing: 0.5px;
 }
 
 .copy_success_line {
@@ -241,9 +242,10 @@
 /* 반응형 - ManageMyPets */
 
 .wrapper_dtver {
-  width: 80%;
+  width: 79%;
   max-width: 1050px;
   margin: 0 auto;
+  gap: 1%;
 }
 
 .inner_wrapper {

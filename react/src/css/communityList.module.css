@@ -42,7 +42,9 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100vh - 195px); /* TopBar의 높이를 계산해서 props 전달해준 다음에 윈도우 높이에서 빼야하는 로직 구현 필요 */
+  height: calc(
+    100vh - 195px
+  ); /* TopBar의 높이를 계산해서 props 전달해준 다음에 윈도우 높이에서 빼야하는 로직 구현 필요 */
   overflow-y: auto;
 }
 
@@ -86,9 +88,9 @@
   color: #333;
   font-weight: bold;
   text-align: left;
-  white-space: nowrap; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* .content_and_photo_area {
@@ -126,7 +128,7 @@
   height: 100%;
   /* margin-left: 10px; */
   border-radius: 10px;
-  object-fit:cover;
+  object-fit: cover;
 }
 
 .community_hashtags {
@@ -137,7 +139,6 @@
   align-items: center;
   gap: 5px;
   margin-top: 20px;
-
 }
 
 .hashtag {
@@ -163,10 +164,9 @@
 .like_and_coment .icon-group {
   display: flex;
   align-items: center;
-
 }
 
-.icon{
+.icon {
   color: rgb(173, 173, 173);
 }
 
@@ -184,10 +184,15 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .error_message {
+  margin-top: 28px;
   white-space: pre-line;
 }
