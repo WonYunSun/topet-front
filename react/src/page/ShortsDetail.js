@@ -20,6 +20,9 @@ function ShortsDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [thisShorts, setThisShorts] = useState();
+
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
+
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasFetchedRandom, setHasFetchedRandom] = useState(false);
   const [touchStartY, setTouchStartY] = useState(0);
@@ -87,7 +90,10 @@ function ShortsDetail() {
     setTouchStartY(event.touches[0].clientY);
     console.log("touchStartY set to", event.touches[0].clientY);
   };
-
+const handleBottomSheet = () =>{
+  setShowBottomSheet(true);
+  console.log(showBottomSheet)
+}
   const handleTouchMove = (event) => {
     const touchEndY = event.touches[0].clientY;
     console.log("touchEndY", touchEndY);
@@ -117,9 +123,9 @@ function ShortsDetail() {
         loop
         style={{ width: screenX, height: screenY * 0.6 }}
       ></video>
-      <div>하단여백</div>
+      <div onClick={()=>handleBottomSheet}>댓글</div>
     </div>
-    <ShortsBottom id={id}/>
+    {showBottomSheet && <ShortsBottom id={id}/>}
     </div>
   );
 }
