@@ -29,7 +29,7 @@ function ShortsDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [thisShorts, setThisShorts] = useState();
-
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasFetchedRandom, setHasFetchedRandom] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
