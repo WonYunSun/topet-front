@@ -9,8 +9,11 @@ import CheckModal from "../component/CheckModal";
 import styles from "../css/addshorts.module.css";
 import { LuUpload } from "react-icons/lu";
 import { IoIosClose } from "react-icons/io";
-
+import { useSelector } from "react-redux";
 function AddShorts() {
+  const reduxMember = useSelector((state) => state.member.member);
+
+
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [videoPreviewUrl, setVideoPreviewUrl] = useState("");
@@ -88,23 +91,28 @@ function AddShorts() {
   };
 
   const submitShorts = () => {
+
     const formData = new FormData();
     // formData.append("title", title);
     formData.append("content", content);
     formData.append("thumbnailPhoto", selectedPhoto);
     formData.append("video", selectedVideo);
-
+    formData.append("author" , reduxMember.id);
     const resp = shortsApi.postShorts(formData);
+    console.log(resp);
     if (resp.status === 200) {
+       console.log("들어감")
     } else {
+      console.log("안들어감")
     }
   };
 
+  
   return (
     <>
       <TopBar />
       <div>
-        {/* <div><label>제목<input onChange={titleChange} style={{border:"1px solid black"}} type="text"/></label></div>   */}
+        
 
         <Content
           value={content}

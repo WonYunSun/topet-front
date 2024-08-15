@@ -24,12 +24,11 @@ export default function AddSchedule({
   schedules,
   setSchedules,
 }) {
-  
   const initialDate = dayjs(selectedDate).isValid()
     ? dayjs(selectedDate).toDate()
     : new Date();
-    const reduxMember = useSelector((state) => state.member.member);
-    const reduxPet = useSelector((state)=>state.selectePet.selectePet);
+  const reduxMember = useSelector((state) => state.member.member);
+  const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
   const defaultValues = {
     startDate: initialDate,
     endDate: dayjs(initialDate).add(5, "minute").toDate(), // startDate 기준으로 5분 더함
@@ -64,8 +63,6 @@ export default function AddSchedule({
   const [btnStyle, setBtnStyle] = useState("gray");
 
   useEffect(() => {
-    
-
     const updatedStartDate = initialValues.startDate || defaultValues.startDate;
     setStartDate(updatedStartDate);
 
@@ -147,7 +144,7 @@ export default function AddSchedule({
     formData.append("scheduleWriter", "WriterName");
     formData.append("scheduleEditer", "EditorName");
     formData.append("animal", selectedPet.id);
-    formData.append("author" , reduxMember.id);
+    formData.append("author", reduxMember.id);
     formData.append("animal", reduxPet.id);
     if (selectedPhoto != null) {
       formData.append("photo", selectedPhoto);
