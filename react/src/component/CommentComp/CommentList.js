@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import commentApi from '../../api/commentApi';
-import CommentDetail from '../CommentComp/CommentDetail';
-import ContentList from '../HandlerComp/ContentList';
-import { useSelector } from 'react-redux';
-import EditDeleteBottomSheet from '../SubBottomSheet';
-import CheckModal from '../CheckModal';
+import React, { useState, useEffect } from "react";
+import commentApi from "../../api/commentApi";
+import CommentDetail from "../CommentComp/CommentDetail";
+import ContentList from "../HandlerComp/ContentList";
+import { useSelector } from "react-redux";
+import EditDeleteBottomSheet from "../SubBottomSheet";
+import CheckModal from "../CheckModal";
 
-const CommentList = ({ comid , boardType}) => {
-
+const CommentList = ({ comid, boardType, isshorts }) => {
   const reduxMemberId = useSelector((state) => state.member.member.id);
 
   const [isCommentWriter, setIsCommentWriter] = useState(false);
@@ -37,7 +36,7 @@ const CommentList = ({ comid , boardType}) => {
     try {
       await commentApi.deleteComment(commentId);
       setShowSubBottomSheet(false);
-      setFetchKey(prevKey => prevKey + 1);
+      setFetchKey((prevKey) => prevKey + 1);
       setModalMessage("댓글이 삭제되었습니다.");
       setModalIsOpen(true);
     } catch (error) {
@@ -51,7 +50,7 @@ const CommentList = ({ comid , boardType}) => {
     try {
       await commentApi.deleteReply(replyId);
       setShowSubBottomSheet(false);
-      setFetchKey(prevKey => prevKey + 1);
+      setFetchKey((prevKey) => prevKey + 1);
       setModalMessage("답글이 삭제되었습니다.");
       setModalIsOpen(true);
     } catch (error) {
@@ -71,8 +70,6 @@ const CommentList = ({ comid , boardType}) => {
     setShowSubBottomSheet(false);
   };
 
- 
-
   const handleEditSubmit = async (id, content, isComment) => {
     try {
       const formData = new FormData();
@@ -88,7 +85,7 @@ const CommentList = ({ comid , boardType}) => {
         setIsEditingReply(null);
         setModalMessage("답글이 수정되었습니다.");
       }
-      setFetchKey(prevKey => prevKey + 1);
+      setFetchKey((prevKey) => prevKey + 1);
       setModalIsOpen(true);
     } catch (error) {
       console.error("Error updating content:", error);
@@ -103,11 +100,11 @@ const CommentList = ({ comid , boardType}) => {
         const formData = new FormData();
         formData.append("parentId", parentCommentId);
         formData.append("content", replyContent);
-        formData.append("author", reduxMemberId)
-        
+        formData.append("author", reduxMemberId);
+
         await commentApi.postReplyComment(comid, formData);
         setActiveReplyInput(null);
-        setFetchKey(prevKey => prevKey + 1);
+        setFetchKey((prevKey) => prevKey + 1);
         setModalMessage("답글이 등록되었습니다.");
         setModalIsOpen(true);
       } catch (error) {
@@ -125,17 +122,23 @@ const CommentList = ({ comid , boardType}) => {
 
   const determineType = () => {
     if (commentId && isCommentWriter) {
-      return { type: "CommentEditDelete", deleteHandler: handleDeleteComment, editHandler: () => handleEditComment(commentId) };
+      return {
+        type: "CommentEditDelete",
+        deleteHandler: handleDeleteComment,
+        editHandler: () => handleEditComment(commentId),
+      };
     } else if (commentId) {
       return { type: "CommentReportBlock", deleteHandler: null };
     } else if (replyId && isReplyWriter) {
-      return { type: "ReplyEditDelete", deleteHandler: handleDeleteReply, editHandler: () => handleEditReply(replyId) };
+      return {
+        type: "ReplyEditDelete",
+        deleteHandler: handleDeleteReply,
+        editHandler: () => handleEditReply(replyId),
+      };
     } else {
       return { type: "ReplyReportBlock", deleteHandler: null };
     }
   };
-
-
 
   const fetchComments = async (page, pageSize) => {
     try {
@@ -147,6 +150,7 @@ const CommentList = ({ comid , boardType}) => {
 
   const renderComments = (comment) => (
     <CommentDetail
+      isshorts={isshorts}
       key={comment.id}
       comment={comment}
       reduxMemberId={reduxMemberId}
@@ -168,13 +172,12 @@ const CommentList = ({ comid , boardType}) => {
     />
   );
 
-
   return (
     <div>
-      <ContentList 
+      <ContentList
         key={fetchKey}
-        fetchItems={fetchComments} 
-        renderItem={renderComments} 
+        fetchItems={fetchComments}
+        renderItem={renderComments}
       />
       {showSubBottomSheet && (
         <EditDeleteBottomSheet
@@ -193,7 +196,7 @@ const CommentList = ({ comid , boardType}) => {
         />
       )}
       {modalIsOpen && (
-        <CheckModal 
+        <CheckModal
           Content={modalMessage}
           onClose={() => setModalIsOpen(false)}
           oneBtn={true}
@@ -201,6 +204,6 @@ const CommentList = ({ comid , boardType}) => {
       )}
     </div>
   );
-}
+};
 
 export default CommentList;

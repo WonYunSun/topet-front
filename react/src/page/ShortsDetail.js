@@ -30,8 +30,6 @@ function ShortsDetail() {
   const { id } = useParams();
   const [thisShorts, setThisShorts] = useState();
 
-  const [showBottomSheet, setShowBottomSheet] = useState(false);
-
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasFetchedRandom, setHasFetchedRandom] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -107,10 +105,10 @@ function ShortsDetail() {
       touchStartY.current = startY;
     }
   };
-const handleBottomSheet = () =>{
-  setShowBottomSheet(true);
-  console.log(showBottomSheet)
-}
+  const handleBottomSheet = () => {
+    setShowBottomSheet(true);
+    console.log(showBottomSheet);
+  };
   const handleTouchMove = (event) => {
     const touchEndY = event.touches[0].clientY;
 
@@ -157,6 +155,7 @@ const handleBottomSheet = () =>{
     setProgress(progressPercentage);
   };
 
+  // console.log(id);
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
@@ -247,7 +246,7 @@ const handleBottomSheet = () =>{
                 {isPlaying ? <FaPause size={50} /> : <FaPlay size={50} />}
               </button>
               <div className={styles.detaildiv}>
-                <div>{thisShorts?.content}</div>
+                <div className={styles.condiv}>{thisShorts?.content}</div>
               </div>
               <div className={styles.menudiv}>
                 <div>
@@ -289,13 +288,14 @@ const handleBottomSheet = () =>{
                 </div>
               </div>
             </div>
-            <ShortsBottom
-              className={styles.sideSheet}
-              id={id}
-              show={true}
-              onClose={handleBottomSheetClose}
-              isshorts={true}
-            />
+            <div className={styles.btmWrapper}>
+              <ShortsBottom
+                id={id}
+                show={true}
+                onClose={handleBottomSheetClose}
+                isshorts={true}
+              />
+            </div>
           </div>
         </div>
       </DeskTop>

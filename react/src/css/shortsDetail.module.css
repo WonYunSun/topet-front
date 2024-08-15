@@ -31,7 +31,8 @@
   justify-content: space-between;
 }
 .detaildiv {
-  max-width: 75vw;
+  color: #ffffff;
+  max-width: 70%;
   position: absolute;
   bottom: 5%;
   left: 30px;
@@ -41,6 +42,7 @@
   white-space: normal; /* 텍스트가 줄바꿈되도록 설정 */
   overflow-wrap: break-word; /* 긴 단어가 넘칠 경우 줄바꿈을 허용 */
 }
+
 .progressBar {
   position: relative;
   background-color: rgba(255, 255, 255, 0.3);
@@ -88,8 +90,9 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  color: #767676;
+  color: #ffffff;
 }
+
 .menudiv > div > div {
   padding-top: 3px;
   font-weight: 600;
@@ -104,29 +107,32 @@
   font-weight: 700;
 }
 .shortsWrap_dtver {
-  width: 80%;
+  width: 79%;
   max-width: 1050px;
   margin: 0 auto;
   margin-top: 50px;
   display: flex;
   flex-direction: row;
-  gap: 1%;
 }
 .leftWrapper {
   width: 20%;
 }
 .shortsWrap_dtver > .rightWrapper {
+  margin-left: 30px;
   height: 75vh;
   display: flex;
   flex-direction: row;
   width: calc(100% - 159px);
+  gap: 2%;
+  box-sizing: border-box;
 }
 .rightWrapper > .detail_wrap {
   height: 100%;
-  width: 50%;
+  width: 49%;
   border-radius: 15px;
   overflow: hidden;
 }
-.sideSheet {
-  flex-grow: 1;
+.btmWrapper {
+  width: 49%;
+  height: 100%;
 }

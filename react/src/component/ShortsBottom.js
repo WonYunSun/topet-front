@@ -25,7 +25,9 @@ const ShortsBottom = ({ onClose, id, show, isshorts }) => {
       <div
         className={`${styles.bottomSheet} ${
           show && !isshorts ? styles.show : ""
-        } ${isDeskTop ? styles.dtver : ""} ${isshorts ? styles.shortsBtm : ""}`}
+        } ${isDeskTop && !isshorts ? styles.dtver : ""} ${
+          isshorts ? styles.shortsBtm : ""
+        }`}
       >
         <div className={styles.bottomSheetTitle}>
           댓글
@@ -39,12 +41,33 @@ const ShortsBottom = ({ onClose, id, show, isshorts }) => {
           )}
         </div>
         <div className={styles.bottomSheetContent}>
-          <CommentCreate
-            type={"shorts"}
-            comid={id}
-            onCommentSubmit={handleCommentSubmit}
-          />
-          <CommentList key={commentListKey} comid={id} boardType={"shorts"} />
+          <Mobile>
+            <CommentCreate
+              type={"shorts"}
+              comid={id}
+              onCommentSubmit={handleCommentSubmit}
+            />
+            <CommentList key={commentListKey} comid={id} boardType={"shorts"} />
+          </Mobile>
+          <DeskTop>
+            <div className={styles.dt_CommWrap}>
+              <div>
+                <CommentList
+                  isshorts={true}
+                  key={commentListKey}
+                  comid={id}
+                  boardType={"shorts"}
+                />
+              </div>
+              <div>
+                <CommentCreate
+                  type={"shorts"}
+                  comid={id}
+                  onCommentSubmit={handleCommentSubmit}
+                />
+              </div>
+            </div>
+          </DeskTop>
         </div>
       </div>
     </>

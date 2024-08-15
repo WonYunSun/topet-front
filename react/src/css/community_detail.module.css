@@ -138,12 +138,11 @@
   margin: 0 auto;
   margin-top: 50px;
   max-width: 1050px;
-  width: 80%;
+  width: 79%;
   /* height: calc(100vh - 88px); */
   display: flex;
   flex-direction: row;
   align-items: start;
-  gap: 1%;
 }
 .comm_listbox {
   /* width: 80%;
@@ -165,7 +164,7 @@
   justify-content: center;
   align-items: start;
   text-align: left;
-  width: 15%;
+  width: 20%;
 }
 .sidebarTitle {
   margin-left: 1%;
@@ -176,6 +175,7 @@
   font-weight: 700;
 }
 .category_buttons_area.dtver {
+  display: flex;
   flex-direction: column;
   margin: 0;
 
@@ -237,6 +237,7 @@
 }
 
 .comm_listbox {
+  margin-left: 30px;
   width: calc(100% - 159px);
 }
 .comm_listbox > .menu_area {

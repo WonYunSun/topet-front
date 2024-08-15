@@ -20,6 +20,7 @@ const CommentDetail = ({
   handleReplySubmit,
   setCommentAuthorId,
   setreplyAuthorId,
+  isshorts,
 }) => {
   const [replyContent, setReplyContent] = useState("");
   const [editContent, setEditContent] = useState("");
@@ -75,7 +76,7 @@ const CommentDetail = ({
     setActiveReplyInput(null);
     setReplyContent("");
   };
-
+  console.log(isshorts);
   const isReplyInputActive = activeReplyInput === comment.id;
 
   return (
@@ -92,7 +93,11 @@ const CommentDetail = ({
       </div>
 
       {isEditingComment === comment.id ? (
-        <div className={styles.replyInputWrap}>
+        <div
+          className={`${styles.replyInputWrap} ${
+            isshorts ? styles.shortsReply : ""
+          }`}
+        >
           <input
             type="text"
             value={editContent}
@@ -111,7 +116,11 @@ const CommentDetail = ({
       )}
 
       {isReplyInputActive && (
-        <div className={styles.replyInputWrap}>
+        <div
+          className={`${styles.replyInputWrap} ${
+            isshorts ? styles.shortsReply : ""
+          }`}
+        >
           <input
             placeholder="답글을 남겨보세요"
             value={replyContent}
@@ -144,7 +153,11 @@ const CommentDetail = ({
                 />
               </div>
               {isEditingReply === reply.id ? (
-                <div className={styles.replyInputWrap}>
+                <div
+                  className={`${styles.replyInputWrap} ${
+                    isshorts ? styles.shortsReply : ""
+                  }`}
+                >
                   <input
                     type="text"
                     value={editContent}
