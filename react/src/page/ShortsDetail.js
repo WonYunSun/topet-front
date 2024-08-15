@@ -290,7 +290,7 @@ function ShortsDetail() {
             <div className={styles.btmWrapper}>
               <ShortsBottom
                 id={id}
-                show={true}
+                show={showBottomSheet}
                 onClose={handleBottomSheetClose}
                 isshorts={true}
               />

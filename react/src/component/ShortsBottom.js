@@ -6,6 +6,7 @@ import { CgClose } from "react-icons/cg";
 /// responsive
 import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
+
 const ShortsBottom = ({ onClose, id, show, isshorts }) => {
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
@@ -17,28 +18,29 @@ const ShortsBottom = ({ onClose, id, show, isshorts }) => {
     setCommentListKey((prevKey) => prevKey + 1); // key 값을 증가시켜 CommentList를 리렌더링
   };
 
+  useEffect(() => {
+    // id 값이 변경될 때마다 commentListKey를 증가시켜 CommentList를 리렌더링
+    setCommentListKey((prevKey) => prevKey + 1);
+  }, [id]);
+
   return (
     <>
       {show && !isshorts && (
         <div className={styles.overlay} onClick={onClose}></div>
       )}
       <div
-        className={`${styles.bottomSheet} ${
-          show && !isshorts ? styles.show : ""
-        } ${isDeskTop && !isshorts ? styles.dtver : ""} ${
-          isshorts ? styles.shortsBtm : ""
-        }`}
+        className={`${styles.bottomSheet} ${show ? styles.show : ""} ${
+          isDeskTop && !isshorts ? styles.dtver : ""
+        } ${isshorts ? styles.shortsBtm : ""}`}
       >
         <div className={styles.bottomSheetTitle}>
           댓글
-          {!isshorts && (
-            <CgClose
-              color="#444"
-              size={20}
-              className={styles.closeIcon}
-              onClick={onClose}
-            />
-          )}
+          <CgClose
+            color="#444"
+            size={20}
+            className={styles.closeIcon}
+            onClick={onClose}
+          />
         </div>
         <div className={styles.bottomSheetContent}>
           <Mobile>

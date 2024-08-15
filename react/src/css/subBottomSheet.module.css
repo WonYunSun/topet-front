@@ -10,14 +10,21 @@
   z-index: 1000;
 }
 .bottomSheet.shortsBtm {
+  opacity: 0;
   border-radius: 15px;
   width: 100%;
   height: 100%;
   position: static;
-  z-index: 0;
-  transform: translateY(0);
+  /* z-index: -100; */
+  transform: translateX(-100%);
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   overflow: hidden;
+}
+.bottomSheet.shortsBtm.show {
+  margin-left: 20px;
+  opacity: 1;
+  transform: translateX(0);
+  z-index: -1;
 }
 
 .bottomSheet {
