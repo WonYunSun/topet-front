@@ -6,6 +6,7 @@ import React, {
   useEffect,
 } from "react";
 import MyPageCommonTopBar from "../../component/MyPageComp/MyPageCommonTopBar";
+import MyPageSideBar from "../../component/MyPageComp/MyPageSideBar";
 import styles from "../../css/mypage_editprofile.module.css";
 import { TbPhoto } from "react-icons/tb";
 import { TiDelete } from "react-icons/ti";
@@ -133,54 +134,66 @@ const EditProfile = () => {
   };
 
   return (
-    <div className={styles.wrapper}>
-      <MyPageCommonTopBar title={"프로필 수정"} />
-      <div className={styles.photo_wrapper}>
-        {ProfilePhoto1}
-        {SelectingPhoto}
-      </div>
-      <div className={styles.profile_name_wrapper}>
-        <div className={styles.profile_name_title}>닉네임</div>
-        <div className={styles.profile_name_inputbar_wrapper}>
-          <input
-            className={styles.profile_name_inputbar}
-            value={profileName}
-            maxLength={25}
-            onChange={handleProfileNameChange}
-            placeholder="닉네임을 작성해주세요"
-          />
-          <TiDelete
-            className={styles.input_delete_icon}
-            onClick={DeleteInputText}
-          />
+    <>
+      <div className={`${isDeskTop ? styles.wrapper_dtver : styles.wrapper}`}>
+        <div className={`${isDeskTop && styles.inner_wrapper}`}>
+          {isDeskTop && <MyPageSideBar option={"좋아요 한 쇼츠 보기"} />}
+          <div className={`${isDeskTop && styles.rightside_wrapper}`}>
+            <MyPageCommonTopBar title={"프로필 수정"} />
+            <div className={styles.photo_wrapper}>
+              {ProfilePhoto1}
+              {SelectingPhoto}
+            </div>
+            <div className={styles.profile_name_wrapper}>
+              <div className={styles.profile_name_title}>닉네임</div>
+              <div className={styles.profile_name_inputbar_wrapper}>
+                <input
+                  className={styles.profile_name_inputbar}
+                  value={profileName}
+                  maxLength={25}
+                  onChange={handleProfileNameChange}
+                  placeholder="닉네임을 작성해주세요"
+                />
+                <TiDelete
+                  className={styles.input_delete_icon}
+                  onClick={DeleteInputText}
+                />
+              </div>
+              <div className={styles.profile_name_length}>
+                {profileName ? profileName.length : "0"}/25
+              </div>
+            </div>
+            <div
+              className={`${styles.save_button_wrapper} ${
+                isDeskTop ? styles.dtver : styles.mbver
+              }`}
+            >
+              <button
+                className={`${styles.save_button} ${
+                  !canSave && styles.disabled
+                } ${isDeskTop && styles.dtver}`}
+                onClick={() => {
+                  if (canSave) {
+                    handleSubmit();
+                  }
+                }}
+              >
+                {"저장"}
+              </button>
+            </div>
+            <div
+              className={`${styles.secession_wrapper} ${
+                isMobile ? styles.mbver : styles.dtver
+              }`}
+            >
+              <div className={styles.secession_button} onClick={Secession}>
+                회원탈퇴
+              </div>
+            </div>
+          </div>
         </div>
-        <div className={styles.profile_name_length}>
-          {profileName ? profileName.length : "0"}/25
-        </div>
       </div>
-      <div
-        className={`${styles.secession_wrapper} ${isMobile && styles.mbver}`}
-      >
-        <div className={styles.secession_phrase}>회원을 탈퇴하시겠습니까?</div>
-        <div className={styles.secession_button} onClick={Secession}>
-          회원탈퇴
-        </div>
-      </div>
-      <div
-        className={`${styles.save_button_wrapper} ${isMobile && styles.mbver}`}
-      >
-        <button
-          className={`${styles.save_button} ${!canSave && styles.disabled}`}
-          onClick={() => {
-            if (canSave) {
-              handleSubmit();
-            }
-          }}
-        >
-          {"저장"}
-        </button>
-      </div>
-    </div>
+    </>
   );
 };
 

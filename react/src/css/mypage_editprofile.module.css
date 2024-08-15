@@ -187,27 +187,18 @@
 /* 프로필 수정 css */
 
 .secession_wrapper {
-  width: 90%;
-  position: fixed;
-  bottom: 70px;
-  margin-left: 10px;
-  margin-bottom: 8px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   color: #7b7b7b;
   font-size: 15px;
-}
-
-.secession_phrase {
-  font-size: 13px;
-  font-weight: 300;
 }
 
 .secession_button {
   margin-left: 8px;
   font-size: 13px;
   font-weight: 500;
+  text-decoration: underline;
 }
 
 /* 프로필 등록 완료 css */
@@ -261,20 +252,7 @@
   color: #adadad;
 }
 
-/* 반응형 */
-.wrapper.dtver {
-  width: 50%;
-}
-
-.secession_wrapper.mbver {
-  max-width: 380px;
-}
-
-.save_button_wrapper.mbver {
-  position: fixed;
-  bottom: 0;
-  margin-bottom: 8px;
-}
+/* 반응형 - 공통 */
 
 .save_button_wrapper.dtver {
   margin-top: 130px;
@@ -284,13 +262,25 @@
   border-radius: 20px;
 }
 
+.complete.button_wrapper.dtver {
+  margin-top: 150px;
+}
+
+/* 반응형 - UserRegister */
+
+.wrapper.dtver {
+  width: 50%;
+}
+
+.save_button_wrapper.mbver {
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 8px;
+}
+
 .button_wrapper.dtver {
   position: absolute;
   top: 50%;
-}
-
-.complete.button_wrapper.dtver {
-  margin-top: 150px;
 }
 
 .button_wrapper.mbver {
@@ -298,7 +288,7 @@
   bottom: 15%;
 }
 
-/* 반응형 */
+/* 반응형 - EditProfile */
 
 .wrapper_dtver {
   width: 79%;
@@ -320,4 +310,42 @@
   align-items: center;
   width: calc(100% - 159px);
   margin-left: 30px;
+}
+
+.wrapper_dtver {
+  width: 79%;
+  max-width: 1050px;
+  margin: 0 auto;
+  gap: 1%;
+}
+
+.inner_wrapper {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+}
+
+.rightside_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  width: calc(100% - 159px);
+  margin-left: 30px;
+}
+
+.secession_wrapper.mbver {
+  position: fixed;
+  bottom: 70px;
+  max-width: 380px;
+  margin-left: 10px;
+  margin-bottom: 8px;
+  width: 90%;
+}
+
+.secession_wrapper.dtver {
+  align-items: end;
+  width: 80%;
+  max-width: 420px;
+  margin-top: 8px;
 }
