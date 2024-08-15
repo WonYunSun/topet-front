@@ -81,6 +81,7 @@
   visibility: visible; /* 보여질 때 */
 }
 .menudiv {
+  z-index: 1000;
   position: absolute;
   bottom: 5%;
   right: 30px;
@@ -93,4 +94,39 @@
   padding-top: 3px;
   font-weight: 600;
   font-size: 14px;
+}
+.sidebarTitle {
+  margin-left: 1%;
+  width: fit-content;
+  color: #ffa62f;
+  margin-bottom: 30px;
+  font-size: 22px;
+  font-weight: 700;
+}
+.shortsWrap_dtver {
+  width: 80%;
+  max-width: 1050px;
+  margin: 0 auto;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  gap: 1%;
+}
+.leftWrapper {
+  width: 20%;
+}
+.shortsWrap_dtver > .rightWrapper {
+  height: 75vh;
+  display: flex;
+  flex-direction: row;
+  width: calc(100% - 159px);
+}
+.rightWrapper > .detail_wrap {
+  height: 100%;
+  width: 50%;
+  border-radius: 15px;
+  overflow: hidden;
+}
+.sideSheet {
+  flex-grow: 1;
 }

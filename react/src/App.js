@@ -72,7 +72,8 @@ function App() {
   return (
     <div className="App">
       {(showNavbarWebPaths.includes(location.pathname) ||
-        location.pathname.includes("/community")) &&
+        location.pathname.includes("/community") ||
+        location.pathname.includes("/shortsDetail")) &&
         isDeskTop && <TopBarWeb />}
       {showNavbarPaths.includes(location.pathname) && isMobile && <NavBar />}
       <Routes>

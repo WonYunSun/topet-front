@@ -25,9 +25,15 @@
 }
 
 .show {
+  bottom: 0;
   transform: translateY(0);
 }
 
+.shortsBtm {
+  position: static;
+  z-index: 0;
+  transform: translate(none);
+}
 .bottomSheet.dtver {
   max-height: 50%;
   min-height: 20%;
@@ -35,13 +41,11 @@
   width: 20%;
   border-radius: 15px;
   /* 화면 중앙에 위치시키기 위한 변환 */
-
   transition: none;
 }
 .bottomSheet.dtver.show {
   left: 50%;
   top: 50%;
-
   transform: translate(-50%, -50%);
 }
 

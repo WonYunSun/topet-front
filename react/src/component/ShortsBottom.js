@@ -1,26 +1,53 @@
-import React, { useRef, useState , useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styles from "../css/subBottomSheet.module.css";
 import CommentCreate from "./CommentComp/CommentCreate";
 import CommentList from "./CommentComp/CommentList";
+import { CgClose } from "react-icons/cg";
+/// responsive
+import { Mobile, DeskTop } from "../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
+const ShortsBottom = ({ onClose, id, show, isshorts }) => {
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const [commentListKey, setCommentListKey] = useState(0); // key 상태 추가
 
-const ShortsBottom = ({id}) => {
-    const [commentListKey, setCommentListKey] = useState(0); // key 상태 추가
-    const show = true;
+  const handleCommentSubmit = () => {
+    setCommentListKey((prevKey) => prevKey + 1); // key 값을 증가시켜 CommentList를 리렌더링
+  };
 
-    const handleCommentSubmit = () => {
-        setCommentListKey((prevKey) => prevKey + 1); // key 값을 증가시켜 CommentList를 리렌더링
-    };
-
-  return (  
-    <div className={styles.overlay}>
-        <div className={`${styles.bottomSheet} ${show ? styles.show : ""}` }>
-            <div className={styles.bottomSheetTitle}>댓글</div>
-            <div className={styles.bottomSheetContent}>
-            <CommentList key={commentListKey} comid={id} boardType={"shorts"}/>
-            <CommentCreate type={"shorts"} comid={id} onCommentSubmit={handleCommentSubmit} />
-            </div>
+  return (
+    <>
+      {show && !isshorts && (
+        <div className={styles.overlay} onClick={onClose}></div>
+      )}
+      <div
+        className={`${styles.bottomSheet} ${
+          show && !isshorts ? styles.show : ""
+        } ${isDeskTop ? styles.dtver : ""} ${isshorts ? styles.shortsBtm : ""}`}
+      >
+        <div className={styles.bottomSheetTitle}>
+          댓글
+          {!isshorts && (
+            <CgClose
+              color="#444"
+              size={20}
+              className={styles.closeIcon}
+              onClick={onClose}
+            />
+          )}
         </div>
-    </div>
+        <div className={styles.bottomSheetContent}>
+          <CommentCreate
+            type={"shorts"}
+            comid={id}
+            onCommentSubmit={handleCommentSubmit}
+          />
+          <CommentList key={commentListKey} comid={id} boardType={"shorts"} />
+        </div>
+      </div>
+    </>
   );
 };
 
