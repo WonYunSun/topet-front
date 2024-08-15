@@ -2,6 +2,7 @@ import MyPageCommonTopBar from "../../component/MyPageComp/MyPageCommonTopBar";
 import ContentList from "../../component/HandlerComp/ContentList";
 import commentApi from "../../api/commentApi";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import MyPageSideBar from "../../component/MyPageComp/MyPageSideBar";
 import styles from "../../css/mypage_seemy.module.css";
 
@@ -18,8 +19,10 @@ const SeeMyComments = () => {
     query: "(min-width: 769px) and (max-width: 859px)",
   });
 
+  const reduxMember = useSelector((state) => state.member.member);
+
   const fetchComments = (page, pageSize) => {
-    return commentApi.fetchMyComment(page, pageSize);
+    return commentApi.getMyCommentbyAuthorId(reduxMember.id, page, pageSize);
   };
 
   const renderComment = (comment) => (
