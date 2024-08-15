@@ -1,16 +1,21 @@
 .divisionline {
-  border-top: 0.5px solid #dddddd;
+  border-top: 1px solid #dddddd;
   margin: 10px 0px;
 }
+.shortWrapper{
+
+}
 .popularShorts {
-  height: 140px;
+  height: 20%;
   padding: 1em 0;
 }
 .shortsListContainer {
   display: flex;
   width: 100%;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
   max-width: 600px; /* 원하는 최대 너비로 설정하세요 */
-  height: 100%; /* 부모의 높이에 맞추기 위해 추가 */
+  height: 250px; /* 부모의 높이에 맞추기 위해 추가 */
   margin: 0 auto; /* 중앙 정렬 */
   padding: 0 16px; /* 부모 컴포넌트의 양쪽 여백 */
   box-sizing: border-box;
@@ -25,4 +30,20 @@
   gap: 16px; /* 그리드 아이템 사이의 간격 */
   padding: 16px; /* 컨테이너의 패딩 */
   justify-content: center; /* 그리드 컨테이너를 가운데 정렬 */
+}
+.titlediv{
+  text-align: start;
+  padding-left: 16px;
+  font-weight: 700;
+}
+
+.deskTopshortswrap{
+ 
+  width: 80%;
+  max-width: 1050px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+.shortsListContainer.dtver {
+
 }

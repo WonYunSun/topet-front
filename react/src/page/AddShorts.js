@@ -91,6 +91,7 @@ function AddShorts() {
   };
 
   const submitShorts = () => {
+
     const formData = new FormData();
     // formData.append("title", title);
     formData.append("content", content);
@@ -98,16 +99,20 @@ function AddShorts() {
     formData.append("video", selectedVideo);
     formData.append("author" , reduxMember.id);
     const resp = shortsApi.postShorts(formData);
+    console.log(resp);
     if (resp.status === 200) {
+       console.log("들어감")
     } else {
+      console.log("안들어감")
     }
   };
 
+  
   return (
     <>
       <TopBar />
       <div>
-        {/* <div><label>제목<input onChange={titleChange} style={{border:"1px solid black"}} type="text"/></label></div>   */}
+        
 
         <Content
           value={content}

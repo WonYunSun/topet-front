@@ -19,11 +19,11 @@ const ShortsList = ({ shortsData, seemoreSkip }) => {
           author={short.author}
         />
       ))}
-
-      <div className={styles.seeMore} onClick={goShorts}>
+{!seemoreSkip && (<div className={styles.seeMore} onClick={goShorts}>
         <div>더 보기</div>
         <BsArrowRight size={26} />
-      </div>
+      </div>)}
+      
     </div>
   );
 };

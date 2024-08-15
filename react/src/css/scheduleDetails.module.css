@@ -77,9 +77,13 @@ label div {
 }
 .scheduleImg {
   width: 100%;
-  height: 150px;
-  background-color: gray;
+  height: fit-content;
+  background-color: rgb(221, 221, 221);
   border-radius: 10px;
+  overflow: hidden;
+}
+.scheduleImg > img {
+  width: 100%;
 }
 .WritEditWrap {
   display: flex;
@@ -88,4 +92,5 @@ label div {
 }
 .scheduleEditerWrap {
   color: gray;
+  text-align: start;
 }
