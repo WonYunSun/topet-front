@@ -6,6 +6,12 @@
   width: 100%;
 }
 
+.no_contents {
+  margin-top: 28px;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+
 /* SeeMyComments _ 내 댓글 보기 */
 .comment_container {
   display: flex;
@@ -70,4 +76,28 @@
 
 .edited_text {
   text-align: start;
+}
+
+/* 반응형 - SeeMyComments */
+
+.wrapper_dtver {
+  width: 79%;
+  max-width: 1050px;
+  margin: 0 auto;
+  gap: 1%;
+}
+
+.inner_wrapper {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+}
+
+.rightside_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  width: calc(100% - 159px);
+  margin-left: 30px;
 }
