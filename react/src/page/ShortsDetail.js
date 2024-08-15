@@ -37,7 +37,6 @@ function ShortsDetail() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [showBottomSheet, setShowBottomSheet] = useState(false);
   const videoRef = useRef(null);
   const touchStartY = useRef(0);
   // const screenX = window.outerWidth;
@@ -107,10 +106,10 @@ function ShortsDetail() {
       touchStartY.current = startY;
     }
   };
-const handleBottomSheet = () =>{
-  setShowBottomSheet(true);
-  console.log(showBottomSheet)
-}
+  const handleBottomSheet = () => {
+    setShowBottomSheet(true);
+    console.log(showBottomSheet);
+  };
   const handleTouchMove = (event) => {
     const touchEndY = event.touches[0].clientY;
 

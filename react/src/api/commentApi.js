@@ -46,7 +46,7 @@ class CommentApi {
     }
   }
 
-  async fetchComment(comid, page, pageSize ,type) {
+  async fetchComment(comid, page, pageSize, type) {
     // 댓글 불러오기(답글 같이 불러와짐)
     try {
       const response = await this.axios.get(
@@ -69,11 +69,11 @@ class CommentApi {
   //   }
   // }
 
-  async fetchMyComment(page, size) {
+  async getMyCommentbyAuthorId(id, page, size) {
     //내 댓글 불러오기
     try {
       const response = await this.axios.get(
-        `/author/2?page=${page}&size=${size}`
+        `/author/${id}?page=${page}&size=${size}`
       );
       return handleResponse(response);
     } catch (error) {

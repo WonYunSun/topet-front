@@ -53,8 +53,6 @@ const MyPageSideBar = ({ option }) => {
   };
 
   const Option = ({ text, onClick }) => {
-    console.log("option : ", option);
-    console.log("text : ", text);
     return (
       <div
         onClick={onClick}
