@@ -26,7 +26,7 @@ const MyPetList = ({ petList }) => {
   }
 
   return (
-    <div>
+    <>
       {petList.map((pet) => (
         <MyPetItem
           key={pet.id}
@@ -54,7 +54,7 @@ const MyPetList = ({ petList }) => {
           setCopied={setCopied}
         />
       )}
-    </div>
+    </>
   );
 };
 

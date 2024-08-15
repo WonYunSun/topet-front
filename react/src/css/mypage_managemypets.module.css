@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  margin: 0 auto;
   border-bottom: 1px solid #e7e7e79a;
 }
 
@@ -262,3 +263,5 @@
   width: calc(100% - 159px);
   margin-left: 30px;
 }
+
+/* 반응형 - MyPetItem */
