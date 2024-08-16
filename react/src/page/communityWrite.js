@@ -109,6 +109,8 @@ const CommunityWrite = () => {
     setSubmitCheck(true); // 전송 중 상태로 설정
   
     try {
+      
+
       const formData = new FormData();
       formData.append("animal", animal);
       formData.append("title", titleText);
@@ -134,7 +136,7 @@ const CommunityWrite = () => {
       formData.append("title", titleText);
       formData.append("content", contentText);
       formData.append("category", selectedCategory);
-      formData.append("hashtag", conversionStringHashTag);
+      formData.append("hashtag", selectedHashTag);
       await communityApi.editCommunity(selectedPhotos, formData, comid);
       navigate(-1); // 전송 후 페이지 이동
     } catch (error) {
