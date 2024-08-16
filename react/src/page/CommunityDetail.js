@@ -239,8 +239,16 @@ const CommunityDetail = () => {
         </div>
 
         <div className={styles.coment_area}>
-          <CommentCreate type={"community"}comid={comid} onCommentSubmit={handleCommentSubmit} />
-          <CommentList key={commentListKey} comid={comid} boardType={"community"} />
+          <CommentCreate
+            type={"community"}
+            comid={comid}
+            onCommentSubmit={handleCommentSubmit}
+          />
+          <CommentList
+            key={commentListKey}
+            comid={comid}
+            boardType={"community"}
+          />
         </div>
       </Mobile>
       <DeskTop>
@@ -330,7 +338,11 @@ const CommunityDetail = () => {
                 comid={comid}
                 onCommentSubmit={handleCommentSubmit}
               />
-              <CommentList key={commentListKey} comid={comid} />
+              <CommentList
+                key={commentListKey}
+                comid={comid}
+                boardType={"community"}
+              />
             </div>
           </div>
         </div>
