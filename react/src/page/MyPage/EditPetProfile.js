@@ -173,6 +173,7 @@ const EditPetProfile = () => {
     formData.append("kind", myPet.kind);
     formData.append("name", myPet.name);
     formData.append("type", myPet.type);
+    formData.append("allergy", allergy);
     formData.append("uid", myPet.uid);
     const resp = await petApi.updatePet(formData);
 
@@ -200,11 +201,12 @@ const EditPetProfile = () => {
           </div>
         ) : (
           <div className={styles.selected_profile_photo_container}>
-            <img
+            {(myPet!=null)?<img
               src={myPet.profileSrc}
               className={styles.selected_profile_photo}
               alt="Profile"
-            />
+            /> : <></>}
+            
           </div>
         )}
       </div>
