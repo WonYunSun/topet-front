@@ -11,6 +11,7 @@ import ShortsBottom from "../component/ShortsBottom";
 /// responsive
 import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
+import CommunityLikesApi from "../api/communityLikesApi";
 
 // 디바운스 함수 구현
 const debounce = (func, delay) => {
@@ -35,6 +36,11 @@ function ShortsDetail() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [progress, setProgress] = useState(0);
+
+  const [isLiked, setIsLiked] = useState(false);
+  const [likes, setLikes] = useState(0);
+  const [isLikeLoading, setIsLikeLoading] = useState(false);
+
   const videoRef = useRef(null);
   const touchStartY = useRef(0);
   // const screenX = window.outerWidth;
@@ -61,7 +67,11 @@ function ShortsDetail() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await getShortsDetail();
+        const resp = await shortsApi.getShortsDetail(id);
+        // await CommunityLikesApi.postShortsLike(id);
+        setThisShorts(resp);
+        // setLikes(resp.likeCount);
+        console.log(resp);
       } catch (error) {
         console.log(error);
       } finally {
@@ -75,12 +85,8 @@ function ShortsDetail() {
     window.scrollTo(0, 50);
   }, [id]);
 
-  const getShortsDetail = async () => {
-    const resp = await shortsApi.getShortsDetail(id);
-    setThisShorts(resp);
-  };
 
-  const getRandomShorts = async () => {
+  const handlegetRandomShorts = async () => {
     if (!hasFetchedRandom) {
       const resp = await shortsApi.getRandomShorts();
       setHasFetchedRandom(true);
@@ -90,7 +96,7 @@ function ShortsDetail() {
 
   const handleWheel = (event) => {
     if (event.deltaY > 0) {
-      getRandomShorts();
+      handlegetRandomShorts();
       window.scrollTo(0, 50);
     } else if (event.deltaY < 0) {
       navigate(-1);
@@ -113,7 +119,7 @@ function ShortsDetail() {
 
     if (touchStartY.current !== null) {
       if (touchStartY.current > touchEndY) {
-        getRandomShorts();
+        handlegetRandomShorts();
         window.scrollTo(0, 50);
       } else if (touchStartY.current < touchEndY) {
         navigate(-1);
@@ -161,6 +167,21 @@ function ShortsDetail() {
 
   const goShorts = () => navigate("/shorts");
 
+  const toggleLike = async () => { 
+    // 좋아요 등록 및 취소 함수
+    if (isLikeLoading) return;
+    setIsLikeLoading(true);
+    try {
+      await CommunityLikesApi.postShortsLike(id);
+      setIsLiked(!isLiked);
+      setLikes((prevCount) => prevCount + (isLiked ? -1 : 1));
+    } catch (error) {
+      console.error("Error liking the post:", error);
+    } finally {
+      setIsLikeLoading(false);
+    }
+  };
+
   return (
     <>
       <Mobile>
@@ -182,9 +203,12 @@ function ShortsDetail() {
           </div>
           <div className={styles.menudiv}>
             <div>
-              <BiSolidLike size={26} className={styles.menuicon} />
+            <BiSolidLike size={26} 
+              className={styles.menuicon}
+              // onClick={toggleLike} className={ isLiked ? styles.truelikeicon : styles.falselikeicon}
+            />
               {/* 나중에 값 바꿔주세요 */}
-              <div>100</div>
+              <div>{likes}</div>
             </div>
             <div>
               <BsChatFill
@@ -249,9 +273,12 @@ function ShortsDetail() {
               </div>
               <div className={styles.menudiv}>
                 <div>
-                  <BiSolidLike size={26} className={styles.menuicon} />
+                <BiSolidLike size={26} 
+                className={styles.menuicon}
+                // onClick={toggleLike} className={ isLiked ? styles.truelikeicon : styles.falselikeicon}
+                />
                   {/* 나중에 값 바꿔주세요 */}
-                  <div>100</div>
+                  <div>{likes}</div>
                 </div>
                 <div>
                   <BsChatFill

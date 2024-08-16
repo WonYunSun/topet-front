@@ -10,8 +10,9 @@ import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
 
 function Shorts() {
-  const [shorts, setShorts] = useState();
+  const [shorts, setShorts] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
@@ -74,120 +75,8 @@ function Shorts() {
   ];
   // 더미쇼츠리스트(전체 쇼츠)
   // const dummyAllShortsData = shorts;
-  const dummyAllShortsData = [
-    {
-      id: 1,
-      videoUrl: "https://dummyvideo1.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGRvZ3xlbnwwfHx8fDE2OTEyMDA4Nzg&ixlib=rb-4.0.3&q=80&w=1080",
-      title: "Playful Puppy",
-      author: "Author 1",
-    },
-    {
-      id: 2,
-      videoUrl: "https://dummyvideo2.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDF8fGNhdHxlbnwwfHx8fDE2OTEyMDA5NjY&ixlib=rb-4.0.3&q=80&w=1080",
-      title: "Cute Cat",
-      author: "Author 2",
-    },
-    {
-      id: 3,
-      videoUrl: "https://dummyvideo3.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1525351484163-7529415b3b98?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDV8fGV4b3RpYyUyMGFuaW1hbHN8ZW58MHx8fHwxNjkxMjAwOTgw&ixlib=rb-4.0.3&q=80&w=1080",
-      title: "Exotic Animal",
-      author: "Author 3",
-    },
-    {
-      id: 4,
-      videoUrl: "https://dummyvideo4.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1574158622682-e40e69881006?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDZ8fGRvZ3xlbnwwfHx8fDE2OTEyMDA5OTg&ixlib=rb-4.0.3&q=80&w=1080",
-      title: "Happy Dog",
-      author: "Author 4",
-    },
-    {
-      id: 5,
-      videoUrl: "https://dummyvideo5.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1552058544-f2b08422138a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGNhdHxlbnwwfHx8fDE2OTEyMDEwMTI&ixlib=rb-4.0.3&q=80&w=1080",
-      title: "Sleepy Cat",
-      author: "Author 5",
-    },
-    {
-      id: 6,
-      videoUrl: "https://dummyvideo6.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDZ8fGV4b3RpYyUyMGFuaW1hbHN8ZW58MHx8fHwxNjkxMjAxMDM0&ixlib=rb-4.0.3&q=80&w=1080",
-      title: "Curious Animal",
-      author: "Author 6",
-    },
-    {
-      id: 6,
-      videoUrl: "https://dummyvideo6.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDZ8fGV4b3RpYyUyMGFuaW1hbHN8ZW58MHx8fHwxNjkxMjAxMDM0&ixlib=rb-4.0.3&q=80&w=1080",
-      title: "Curious Animal",
-      author: "Author 6",
-    },
-    {
-      id: 6,
-      videoUrl: "https://dummyvideo6.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDZ8fGV4b3RpYyUyMGFuaW1hbHN8ZW58MHx8fHwxNjkxMjAxMDM0&ixlib=rb-4.0.3&q=80&w=1080",
-      title: "Curious Animal",
-      author: "Author 6",
-    },
-    {
-      id: 6,
-      videoUrl: "https://dummyvideo6.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDZ8fGV4b3RpYyUyMGFuaW1hbHN8ZW58MHx8fHwxNjkxMjAxMDM0&ixlib=rb-4.0.3&q=80&w=1080",
-      title: "Curious Animal",
-      author: "Author 6",
-    },
-    {
-      id: 6,
-      videoUrl: "https://dummyvideo6.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDZ8fGV4b3RpYyUyMGFuaW1hbHN8ZW58MHx8fHwxNjkxMjAxMDM0&ixlib=rb-4.0.3&q=80&w=1080",
-      title: "Curious Animal",
-      author: "Author 6",
-    },
-    {
-      id: 6,
-      videoUrl: "https://dummyvideo6.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDZ8fGV4b3RpYyUyMGFuaW1hbHN8ZW58MHx8fHwxNjkxMjAxMDM0&ixlib=rb-4.0.3&q=80&w=1080",
-      title: "Curious Animal",
-      author: "Author 6",
-    },
-    {
-      id: 6,
-      videoUrl: "https://dummyvideo6.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDZ8fGV4b3RpYyUyMGFuaW1hbHN8ZW58MHx8fHwxNjkxMjAxMDM0&ixlib=rb-4.0.3&q=80&w=1080",
-      title: "Curious Animal",
-      author: "Author 6",
-    },
-    {
-      id: 6,
-      videoUrl: "https://dummyvideo6.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDZ8fGV4b3RpYyUyMGFuaW1hbHN8ZW58MHx8fHwxNjkxMjAxMDM0&ixlib=rb-4.0.3&q=80&w=1080",
-      title: "Curious Animal",
-      author: "Author 6",
-    },
-    {
-      id: 6,
-      videoUrl: "https://dummyvideo6.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDZ8fGV4b3RpYyUyMGFuaW1hbHN8ZW58MHx8fHwxNjkxMjAxMDM0&ixlib=rb-4.0.3&q=80&w=1080",
-      title: "Curious Animal",
-      author: "Author 6",
-    },
-  ];
+
+
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
@@ -231,7 +120,9 @@ function Shorts() {
       </Mobile>
       <DeskTop>
         <div className={styles.deskTopshortswrap}>
-          <div className={styles.sidebarTitle}>쇼츠</div>
+          <div className={styles.sidebarTitle}>
+            <div>쇼츠</div>
+          </div>
 
           <div className={styles.shortWrapper}>
             <div className={styles.titlediv}>최근 인기 쇼츠</div>

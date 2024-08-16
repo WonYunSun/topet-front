@@ -27,6 +27,17 @@ class CommunityLikesApi {
       handleError(error);
     }
   }
+
+  async postShortsLike(comid) {
+    try {
+      const response = await this.axios.post(`/${comid}?type=shorts`, {});
+      return handleResponse(response);
+    } catch (error) {
+      handleError(error);
+    }
+  }
 }
+
+
 
 export default new CommunityLikesApi();
