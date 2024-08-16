@@ -74,22 +74,26 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  padding: 0 10px;
 }
+
 .searchContainer.dtver > .searchInput {
   flex-grow: 1;
   border-radius: 15px 0 0 15px;
   background-color: #cfcfcf52;
+
   padding: 10px;
 }
+
 .searchContainer.dtver > .dropdownButton {
   border-radius: 0 15px 15px 0;
   background-color: #cfcfcf52;
   padding: 0 10px;
 }
 .topbar.dtver {
-  /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 15px;
-  border-radius: 15px; */
+  align-items: center;
+}
+.topbar.dtver.shorts {
+  justify-content: center;
 }
 .topbar.dtver > .animalSelectBox {
   font-size: 17px;
@@ -100,9 +104,13 @@
   color: rgb(44, 44, 44);
   font-size: 20px;
 }
+.searchButton.shorts {
+  border-radius: 0 15px 15px 0;
+  background-color: #cfcfcf52;
+}
 .topbar.dtver > .searchButton {
-  padding: 0;
-  height: 20px;
+  padding: 0 10px;
+  height: 36px;
 }
 .topbar.dtver > .searchButton > .icon {
   color: rgb(44, 44, 44);

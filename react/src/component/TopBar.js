@@ -142,19 +142,47 @@ const TopBar = ({
         case "로고":
         case "쇼츠":
           return (
-            <div className={styles.topbar}>
-              <GoArrowLeft className={styles.icon} onClick={goBack} />
-              <div>
-                <input
-                  placeholder="쇼츠를 검색해보세요"
-                  className={styles.searchInput}
-                  value={searchText}
-                  onChange={handleSearchTextChange}
-                />
-                <CgSearch color="#333" />
-              </div>
-              <GoHome className={styles.icon} onClick={goHome} />
-            </div>
+            <>
+              <Mobile>
+                <div className={styles.topbar}>
+                  <GoArrowLeft className={styles.icon} onClick={goBack} />
+                  <div>
+                    <input
+                      placeholder="쇼츠를 검색해보세요"
+                      className={styles.searchInput}
+                      value={searchText}
+                      onChange={handleSearchTextChange}
+                    />
+                    <CgSearch color="#333" />
+                  </div>
+                  <GoHome className={styles.icon} onClick={goHome} />
+                </div>
+              </Mobile>
+              <DeskTop>
+                <div
+                  className={`${styles.topbar}  ${styles.dtver} ${styles.shorts}`}
+                >
+                  <div
+                    className={`${styles.searchContainer} ${styles.dtver} ${styles.shorts}`}
+                  >
+                    <input
+                      placeholder="쇼츠를 검색해보세요"
+                      className={styles.searchInput}
+                      value={searchText}
+                      onChange={handleSearchTextChange}
+                    />
+                  </div>
+                  <button
+                    className={`${styles.searchButton} ${styles.shorts}`}
+                    onClick={onSearch}
+                  >
+                    <CgSearch className={styles.icon} />
+                  </button>
+                </div>
+              </DeskTop>
+
+              {/*  */}
+            </>
           );
         default:
           return (
