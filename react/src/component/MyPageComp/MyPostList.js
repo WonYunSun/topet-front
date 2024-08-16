@@ -9,6 +9,8 @@ const MyPostList = ({ postType }) => {
   const reduxMember = useSelector((state) => state.member.member);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  const [posts, setPosts] = useState();
+
   useEffect(()=>{
     try{
       fetchPosts();
@@ -19,11 +21,11 @@ const MyPostList = ({ postType }) => {
     }
   },[])
   
-  
   const fetchPosts = async() => {
     if (postType == "mypost") {
       // 내 게시글
       const resp = await CommunityApi.getMyCommunity(reduxMember.id);
+      
       return resp;
       
     } else if (postType == "likedpost") {

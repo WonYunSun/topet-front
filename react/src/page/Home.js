@@ -71,7 +71,10 @@ const Home = () => {
     const fetchData = async () => {
       try {
         await getMyPets(reduxMember.id);
-        await getSchedule();
+        if(selectedPet!=null && selectedPet.id != null){
+          console.log(selectedPet , "이 있슴");
+          await getSchedule();
+        }
         //returnedMember에 따른 pet정보를 가져오는 api필요
       } catch (error) {
         console.log(error);
@@ -83,7 +86,8 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedPet != null) {
+    if (selectedPet != null && selectedPet.id != null) {
+      console.log(selectedPet , "이 있슴");
       getSchedule();
     }
   }, [selectedPet]);

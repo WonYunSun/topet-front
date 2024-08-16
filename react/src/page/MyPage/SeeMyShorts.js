@@ -8,8 +8,12 @@ import styles from "../../css/mypage_seemy.module.css";
 /// responsive
 import { Mobile, DeskTop } from "../../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
+import { useSelector } from "react-redux";
 
 const SeeMyShorts = () => {
+  const reduxMember = useSelector((state) => state.member.member);
+
+
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
@@ -25,7 +29,8 @@ const SeeMyShorts = () => {
     const fetchData = async () => {
       try {
         console.log("요청보냄");
-        await getMyShorts();
+        const resp =await getMyShorts();
+        setShorts(resp);
       } catch (error) {
         console.log(error);
       } finally {
@@ -36,9 +41,8 @@ const SeeMyShorts = () => {
   }, []);
 
   const getMyShorts = async () => {
-    const resp = await shortsApi.getMyShorts();
-
-    setShorts(resp);
+    const resp = await shortsApi.getMyShorts(reduxMember.id);
+    return resp;
   };
   if (!isLoaded) {
     return <div>Loading...</div>;
@@ -55,7 +59,7 @@ const SeeMyShorts = () => {
                 <ShortItem
                   key={short.id}
                   id={short.id}
-                  thumbnailUrl={short.thumbnailUrl}
+                  thumbnailUrl={short.thumbnailPhotoSrc}
                   title={short.title}
                   author={short.author}
                   widthAdjust="100%" // 그리드 내에서 너비를 조정

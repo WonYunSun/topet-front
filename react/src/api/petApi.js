@@ -33,8 +33,7 @@ class petApi {
   }
   
   async postPetData(petDomain) {
-    return await this.axios
-      .post("/post", petDomain, {
+    return await this.axios.post("/post", petDomain, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -65,6 +64,21 @@ class petApi {
         throw error;
       });
   }
+
+  async deleteMember(formData){
+    try{  
+      const response = await this.axios.post(`/deleteMember`,formData,{ 
+        headers: {
+        "Content-Type": "application/json"
+        }
+      })
+      ;
+      return response;
+    }catch(error){
+
+    }
+  }
+  
 }
 export default new petApi();
 

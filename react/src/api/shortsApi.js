@@ -58,9 +58,9 @@ class shortsApi {
   }
   }
 
-  async getMyShorts(){
+  async getMyShorts(id){
     try{
-      const response = await this.axios.get('/myshorts');
+      const response = await this.axios.get(`/myshorts/${id}`);
       console.log(response);
       return response.data;
     }catch(error){

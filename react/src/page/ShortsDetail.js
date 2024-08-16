@@ -175,7 +175,7 @@ const handleBottomSheet = () =>{
           <div>100</div>
         </div>
         <div>
-          <BsChatFill size={23} className={styles.menuicon} />
+          <BsChatFill size={23} className={styles.menuicon}  onClick={handleBottomSheet}/>
           {/* 나중에 값 바꿔주세요 */}
           <div>100</div>
         </div>
@@ -202,7 +202,7 @@ const handleBottomSheet = () =>{
           ></div>
         </div>
       </div>
-      <ShortsBottom id={id} />
+      { showBottomSheet && <ShortsBottom id={id} />}
     </div>
   );
 }

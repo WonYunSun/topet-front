@@ -16,7 +16,7 @@ const ShortsBottom = ({id}) => {
         <div className={`${styles.bottomSheet} ${show ? styles.show : ""}` }>
             <div className={styles.bottomSheetTitle}>댓글</div>
             <div className={styles.bottomSheetContent}>
-            <CommentList key={commentListKey} comid={id} boardType={"shorts"}/>
+            <CommentList key={commentListKey} comid={id} boardType={"shortsl"}/>
             <CommentCreate type={"shorts"} comid={id} onCommentSubmit={handleCommentSubmit} />
             </div>
         </div>
