@@ -334,7 +334,11 @@ const CommunityDetail = () => {
                 comid={comid}
                 onCommentSubmit={handleCommentSubmit}
               />
-              <CommentList key={commentListKey} comid={comid} />
+              <CommentList
+                key={commentListKey}
+                comid={comid}
+                boardType={"community"}
+              />
             </div>
           </div>
         </div>
