@@ -117,7 +117,7 @@ const CommunityDetail = () => {
     : "freedomAndDaily";
 
   const handleCommentSubmit = () => {
-    setCommentListKey((prevKey) => prevKey + 1); // key 값을 증가시켜 CommentList를 리렌더링
+    fetchPostDetail();
   };
 
   if (loading) {
@@ -156,7 +156,10 @@ const CommunityDetail = () => {
     photos,
     likesList,
     commentCount,
+    createdTime,
   } = item;
+
+  const formattedDate = new Date(createdTime).toISOString().split("T")[0];
 
   const navigateWithParams = () => {
     const params = {
@@ -212,7 +215,7 @@ const CommunityDetail = () => {
             </span>
           ))}
         </div>
-
+        <div className={styles.date}>{formattedDate}</div> {/* 날짜 */}
         <div className={styles.like_and_coment}>
           <div className="icon-group">
             <BiSolidLike
@@ -237,18 +240,10 @@ const CommunityDetail = () => {
             />
           </div>
         </div>
-
+        
         <div className={styles.coment_area}>
-          <CommentCreate
-            type={"community"}
-            comid={comid}
-            onCommentSubmit={handleCommentSubmit}
-          />
-          <CommentList
-            key={commentListKey}
-            comid={comid}
-            boardType={"community"}
-          />
+          <CommentCreate type={"community"}comid={comid} onCommentSubmit={handleCommentSubmit} />
+          <CommentList key={commentListKey} comid={comid} boardType={"community"} handleCommentSubmit={handleCommentSubmit} />
         </div>
       </Mobile>
       <DeskTop>
@@ -307,7 +302,7 @@ const CommunityDetail = () => {
                 </span>
               ))}
             </div>
-
+            <div className={styles.date}>{formattedDate}</div> {/* 날짜 */}
             <div className={styles.like_and_coment}>
               <div className="icon-group">
                 <BiSolidLike
@@ -332,6 +327,7 @@ const CommunityDetail = () => {
                 />
               </div>
             </div>
+            
 
             <div className={styles.coment_area}>
               <CommentCreate

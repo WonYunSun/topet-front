@@ -21,7 +21,7 @@ class CommunityLikesApi {
 
   async postLike(comid) {
     try {
-      const response = await this.axios.post(`/${comid}`, {});
+      const response = await this.axios.post(`/${comid}?type=community`, {});
       return handleResponse(response);
     } catch (error) {
       handleError(error);
