@@ -95,6 +95,7 @@ const CommunityDetail = () => {
       setIsLikeLoading(false);
     }
   };
+  
   const handleCategoryChange = (newCategory) => {
     const animalKey = item.animal || "dog";
     navigate(`/community/preview/${animalKey}/${newCategory}`, {
