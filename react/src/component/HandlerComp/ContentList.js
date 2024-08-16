@@ -4,7 +4,7 @@ import { LoadError, Loading, NoContent } from "./CompHandler";
 
 const PAGE_SIZE = 10;
 
-const ContentList = ({ fetchItems, renderItem, fetchParams }) => {
+const ContentList = ({  posts, fetchItems, renderItem, fetchParams }) => {
   const [resources, setResources] = useState([]);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);

@@ -10,8 +10,9 @@ import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
 
 function Shorts() {
-  const [shorts, setShorts] = useState();
+  const [shorts, setShorts] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });

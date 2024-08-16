@@ -8,7 +8,7 @@ import CheckModal from "../CheckModal";
 import { openModal, setReduxModalMessage } from '../../redux/reducers/modalReducer';
 import { useNavigate } from 'react-router-dom';
 
-const CommentList = ({ comid, boardType, isshorts, handleCommentSubmit }) => {
+const CommentList = ({ comid, boardType, isshorts }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
@@ -45,7 +45,7 @@ const CommentList = ({ comid, boardType, isshorts, handleCommentSubmit }) => {
     setModalIsOpen(false);
     dispatch(openModal(false));
     dispatch(setReduxModalMessage(""));
-    handleCommentSubmit();
+
   }
 
   const activateReplyInput = (commentId) => {
@@ -141,7 +141,7 @@ const CommentList = ({ comid, boardType, isshorts, handleCommentSubmit }) => {
 
         await commentApi.postReplyComment(comid, formData);
         setActiveReplyInput(null);
-        handleCommentSubmit();
+    
         // setFetchKey((prevKey) => prevKey + 1);
         setModalMessage("답글이 등록되었습니다.");
         setModalIsOpen(true);
