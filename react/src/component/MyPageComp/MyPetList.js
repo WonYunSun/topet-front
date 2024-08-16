@@ -34,6 +34,7 @@ const MyPetList = ({ petList }) => {
           photoUrl={pet.profileSrc}
           uid={pet.uid}
           name={pet.name}
+          ownerId={pet.ownerId}
           onOpenModal={() => handleOpenModal(pet)}
         />
       ))}

@@ -6,8 +6,10 @@ import { MdEdit, MdShare } from "react-icons/md";
 import { Mobile, DeskTop } from "../../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
 import PetProfileDetail from "../../page/MyPage/PetProfileDetail";
-
-const MyPetItem = ({ onOpenModal, photoUrl, name, uid, pet }) => {
+import { useSelector } from "react-redux";
+import { AiTwotoneCrown } from "react-icons/ai";
+const MyPetItem = ({ onOpenModal, photoUrl, name, uid, pet, ownerId }) => {
+  const reduxMember = useSelector((state) => state.member.member);
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
@@ -33,6 +35,8 @@ const MyPetItem = ({ onOpenModal, photoUrl, name, uid, pet }) => {
             <div className={styles.photo_container}>
               <img src={photoUrl} alt={name} className={styles.photo} />
             </div>
+              
+                {(reduxMember.id == ownerId)?<AiTwotoneCrown style={{ color: "yellow", fontSize:"30px"}}/>:<div></div>}
             <div className={styles.name}>{name}</div>
           </div>
           <div className={styles.icons_wrapper}>
