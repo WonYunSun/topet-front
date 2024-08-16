@@ -11,23 +11,22 @@ const MyPostList = ({ postType }) => {
 
   const [posts, setPosts] = useState();
 
-  useEffect(()=>{
-    try{
+  useEffect(() => {
+    try {
       fetchPosts();
-    }catch(error){
+    } catch (error) {
       throw error;
-    }finally{
+    } finally {
       setIsLoaded(true);
     }
-  },[])
-  
-  const fetchPosts = async() => {
+  }, []);
+
+  const fetchPosts = async () => {
     if (postType == "mypost") {
       // 내 게시글
       const resp = await CommunityApi.getMyCommunity(reduxMember.id);
-      
+
       return resp;
-      
     } else if (postType == "likedpost") {
       // 좋아요 한 게시글
       return await CommunityApi.getMyCommunity(reduxMember.id); // !! 수정 필요 !!
@@ -41,7 +40,7 @@ const MyPostList = ({ postType }) => {
   return (
     <div>
       <div className={styles.communities_content_area}>
-        <ContentList fetchItems={fetchItems} renderItem={renderPosts} />
+        <ContentList fetchItems={fetchPosts} renderItem={renderPosts} />
       </div>
     </div>
   );
