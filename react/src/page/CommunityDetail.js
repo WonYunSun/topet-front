@@ -203,7 +203,7 @@ const CommunityDetail = () => {
             {images.map((item, index) => (
               <img
                 key={index}
-                src={item.filePath}
+                src={item.path}
                 alt={`이미지 ${index + 1}`}
               />
             ))}
@@ -290,7 +290,7 @@ const CommunityDetail = () => {
                 {images.map((item, index) => (
                   <img
                     key={index}
-                    src={item.filePath}
+                    src={item.path}
                     alt={`이미지 ${index + 1}`}
                   />
                 ))}

@@ -11,7 +11,7 @@ class CommunityApi {
   async postCommunity(selectedPhotos, formData) {
     // 게시물 작성
     selectedPhotos.slice(0, 5).forEach((photo, index) => {
-      formData.append("photos", photo);
+      formData.append("images", photo);
     });
 
     try {
@@ -60,7 +60,7 @@ class CommunityApi {
     // 게시물 리스트 최신순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
-        `/${type}/${category}?page=${size}&size=${page}`
+        `/list/${type}/${category}?page=${size}&size=${page}`
       );
       return response.data;
     } catch (error) {
@@ -73,7 +73,7 @@ class CommunityApi {
     // 게시물 리스트 좋아요순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
-        `/${type}/${category}?page=${size}&size=${page}&orderby=likes`
+        `/list/${type}/${category}?page=${size}&size=${page}&orderby=likes`
       );
       return response.data;
     } catch (error) {
@@ -92,7 +92,7 @@ class CommunityApi {
     // 게시물 제목+본문 검색 최신순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
-        `/${type}/${category}?page=${size}&size=${page}&title=${searchText}`
+        `/list/${type}/${category}?page=${size}&size=${page}&title=${searchText}`
       );
       return response.data;
     } catch (error) {
@@ -111,7 +111,7 @@ class CommunityApi {
     // 게시물 제목+본문 검색 좋아요순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
-        `/${type}/${category}?page=${size}&size=${page}&title=${searchText}&orderby=likes`
+        `/list/${type}/${category}?page=${size}&size=${page}&title=${searchText}&orderby=likes`
       );
       return response.data;
     } catch (error) {
@@ -130,7 +130,7 @@ class CommunityApi {
     // 게시물 해시태그 검색 최신순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
-        `/${type}/${category}?page=${size}&size=${page}&hashtag=${searchText}`
+        `/list/${type}/${category}?page=${size}&size=${page}&hashtag=${searchText}`
       );
       return response.data;
     } catch (error) {
@@ -149,7 +149,7 @@ class CommunityApi {
     // 게시물 해시태그 검색 좋아요순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
-        `/${type}/${category}?page=${size}&size=${page}&hashtag=${searchText}&orderby=likes`
+        `/list/${type}/${category}?page=${size}&size=${page}&hashtag=${searchText}&orderby=likes`
       );
       return response.data;
     } catch (error) {
