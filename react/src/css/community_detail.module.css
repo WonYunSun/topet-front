@@ -243,3 +243,11 @@
 .comm_listbox > .menu_area {
   margin: 0;
 }
+
+.date {
+  color : rgb(177, 175, 175);
+  text-align: end;
+  margin-right: 16px;
+  margin-top: 10px;
+  font-size: 12px;
+}

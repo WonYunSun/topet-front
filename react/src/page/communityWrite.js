@@ -18,8 +18,8 @@ import { useMediaQuery } from "react-responsive";
 import { useSelector } from "react-redux";
 
 const CommunityWrite = () => {
-
-   const reduxMemberId = useSelector((state) => state.member.member.id)
+  const reduxMemberId = useSelector((state) => state.member.member.id);
+  
   // responsive
   const isDeskTop = useMediaQuery({
     query: "(min-width: 1110px)",
@@ -32,7 +32,7 @@ const CommunityWrite = () => {
   const isMobile = useMediaQuery({
     query: "(max-width: 768px)",
   });
-  // -------------------------
+
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
@@ -40,7 +40,7 @@ const CommunityWrite = () => {
   const [edit, setEdit] = useState(false);
   const [comid, setComid] = useState(null);
 
-  const [animal, setAnimal] = useState(""); // 나중에 들어온 게시판으로 바꿔야 함.
+  const [animal, setAnimal] = useState("");
   const [titleText, setTitleText] = useState("");
   const [contentText, setContentText] = useState("");
   const [selectedPhotos, setSelectedPhotos] = useState([]);
@@ -51,6 +51,7 @@ const CommunityWrite = () => {
   const [bottomSheetType, setBottomSheetType] = useState(null);
   const [showWriteCancleModal, setShowWriteCancleModal] = useState(false);
   const [showWriteNullCheckModal, setShowWriteNullCheckModal] = useState(false);
+  const [submitCheck, setSubmitCheck] = useState(false);
 
   useEffect(() => {
     // 수정 시 변수 값 세팅
@@ -69,7 +70,7 @@ const CommunityWrite = () => {
     if (state?.animal) {
       setAnimal(state.animal);
     }
-  }, []);
+  }, [state]);
 
   useEffect(() => {
     conversionHashTag();
@@ -104,27 +105,43 @@ const CommunityWrite = () => {
   };
 
   const handleSubmit = async () => {
-    // 게시물 생성
-    const formData = new FormData();
-    formData.append("animal", animal);
-    formData.append("title", titleText);
-    formData.append("content", contentText);
-    formData.append("category", selectedCategory);
-    formData.append("hashtag", conversionStringHashTag);
-    formData.append("author", reduxMemberId)
-    await communityApi.postCommunity(selectedPhotos, formData);
-    navigate(-1);
+    if (submitCheck || isSubmitDisabled) return; // 이미 전송 중이거나 필수값이 없으면 함수 종료
+    setSubmitCheck(true); // 전송 중 상태로 설정
+  
+    try {
+      const formData = new FormData();
+      formData.append("animal", animal);
+      formData.append("title", titleText);
+      formData.append("content", contentText);
+      formData.append("category", selectedCategory);
+      formData.append("hashtag", conversionStringHashTag);
+      formData.append("author", reduxMemberId);
+      await communityApi.postCommunity(selectedPhotos, formData);
+      navigate(-1); // 전송 후 페이지 이동
+    } catch (error) {
+      console.error("게시물 작성에 실패했습니다.", error);
+    } finally {
+      setSubmitCheck(false); // 전송 완료 후 상태 초기화
+    }
   };
 
   const handleUpdate = async (comid) => {
-    // 게시물 수정
-    const formData = new FormData();
-    formData.append("title", titleText);
-    formData.append("content", contentText);
-    formData.append("category", selectedCategory);
-    formData.append("hashtag", conversionStringHashTag);
-    await communityApi.editCommunity(selectedPhotos, formData, comid);
-    navigate(-1);
+    if (submitCheck || isSubmitDisabled) return; // 이미 전송 중이거나 필수값이 없으면 함수 종료
+    setSubmitCheck(true); // 전송 중 상태로 설정
+  
+    try {
+      const formData = new FormData();
+      formData.append("title", titleText);
+      formData.append("content", contentText);
+      formData.append("category", selectedCategory);
+      formData.append("hashtag", conversionStringHashTag);
+      await communityApi.editCommunity(selectedPhotos, formData, comid);
+      navigate(-1); // 전송 후 페이지 이동
+    } catch (error) {
+      console.error("게시물 수정에 실패했습니다.", error);
+    } finally {
+      setSubmitCheck(false); // 전송 완료 후 상태 초기화
+    }
   };
 
   const handleBottomSheetOpen = (type) => {
@@ -136,7 +153,7 @@ const CommunityWrite = () => {
     setShowBottomSheet(false);
   };
 
-  const isSubmitDisabled = !titleText || !contentText || !selectedCategory;
+  const isSubmitDisabled = !titleText.trim() || !contentText.trim() || !selectedCategory;
 
   const handleShowCheckModal = () => {
     setShowWriteCancleModal(true);
@@ -164,8 +181,6 @@ const CommunityWrite = () => {
     setSelectedHashTag(tags);
     handleBottomSheetClose();
   };
-
-  // console.log(animal);
 
   return (
     <div>
