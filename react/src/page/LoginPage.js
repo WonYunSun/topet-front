@@ -53,7 +53,6 @@ const LoginPage = () => {
     const resp = await memberApi.kakaoLogin();
     window.location.href = resp;
     
-    
   };
 
   if(!isLoaded){

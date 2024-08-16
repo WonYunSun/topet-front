@@ -24,12 +24,12 @@ const MyPostList = ({ postType }) => {
   const fetchPosts = async () => {
     if (postType == "mypost") {
       // 내 게시글
-      const resp = await CommunityApi.getMyCommunity(reduxMember.id);
+      const resp = await CommunityApi.getCommunitybyAuthorId(reduxMember.id);
 
       return resp;
     } else if (postType == "likedpost") {
       // 좋아요 한 게시글
-      return await CommunityApi.getMyCommunity(reduxMember.id); // !! 수정 필요 !!
+      return await CommunityApi.getCommunitybyAuthorId(reduxMember.id); // !! 수정 필요 !!
     }
   };
 
