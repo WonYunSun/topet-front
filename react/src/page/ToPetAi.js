@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import TopBar from '../component/TopBar';
-import styles from '../css/toPetAi.module.css';
 
 const ToPetAi = () => {
   const [messages, setMessages] = useState([]);
@@ -54,26 +53,24 @@ const ToPetAi = () => {
   return (
       <div>
         <TopBar />
-          <div className={styles.chatMessages}>
+          <div>
               {messages.map((msg, index) => (
                   <div 
                     key={index} 
-                    className={`${styles.message} ${msg.sender === '나' ? styles.myMessage : styles.aiMessage}`}
                   >
                       {msg.sender}: {msg.message}
                   </div>
               ))}
               <div ref={messagesEndRef} />
           </div>
-          <div className={styles.userInput}>
+          <div>
               <input
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                  className={styles.input}
               />
-              <button onClick={handleSend} className={styles.sendButton}>전송</button>
+              <button onClick={handleSend}>전송</button>
           </div>
       </div>
   );

@@ -62,18 +62,18 @@
   margin: 0 auto;
   margin-top: 50px;
   max-width: 1050px;
-  width: 80%;
+  width: 79%;
   /* height: calc(100vh - 88px); */
   display: flex;
   flex-direction: row;
   align-items: start;
-  gap: 1%;
 }
 
 .comm_listbox {
   /* width: 80%;
   max-width: 1190px;
   margin-top: 15px; */
+  margin-left: 30px;
   width: calc(100% - 159px);
 }
 .commu_sidebar {
@@ -90,7 +90,7 @@
   justify-content: center;
   align-items: start;
   text-align: left;
-  width: 15%;
+  width: 20%;
 }
 .sidebarTitle {
   margin-left: 1%;

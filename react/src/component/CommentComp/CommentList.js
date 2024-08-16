@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
-import commentApi from '../../api/commentApi';
-import CommentDetail from '../CommentComp/CommentDetail';
-import ContentList from '../HandlerComp/ContentList';
-import { useSelector } from 'react-redux';
-import EditDeleteBottomSheet from '../SubBottomSheet';
-import CheckModal from '../CheckModal';
+import React, { useState, useEffect } from "react";
+import commentApi from "../../api/commentApi";
+import CommentDetail from "../CommentComp/CommentDetail";
+import ContentList from "../HandlerComp/ContentList";
+import { useSelector, useDispatch } from "react-redux";
+import EditDeleteBottomSheet from "../SubBottomSheet";
+import CheckModal from "../CheckModal";
+import { openModal, setReduxModalMessage } from '../../redux/reducers/modalReducer';
+import { useNavigate } from 'react-router-dom';
 
-const CommentList = ({ comid , boardType}) => {
-
+const CommentList = ({ comid, boardType, isshorts, handleCommentSubmit }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
   const reduxMemberId = useSelector((state) => state.member.member.id);
+  const reduxmodalOpen = useSelector((state) => state.modal.modalOpen)
+  const reduxmodalMessage = useSelector((state) => state.modal.modalMessage)
 
   const [isCommentWriter, setIsCommentWriter] = useState(false);
   const [isReplyWriter, setIsReplyWriter] = useState(false);
@@ -21,12 +27,26 @@ const CommentList = ({ comid , boardType}) => {
   const [isEditingReply, setIsEditingReply] = useState(null);
   const [commentAuthorId, setCommentAuthorId] = useState(null);
   const [replyAuthorId, setreplyAuthorId] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+  const [modalIsOpen, setModalIsOpen] = useState(reduxmodalOpen);
+  const [modalMessage, setModalMessage] = useState(reduxmodalMessage);
+  
+  const [checkSubmit, setCheckSubmit] = useState(false);
+
+  useEffect(() => {
+    setModalIsOpen(reduxmodalOpen);
+    setModalMessage(reduxmodalMessage);
+  }, [reduxmodalOpen, reduxmodalMessage]);
 
   const bottomsheetClose = () => {
     setShowSubBottomSheet(false);
   };
+
+  const modalClose = () => {
+    setModalIsOpen(false);
+    dispatch(openModal(false));
+    dispatch(setReduxModalMessage(""));
+    handleCommentSubmit();
+  }
 
   const activateReplyInput = (commentId) => {
     bottomsheetClose();
@@ -34,30 +54,38 @@ const CommentList = ({ comid , boardType}) => {
   };
 
   const handleDeleteComment = async () => {
+    if (checkSubmit) return;
+    setCheckSubmit(true);
+
     try {
       await commentApi.deleteComment(commentId);
       setShowSubBottomSheet(false);
-      setFetchKey(prevKey => prevKey + 1);
       setModalMessage("댓글이 삭제되었습니다.");
       setModalIsOpen(true);
     } catch (error) {
       console.error("Error deleting comment:", error);
       setModalMessage("댓글 삭제에 실패했습니다.");
       setModalIsOpen(true);
+    } finally {
+      setCheckSubmit(false);
     }
   };
 
   const handleDeleteReply = async () => {
+    if (checkSubmit) return;
+    setCheckSubmit(true);
+
     try {
       await commentApi.deleteReply(replyId);
       setShowSubBottomSheet(false);
-      setFetchKey(prevKey => prevKey + 1);
       setModalMessage("답글이 삭제되었습니다.");
       setModalIsOpen(true);
     } catch (error) {
       console.error("Error deleting reply:", error);
       setModalMessage("답글 삭제에 실패했습니다.");
       setModalIsOpen(true);
+    } finally {
+      setCheckSubmit(false);
     }
   };
 
@@ -71,9 +99,10 @@ const CommentList = ({ comid , boardType}) => {
     setShowSubBottomSheet(false);
   };
 
- 
-
   const handleEditSubmit = async (id, content, isComment) => {
+    if (checkSubmit || !content || content.trim() === "") return;
+    setCheckSubmit(true);
+
     try {
       const formData = new FormData();
       formData.append("id", id);
@@ -88,32 +117,40 @@ const CommentList = ({ comid , boardType}) => {
         setIsEditingReply(null);
         setModalMessage("답글이 수정되었습니다.");
       }
-      setFetchKey(prevKey => prevKey + 1);
+      setFetchKey((prevKey) => prevKey + 1);
       setModalIsOpen(true);
     } catch (error) {
       console.error("Error updating content:", error);
       setModalMessage("수정에 실패했습니다.");
       setModalIsOpen(true);
+    } finally {
+      setCheckSubmit(false);
     }
   };
 
   const handleReplySubmit = async (parentCommentId, replyContent) => {
+    if (checkSubmit || !replyContent || replyContent.trim() === "") return;
+    setCheckSubmit(true);
+
     if (parentCommentId && replyContent && replyContent.trim()) {
       try {
         const formData = new FormData();
         formData.append("parentId", parentCommentId);
         formData.append("content", replyContent);
-        formData.append("author", reduxMemberId)
-        
+        formData.append("author", reduxMemberId);
+
         await commentApi.postReplyComment(comid, formData);
         setActiveReplyInput(null);
-        setFetchKey(prevKey => prevKey + 1);
+        handleCommentSubmit();
+        // setFetchKey((prevKey) => prevKey + 1);
         setModalMessage("답글이 등록되었습니다.");
         setModalIsOpen(true);
       } catch (error) {
         console.error("Error posting reply:", error);
         setModalMessage("답글 등록에 실패했습니다.");
         setModalIsOpen(true);
+      } finally {
+        setCheckSubmit(false);
       }
     }
   };
@@ -125,17 +162,23 @@ const CommentList = ({ comid , boardType}) => {
 
   const determineType = () => {
     if (commentId && isCommentWriter) {
-      return { type: "CommentEditDelete", deleteHandler: handleDeleteComment, editHandler: () => handleEditComment(commentId) };
+      return {
+        type: "CommentEditDelete",
+        deleteHandler: handleDeleteComment,
+        editHandler: () => handleEditComment(commentId),
+      };
     } else if (commentId) {
       return { type: "CommentReportBlock", deleteHandler: null };
     } else if (replyId && isReplyWriter) {
-      return { type: "ReplyEditDelete", deleteHandler: handleDeleteReply, editHandler: () => handleEditReply(replyId) };
+      return {
+        type: "ReplyEditDelete",
+        deleteHandler: handleDeleteReply,
+        editHandler: () => handleEditReply(replyId),
+      };
     } else {
       return { type: "ReplyReportBlock", deleteHandler: null };
     }
   };
-
-
 
   const fetchComments = async (page, pageSize) => {
     try {
@@ -147,6 +190,7 @@ const CommentList = ({ comid , boardType}) => {
 
   const renderComments = (comment) => (
     <CommentDetail
+      isshorts={isshorts}
       key={comment.id}
       comment={comment}
       reduxMemberId={reduxMemberId}
@@ -168,13 +212,12 @@ const CommentList = ({ comid , boardType}) => {
     />
   );
 
-
   return (
     <div>
-      <ContentList 
+      <ContentList
         key={fetchKey}
-        fetchItems={fetchComments} 
-        renderItem={renderComments} 
+        fetchItems={fetchComments}
+        renderItem={renderComments}
       />
       {showSubBottomSheet && (
         <EditDeleteBottomSheet
@@ -193,14 +236,14 @@ const CommentList = ({ comid , boardType}) => {
         />
       )}
       {modalIsOpen && (
-        <CheckModal 
+        <CheckModal
           Content={modalMessage}
-          onClose={() => setModalIsOpen(false)}
+          onClose={modalClose}
           oneBtn={true}
         />
       )}
     </div>
   );
-}
+};
 
 export default CommentList;

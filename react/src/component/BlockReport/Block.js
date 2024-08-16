@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import RadioButton from './RadioButton';
 import Button from '../ButtonComp/Button';
 import styles from '../../css/report.module.css';
 import ReportAndBlock from '../../api/reportAndBlockApi';
+import { useDispatch } from "react-redux";
+import { openModal, setReduxModalMessage } from '../../redux/reducers/modalReducer'; // 액션 가져오기
 
-const Block = ({onClick, blockerId, blockedId }) => {
-  const navigate = useNavigate();
+const Block = ({ onClick, blockerId, blockedId }) => {
+  const dispatch = useDispatch(); // useDispatch 훅 사용
 
   const [selectedValue, setSelectedValue] = useState('이 사용자 차단');
-
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
-
 
   const handleCancel = () => {
     onClick();
@@ -24,16 +24,19 @@ const Block = ({onClick, blockerId, blockedId }) => {
   const handleSubmit = async () => {
     try {
       await ReportAndBlock.BlockUser(blockerId, blockedId);
-      navigate(-1);
-    } catch (error) {
-      console.error("차단에 실패했습니다.", error);
 
+      // 모달을 열고 메시지를 설정
+      dispatch(openModal(true));
+      dispatch(setReduxModalMessage("차단 되었습니다."));
+
+    } catch (error) {
+      dispatch(openModal(true));
+      dispatch(setReduxModalMessage("차단에 실패했습니다."));
+      console.error("차단에 실패했습니다.", error);
     } finally {
       onClick();
     }
   };
-
-
 
   return (
     <div className={styles.reportContainer}>

@@ -35,16 +35,13 @@ const MyPostList = ({ postType }) => {
   };
 
   const renderPosts = (item) => {
-    <CommunityListData key={item.id} item={item} />;
+    return <CommunityListData key={item.id} item={item} />;
   };
 
-  if(!isLoaded){
-    return(<div>Loading...</div>);
-  }
   return (
     <div>
       <div className={styles.communities_content_area}>
-        <ContentList fetchItems={fetchPosts} renderItem={renderPosts}/>
+        <ContentList fetchItems={fetchItems} renderItem={renderPosts} />
       </div>
     </div>
   );

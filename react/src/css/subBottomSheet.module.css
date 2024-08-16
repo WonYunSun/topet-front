@@ -9,6 +9,23 @@
   background: rgba(0, 0, 0, 0.325);
   z-index: 1000;
 }
+.bottomSheet.shortsBtm {
+  opacity: 0;
+  border-radius: 15px;
+  width: 100%;
+  height: 100%;
+  position: static;
+  /* z-index: -100; */
+  transform: translateX(-100%);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  overflow: hidden;
+}
+.bottomSheet.shortsBtm.show {
+  margin-left: 20px;
+  opacity: 1;
+  transform: translateX(0);
+  z-index: -1;
+}
 
 .bottomSheet {
   min-height: max-content;
@@ -18,46 +35,61 @@
   bottom: 0;
   left: 0;
   transform: translateY(100%);
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out opacity 0.3s ease-in-out;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   z-index: 1001;
 }
 
 .show {
+  bottom: 0;
   transform: translateY(0);
 }
 
 .bottomSheet.dtver {
+  min-width: 240px;
   max-height: 50%;
   min-height: 20%;
   height: fit-content;
   width: 20%;
   border-radius: 15px;
   /* 화면 중앙에 위치시키기 위한 변환 */
-
   transition: none;
 }
+
 .bottomSheet.dtver.show {
   left: 50%;
   top: 50%;
-
   transform: translate(-50%, -50%);
 }
 
 .bottomSheetTitle {
-  margin: 20px;
-
+  padding: 20px;
   font-size: 16px;
   font-weight: bold;
   position: relative;
 }
 
 .bottomSheetContent {
+  box-sizing: border-box;
+  height: calc(100% - 60px);
   padding: 16px;
   cursor: pointer;
 }
 .closeIcon {
   position: absolute;
-  right: 0;
+  right: 15px;
+}
+.dt_CommWrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.dt_CommWrap > div:nth-child(1) {
+  flex-grow: 1;
+  overflow-y: scroll;
+}
+.dt_CommWrap > div:nth-child(1)::-webkit-scrollbar {
+  width: 2px;
 }

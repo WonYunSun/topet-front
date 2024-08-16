@@ -30,7 +30,7 @@ function Shorts() {
 
   const getAllShorts = async () => {
     const resp = await shortsApi.getAllShorts();
-    console.log(resp)
+    console.log(resp);
     const allShorts = [];
     for (let i = 0; i < resp.length; i++) {
       let tempShorts = {
@@ -193,80 +193,84 @@ function Shorts() {
   }
   return (
     <>
-    <Mobile>
-      <TopBar centerChange="쇼츠" />
-      <div className={styles.shortWrapper}>
-      <div className={styles.titlediv}>최근 인기 쇼츠</div>
-        <div className={styles.popularShorts}>
-          <div className={styles.shortsListContainer}>
-            {dummyPopularShortsData.map((short) => (
-              <ShortItem
-                key={short.id}
-                thumbnailUrl={short.thumbnailUrl}
-                title={short.title}
-                author={short.author}
-
-                heightAdjust="100%"
-              />
-            ))}
+      <Mobile>
+        <TopBar centerChange="쇼츠" />
+        <div className={styles.shortWrapper}>
+          <div className={styles.titlediv}>최근 인기 쇼츠</div>
+          <div className={styles.popularShorts}>
+            <div className={styles.shortsListContainer}>
+              {dummyPopularShortsData.map((short) => (
+                <ShortItem
+                  key={short.id}
+                  thumbnailUrl={short.thumbnailUrl}
+                  title={short.title}
+                  author={short.author}
+                  heightAdjust="100%"
+                />
+              ))}
+            </div>
+          </div>
+          <div className={styles.divisionline}></div>
+          <div className={styles.allShortsWrap}>
+            <div className={styles.titlediv}>전체 쇼츠</div>
+            <div className={styles.shortsGridContainer}>
+              {shorts.map((short) => (
+                <ShortItem
+                  key={short.id}
+                  id={short.id}
+                  thumbnailUrl={short.thumbnailUrl}
+                  title={short.title}
+                  author={short.author}
+                  widthAdjust="100%" // 그리드 내에서 너비를 조정
+                  heightAdjust="250px" // 필요 시 높이를 조정
+                />
+              ))}
+            </div>
           </div>
         </div>
-        <div className={styles.divisionline}></div>
-        <div className={styles.allShortsWrap}> 
-          <div className={styles.titlediv}>전체 쇼츠</div>
-          <div className={styles.shortsGridContainer}>
-            {shorts.map((short) => (
-              <ShortItem
-                key={short.id}
-                id={short.id}
-                thumbnailUrl={short.thumbnailUrl}
-                title={short.title}
-                author={short.author}
-                widthAdjust="100%" // 그리드 내에서 너비를 조정
-                heightAdjust="250px" // 필요 시 높이를 조정
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </Mobile>
+      </Mobile>
       <DeskTop>
         <div className={styles.deskTopshortswrap}>
-      <div className={styles.shortWrapper}>
-      <div className={styles.titlediv}>최근 인기 쇼츠</div>
-        <div className={styles.popularShorts}>
-          <div className={`${styles.shortsListContainer} ${isDeskTop?styles.dtver : ""}`}>
-            {dummyPopularShortsData.map((short) => (
-              <ShortItem
-                key={short.id}
-                thumbnailUrl={short.thumbnailUrl}
-                title={short.title}
-                author={short.author}
+          <div className={styles.sidebarTitle}>쇼츠</div>
 
-                heightAdjust="100%"
-              />
-            ))}
+          <div className={styles.shortWrapper}>
+            <div className={styles.titlediv}>최근 인기 쇼츠</div>
+            <div className={styles.popularShorts}>
+              <div
+                className={`${styles.shortsListContainer} ${
+                  isDeskTop ? styles.dtver : ""
+                }`}
+              >
+                {dummyPopularShortsData.map((short) => (
+                  <ShortItem
+                    key={short.id}
+                    thumbnailUrl={short.thumbnailUrl}
+                    title={short.title}
+                    author={short.author}
+                    heightAdjust="100%"
+                  />
+                ))}
+              </div>
+            </div>
+            <div className={styles.divisionline}></div>
+            <div className={styles.allShortsWrap}>
+              <div className={styles.titlediv}>전체 쇼츠</div>
+              <div className={styles.shortsGridContainer}>
+                {shorts.map((short) => (
+                  <ShortItem
+                    key={short.id}
+                    id={short.id}
+                    thumbnailUrl={short.thumbnailUrl}
+                    title={short.title}
+                    author={short.author}
+                    widthAdjust="100%" // 그리드 내에서 너비를 조정
+                    heightAdjust="250px" // 필요 시 높이를 조정
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-        <div className={styles.divisionline}></div>
-        <div className={styles.allShortsWrap}> 
-          <div className={styles.titlediv}>전체 쇼츠</div>
-          <div className={styles.shortsGridContainer}>
-            {shorts.map((short) => (
-              <ShortItem
-                key={short.id}
-                id={short.id}
-                thumbnailUrl={short.thumbnailUrl}
-                title={short.title}
-                author={short.author}
-                widthAdjust="100%" // 그리드 내에서 너비를 조정
-                heightAdjust="250px" // 필요 시 높이를 조정
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-      </div>
       </DeskTop>
     </>
   );

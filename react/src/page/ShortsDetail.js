@@ -8,6 +8,9 @@ import { BsChatFill } from "react-icons/bs";
 import { BiSolidLike } from "react-icons/bi";
 import { HiDotsHorizontal } from "react-icons/hi";
 import ShortsBottom from "../component/ShortsBottom";
+/// responsive
+import { Mobile, DeskTop } from "../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 
 // 디바운스 함수 구현
 const debounce = (func, delay) => {
@@ -26,9 +29,7 @@ function ShortsDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [thisShorts, setThisShorts] = useState();
-
   const [showBottomSheet, setShowBottomSheet] = useState(false);
-
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasFetchedRandom, setHasFetchedRandom] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -38,7 +39,9 @@ function ShortsDetail() {
   const touchStartY = useRef(0);
   // const screenX = window.outerWidth;
   // const screenY = window.outerHeight;
-
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
   useEffect(() => {
     window.scrollTo(0, 50);
     const debouncedHandleWheel = debounce(handleWheel, 200);
@@ -101,10 +104,10 @@ function ShortsDetail() {
       touchStartY.current = startY;
     }
   };
-const handleBottomSheet = () =>{
-  setShowBottomSheet(true);
-  console.log(showBottomSheet)
-}
+  const handleBottomSheet = () => {
+    setShowBottomSheet(true);
+    console.log(showBottomSheet);
+  };
   const handleTouchMove = (event) => {
     const touchEndY = event.touches[0].clientY;
 
@@ -118,7 +121,13 @@ const handleBottomSheet = () =>{
       }
     }
   };
-
+  const handleBottomSheetOpen = () => {
+    setShowBottomSheet(true);
+    console.log("왜안뜨지");
+  };
+  const handleBottomSheetClose = () => {
+    setShowBottomSheet(false);
+  };
   const togglePlayPause = () => {
     const video = videoRef.current;
 
@@ -145,6 +154,7 @@ const handleBottomSheet = () =>{
     setProgress(progressPercentage);
   };
 
+  // console.log(id);
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
@@ -152,58 +162,143 @@ const handleBottomSheet = () =>{
   const goShorts = () => navigate("/shorts");
 
   return (
-    <div className={styles.detail_wrap}>
-      <div className={styles.icon} onClick={goShorts}>
-        <GoArrowLeft size={25} />
-      </div>
-      <button
-        className={`${styles.pauseBtn} ${
-          isButtonVisible ? styles.visible : ""
-        }`}
-        onClick={togglePlayPause}
-        style={{ visibility: isButtonVisible ? "visible" : "hidden" }}
-      >
-        {isPlaying ? <FaPause size={50} /> : <FaPlay size={50} />}
-      </button>
-      <div className={styles.detaildiv}>
-        <div>{thisShorts?.content}</div>
-      </div>
-      <div className={styles.menudiv}>
-        <div>
-          <BiSolidLike size={26} className={styles.menuicon} />
-          {/* 나중에 값 바꿔주세요 */}
-          <div>100</div>
-        </div>
-        <div>
-          <BsChatFill size={23} className={styles.menuicon}  onClick={handleBottomSheet}/>
-          {/* 나중에 값 바꿔주세요 */}
-          <div>100</div>
-        </div>
-        <div>
-          {/* 나중에 값 바꿔주세요 */}
-          <HiDotsHorizontal size={25} className={styles.menuicon} />
-        </div>
-      </div>
-      <video
-        ref={videoRef}
-        src={thisShorts?.videoSrc}
-        autoPlay
-        loop
-        onTimeUpdate={handleProgress}
-        onClick={togglePlayPause}
-        className={styles.video}
-      ></video>
+    <>
+      <Mobile>
+        <div className={styles.detail_wrap}>
+          <div className={styles.icon} onClick={goShorts}>
+            <GoArrowLeft size={25} />
+          </div>
+          <button
+            className={`${styles.pauseBtn} ${
+              isButtonVisible ? styles.visible : ""
+            }`}
+            onClick={togglePlayPause}
+            style={{ visibility: isButtonVisible ? "visible" : "hidden" }}
+          >
+            {isPlaying ? <FaPause size={50} /> : <FaPlay size={50} />}
+          </button>
+          <div className={styles.detaildiv}>
+            <div>{thisShorts?.content}</div>
+          </div>
+          <div className={styles.menudiv}>
+            <div>
+              <BiSolidLike size={26} className={styles.menuicon} />
+              {/* 나중에 값 바꿔주세요 */}
+              <div>100</div>
+            </div>
+            <div>
+              <BsChatFill
+                size={23}
+                className={styles.menuicon}
+                onClick={handleBottomSheetOpen}
+              />
+              {/* 나중에 값 바꿔주세요 */}
+              <div>100</div>
+            </div>
+            <div>
+              {/* 나중에 값 바꿔주세요 */}
+              <HiDotsHorizontal size={25} className={styles.menuicon} />
+            </div>
+          </div>
+          <video
+            ref={videoRef}
+            src={thisShorts?.videoSrc}
+            autoPlay
+            loop
+            onTimeUpdate={handleProgress}
+            onClick={togglePlayPause}
+            className={styles.video}
+          ></video>
 
-      <div className={styles.controls}>
-        <div className={styles.progressBar}>
-          <div
-            className={styles.progress}
-            style={{ width: `${progress}%` }}
-          ></div>
+          <div className={styles.controls}>
+            <div className={styles.progressBar}>
+              <div
+                className={styles.progress}
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+          </div>
         </div>
-      </div>
-      { showBottomSheet && <ShortsBottom id={id} />}
-    </div>
+        <ShortsBottom
+          id={id}
+          show={showBottomSheet}
+          onClose={handleBottomSheetClose}
+        />
+      </Mobile>
+      <DeskTop>
+        <div className={styles.shortsWrap_dtver}>
+          <div className={styles.leftWrapper}>
+            <div className={styles.sidebarTitle}>쇼츠</div>
+          </div>
+          <div className={styles.rightWrapper}>
+            <div className={styles.detail_wrap}>
+              <div className={styles.icon} onClick={goShorts}>
+                <GoArrowLeft size={25} />
+              </div>
+              <button
+                className={`${styles.pauseBtn} ${
+                  isButtonVisible ? styles.visible : ""
+                }`}
+                onClick={togglePlayPause}
+                style={{ visibility: isButtonVisible ? "visible" : "hidden" }}
+              >
+                {isPlaying ? <FaPause size={50} /> : <FaPlay size={50} />}
+              </button>
+              <div className={styles.detaildiv}>
+                <div className={styles.condiv}>{thisShorts?.content}</div>
+              </div>
+              <div className={styles.menudiv}>
+                <div>
+                  <BiSolidLike size={26} className={styles.menuicon} />
+                  {/* 나중에 값 바꿔주세요 */}
+                  <div>100</div>
+                </div>
+                <div>
+                  <BsChatFill
+                    size={23}
+                    className={styles.menuicon}
+                    onClick={handleBottomSheetOpen}
+                  />
+                  {/* 나중에 값 바꿔주세요 */}
+                  <div>100</div>
+                </div>
+                <div>
+                  {/* 나중에 값 바꿔주세요 */}
+                  <HiDotsHorizontal size={25} className={styles.menuicon} />
+                </div>
+              </div>
+
+              <video
+                ref={videoRef}
+                src={thisShorts?.videoSrc}
+                autoPlay
+                loop
+                onTimeUpdate={handleProgress}
+                onClick={togglePlayPause}
+                className={styles.video}
+              ></video>
+
+              <div className={styles.controls}>
+                <div className={styles.progressBar}>
+                  <div
+                    className={styles.progress}
+                    style={{ width: `${progress}%` }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.btmWrapper}>
+              <ShortsBottom
+                id={id}
+                show={showBottomSheet}
+                onClose={handleBottomSheetClose}
+                isshorts={true}
+              />
+            </div>
+          </div>
+        </div>
+      </DeskTop>
+    </>
   );
 }
 

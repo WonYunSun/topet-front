@@ -169,9 +169,11 @@ class CommunityApi {
     }
   }
 
-  async getMyCommunity(id) {
+  async getCommunitybyAuthorId(id, page, size) {
     try {
-      const response = await this.axios.get(`/myCommunity/${id}`);
+      const response = await this.axios.get(
+        `/author/${id}?page=${page}&size=${size}`
+      );
       console.log("api Response : ", response);
       return handleResponse(response);
     } catch (error) {
