@@ -43,11 +43,7 @@ function ShortsDetail() {
 
   const videoRef = useRef(null);
   const touchStartY = useRef(0);
-  // const screenX = window.outerWidth;
-  // const screenY = window.outerHeight;
-  const isDeskTop = useMediaQuery({
-    query: "(min-width:769px)",
-  });
+
   useEffect(() => {
     window.scrollTo(0, 50);
     const debouncedHandleWheel = debounce(handleWheel, 200);
@@ -63,14 +59,13 @@ function ShortsDetail() {
       window.removeEventListener("touchmove", debouncedHandleTouchMove);
     };
   }, []);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const resp = await shortsApi.getShortsDetail(id);
-        // await CommunityLikesApi.postShortsLike(id);
+        // const likesResp = await CommunityLikesApi.postShortsLike(id);
         setThisShorts(resp);
-        // setLikes(resp.likeCount);
+        // setLikes(likesResp.likeCount);
         console.log(resp);
       } catch (error) {
         console.log(error);
@@ -85,7 +80,6 @@ function ShortsDetail() {
     window.scrollTo(0, 50);
   }, [id]);
 
-
   const handlegetRandomShorts = async () => {
     if (!hasFetchedRandom) {
       const resp = await shortsApi.getRandomShorts();
@@ -95,6 +89,8 @@ function ShortsDetail() {
   };
 
   const handleWheel = (event) => {
+    if (showBottomSheet) return; // BottomSheet가 열려있으면 함수 종료
+
     if (event.deltaY > 0) {
       handlegetRandomShorts();
       window.scrollTo(0, 50);
@@ -110,11 +106,10 @@ function ShortsDetail() {
       touchStartY.current = startY;
     }
   };
-  const handleBottomSheet = () => {
-    setShowBottomSheet(true);
-    console.log(showBottomSheet);
-  };
+
   const handleTouchMove = (event) => {
+    if (showBottomSheet) return; // BottomSheet가 열려있으면 함수 종료
+
     const touchEndY = event.touches[0].clientY;
 
     if (touchStartY.current !== null) {
@@ -146,7 +141,6 @@ function ShortsDetail() {
       setIsPlaying(false);
     }
 
-    // Show button and hide it after 0.8 seconds
     setIsButtonVisible(true);
     console.log("Button visibility:", isButtonVisible); // 이 위치에서만 로그를 찍도록 수정
     setTimeout(() => {
@@ -156,6 +150,9 @@ function ShortsDetail() {
 
   const handleProgress = () => {
     const video = videoRef.current;
+    if (!video) {
+      return; // video가 없을 때는 아무 것도 하지 않음
+    }
     const progressPercentage = (video.currentTime / video.duration) * 100;
     setProgress(progressPercentage);
   };
@@ -167,7 +164,7 @@ function ShortsDetail() {
 
   const goShorts = () => navigate("/shorts");
 
-  const toggleLike = async () => { 
+  const toggleLike = async () => {
     // 좋아요 등록 및 취소 함수
     if (isLikeLoading) return;
     setIsLikeLoading(true);
@@ -203,10 +200,11 @@ function ShortsDetail() {
           </div>
           <div className={styles.menudiv}>
             <div>
-            <BiSolidLike size={26} 
-              className={styles.menuicon}
-              // onClick={toggleLike} className={ isLiked ? styles.truelikeicon : styles.falselikeicon}
-            />
+              <BiSolidLike
+                size={26}
+                onClick={toggleLike}
+                className={isLiked ? styles.truelikeicon : styles.falselikeicon}
+              />
               {/* 나중에 값 바꿔주세요 */}
               <div>{likes}</div>
             </div>
@@ -247,6 +245,7 @@ function ShortsDetail() {
           id={id}
           show={showBottomSheet}
           onClose={handleBottomSheetClose}
+          isshorts={true}
         />
       </Mobile>
       <DeskTop>
@@ -273,10 +272,13 @@ function ShortsDetail() {
               </div>
               <div className={styles.menudiv}>
                 <div>
-                <BiSolidLike size={26} 
-                className={styles.menuicon}
-                // onClick={toggleLike} className={ isLiked ? styles.truelikeicon : styles.falselikeicon}
-                />
+                  <BiSolidLike
+                    size={26}
+                    onClick={toggleLike}
+                    className={
+                      isLiked ? styles.truelikeicon : styles.falselikeicon
+                    }
+                  />
                   {/* 나중에 값 바꿔주세요 */}
                   <div>{likes}</div>
                 </div>

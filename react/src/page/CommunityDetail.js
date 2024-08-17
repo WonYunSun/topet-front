@@ -52,10 +52,11 @@ const CommunityDetail = () => {
       setProfileName(detail.author.name);
       setCommunityAuthorId(detail.author.id);
 
-      if (detail.hashtag) {
-        setHashtags(detail.hashtag.split(",").map((tag) => tag.trim()));
-      }
-
+      // if (detail.hashtag) {
+      //   setHashtags(detail.hashtag.split(",").map((tag) => tag.trim()));
+      // }
+      
+      setHashtags(detail.hashtag);
       // writer 상태 업데이트
       if (detail.author.id === reduxMemberId.id) {
         setWriter(true);
@@ -203,16 +204,18 @@ const CommunityDetail = () => {
             {images.map((item, index) => (
               <img
                 key={index}
-                src={item.filePath}
+                src={item.path}
                 alt={`이미지 ${index + 1}`}
               />
             ))}
           </div>
         )}
+        
+        
         <div className={styles.hashtags}>
           {hashtags.map((hashtag, index) => (
             <span key={index} className={styles.hashtag}>
-              #{hashtag}
+              #{hashtag.tag}
             </span>
           ))}
         </div>
@@ -290,7 +293,7 @@ const CommunityDetail = () => {
                 {images.map((item, index) => (
                   <img
                     key={index}
-                    src={item.filePath}
+                    src={item.path}
                     alt={`이미지 ${index + 1}`}
                   />
                 ))}

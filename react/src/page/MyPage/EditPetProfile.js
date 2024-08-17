@@ -14,82 +14,71 @@ import petApi from "../../api/petApi";
 const EditPetProfile = () => {
   const location = useLocation();
   const id = location.state?.id; 
-  
-  
-  const petData1 = {
-    type: "",
-    photo: "",
-    name: "",
-    kind: "",
-    gender: "",
-    neutered: "",
-    birth: "",
-    weight: "",
-    allergy: "",
-    health: "",
-  };
+  console.log("id : " ,id);
 
   
-  const [myPet, setMyPet] = useState(petData1);
+  
   const [isLoaded, setIsLoaded] = useState(false);
+  const [myPet, setMyPet] = useState();
+
+  const [gender, setGender] = useState('');
+  const [neutered, setNeutered] = useState('');
+  const [weight, setWeight] = useState('');
+  const [weightNum, setWeightNum] = useState('');
+  const [weightUnit, setWeightUnit] = useState('');
+  const [dontKnowWeight, setDontKnowWeight] = useState(true);
+  const [allergy, setAllergy] = useState('');
+  const [health, setHealth] = useState('');
+
+
+
+   
+
+  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let response = await petApi.getMyPet(id);
+        const response = await petApi.getMyPet(id);
         console.log("editPetProfile : ", response);
-        // const temp = {
-        //   type: response.type,
-        //   photo: response.profileSrc,
-        //   name: response.name,
-        //   kind: response.kind,
-        //   gender: response.gender,
-        //   neutered: response.neutered,
-        //   birth: response.birth,
-        //   weight: response.weight,
-        //   allergy: response.allergy,
-        //   health: response.health,
-        // };
-
         setMyPet(response);
-        console.log(myPet);
+        // 데이터 로드 후 상태 설정
+        setGender(response.gender || '');
+        setNeutered(response.neutered || '');
+        setWeight(response.weight || '');
+        setWeightNum(response.weight ? parseFloat(response.weight) : '');
+        setWeightUnit(response.weight ? response.weight.replace(/[0-9]/g, "").trim() : '');
+        setDontKnowWeight(response.weight ? false : true);
+        setAllergy(response.allergy || '');
+        setHealth(response.health || '');
       } catch (error) {
+        console.error('Error fetching pet data:', error);
       } finally {
         setIsLoaded(true);
       }
     };
-    fetchData();
-  }, []);
 
-  
+    fetchData();
+  }, [id]); // id가 변경될 때마다 fetchData를 호출
+
+  const currentProfilePhoto = myPet?.photo;
+  const currentNeutered = myPet?.neutered;
+  const currentWeight = myPet?.weight;
+  const currentGender = myPet?.gender;
+  const currentAllergy = myPet?.allergy;
+  const currenthealth = myPet?.health;
+
   const fileInputRef = useRef(null);
-  const defaultProfileImage =
-    "https://i.pinimg.com/564x/b5/b0/c0/b5b0c0313bfeb3cd262e16b546499a8c.jpg";
+  const defaultProfileImage =  "https://i.pinimg.com/564x/b5/b0/c0/b5b0c0313bfeb3cd262e16b546499a8c.jpg";
 
   const [profilePhoto, setProfilePhoto] = useState();
-  const [gender, setGender] = useState(myPet.gender);
-  const [neutered, setNeutered] = useState(myPet.neutered);
-  const [weight, setWeight] = useState(myPet.weight); // 체중 단위포함
-  const [weightNum, setWeightNum] = useState(
-    weight == "" ? "" : parseFloat(myPet.weight)
-  ); // 체중 숫자만
-  const [weightUnit, setWeightUnit] = useState(
-    weight == "" ? "" : myPet.weight.replace(/[0-9]/g, "").trim()
-  ); // 체중 단위만
-  const [dontKnowWeight, setDontKnowWeight] = useState(
-    weight == "" ? true : false
-  );
-  const [allergy, setAllergy] = useState(myPet.allergy);
-  const [health, setHealth] = useState(myPet.health);
+
+
   const [dropdown, setDropdown] = useState(false);
   const [canSave, setCanSave] = useState(false);
-  const currentProfilePhoto = myPet.photo;
-  const currentNeutered = myPet.neutered;
-  const currentWeight = myPet.weight;
-  const currentGender = myPet.gender;
-  const currentAllergy = myPet.allergy;
-  const currenthealth = myPet.health;
 
+
+ 
   useEffect(() => {
     if (profilePhoto == undefined) {
       setProfilePhoto(currentProfilePhoto);
@@ -170,10 +159,23 @@ const EditPetProfile = () => {
 
   const SaveProfile = async() => {
     const formData = new FormData();
+    
+    
+    if(profilePhoto!=null){
+      formData.append("photo", profilePhoto);
+    }
+    
+    formData.append("id", id);
+    formData.append("gender", gender);
     formData.append("weight", weight);
     formData.append("health", health);
     formData.append("neutered", neutered);
-    const resp = await petApi.updatePet();
+    formData.append("kind", myPet.kind);
+    formData.append("name", myPet.name);
+    formData.append("type", myPet.type);
+    formData.append("allergy", allergy);
+    formData.append("uid", myPet.uid);
+    const resp = await petApi.updatePet(formData);
 
 
 
@@ -199,11 +201,12 @@ const EditPetProfile = () => {
           </div>
         ) : (
           <div className={styles.selected_profile_photo_container}>
-            <img
+            {(myPet!=null)?<img
               src={myPet.profileSrc}
               className={styles.selected_profile_photo}
               alt="Profile"
-            />
+            /> : <></>}
+            
           </div>
         )}
       </div>
@@ -310,10 +313,7 @@ const EditPetProfile = () => {
     );
   };
 
-  console.log(weight);
-  console.log(weightNum);
-  console.log(weightUnit);
-  console.log(dontKnowWeight);
+  
   if (!isLoaded) {
     return <div>Loading...</div>;
   }

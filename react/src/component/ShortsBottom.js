@@ -11,6 +11,7 @@ const ShortsBottom = ({ onClose, id, show, isshorts }) => {
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
+
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const [commentListKey, setCommentListKey] = useState(0); // key 상태 추가
 
@@ -31,7 +32,9 @@ const ShortsBottom = ({ onClose, id, show, isshorts }) => {
       <div
         className={`${styles.bottomSheet} ${show ? styles.show : ""} ${
           isDeskTop && !isshorts ? styles.dtver : ""
-        } ${isshorts ? styles.shortsBtm : ""}`}
+        } ${isshorts ? styles.shortsBtm : ""} ${
+          isshorts && isMobile ? styles.shorts_M : ""
+        }`}
       >
         <div className={styles.bottomSheetTitle}>
           댓글
@@ -49,7 +52,13 @@ const ShortsBottom = ({ onClose, id, show, isshorts }) => {
               comid={id}
               onCommentSubmit={handleCommentSubmit}
             />
-            <CommentList key={commentListKey} comid={id} boardType={"shorts"} />
+            <div className={styles.m_shorts_commList}>
+              <CommentList
+                key={commentListKey}
+                comid={id}
+                boardType={"shorts"}
+              />
+            </div>
           </Mobile>
           <DeskTop>
             <div className={styles.dt_CommWrap}>
