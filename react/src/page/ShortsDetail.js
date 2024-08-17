@@ -59,7 +59,6 @@ function ShortsDetail() {
       window.removeEventListener("touchmove", debouncedHandleTouchMove);
     };
   }, []);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -90,6 +89,8 @@ function ShortsDetail() {
   };
 
   const handleWheel = (event) => {
+    if (showBottomSheet) return; // BottomSheet가 열려있으면 함수 종료
+
     if (event.deltaY > 0) {
       handlegetRandomShorts();
       window.scrollTo(0, 50);
@@ -105,11 +106,10 @@ function ShortsDetail() {
       touchStartY.current = startY;
     }
   };
-  const handleBottomSheet = () => {
-    setShowBottomSheet(true);
-    console.log(showBottomSheet);
-  };
+
   const handleTouchMove = (event) => {
+    if (showBottomSheet) return; // BottomSheet가 열려있으면 함수 종료
+
     const touchEndY = event.touches[0].clientY;
 
     if (touchStartY.current !== null) {
@@ -150,6 +150,9 @@ function ShortsDetail() {
 
   const handleProgress = () => {
     const video = videoRef.current;
+    if (!video) {
+      return; // video가 없을 때는 아무 것도 하지 않음
+    }
     const progressPercentage = (video.currentTime / video.duration) * 100;
     setProgress(progressPercentage);
   };
@@ -242,6 +245,7 @@ function ShortsDetail() {
           id={id}
           show={showBottomSheet}
           onClose={handleBottomSheetClose}
+          isshorts={true}
         />
       </Mobile>
       <DeskTop>

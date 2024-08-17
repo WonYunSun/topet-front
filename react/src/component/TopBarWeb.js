@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import styles from "../css/tobBarWeb.module.css";
-import { ReactComponent as Logo } from "../asset/icon/TopetLogo.svg";
+import { ReactComponent as Logo } from "../asset/icon/TopetLogo_Login.svg";
 
 const TopBarWeb = () => {
   const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
@@ -36,8 +36,9 @@ const TopBarWeb = () => {
       <div className={styles.nabbarInner}>
         <div className={styles.logoContainer}>
           <Logo
-            width={37}
-            height={37}
+            width={50}
+            fill={"#ffa62f"}
+            color=""
             onClick={() => navigate(`/home`)}
             style={{ cursor: "pointer" }}
             className={styles.logo}
@@ -83,6 +84,14 @@ const TopBarWeb = () => {
             }
           >
             쇼츠
+          </NavLink>
+          <NavLink
+            to="/shorts"
+            className={({ isActive }) =>
+              isActive ? styles.activeNavItem : styles.navItem
+            }
+          >
+            투펫AI
           </NavLink>
         </div>
         <div className={styles.right}>
