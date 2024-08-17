@@ -41,7 +41,7 @@ const MyPostList = ({ postType }) => {
   return (
     <div>
       <div className={styles.communities_content_area}>
-        <ContentList fetchItems={fetchItems} renderItem={renderPosts} />
+        <ContentList fetchItems={fetchPosts} renderItem={renderPosts} />
       </div>
     </div>
   );
