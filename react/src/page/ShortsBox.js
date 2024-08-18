@@ -5,34 +5,38 @@ import ShortsDetail from "./ShortsDetail";
 import shortsApi from "../api/shortsApi";
 
 const debounce = (func, delay) => {
-let timeoutId;
-return (...args) => {
+  let timeoutId;
+  return (...args) => {
     if (timeoutId) {
-    clearTimeout(timeoutId);
+      clearTimeout(timeoutId);
     }
     timeoutId = setTimeout(() => {
-    func(...args);
+      func(...args);
     }, delay);
+  };
 };
-};
-
 
 function ShortsBox() {
-const navigate = useNavigate();
-const { id } = useParams();
-const [thisShorts, setThisShorts] = useState();
-const [isLoaded, setIsLoaded] = useState(false);
-const [shortsArr, setShortsArr] = useState([id]);
-const [index, setIndex] = useState(0);
-const touchStartY = useRef(0);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [thisShorts, setThisShorts] = useState();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [shortsArr, setShortsArr] = useState([id]);
+  const [index, setIndex] = useState(0);
+  const touchStartY = useRef(0);
+  const [eventPrevent, setEventPrevent] = useState(false);
 
-useEffect(()=>{
+  const handleEventPrevent = (ep) => {
+    console.log("eventPrevent 상태:", ep); // 디버깅을 위한 로그 추가
+    setEventPrevent(ep);
+  };
+
+  useEffect(() => {
     console.log(shortsArr);
     console.log(index);
-},[shortsArr, index])
+  }, [shortsArr, index]);
 
-
-useEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 50);
     const debouncedHandleWheel = debounce(handleWheel, 200);
     const debouncedHandleTouchMove = debounce(handleTouchMove, 200);
@@ -42,88 +46,92 @@ useEffect(() => {
     window.addEventListener("touchmove", debouncedHandleTouchMove);
 
     return () => {
-    window.removeEventListener("wheel", debouncedHandleWheel);
-    window.removeEventListener("touchstart", handleTouchStart);
-    window.removeEventListener("touchmove", debouncedHandleTouchMove);
+      window.removeEventListener("wheel", debouncedHandleWheel);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", debouncedHandleTouchMove);
     };
-}, [index]);
+  }, [index]);
 
-useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
-    try {
+      try {
         const resp = await shortsApi.getShortsDetail(shortsArr[index]);
         setThisShorts(resp);
         setIsLoaded(true);
-    } catch (error) {
+      } catch (error) {
         console.log(error);
-    }
+      }
     };
     fetchData();
-}, [shortsArr, index]);
+  }, [shortsArr, index]);
 
-const next = async () => {
+  const next = async () => {
+    console.log("쇼츠박스에서움직이는next");
     const nextIndex = index + 1;
     if (nextIndex < shortsArr.length) {
-    setIndex(nextIndex);
+      setIndex(nextIndex);
     } else {
-    const resp = await getRandomShorts();
-    setShortsArr(prevArr => [...prevArr, resp]);
-    setIndex(shortsArr.length); // Update index to the new random short's index
+      const resp = await getRandomShorts();
+      setShortsArr((prevArr) => [...prevArr, resp]);
+      setIndex(shortsArr.length); // Update index to the new random short's index
     }
     window.scrollTo(0, 50);
-};
+  };
 
-const prev = () => {
+  const prev = () => {
+    console.log("쇼츠박스에서움직이는prev");
     if (index > 0) {
-    setIndex(index - 1);
+      setIndex(index - 1);
     }
     window.scrollTo(0, 50);
-};
+  };
 
-const getRandomShorts = async () => {
+  const getRandomShorts = async () => {
     const resp = await shortsApi.getRandomShorts();
     return resp;
-};
+  };
 
-const handleWheel = async (event) => {
-    if (event.deltaY > 0) {
-    await next();
-    } else if (event.deltaY < 0) {
-    prev();
-    }
-};
-
-const handleTouchStart = (event) => {
-    if (event.touches.length > 0) {
-    const startY = event.touches[0].clientY;
-    touchStartY.current = startY;
-    }
-};
-
-const handleTouchMove = (event) => {
-    const touchEndY = event.touches[0].clientY;
-
-    if (touchStartY.current !== null) {
-    if (touchStartY.current > touchEndY) {
-        next();
-        window.scrollTo(0, 50);
-    } else if (touchStartY.current < touchEndY) {
+  const handleWheel = async (event) => {
+    if (!eventPrevent) {
+      // eventPrevent가 false일 때만 실행
+      console.log("쇼츠박스에서움직이는handleWheel");
+      if (event.deltaY > 0) {
+        await next();
+      } else if (event.deltaY < 0) {
         prev();
-        window.scrollTo(0, 50);
+      }
     }
-    }
-};
+  };
 
-if (!isLoaded) {
+  const handleTouchStart = (event) => {
+    if (event.touches.length > 0) {
+      const startY = event.touches[0].clientY;
+      touchStartY.current = startY;
+    }
+  };
+
+  const handleTouchMove = (event) => {
+    if (!eventPrevent) {
+      // eventPrevent가 false일 때만 실행
+      const touchEndY = event.touches[0].clientY;
+
+      if (touchStartY.current !== null) {
+        if (touchStartY.current > touchEndY) {
+          next();
+          window.scrollTo(0, 50);
+        } else if (touchStartY.current < touchEndY) {
+          prev();
+          window.scrollTo(0, 50);
+        }
+      }
+    }
+  };
+
+  if (!isLoaded) {
     return <div>Loading...</div>;
-}
+  }
 
-return (
-    <ShortsDetail
-    videoSrc={thisShorts?.videoSrc}
-    id={shortsArr[index]}
-    />
-);
+  return <ShortsDetail eventPrevent={handleEventPrevent} />;
 }
-
+// videoSrc={thisShorts?.videoSrc} id={shortsArr[index]}
 export default ShortsBox;

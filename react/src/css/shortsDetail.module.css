@@ -134,13 +134,12 @@
 }
 .btmWrapper {
   width: 49%;
-  height: 100%;
 }
 
 .truelikeicon {
-  color : red
+  color: red;
 }
 
 .falselikeicon {
-  color : white
+  color: white;
 }

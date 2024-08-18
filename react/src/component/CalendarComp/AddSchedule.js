@@ -36,6 +36,7 @@ export default function AddSchedule({
     content: "",
     isComplete: false,
     color: "#000000",
+    selectedPhoto: "",
   };
 
   const [startDate, setStartDate] = useState(
@@ -61,6 +62,7 @@ export default function AddSchedule({
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [showCheckModal, setShowCheckModal] = useState(false);
   const [btnStyle, setBtnStyle] = useState("gray");
+  const [Btnloading, setBtnLoading] = useState(false);
 
   useEffect(() => {
     const updatedStartDate = initialValues.startDate || defaultValues.startDate;
@@ -75,6 +77,9 @@ export default function AddSchedule({
     setContent(initialValues.content || defaultValues.content);
     setIsComplete(initialValues.isComplete || defaultValues.isComplete);
     setColor(initialValues.color || defaultValues.color);
+    setSelectedPhoto(
+      initialValues.selectedPhoto || defaultValues.selectedPhoto
+    );
   }, [initialValues]);
 
   useEffect(() => {
@@ -156,7 +161,9 @@ export default function AddSchedule({
   };
 
   const handleButtonClick = async () => {
-    if (title !== "") {
+    if (title !== "" && !Btnloading) {
+      // 추가: loading이 false일 때만 제출 가능
+      setBtnLoading(true); // 제출 시작 시 loading 상태를 true로 설정
       try {
         await postScheduleData();
         setScheduleSubmittedSuccessfully(true);
@@ -164,8 +171,10 @@ export default function AddSchedule({
         console.error("스케줄 저장 중 오류 발생:", error);
         setScheduleSubmittedSuccessfully(false);
         onClose();
+      } finally {
+        setBtnLoading(false); // 제출 완료 시 또는 오류 발생 시 loading 상태를 false로 설정
       }
-    } else {
+    } else if (title === "") {
       setShowCheckModal(true);
     }
   };
@@ -323,6 +332,7 @@ export default function AddSchedule({
         text="완료"
         btnstyle={btnStyle}
         onClick={handleButtonClick}
+        disabled={Btnloading}
       />
       {showCheckModal && (
         <CheckModal

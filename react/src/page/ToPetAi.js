@@ -1,101 +1,196 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import TopBar from '../component/TopBar';
-
+import React, { useState, useEffect, useRef } from "react";
+import { GoArrowLeft, GoHome, GoChevronDown } from "react-icons/go";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import styles from "../css/toPetAi.module.css"; // Import the CSS Module
+import { FaArrowUp } from "react-icons/fa6";
+import { ReactComponent as MainImg } from "../asset/icon/MainImg.svg";
+/// responsive
+import { Mobile, DeskTop } from "../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 const ToPetAi = () => {
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
-  const [qaPairs, setQaPairs] = useState([]); // 질문과 답변을 저장할 상태
-  const [qaPairsString, setQaPairsString] = useState(''); // 변환된 문자열을 저장할 상태
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
-
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 859px)",
+  });
   const scrollToBottom = () => {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
-      scrollToBottom();
+    scrollToBottom();
   }, [messages]);
-
-  useEffect(() => {
-      // qaPairs가 변경될 때마다 문자열로 변환하여 qaPairsString 상태에 저장
-      const stringRepresentation = qaPairs.map(pair => `{question: "${pair.question}", answer: "${pair.answer}"}`).join(' ');
-      setQaPairsString(`참고용 이전 대화 내용 : ${stringRepresentation}`);
-  }, [qaPairs]);
-
+  const navigate = useNavigate();
   const addMessage = (sender, message) => {
-      setMessages((prevMessages) => [
-          ...prevMessages,
-          { sender, message },
-      ]);
+    setMessages((prevMessages) => [...prevMessages, { sender, message }]);
   };
-
+  const goBack = () => {
+    navigate("/home"); // 뒤로가기
+  };
+  const TopetAiTopbar = () => {
+    return (
+      <div className={styles.chattopbar}>
+        {isMobile && (
+          <div style={{ marginRight: "10px" }}>
+            <GoArrowLeft size={20} onClick={goBack} />
+          </div>
+        )}
+        <div className={styles.profileContainer}>
+          <div className={styles.profileImage}>
+            <MainImg className={styles.mainImg} />
+          </div>
+          <div className={styles.profileNameContainer}>
+            <span className={styles.profileName}>투펫 AI</span>
+            <span className={styles.onlineIndicator}></span>
+          </div>
+        </div>
+      </div>
+    );
+  };
   const fetchAIResponse = async (prompt) => {
-      try {
-          const response = await axios.post('http://localhost:8081/api/chatgpt/ask', 
-              { prompt },
-              {
-                  headers: { 'Content-Type': 'application/json' },
-                  withCredentials: true,
-              }
-          );
-          return response.data.response;
-      } catch (error) {
-          console.error('백엔드 API 호출 중 오류 발생:', error);
-          return '백엔드 API 호출 중 오류 발생';
-      }
+    try {
+      const response = await axios.post(
+        "http://localhost:8081/api/chatgpt/ask",
+        { prompt },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      return response.data.response;
+    } catch (error) {
+      console.error("백엔드 API 호출 중 오류 발생:", error);
+      return "백엔드 API 호출 중 오류 발생";
+    }
   };
 
   const handleSend = async () => {
-      if (input.trim() === '') return;
+    if (input.trim() === "") return;
 
-      // 사용자 질문을 화면에 추가하고 입력 박스를 초기화
-      const userMessage = input;
-      addMessage('나', userMessage);
-      setInput('');
+    // 사용자 질문을 화면에 추가하고 입력 박스를 초기화
+    addMessage("user", input);
+    setInput("");
 
-      // 새로운 질문과 이전 대화 내용을 결합하여 전송
-      const combinedMessage = `${qaPairsString} {새로운 질문: "${userMessage}"}`;
-      console.log(combinedMessage)
+    // AI 응답을 가져오는 동안 로딩 표시
+    setLoading(true);
+    const aiResponse = await fetchAIResponse(input);
+    setLoading(false);
 
-      // AI 응답을 가져와서 화면에 추가
-      const aiResponse = await fetchAIResponse(combinedMessage);
-      addMessage('투펫AI', aiResponse);
-
-      // 질문과 답변을 객체로 저장 (최대 5개)
-      setQaPairs((prevQaPairs) => {
-          const newQaPairs = [...prevQaPairs, { question: userMessage, answer: aiResponse }];
-          if (newQaPairs.length > 5) {
-              newQaPairs.shift(); // 배열의 첫 번째 요소 제거 (가장 오래된 항목)
-          }
-          return newQaPairs;
-      });
+    addMessage("ai", aiResponse);
   };
 
   return (
-      <div>
-        <TopBar />
-          <div>
+    <>
+      <Mobile>
+        <div className={`${styles.container}`}>
+          <TopetAiTopbar />
+          <div
+            className={`${styles.messagesContainer} ${
+              isDeskTop && styles.dtver
+            }`}
+          >
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={msg.sender === "user" ? styles.user : styles.ai}
+              >
+                <div className={styles.messageLabel}>
+                  {msg.sender === "user" ? "나" : "투펫AI"}
+                </div>
+                <div
+                  className={
+                    msg.sender === "user"
+                      ? styles.userMessage
+                      : styles.aiMessage
+                  }
+                >
+                  {msg.message}
+                </div>
+              </div>
+            ))}
+            {loading && (
+              <div className={styles.loadingIndicator}>
+                <span>...</span>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+          <div className={styles.inputContainer}>
+            <input
+              type="text"
+              value={input}
+              placeholder="무엇이 궁금하세요?"
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+            />
+            <button className={styles.sendBtn} onClick={handleSend}>
+              <FaArrowUp size={16} />
+            </button>
+          </div>
+        </div>
+      </Mobile>
+      <DeskTop>
+        <div className={styles.DeskTopScreen}>
+          <div className={styles.leftWrapper}>
+            <div>투펫AI</div>
+          </div>
+          <div className={`${styles.container} ${styles.dtver}`}>
+            <TopetAiTopbar />
+            <div
+              className={`${styles.messagesContainer} ${
+                isDeskTop && styles.dtver
+              }`}
+            >
               {messages.map((msg, index) => (
-                  <div 
-                    key={index} 
-                  >
-                      {msg.sender}: {msg.message}
+                <div
+                  key={index}
+                  className={msg.sender === "user" ? styles.user : styles.ai}
+                >
+                  <div className={styles.messageLabel}>
+                    {msg.sender === "user" ? "나" : "투펫AI"}
                   </div>
+                  <div
+                    className={
+                      msg.sender === "user"
+                        ? styles.userMessage
+                        : styles.aiMessage
+                    }
+                  >
+                    {msg.message}
+                  </div>
+                </div>
               ))}
+              {loading && (
+                <div className={styles.loadingIndicator}>
+                  <span>...</span>
+                </div>
+              )}
               <div ref={messagesEndRef} />
-          </div>
-          <div>
+            </div>
+            <div className={styles.inputContainer}>
               <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                type="text"
+                value={input}
+                placeholder="무엇이 궁금하세요?"
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSend()}
               />
-              <button onClick={handleSend}>전송</button>
+              <button className={styles.sendBtn} onClick={handleSend}>
+                <FaArrowUp size={16} />
+              </button>
+            </div>
           </div>
-      </div>
+        </div>
+      </DeskTop>
+    </>
   );
-}
+};
 
 export default ToPetAi;

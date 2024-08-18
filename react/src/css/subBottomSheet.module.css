@@ -9,6 +9,7 @@
   background: rgba(0, 0, 0, 0.325);
   z-index: 1000;
 }
+
 .bottomSheet.shortsBtm {
   opacity: 0;
   border-radius: 15px;
@@ -20,11 +21,11 @@
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   overflow: hidden;
 }
+
 .bottomSheet.shortsBtm.show {
   margin-left: 20px;
   opacity: 1;
   transform: translateX(0);
-  z-index: -1;
 }
 
 .bottomSheet {
@@ -41,6 +42,26 @@
   z-index: 1001;
 }
 
+.shortsBtm.shorts_M {
+  min-height: max-content;
+  width: 100vw;
+  background-color: white;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out opacity 0.3s ease-in-out;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  z-index: 1001;
+}
+.shortsBtm.shorts_M.show {
+  margin-left: 0;
+  position: fixed;
+  max-height: 60%;
+  bottom: 0;
+  transform: translateY(0);
+}
 .show {
   bottom: 0;
   transform: translateY(0);
@@ -91,5 +112,11 @@
   overflow-y: scroll;
 }
 .dt_CommWrap > div:nth-child(1)::-webkit-scrollbar {
+  width: 2px;
+}
+.m_shorts_commList {
+  overflow-y: scroll;
+}
+.m_shorts_commList::-webkit-scrollbar {
   width: 2px;
 }

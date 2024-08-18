@@ -13,7 +13,7 @@ import { IoChatbubbles } from "react-icons/io5";
 import ScheduleToday from "../component/HomeComp/ScheduleToday";
 import { ReactComponent as AiIcon } from "../asset/icon/ai.svg";
 import ShortsList from "../component/ShortsComp/ShortsList";
-import TopBarWeb from "../component/TopBarWeb";
+
 import styles from "../css/homescreen.module.css";
 // import CommunityList from "../component/CommunityComp/CommunityList"; //작업 연기
 import CommunityListData from "../component/CommunityComp/CommunityListData";
@@ -21,7 +21,6 @@ import CommunityListData from "../component/CommunityComp/CommunityListData";
 import memberApi from "../api/memberApi";
 import scheduleApi from "../api/scheduleApi";
 import petApi from "../api/petApi";
-
 
 import { updatePetList } from "../redux/reducers/petListReducer";
 import { updateSelectedPet } from "../redux/reducers/selectedPetReducer";
@@ -67,12 +66,11 @@ const Home = () => {
   const [schedules, setSchedule] = useState([]);
 
   useEffect(() => {
-    
     const fetchData = async () => {
       try {
         await getMyPets(reduxMember.id);
-        if(selectedPet!=null && selectedPet.id != null){
-          console.log(selectedPet , "이 있슴");
+        if (selectedPet != null && selectedPet.id != null) {
+          console.log(selectedPet, "이 있슴");
           await getSchedule();
         }
         //returnedMember에 따른 pet정보를 가져오는 api필요
@@ -87,7 +85,7 @@ const Home = () => {
 
   useEffect(() => {
     if (selectedPet != null && selectedPet.id != null) {
-      console.log(selectedPet , "이 있슴");
+      console.log(selectedPet, "이 있슴");
       getSchedule();
     }
   }, [selectedPet]);
@@ -120,8 +118,8 @@ const Home = () => {
   };
 
   const goTopetAi = () => {
-    navigate('/topetai')
-  }
+    navigate("/topetai");
+  };
 
   const goPetregistration = () => {
     navigate(`/petregistration`);
@@ -208,21 +206,20 @@ const Home = () => {
     },
   ];
 
-  const getMyPets =async (id)=>{
+  const getMyPets = async (id) => {
     const resp = await petApi.getMyPets(id);
-    setPets(resp)
-    if(resp != null){
+    setPets(resp);
+    if (resp != null) {
       dispatch(updatePetList(resp));
 
-      if(reduxPet==null || reduxPet == ""){
+      if (reduxPet == null || reduxPet == "") {
         setSelectedPet(resp[0]);
         dispatch(updateSelectedPet(resp[0]));
-      }else{
+      } else {
         setSelectedPet(reduxPet);
       }
     }
-    
-  }
+  };
 
   const getSchedule = async () => {
     if (selectedPet != null) {
@@ -255,12 +252,10 @@ const Home = () => {
       <Mobile>
         <TopBar isHome={true} />
       </Mobile>
-      {/* <DeskTop>
-        <TopBarWeb />
-      </DeskTop> */}
+
       <div className={`${styles.homeWrap} ${isDeskTop ? styles.dtver : ""}`}>
         <Mobile>
-          {pets == null ? (
+          {pets.length === 0 ? (
             <div></div>
           ) : (
             <AnimalSelect
@@ -395,14 +390,13 @@ const Home = () => {
               <div className={styles.areaTitle}>오늘의 일정</div>
               <SlArrowRight onClick={goCalendar} />
             </div>
-            
+
             <ScheduleToday schedules={schedules} />
-            
           </div>
         </Mobile>
         <DeskTop>
-          {pets == null ? (
-            <div></div>
+          {pets.length === 0 ? (
+            ""
           ) : (
             <AnimalSelect
               onClick={handleOpenPetBottomSheet}

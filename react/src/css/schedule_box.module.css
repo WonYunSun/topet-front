@@ -1,13 +1,13 @@
 :root {
   --margin-size: 40px; /* 기본 margin 값 */
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .ScheduleBox {
   margin: calc(var(--margin-size) / 4) var(--margin-size);
   width: calc(100% - 2 * var(--margin-size)); /* margin 값을 동적으로 반영 */
   box-sizing: border-box;
-  height: 90px;
+  height: 80px;
   border-radius: 20px;
   padding: 10px;
   margin-bottom: 15px;
@@ -40,13 +40,13 @@
 }
 
 .ScheduleDate {
-  font-weight: 100;
-  font-size: 16px;
+  font-weight: 200;
+  font-size: 14px;
 }
 
 .ScheduleTitle {
   font-weight: 500;
-  font-size: 17px;
+  font-size: 16px;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
