@@ -185,13 +185,24 @@ class CommunityApi {
   async getLikedCommunity(id, page, size) {
     try {
       const response = await this.axios.get(
-        `/myCommunity/${id}?page=${page}&size=${size}`  // !! 수정 필요 !!
+        `/likedPosts/${id}?page=${page}&size=${size}`  // !! 수정 필요 !!
       );
       console.log("api Response : ", response);
       return handleResponse(response);
     } catch (error) {
       console.log("api Response : ", error);
       handleError(error);
+    }
+  }
+
+
+  async bestCommunity(){
+    try{
+      const response = await this.axios.get("/bestCommunity");
+      console.log("community : " ,response);
+      return response.data;
+    }catch(error){
+      console.log(error);
     }
   }
 }

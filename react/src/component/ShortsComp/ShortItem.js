@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const ShortItem = ({
   thumbnailUrl,
-  title,
+  content,
   author,
   widthAdjust,
   heightAdjust,
@@ -29,9 +29,9 @@ const ShortItem = ({
 
   return (
     <div className={styles.shortItem} style={customStyle} onClick={()=>{goDetail(id)}}>
-      <img src={thumbnailUrl} alt={title} className={styles.thumbnail} />
+      <img src={thumbnailUrl} alt={content} className={styles.thumbnail} />
       <div className={styles.info}>
-        <div className={styles.title}>{title}</div>
+        <div className={styles.title}>{content}</div>
         {/* <div className={styles.author}>{author}</div> */}
       </div>
     </div>

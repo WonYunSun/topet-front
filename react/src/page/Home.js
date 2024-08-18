@@ -16,7 +16,7 @@ import ShortsList from "../component/ShortsComp/ShortsList";
 import styles from "../css/homescreen.module.css";
 // import CommunityList from "../component/CommunityComp/CommunityList"; //작업 연기
 import CommunityListData from "../component/CommunityComp/CommunityListData";
-
+import shortsApi from "../api/shortsApi";
 import memberApi from "../api/memberApi";
 import scheduleApi from "../api/scheduleApi";
 import petApi from "../api/petApi";
@@ -27,6 +27,7 @@ import { FiPlus } from "react-icons/fi";
 /// responsive
 import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
+import communityApi from "../api/communityApi";
 
 const Home = () => {
   const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
@@ -54,6 +55,10 @@ const Home = () => {
   const [member, setMember] = useState();
   const [pets, setPets] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  const [fiveShorts, setFiveShorts] = useState([]);
+  const [fiveCommunity, setFiveCommunity] = useState([]);
+  
   // console.log("왜 널이 아니냐", pets);
   // const animalTypeMap = {
   //   1: "강아지",
@@ -71,7 +76,10 @@ const Home = () => {
         if (selectedPet != null && selectedPet.id != null) {
           console.log(selectedPet, "이 있슴");
           await getSchedule();
+
         }
+        await getFiveShorts();
+        await bestCommunity();
         //returnedMember에 따른 pet정보를 가져오는 api필요
       } catch (error) {
         console.log(error);
@@ -132,78 +140,51 @@ const Home = () => {
     setShowBottomSheet(false);
   };
 
-  const dummyShortsData = [
-    {
-      id: 1,
-      videoUrl: "https://dummyvideo1.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1505628346881-b72b27e84530?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      title: "Dummy Video 1",
-      author: "Author 1",
-    },
-    {
-      id: 2,
-      videoUrl: "https://dummyvideo2.com",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      title: "Dummy Video 2",
-      author: "Author 2",
-    },
-    {
-      id: 3,
-      videoUrl: "https://dummyvideo3.com",
-      thumbnailUrl: "https://dummyimage3.com",
-      title: "Dummy Video 3",
-      author: "Author 3",
-    },
-    {
-      id: 4,
-      videoUrl: "https://dummyvideo4.com",
-      thumbnailUrl: "https://dummyimage4.com",
-      title: "Dummy Video 4",
-      author: "Author 4",
-    },
-    {
-      id: 5,
-      videoUrl: "https://dummyvideo5.com",
-      thumbnailUrl: "https://dummyimage5.com",
-      title: "Dummy Video 5",
-      author: "Author 5",
-    },
-  ];
-  // 프로필 카드 플립 관련
-  const dummyCommmuData = [
-    {
-      title: "First Post",
-      content: "This is the content of the first post.",
-      images: [],
-      hashtag: [],
-    },
-    {
-      title: "Second Post",
-      content: "Content for the second post goes here.",
-      images: [{ filePath: "path/to/image2.jpg", origFileName: "image2.jpg" }],
-      hashtag: [],
-    },
-    {
-      title: "Third Post",
-      content: "Here is the third post content.",
-      images: [{ filePath: "path/to/image3.jpg", origFileName: "image3.jpg" }],
-      hashtag: [],
-    },
-    {
-      title: "Fourth Post",
-      content: "Fourth post with some different content.",
-      images: [{ filePath: "path/to/image4.jpg", origFileName: "image4.jpg" }],
-      hashtag: [],
-    },
-    {
-      title: "Fifth Post",
-      content: "Content for the fifth post is right here.",
-      images: [{ filePath: "path/to/image5.jpg", origFileName: "image5.jpg" }],
-      hashtag: [],
-    },
-  ];
+  const getFiveShorts = async() =>{
+    const resp = await shortsApi.getFileShorts();
+    setFiveShorts(resp);
+    console.log(resp);
+  }
+  const bestCommunity = async()=>{
+    const resp = await communityApi.bestCommunity();
+    setFiveCommunity(resp);
+  }
+
+
+  const dummyShortsData =  fiveShorts;
+ 
+  const dummyCommmuData = fiveCommunity;
+  //   {
+  //     title: "First Post",
+  //     content: "This is the content of the first post.",
+  //     images: [],
+  //     hashtag: [],
+  //   },
+  //   {
+  //     title: "Second Post",
+  //     content: "Content for the second post goes here.",
+  //     images: [{ filePath: "path/to/image2.jpg", origFileName: "image2.jpg" }],
+  //     hashtag: [],
+  //   },
+  //   {
+  //     title: "Third Post",
+  //     content: "Here is the third post content.",
+  //     images: [{ filePath: "path/to/image3.jpg", origFileName: "image3.jpg" }],
+  //     hashtag: [],
+  //   },
+  //   {
+  //     title: "Fourth Post",
+  //     content: "Fourth post with some different content.",
+  //     images: [{ filePath: "path/to/image4.jpg", origFileName: "image4.jpg" }],
+  //     hashtag: [],
+  //   },
+  //   {
+  //     title: "Fifth Post",
+  //     content: "Content for the fifth post is right here.",
+  //     images: [{ filePath: "path/to/image5.jpg", origFileName: "image5.jpg" }],
+  //     hashtag: [],
+  //   },
+  // ];
 
   const getMyPets = async (id) => {
     const resp = await petApi.getMyPets(id);
@@ -558,7 +539,7 @@ const Home = () => {
           </div>
 
           <div className={styles.shortsWrap}>
-            <ShortsList shortsData={dummyShortsData} />
+            <ShortsList shortsData={fiveShorts} />
           </div>
         </div>
 
@@ -568,7 +549,7 @@ const Home = () => {
             <SlArrowRight onClick={goCommunity} />
           </div>
           <div className={styles.communityList}>
-            {dummyCommmuData.map((item, index) => (
+            {fiveCommunity.map((item, index) => (
               <CommunityListData
                 key={index}
                 item={item}

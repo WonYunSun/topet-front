@@ -8,11 +8,14 @@ import { all } from "axios";
 /// responsive
 import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
+import FloatingBtn from "../component/ButtonComp/FloatingBtn";
+import { useNavigate } from "react-router-dom";
 
 function Shorts() {
   const [shorts, setShorts] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  const navigate = useNavigate();
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
@@ -28,6 +31,9 @@ function Shorts() {
     };
     fetchData();
   }, []);
+  const goAddShorts =() =>{
+    navigate(`/addshorts`);
+;  }
 
   const getAllShorts = async () => {
     const resp = await shortsApi.getAllShorts();
@@ -72,6 +78,7 @@ function Shorts() {
               ))}
             </div>
           </div>
+          <FloatingBtn onClick={()=>goAddShorts()}/>
         </div>
       </Mobile>
       <DeskTop>
