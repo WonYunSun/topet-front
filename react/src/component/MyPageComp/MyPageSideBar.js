@@ -67,14 +67,21 @@ const MyPageSideBar = ({ option }) => {
     <div className={styles.wrapper}>
       <div className={styles.title}>마이페이지</div>
       <div className={styles.list_wrapper}>
-        <div className={styles.list_group_wrapper}>
+        <div
+          className={styles.list_group_wrapper}
+          style={{ cursor: "pointer" }}
+        >
           <div className={styles.category_title}>동물 관리</div>
           <Option
             onClick={() => handleClickedOption({ clickedOption: "myPets" })}
             text={"내 동물 관리"}
+            style={{ cursor: "pointer" }}
           />
         </div>
-        <div className={styles.list_group_wrapper}>
+        <div
+          className={styles.list_group_wrapper}
+          style={{ cursor: "pointer" }}
+        >
           <div className={styles.category_title}>게시글 관리</div>
           <Option
             onClick={() => handleClickedOption({ clickedOption: "myPosts" })}
@@ -89,7 +96,10 @@ const MyPageSideBar = ({ option }) => {
             text={"내 댓글 보기"}
           />
         </div>
-        <div className={styles.list_group_wrapper}>
+        <div
+          className={styles.list_group_wrapper}
+          style={{ cursor: "pointer" }}
+        >
           <div className={styles.category_title}>쇼츠 관리</div>
           <Option
             onClick={() => handleClickedOption({ clickedOption: "myShorts" })}
@@ -102,7 +112,10 @@ const MyPageSideBar = ({ option }) => {
             text={"좋아요 한 쇼츠 보기"}
           />
         </div>
-        <div className={styles.list_group_wrapper}>
+        <div
+          className={styles.list_group_wrapper}
+          style={{ cursor: "pointer" }}
+        >
           <div className={styles.category_title}>계정 설정</div>
           <Option
             onClick={() =>
