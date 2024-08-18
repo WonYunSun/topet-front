@@ -18,23 +18,27 @@ const PhotoSelectArea = ({
             cnt={cnt}
           />
         )}
-        {selectedPhotos.map((photo, index) => (
-          <div key={index} className={styles["selected-photo-box"]}>
-            <img
-              src=
-              // {photo}
-              {URL.createObjectURL(photo)}
-              alt={`selected ${index}`}
-              className={styles["photo"]}
-            />
-            <button
-              className={styles["remove-photo-button"]}
-              onClick={() => onRemovePhoto(index)}
-            >
-              x
-            </button>
-          </div>
-        ))}
+        {
+        
+
+          selectedPhotos.map((photo, index) => (
+            <div key={index} className={styles["selected-photo-box"]}>
+              <img
+                src=
+                  {photo.path}
+                //{URL.createObjectURL(photo)}
+                alt={`selected ${index}`}
+                className={styles["photo"]}
+              />
+              <button
+                className={styles["remove-photo-button"]}
+                onClick={() => onRemovePhoto(index)}
+              >
+                x
+              </button>
+            </div>
+          ))
+        }
       </div>
     </div>
   );
