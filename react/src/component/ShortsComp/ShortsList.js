@@ -14,9 +14,10 @@ const ShortsList = ({ shortsData, seemoreSkip }) => {
       {shortsData.map((short) => (
         <ShortItem
           key={short.id}
-          thumbnailUrl={short.thumbnailUrl}
-          title={short.title}
+          thumbnailUrl={short.thumbnail}
+          content={short.content}
           author={short.author}
+          id={short.id}
         />
       ))}
 {!seemoreSkip && (<div className={styles.seeMore} onClick={goShorts}>

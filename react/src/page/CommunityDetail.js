@@ -210,7 +210,7 @@ const CommunityDetail = () => {
             ))}
           </div>
         )}
-        
+        {/* <img src={photos[0]}/> */}
         
         <div className={styles.hashtags}>
           {hashtags.map((hashtag, index) => (

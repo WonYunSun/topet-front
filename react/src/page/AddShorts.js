@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import SchedulePhotoSelectArea from "../component/CalendarComp/SchedulePhotoSelectArea";
 import shortsApi from "../api/shortsApi";
@@ -10,6 +10,9 @@ import styles from "../css/addshorts.module.css";
 import { LuUpload } from "react-icons/lu";
 import { IoIosClose } from "react-icons/io";
 import { useSelector } from "react-redux";
+import { Loading } from "../component/HandlerComp/CompHandler";
+
+
 function AddShorts() {
   const reduxMember = useSelector((state) => state.member.member);
 
@@ -22,6 +25,10 @@ function AddShorts() {
   const [content, setContent] = useState("");
   const [showWriteNullCheckModal, setShowWriteNullCheckModal] = useState(false);
   const [showWriteCancleModal, setShowWriteCancleModal] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
+
   const fileInputRef = useRef(null);
   const isSubmitDisabled = !videoPreviewUrl || !selectedPhoto;
   const videoSelect = () => {
@@ -32,6 +39,9 @@ function AddShorts() {
     setSelectedPhoto(photo);
   };
 
+  useEffect(()=>{
+
+  },[loading])
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
 
@@ -90,7 +100,10 @@ function AddShorts() {
     setContent(tempContent);
   };
 
-  const submitShorts = () => {
+  const submitShorts = async() => {
+
+    setLoading(true);
+
 
     const formData = new FormData();
     // formData.append("title", title);
@@ -98,15 +111,20 @@ function AddShorts() {
     formData.append("thumbnailPhoto", selectedPhoto);
     formData.append("video", selectedVideo);
     formData.append("author" , reduxMember.id);
-    const resp = shortsApi.postShorts(formData);
-    console.log(resp);
+    const resp = await shortsApi.postShorts(formData);
+    
     if (resp.status === 200) {
-       console.log("들어감")
+      console.log("들어감")
+      setLoading(false);
+      navigate(`/shortsDetail/${resp.data.id}`)
     } else {
       console.log("안들어감")
     }
   };
 
+  if(loading){
+    return <Loading/>
+  }
   
   return (
     <>

@@ -30,9 +30,9 @@ class CommunityApi {
 
   async editCommunity(selectedPhotos, formData, comid) {
     // 게시물 수정
-    selectedPhotos.slice(0, 5).forEach((photo, index) => {
-      formData.append("photos", photo);
-    });
+    // selectedPhotos.slice(0, 5).forEach((photo, index) => {
+    //   formData.append("photos", photo);
+    // });
 
     try {
       const response = await this.axios.post(`/update/${comid}`, formData, {
@@ -182,14 +182,27 @@ class CommunityApi {
     }
   }
 
-  async getLikedCommunity(id) {
+  async getLikedCommunity(id, page, size) {
     try {
-      const response = await this.axios.get(`/myCommunity/${id}`); // !! 수정 필요 !!
+      const response = await this.axios.get(
+        `/likedPosts/${id}?page=${page}&size=${size}`  // !! 수정 필요 !!
+      );
       console.log("api Response : ", response);
       return handleResponse(response);
     } catch (error) {
       console.log("api Response : ", error);
       handleError(error);
+    }
+  }
+
+
+  async bestCommunity(){
+    try{
+      const response = await this.axios.get("/bestCommunity");
+      console.log("community : " ,response);
+      return response.data;
+    }catch(error){
+      console.log(error);
     }
   }
 }

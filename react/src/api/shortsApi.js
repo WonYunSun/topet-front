@@ -69,6 +69,17 @@ class shortsApi {
     }
   }
 
+  async getFileShorts(){
+    try{
+      const response = await this.axios.get('/fiveShorts');
+      console.log(response);
+      return response.data;
+    }catch(error){
+      console.log(error);
+      throw error;
+    }
+  }
+
 }
 export default new shortsApi();
 

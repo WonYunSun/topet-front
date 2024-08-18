@@ -24,7 +24,7 @@ const SeeMyPosts = () => {
 
   const reduxMember = useSelector((state) => state.member.member);
 
-  const fectchPosts =(page, pageSize) => {
+  const fetchPosts =(page, pageSize) => {
 
 
     return communityApi.getCommunitybyAuthorId(reduxMember.id, page, pageSize);
@@ -39,7 +39,7 @@ const SeeMyPosts = () => {
             <MyPageCommonTopBar title={"내 게시글"} />
             
             <MyPostList 
-            fetchItems={fectchPosts} 
+            fetchItems={fetchPosts} 
             postType={"mypost"}/>
           </div>
         </div>
