@@ -18,15 +18,12 @@ const PhotoSelectArea = ({
             cnt={cnt}
           />
         )}
-        {
-        
-
-          selectedPhotos.map((photo, index) => (
+        {selectedPhotos.map((photo, index) => (
             <div key={index} className={styles["selected-photo-box"]}>
               <img
-                src=
-                  {photo.path}
-                //{URL.createObjectURL(photo)}
+                src= 
+                {photo.path}
+                // {URL.createObjectURL(photo)}
                 alt={`selected ${index}`}
                 className={styles["photo"]}
               />
