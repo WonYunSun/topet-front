@@ -53,7 +53,7 @@ const ContentList = ({ posts, fetchItems, renderItem, fetchParams }) => {
   }, [inView, hasMore]);
 
   return (
-    <div>
+    <>
       {resources.map(renderItem)}
       {!loading && hasMore && (
         <div ref={ref}>
@@ -64,7 +64,7 @@ const ContentList = ({ posts, fetchItems, renderItem, fetchParams }) => {
       {!loading && !hasError && !hasMore && resources.length === 0 && (
         <NoContent />
       )}
-    </div>
+    </>
   );
 };
 
