@@ -337,12 +337,12 @@
   min-height: 255px;
   width: 85%;
   margin: 0 auto;
-  gap: 20px;
+  gap: 30px;
   justify-content: space-between;
   /* background-color: #b1b1b1; */
 }
 .scheduleTodayWrap.dtver {
-  width: 40%;
+  width: 50%;
   min-width: 320px;
   height: 100%;
 }
@@ -369,5 +369,5 @@
   padding: 0;
 }
 .schedules_box_wrap {
-  height: 88%;
+  height: 86%;
 }

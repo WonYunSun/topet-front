@@ -186,7 +186,7 @@ const Calendarscreen = () => {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
-  console.log(isTablet);
+
   return (
     <>
       <Mobile>

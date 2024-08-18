@@ -8,7 +8,7 @@ const ScheduleDetail = ({ onDotsClick, selectedSchedule }) => {
   const isAllDay =
     dayjs(selectedSchedule.startDate).format("a hh:mm") === "오전 00:00" ||
     dayjs(selectedSchedule.endDate).format("a hh:mm") === "오후 11:59";
-  console.log(selectedSchedule.photoSrc);
+
   return (
     <div className={styles.scheduleDetailWrap}>
       <div className={styles.titleWrap}>
