@@ -7,7 +7,6 @@ import { TbMoodSuprised } from "react-icons/tb";
 import AnimalSelect from "../component/AnimalProfileComp/AnimalSelect";
 import BottomSheet from "../component/BottomSheet";
 import { SlArrowRight } from "react-icons/sl";
-import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { HiPlayCircle } from "react-icons/hi2";
 import { IoChatbubbles } from "react-icons/io5";
 import ScheduleToday from "../component/HomeComp/ScheduleToday";
@@ -64,7 +63,7 @@ const Home = () => {
 
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
   const [schedules, setSchedule] = useState([]);
-
+  console.log(pets);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -178,31 +177,31 @@ const Home = () => {
       title: "First Post",
       content: "This is the content of the first post.",
       images: [],
-      hashtag: [] 
+      hashtag: [],
     },
     {
       title: "Second Post",
       content: "Content for the second post goes here.",
       images: [{ filePath: "path/to/image2.jpg", origFileName: "image2.jpg" }],
-      hashtag: []
+      hashtag: [],
     },
     {
       title: "Third Post",
       content: "Here is the third post content.",
       images: [{ filePath: "path/to/image3.jpg", origFileName: "image3.jpg" }],
-      hashtag: []
+      hashtag: [],
     },
     {
       title: "Fourth Post",
       content: "Fourth post with some different content.",
       images: [{ filePath: "path/to/image4.jpg", origFileName: "image4.jpg" }],
-      hashtag: []
+      hashtag: [],
     },
     {
       title: "Fifth Post",
       content: "Content for the fifth post is right here.",
       images: [{ filePath: "path/to/image5.jpg", origFileName: "image5.jpg" }],
-      hashtag: []
+      hashtag: [],
     },
   ];
 

@@ -1,5 +1,5 @@
 :root {
-  --margin-size: 40px; /* 기본 margin 값 */
+  --margin-size: 35px; /* 기본 margin 값 */
   font-size: 14px;
 }
 
@@ -10,7 +10,6 @@
   height: 80px;
   border-radius: 20px;
   padding: 10px;
-  margin-bottom: 15px;
 }
 
 .ScheduleBoxContent {

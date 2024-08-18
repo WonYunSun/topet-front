@@ -1,10 +1,12 @@
 .CalendarscreenWrap_dtver {
   margin-top: 50px;
+  max-width: 1050px;
   justify-content: space-between;
   display: flex;
   flex-direction: row;
-  align-items: start;
-  height: 80vh; /* 100vh에서 탑바의 높이를 뺀 값 */
+  align-items: stretch;
+  margin-bottom: 50px;
+  /* 100vh에서 탑바의 높이를 뺀 값 */
 }
 .rightWrapper {
   margin-left: 30px;
@@ -12,6 +14,10 @@
   display: flex;
   flex-direction: row;
   gap: 15px;
+  border-radius: 20px;
+  padding: 10px 20px;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
+    rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
 }
 .rightWrapper > div:nth-child(1) {
   flex-grow: 0.6;

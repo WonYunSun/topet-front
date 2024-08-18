@@ -124,6 +124,7 @@ const ToPetAi = () => {
           </div>
           <div className={styles.inputContainer}>
             <input
+              className={styles.chatInputbox}
               type="text"
               value={input}
               placeholder="무엇이 궁금하세요?"
@@ -176,6 +177,7 @@ const ToPetAi = () => {
             </div>
             <div className={styles.inputContainer}>
               <input
+                className={styles.chatInputbox}
                 type="text"
                 value={input}
                 placeholder="무엇이 궁금하세요?"

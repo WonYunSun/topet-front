@@ -117,7 +117,11 @@ const TopBarWeb = () => {
         <div className={styles.right}>
           {reduxMember ? (
             <>
-              <div className={styles.profile} onClick={goMypage}>
+              <div
+                className={styles.profile}
+                onClick={goMypage}
+                style={{ cursor: "pointer" }}
+              >
                 <img
                   src={reduxMember.profileImage}
                   alt="Profile"
@@ -134,6 +138,7 @@ const TopBarWeb = () => {
             </>
           ) : (
             <button
+              style={{ cursor: "pointer" }}
               className={styles.loginBtn}
               onClick={() => navigate(`/login`)}
             >
