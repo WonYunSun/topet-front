@@ -80,6 +80,7 @@
   flex-direction: column;
   align-items: start;
   width: 88%;
+  max-width: 420px;
 }
 
 .profile_name_title {
@@ -346,6 +347,6 @@
 .secession_wrapper.dtver {
   align-items: end;
   width: 80%;
-  max-width: 420px;
+  max-width: 380px;
   margin-top: 8px;
 }

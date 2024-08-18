@@ -4,6 +4,7 @@
   align-items: start;
   text-align: left;
   width: 20%;
+  min-width: 139px;
 }
 
 .list_wrapper {
