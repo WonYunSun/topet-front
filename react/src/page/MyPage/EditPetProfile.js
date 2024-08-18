@@ -47,8 +47,8 @@ const EditPetProfile = () => {
           response.weight ? response.weight.replace(/[0-9]/g, "").trim() : ""
         );
         setDontKnowWeight(response.weight ? false : true);
-        setAllergy(response.allergy || "");
-        setHealth(response.health || "");
+        setAllergy(response.allergy && response.allergy);
+        setHealth(response.health && response.health);
       } catch (error) {
         console.error("Error fetching pet data:", error);
       } finally {
@@ -81,38 +81,7 @@ const EditPetProfile = () => {
   const [dropdown, setDropdown] = useState(false);
   const [canSave, setCanSave] = useState(false);
 
-  useEffect(() => {
-    if (myPet.photo) {
-      setProfilePhoto(myPet.photo);
-    }
-    if (myPet.gender) {
-      setGender(currentGender);
-    }
-    if (myPet.neutered) {
-      setNeutered(currentNeutered);
-    }
-    if (myPet.weight) {
-      // 숫자 부분만 추출
-      const numericWeight = parseFloat(myPet.weight);
-      setWeightNum(isNaN(numericWeight) ? "" : numericWeight);
-
-      // 단위 부분만 추출
-      const unit = myPet.weight.replace(/[0-9.]/g, "").trim();
-      setWeightUnit(unit);
-
-      // 전체 값 설정
-      setWeight(myPet.weight);
-    }
-    if (myPet.gender) {
-      setGender(myPet.gender);
-    }
-
-    if (!myPet.weight) {
-      setDontKnowWeight(true);
-    } else {
-      setDontKnowWeight(false);
-    }
-  }, [gender, neutered]);
+  console.log("health : ", health);
 
   useEffect(() => {
     // 사진 선택 클릭 후 사진 미선택시
@@ -189,8 +158,6 @@ const EditPetProfile = () => {
     const tempAllergy = e.target.value;
     setAllergy(tempAllergy);
   };
-
-  console.log("allergy : ", allergy);
 
   const handleHealthChange = (e) => {
     const tempHealth = e.target.value;
