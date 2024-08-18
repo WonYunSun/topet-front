@@ -12,24 +12,13 @@ import { IoLogOutOutline } from "react-icons/io5";
 /// responsive
 import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
-
 const TopBarWeb = () => {
   const reduxPet = useSelector((state) => state.selectedPet.selectedPet);
   const reduxMember = useSelector((state) => state.member.member);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [animalType, setAnimalType] = useState("강아지"); // 유저가 선택한 동물 타입 저장
-  const isDeskTop = useMediaQuery({
-    query: "(min-width: 901px)",
-  });
 
-  const isTablet = useMediaQuery({
-    query: "(min-width: 769px) and (max-width: 900px)",
-  });
-
-  const isMobile = useMediaQuery({
-    query: "(max-width: 768px)",
-  });
   const animalTypeMap = {
     1: "dog",
     2: "cat",

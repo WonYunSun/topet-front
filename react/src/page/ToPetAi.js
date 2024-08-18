@@ -3,13 +3,22 @@ import axios from "axios";
 import TopBar from "../component/TopBar";
 import styles from "../css/toPetAi.module.css"; // Import the CSS Module
 import { FaArrowUp } from "react-icons/fa6";
-import { DeskTop, Mobile } from "../responsive/responsive";
+import { ReactComponent as MainImg } from "../asset/icon/MainImg.svg";
+/// responsive
+import { Mobile, DeskTop } from "../responsive/responsive";
+import { useMediaQuery } from "react-responsive";
 const ToPetAi = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
-
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 859px)",
+  });
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -55,49 +64,122 @@ const ToPetAi = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <>
       <Mobile>
-        <TopBar />
+        <TopBar centerChange="투펫ai" />
       </Mobile>
-
-      <div className={styles.messagesContainer}>
-        {messages.map((msg, index) => (
+      <Mobile>
+        <div className={`${styles.container}`}>
           <div
-            key={index}
-            className={msg.sender === "user" ? styles.user : styles.ai}
+            className={`${styles.messagesContainer} ${
+              isDeskTop && styles.dtver
+            }`}
           >
-            <div className={styles.messageLabel}>
-              {msg.sender === "user" ? "나" : "투펫AI"}
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={msg.sender === "user" ? styles.user : styles.ai}
+              >
+                <div className={styles.messageLabel}>
+                  {msg.sender === "user" ? "나" : "투펫AI"}
+                </div>
+                <div
+                  className={
+                    msg.sender === "user"
+                      ? styles.userMessage
+                      : styles.aiMessage
+                  }
+                >
+                  {msg.message}
+                </div>
+              </div>
+            ))}
+            {loading && (
+              <div className={styles.loadingIndicator}>
+                <span>...</span>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+          <div className={styles.inputContainer}>
+            <input
+              type="text"
+              value={input}
+              placeholder="무엇이 궁금하세요?"
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+            />
+            <button className={styles.sendBtn} onClick={handleSend}>
+              <FaArrowUp size={16} />
+            </button>
+          </div>
+        </div>
+      </Mobile>
+      <DeskTop>
+        <div className={styles.DeskTopScreen}>
+          <div className={styles.leftWrapper}>
+            <div>투펫AI</div>
+          </div>
+          <div className={`${styles.container} ${styles.dtver}`}>
+            <div className={styles.chattopbar}>
+              <div className={styles.profileContainer}>
+                <div className={styles.profileImage}>
+                  <MainImg className={styles.mainImg} />
+                </div>
+                <div className={styles.profileNameContainer}>
+                  <span className={styles.profileName}>투펫 AI</span>
+                  <span className={styles.onlineIndicator}></span>
+                </div>
+              </div>
             </div>
+
             <div
-              className={
-                msg.sender === "user" ? styles.userMessage : styles.aiMessage
-              }
+              className={`${styles.messagesContainer} ${
+                isDeskTop && styles.dtver
+              }`}
             >
-              {msg.message}
+              {messages.map((msg, index) => (
+                <div
+                  key={index}
+                  className={msg.sender === "user" ? styles.user : styles.ai}
+                >
+                  <div className={styles.messageLabel}>
+                    {msg.sender === "user" ? "나" : "투펫AI"}
+                  </div>
+                  <div
+                    className={
+                      msg.sender === "user"
+                        ? styles.userMessage
+                        : styles.aiMessage
+                    }
+                  >
+                    {msg.message}
+                  </div>
+                </div>
+              ))}
+              {loading && (
+                <div className={styles.loadingIndicator}>
+                  <span>...</span>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+            <div className={styles.inputContainer}>
+              <input
+                type="text"
+                value={input}
+                placeholder="무엇이 궁금하세요?"
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              />
+              <button className={styles.sendBtn} onClick={handleSend}>
+                <FaArrowUp size={16} />
+              </button>
             </div>
           </div>
-        ))}
-        {loading && (
-          <div className={styles.loadingIndicator}>
-            <span>...</span>
-          </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
-      <div className={styles.inputContainer}>
-        <input
-          type="text"
-          value={input}
-          placeholder="무엇이 궁금하세요?"
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSend()}
-        />
-        <button className={styles.sendBtn} onClick={handleSend}>
-          <FaArrowUp size={16} />
-        </button>
-      </div>
-    </div>
+        </div>
+      </DeskTop>
+    </>
   );
 };
 
