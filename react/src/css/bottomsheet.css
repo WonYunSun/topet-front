@@ -30,7 +30,8 @@
   max-height: 60%;
   /* min-height: 40%; */
   height: fit-content;
-  width: 40%;
+
+  max-width: 40%;
   border-radius: 15px;
   /* 화면 중앙에 위치시키기 위한 변환 */
 

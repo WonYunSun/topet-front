@@ -68,7 +68,11 @@ const ScheduleDetail = ({ onDotsClick, selectedSchedule }) => {
         <div>{selectedSchedule.scheduleContent}</div>
       </div>
       <div className={styles.scheduleImg}>
-        <img src={selectedSchedule.photoSrc} alt="schedule_Img"></img>
+        {selectedSchedule.photoSrc == null ? (
+          ""
+        ) : (
+          <img src={selectedSchedule.photoSrc} alt="schedule_Img"></img>
+        )}
       </div>
       <div className={styles.WritEditWrap}>
         <div className={styles.scheduleWriterWrap}>

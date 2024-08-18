@@ -77,8 +77,18 @@ const ScheduleBottom = ({ schedules, selectedDate, onScheduleClick }) => {
             isDeskTop && !isTablet ? styles.dtver : ""
           } `}
         >
-          <div className={styles.SelectedDate}>{dayformatter}</div>
-          <div className={styles.ScheduleBoxWrap}>
+          <div
+            className={`${styles.SelectedDate} ${
+              isDeskTop && !isTablet ? styles.dtver : ""
+            }`}
+          >
+            {dayformatter}
+          </div>
+          <div
+            className={`${styles.ScheduleBoxWrap} ${
+              isDeskTop && !isTablet ? styles.dtver : ""
+            }`}
+          >
             {updatedSchedules != null ? (
               getSchedule(selectedDate).length > 0 ? (
                 getSchedule(selectedDate).map((item, index) => (
