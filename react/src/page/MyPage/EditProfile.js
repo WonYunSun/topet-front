@@ -17,6 +17,7 @@ import { useSelector, useDispatch } from "react-redux";
 /// responsive
 import { useMediaQuery } from "react-responsive";
 import { updateMember } from "../../redux/reducers/memberReducer";
+import { DeskTop, Mobile } from "../../responsive/responsive";
 
 const EditProfile = () => {
   const isDeskTop = useMediaQuery({
@@ -135,64 +136,103 @@ const EditProfile = () => {
 
   return (
     <>
-      <div className={`${isDeskTop ? styles.wrapper_dtver : styles.wrapper}`}>
-        <div className={`${isDeskTop && styles.inner_wrapper}`}>
-          {isDeskTop && <MyPageSideBar option={"좋아요 한 쇼츠 보기"} />}
-          <div className={`${isDeskTop && styles.rightside_wrapper}`}>
-            <MyPageCommonTopBar title={"프로필 수정"} />
-            <div className={styles.photo_wrapper}>
-              {ProfilePhoto1}
-              {SelectingPhoto}
+      <Mobile>
+        <div className={styles.wrapper}>
+          <MyPageCommonTopBar title={"프로필 수정"} />
+          <div className={styles.photo_wrapper}>
+            {ProfilePhoto1}
+            {SelectingPhoto}
+          </div>
+          <div className={styles.profile_name_wrapper}>
+            <div className={styles.profile_name_title}>닉네임</div>
+            <div className={styles.profile_name_inputbar_wrapper}>
+              <input
+                className={styles.profile_name_inputbar}
+                value={profileName}
+                maxLength={25}
+                onChange={handleProfileNameChange}
+                placeholder="닉네임을 작성해주세요"
+              />
+              <TiDelete
+                className={styles.input_delete_icon}
+                onClick={DeleteInputText}
+              />
             </div>
-            <div className={styles.profile_name_wrapper}>
-              <div className={styles.profile_name_title}>닉네임</div>
-              <div className={styles.profile_name_inputbar_wrapper}>
-                <input
-                  className={styles.profile_name_inputbar}
-                  value={profileName}
-                  maxLength={25}
-                  onChange={handleProfileNameChange}
-                  placeholder="닉네임을 작성해주세요"
-                />
-                <TiDelete
-                  className={styles.input_delete_icon}
-                  onClick={DeleteInputText}
-                />
-              </div>
-              <div className={styles.profile_name_length}>
-                {profileName ? profileName.length : "0"}/25
-              </div>
+            <div className={styles.profile_name_length}>
+              {profileName ? profileName.length : "0"}/25
             </div>
-            <div
-              className={`${styles.save_button_wrapper} ${
-                isDeskTop ? styles.dtver : styles.mbver
-              }`}
+          </div>
+          <div className={`${styles.save_button_wrapper} ${styles.mbver}`}>
+            <button
+              className={`${styles.save_button} ${!canSave && styles.disabled}`}
+              onClick={() => {
+                if (canSave) {
+                  handleSubmit();
+                }
+              }}
             >
-              <button
-                className={`${styles.save_button} ${
-                  !canSave && styles.disabled
-                } ${isDeskTop && styles.dtver}`}
-                onClick={() => {
-                  if (canSave) {
-                    handleSubmit();
-                  }
-                }}
-              >
-                {"저장"}
-              </button>
+              {"저장"}
+            </button>
+          </div>
+          <div className={`${styles.secession_wrapper} ${styles.mbver}`}>
+            <div className={styles.secession_button} onClick={Secession}>
+              회원탈퇴
             </div>
-            <div
-              className={`${styles.secession_wrapper} ${
-                isMobile ? styles.mbver : styles.dtver
-              }`}
-            >
-              <div className={styles.secession_button} onClick={Secession}>
-                회원탈퇴
+          </div>
+        </div>
+      </Mobile>
+      <DeskTop>
+        <div className={styles.wrapper_dtver}>
+          <div className={styles.inner_wrapper}>
+            <MyPageSideBar option={"프로필 수정"} />
+            <div className={styles.rightside_wrapper}>
+              <MyPageCommonTopBar title={"프로필 수정"} />
+              <div className={styles.photo_wrapper}>
+                {ProfilePhoto1}
+                {SelectingPhoto}
+              </div>
+              <div className={styles.profile_name_wrapper}>
+                <div className={styles.profile_name_title}>닉네임</div>
+                <div className={styles.profile_name_inputbar_wrapper}>
+                  <input
+                    className={styles.profile_name_inputbar}
+                    value={profileName}
+                    maxLength={25}
+                    onChange={handleProfileNameChange}
+                    placeholder="닉네임을 작성해주세요"
+                  />
+                  <TiDelete
+                    className={styles.input_delete_icon}
+                    onClick={DeleteInputText}
+                  />
+                </div>
+                <div className={styles.profile_name_length}>
+                  {profileName ? profileName.length : "0"}/25
+                </div>
+              </div>
+              <div className={`${styles.save_button_wrapper} ${styles.dtver}`}>
+                <button
+                  className={`${styles.save_button} ${
+                    !canSave && styles.disabled
+                  } ${styles.dtver}`}
+                  onClick={() => {
+                    if (canSave) {
+                      handleSubmit();
+                    }
+                  }}
+                >
+                  {"저장"}
+                </button>
+              </div>
+              <div className={`${styles.secession_wrapper} ${styles.dtver}`}>
+                <div className={styles.secession_button} onClick={Secession}>
+                  회원탈퇴
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </DeskTop>
     </>
   );
 };

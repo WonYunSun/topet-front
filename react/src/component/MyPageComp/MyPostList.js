@@ -11,10 +11,8 @@ const MyPostList = ({ fetchItems }) => {
   };
 
   return (
-    <div>
-      <div className={styles.communities_content_area}>
-        <ContentList fetchItems={fetchItems} renderItem={renderPosts} />
-      </div>
+    <div className={styles.communities_content_area}>
+      <ContentList fetchItems={fetchItems} renderItem={renderPosts} />
     </div>
   );
 };
