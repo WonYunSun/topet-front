@@ -5,21 +5,21 @@ import CommunityListData from "../CommunityComp/CommunityListData";
 import ContentList from "../HandlerComp/ContentList";
 import styles from "../../css/communityList.module.css";
 
-const MyPostList = ({ postType }) => {
+const MyPostList = ({ postType, fetchItems }) => {
   const reduxMember = useSelector((state) => state.member.member);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const [posts, setPosts] = useState();
 
-  useEffect(() => {
-    try {
-      fetchPosts();
-    } catch (error) {
-      throw error;
-    } finally {
-      setIsLoaded(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   try {
+  //     fetchPosts();
+  //   } catch (error) {
+  //     throw error;
+  //   } finally {
+  //     setIsLoaded(true);
+  //   }
+  // }, []);
 
   const fetchPosts = async () => {
     if (postType == "mypost") {
@@ -40,7 +40,7 @@ const MyPostList = ({ postType }) => {
   return (
     <div>
       <div className={styles.communities_content_area}>
-        <ContentList fetchItems={fetchPosts} renderItem={renderPosts} />
+        <ContentList fetchItems={fetchItems} renderItem={renderPosts} />
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ import styles from "../../css/mypage_seemy.module.css";
 import { Mobile, DeskTop } from "../../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
 import communityApi from "../../api/communityApi";
+import ContentList from "../../component/HandlerComp/ContentList";
 
 const SeeMyPosts = () => {
   const isDeskTop = useMediaQuery({
@@ -23,7 +24,9 @@ const SeeMyPosts = () => {
 
   const reduxMember = useSelector((state) => state.member.member);
 
-  const fectchPosts = (page, pageSize) => {
+  const fectchPosts =(page, pageSize) => {
+
+
     return communityApi.getCommunitybyAuthorId(reduxMember.id, page, pageSize);
   };
 
@@ -34,7 +37,10 @@ const SeeMyPosts = () => {
           {isDeskTop && <MyPageSideBar option={"내 게시글 보기"} />}
           <div className={`${isDeskTop && styles.rightside_wrapper}`}>
             <MyPageCommonTopBar title={"내 게시글"} />
-            <MyPostList fetchItems={fectchPosts} />
+            
+            <MyPostList 
+            fetchItems={fectchPosts} 
+            postType={"mypost"}/>
           </div>
         </div>
       </div>
