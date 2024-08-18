@@ -26,7 +26,7 @@ const debounce = (func, delay) => {
   };
 };
 
-function ShortsDetail() {
+function ShortsDetail({ eventPrevent }) {
   const navigate = useNavigate();
   const { id } = useParams();
   const [thisShorts, setThisShorts] = useState();
@@ -124,14 +124,15 @@ function ShortsDetail() {
   };
   const handleBottomSheetOpen = () => {
     setShowBottomSheet(true);
-    console.log("왜안뜨지");
+    eventPrevent(true);
   };
   const handleBottomSheetClose = () => {
     setShowBottomSheet(false);
+    eventPrevent(false);
   };
+
   const togglePlayPause = () => {
     const video = videoRef.current;
-
     // Play/Pause toggle
     if (video.paused) {
       video.play();
@@ -184,7 +185,7 @@ function ShortsDetail() {
       <Mobile>
         <div className={styles.detail_wrap}>
           <div className={styles.icon} onClick={goShorts}>
-            <GoArrowLeft size={25} />
+            <GoArrowLeft size={25} color="#fff" />
           </div>
           <button
             className={`${styles.pauseBtn} ${
@@ -256,7 +257,7 @@ function ShortsDetail() {
           <div className={styles.rightWrapper}>
             <div className={styles.detail_wrap}>
               <div className={styles.icon} onClick={goShorts}>
-                <GoArrowLeft size={25} />
+                <GoArrowLeft size={25} color="#fff" />
               </div>
               <button
                 className={`${styles.pauseBtn} ${

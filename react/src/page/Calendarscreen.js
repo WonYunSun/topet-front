@@ -172,6 +172,7 @@ const Calendarscreen = () => {
       content: "",
       isComplete: false,
       color: "#DE496E",
+      // selectedPhoto: "",
     });
     setShowBottomSheet(true);
   };
@@ -300,7 +301,7 @@ const Calendarscreen = () => {
           onDeleteClick={handleDeleteClick}
         />
 
-        {reduxPet === null ? (
+        {reduxPet === null || reduxPet === undefined ? (
           ""
         ) : (
           <FloatingBtn onClick={handleFloatingBtnClick} />
