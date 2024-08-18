@@ -21,7 +21,9 @@ const PhotoSelectArea = ({
         {selectedPhotos.map((photo, index) => (
           <div key={index} className={styles["selected-photo-box"]}>
             <img
-              src={URL.createObjectURL(photo)}
+              src=
+              // {photo}
+              {URL.createObjectURL(photo)}
               alt={`selected ${index}`}
               className={styles["photo"]}
             />

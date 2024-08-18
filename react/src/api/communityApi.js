@@ -37,7 +37,7 @@ class CommunityApi {
     try {
       const response = await this.axios.post(`/update/${comid}`, formData, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       });
       return handleResponse(response);

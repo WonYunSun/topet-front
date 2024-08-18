@@ -53,6 +53,9 @@ const CommunityWrite = () => {
   const [showWriteNullCheckModal, setShowWriteNullCheckModal] = useState(false);
   const [submitCheck, setSubmitCheck] = useState(false);
 
+
+  const [tagList, setTagList] = useState([]);
+
   useEffect(() => {
     // 수정 시 변수 값 세팅
     if (state?.edit) {
@@ -64,8 +67,8 @@ const CommunityWrite = () => {
       setComid(state.comid);
     }
     if (state?.hashtag) {
-      const hashtagsArray = state.hashtag.split(",").map((tag) => tag.trim());
-      setSelectedHashTag(hashtagsArray);
+      // const hashtagsArray = state.hashtag.split(",").map((tag) => tag.trim());
+      setSelectedHashTag(state.hashtag);
     }
     if (state?.animal) {
       setAnimal(state.animal);
@@ -83,6 +86,21 @@ const CommunityWrite = () => {
   const handleContentTextChange = (e) => {
     setContentText(e.target.value);
   };
+
+  const tagSetting = () => {
+    setTagList([]);
+    if(selectedHashTag!=null && selectedHashTag.length > 0){
+      for(let i =0; i<selectedHashTag.length; i++){
+        // console.log(selectedHashTag[i]);
+        if(selectedHashTag[i] instanceof Object){
+          setTagList((prev) => [...prev, selectedHashTag[i].tag])
+        }else{
+          setTagList((prev) => [...prev, selectedHashTag[i]]);
+        }
+      }  
+    }
+  }
+
 
   const handlePhotosSelected = (photos) => {
     const newPhotos = photos.filter(
@@ -110,12 +128,12 @@ const CommunityWrite = () => {
   
     try {
       
-
       const formData = new FormData();
       formData.append("animal", animal);
       formData.append("title", titleText);
       formData.append("content", contentText);
       formData.append("category", selectedCategory);
+      
       formData.append("hashtag", conversionStringHashTag);
       formData.append("author", reduxMemberId);
       await communityApi.postCommunity(selectedPhotos, formData);
@@ -128,17 +146,27 @@ const CommunityWrite = () => {
   };
 
   const handleUpdate = async (comid) => {
+    
     if (submitCheck || isSubmitDisabled) return; // 이미 전송 중이거나 필수값이 없으면 함수 종료
     setSubmitCheck(true); // 전송 중 상태로 설정
   
     try {
+      tagSetting();
+      console.log("tagList :", tagList);
+      console.log(titleText)
+      console.log(contentText)
+      console.log(selectedCategory)
+      
+
+
+
       const formData = new FormData();
       formData.append("title", titleText);
       formData.append("content", contentText);
       formData.append("category", selectedCategory);
-      formData.append("hashtag", selectedHashTag);
+      formData.append("hashtag", tagList);
       await communityApi.editCommunity(selectedPhotos, formData, comid);
-      navigate(-1); // 전송 후 페이지 이동
+      // navigate(-1); // 전송 후 페이지 이동
     } catch (error) {
       console.error("게시물 수정에 실패했습니다.", error);
     } finally {
