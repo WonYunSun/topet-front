@@ -89,7 +89,7 @@ button:focus-visible {
 
 .CalendarContainer {
   font-weight: 600;
-  padding: 6px;
+  /* padding: 6px; */
   border-radius: 8px;
   width: 100%;
   max-width: 100%; /* 추가 */
@@ -154,7 +154,7 @@ button:focus-visible {
   height: 26px;
   background-color: #ffa62f;
   position: absolute;
-  top: 20%;
+  top: 21%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: -1;
@@ -194,7 +194,7 @@ button:focus-visible {
 }
 .DayContainer.dtver {
   height: 90%;
-  min-height: 530px;
+  min-height: 500px;
 }
 
 .YearMonthPickerModal {

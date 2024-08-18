@@ -186,7 +186,7 @@ const Calendarscreen = () => {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
-
+  console.log(isTablet);
   return (
     <>
       <Mobile>
@@ -198,10 +198,12 @@ const Calendarscreen = () => {
           (reduxPet == null ? (
             <></>
           ) : (
-            <AnimalSelect
-              onClick={handleOpenPetBottomSheet}
-              selectedPet={selectedPet}
-            />
+            <div className={`${isTablet && styles.tb_paddingdiv}`}>
+              <AnimalSelect
+                onClick={handleOpenPetBottomSheet}
+                selectedPet={selectedPet}
+              />
+            </div>
           ))}
 
         <BottomSheet
@@ -261,23 +263,31 @@ const Calendarscreen = () => {
         <DeskTop>
           {!isTablet ? (
             <div className={`${styles.CalendarscreenWrap_dtver}`}>
-              <div>
-                <Calendar schedules={schedules} onDateClick={handleDateClick} />
+              <div className={`${styles.leftWrapper}`}>
+                <div>캘린더</div>
               </div>
-              <div>
-                {reduxPet == null ? (
-                  <></>
-                ) : (
-                  <AnimalSelect
-                    onClick={handleOpenPetBottomSheet}
-                    selectedPet={selectedPet}
+              <div className={`${styles.rightWrapper}`}>
+                <div>
+                  <Calendar
+                    schedules={schedules}
+                    onDateClick={handleDateClick}
                   />
-                )}
-                <ScheduleBottom
-                  schedules={schedules}
-                  selectedDate={selectedDate}
-                  onScheduleClick={handleScheduleClick}
-                />
+                </div>
+                <div>
+                  {reduxPet == null ? (
+                    <></>
+                  ) : (
+                    <AnimalSelect
+                      onClick={handleOpenPetBottomSheet}
+                      selectedPet={selectedPet}
+                    />
+                  )}
+                  <ScheduleBottom
+                    schedules={schedules}
+                    selectedDate={selectedDate}
+                    onScheduleClick={handleScheduleClick}
+                  />
+                </div>
               </div>
             </div>
           ) : (

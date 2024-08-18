@@ -327,6 +327,7 @@
   padding-top: 20px;
 }
 .userPetInfo.dtver {
+  padding-bottom: 30px;
   padding-top: 20px;
   display: flex;
   flex-direction: row;
