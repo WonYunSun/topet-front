@@ -86,7 +86,7 @@ const TopBarWeb = () => {
             쇼츠
           </NavLink>
           <NavLink
-            to="/shorts"
+            to="/topetai"
             className={({ isActive }) =>
               isActive ? styles.activeNavItem : styles.navItem
             }

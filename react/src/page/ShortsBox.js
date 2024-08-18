@@ -24,6 +24,12 @@ function ShortsBox() {
   const [shortsArr, setShortsArr] = useState([id]);
   const [index, setIndex] = useState(0);
   const touchStartY = useRef(0);
+  const [eventPrevent, setEventPrevent] = useState(false);
+
+  const handleEventPrevent = (ep) => {
+    console.log("eventPrevent 상태:", ep); // 디버깅을 위한 로그 추가
+    setEventPrevent(ep);
+  };
 
   useEffect(() => {
     console.log(shortsArr);
@@ -86,11 +92,14 @@ function ShortsBox() {
   };
 
   const handleWheel = async (event) => {
-    console.log("쇼츠박스에서움직이는handleWheel");
-    if (event.deltaY > 0) {
-      await next();
-    } else if (event.deltaY < 0) {
-      prev();
+    if (!eventPrevent) {
+      // eventPrevent가 false일 때만 실행
+      console.log("쇼츠박스에서움직이는handleWheel");
+      if (event.deltaY > 0) {
+        await next();
+      } else if (event.deltaY < 0) {
+        prev();
+      }
     }
   };
 
@@ -102,15 +111,18 @@ function ShortsBox() {
   };
 
   const handleTouchMove = (event) => {
-    const touchEndY = event.touches[0].clientY;
+    if (!eventPrevent) {
+      // eventPrevent가 false일 때만 실행
+      const touchEndY = event.touches[0].clientY;
 
-    if (touchStartY.current !== null) {
-      if (touchStartY.current > touchEndY) {
-        next();
-        window.scrollTo(0, 50);
-      } else if (touchStartY.current < touchEndY) {
-        prev();
-        window.scrollTo(0, 50);
+      if (touchStartY.current !== null) {
+        if (touchStartY.current > touchEndY) {
+          next();
+          window.scrollTo(0, 50);
+        } else if (touchStartY.current < touchEndY) {
+          prev();
+          window.scrollTo(0, 50);
+        }
       }
     }
   };
@@ -119,7 +131,7 @@ function ShortsBox() {
     return <div>Loading...</div>;
   }
 
-  return <ShortsDetail videoSrc={thisShorts?.videoSrc} id={shortsArr[index]} />;
+  return <ShortsDetail eventPrevent={handleEventPrevent} />;
 }
-
+// videoSrc={thisShorts?.videoSrc} id={shortsArr[index]}
 export default ShortsBox;
