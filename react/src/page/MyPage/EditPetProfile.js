@@ -7,34 +7,30 @@ import React, {
 } from "react";
 import MyPageCommonTopBar from "../../component/MyPageComp/MyPageCommonTopBar";
 import styles from "../../css/mypage_editpetprofile.module.css";
-import { useNavigate, useParams, useLocation  } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { TbPhoto, TbTriangleInvertedFilled } from "react-icons/tb";
 import petApi from "../../api/petApi";
 
 const EditPetProfile = () => {
   const location = useLocation();
-  const id = location.state?.id; 
-  console.log("id : " ,id);
+  const id = location.state?.id;
 
-  
-  
+  const petData1 = {
+    type: "",
+    photo: "",
+    name: "",
+    kind: "",
+    gender: "",
+    neutered: "",
+    birth: "",
+    weight: "",
+    allergy: "",
+    health: "",
+  };
+
+  const [myPet, setMyPet] = useState(petData1);
+  console.log("id : ", id);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [myPet, setMyPet] = useState();
-
-  const [gender, setGender] = useState('');
-  const [neutered, setNeutered] = useState('');
-  const [weight, setWeight] = useState('');
-  const [weightNum, setWeightNum] = useState('');
-  const [weightUnit, setWeightUnit] = useState('');
-  const [dontKnowWeight, setDontKnowWeight] = useState(true);
-  const [allergy, setAllergy] = useState('');
-  const [health, setHealth] = useState('');
-
-
-
-   
-
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,43 +39,83 @@ const EditPetProfile = () => {
         console.log("editPetProfile : ", response);
         setMyPet(response);
         // 데이터 로드 후 상태 설정
-        setGender(response.gender || '');
-        setNeutered(response.neutered || '');
-        setWeight(response.weight || '');
-        setWeightNum(response.weight ? parseFloat(response.weight) : '');
-        setWeightUnit(response.weight ? response.weight.replace(/[0-9]/g, "").trim() : '');
+        setGender(response.gender || "");
+        setNeutered(response.neutered || "");
+        setWeight(response.weight || "");
+        setWeightNum(response.weight ? parseFloat(response.weight) : "");
+        setWeightUnit(
+          response.weight ? response.weight.replace(/[0-9]/g, "").trim() : ""
+        );
         setDontKnowWeight(response.weight ? false : true);
-        setAllergy(response.allergy || '');
-        setHealth(response.health || '');
+        setAllergy(response.allergy || "");
+        setHealth(response.health || "");
       } catch (error) {
-        console.error('Error fetching pet data:', error);
+        console.error("Error fetching pet data:", error);
       } finally {
         setIsLoaded(true);
       }
     };
-
     fetchData();
   }, [id]); // id가 변경될 때마다 fetchData를 호출
 
-  const currentProfilePhoto = myPet?.photo;
-  const currentNeutered = myPet?.neutered;
-  const currentWeight = myPet?.weight;
-  const currentGender = myPet?.gender;
-  const currentAllergy = myPet?.allergy;
-  const currenthealth = myPet?.health;
-
   const fileInputRef = useRef(null);
-  const defaultProfileImage =  "https://i.pinimg.com/564x/b5/b0/c0/b5b0c0313bfeb3cd262e16b546499a8c.jpg";
 
+  // 기존 데이터 설정
+  const currentProfilePhoto = myPet.photo;
+  const currentNeutered = myPet.neutered;
+  const currentWeight = myPet.weight;
+  const currentGender = myPet.gender;
+  const currentAllergy = myPet.allergy;
+  const currenthealth = myPet.health;
+
+  // 초기 데이터 설정
   const [profilePhoto, setProfilePhoto] = useState();
-
-
+  const [gender, setGender] = useState();
+  const [neutered, setNeutered] = useState();
+  const [weight, setWeight] = useState(); // 체중 단위포함
+  const [weightNum, setWeightNum] = useState(); // 체중 숫자만
+  const [weightUnit, setWeightUnit] = useState(); // 체중 단위만
+  const [dontKnowWeight, setDontKnowWeight] = useState();
+  const [allergy, setAllergy] = useState();
+  const [health, setHealth] = useState();
   const [dropdown, setDropdown] = useState(false);
   const [canSave, setCanSave] = useState(false);
 
-
- 
   useEffect(() => {
+    if (myPet.photo) {
+      setProfilePhoto(myPet.photo);
+    }
+    if (myPet.gender) {
+      setGender(currentGender);
+    }
+    if (myPet.neutered) {
+      setNeutered(currentNeutered);
+    }
+    if (myPet.weight) {
+      // 숫자 부분만 추출
+      const numericWeight = parseFloat(myPet.weight);
+      setWeightNum(isNaN(numericWeight) ? "" : numericWeight);
+
+      // 단위 부분만 추출
+      const unit = myPet.weight.replace(/[0-9.]/g, "").trim();
+      setWeightUnit(unit);
+
+      // 전체 값 설정
+      setWeight(myPet.weight);
+    }
+    if (myPet.gender) {
+      setGender(myPet.gender);
+    }
+
+    if (!myPet.weight) {
+      setDontKnowWeight(true);
+    } else {
+      setDontKnowWeight(false);
+    }
+  }, [gender, neutered]);
+
+  useEffect(() => {
+    // 사진 선택 클릭 후 사진 미선택시
     if (profilePhoto == undefined) {
       setProfilePhoto(currentProfilePhoto);
     }
@@ -97,7 +133,7 @@ const EditPetProfile = () => {
       setCanSave(true);
     }
   }, [
-    profilePhoto,
+    setProfilePhoto,
     canSave,
     weight,
     dontKnowWeight,
@@ -106,6 +142,8 @@ const EditPetProfile = () => {
     health,
     neutered,
   ]);
+
+  console.log("canSave : ", canSave);
 
   const photoSelect = useCallback(() => {
     fileInputRef.current.click();
@@ -152,19 +190,20 @@ const EditPetProfile = () => {
     setAllergy(tempAllergy);
   };
 
+  console.log("allergy : ", allergy);
+
   const handleHealthChange = (e) => {
     const tempHealth = e.target.value;
     setHealth(tempHealth);
   };
 
-  const SaveProfile = async() => {
+  const SaveProfile = async () => {
     const formData = new FormData();
-    
-    
-    if(profilePhoto!=null){
+
+    if (profilePhoto != null) {
       formData.append("photo", profilePhoto);
     }
-    
+
     formData.append("id", id);
     formData.append("gender", gender);
     formData.append("weight", weight);
@@ -177,13 +216,8 @@ const EditPetProfile = () => {
     formData.append("uid", myPet.uid);
     const resp = await petApi.updatePet(formData);
 
-
-
     console.log("저장");
   };
-  
-  console.log("canSave: ", canSave);
-  
 
   const ProfilePhoto = useMemo(() => {
     return (
@@ -201,12 +235,15 @@ const EditPetProfile = () => {
           </div>
         ) : (
           <div className={styles.selected_profile_photo_container}>
-            {(myPet!=null)?<img
-              src={myPet.profileSrc}
-              className={styles.selected_profile_photo}
-              alt="Profile"
-            /> : <></>}
-            
+            {myPet != null ? (
+              <img
+                src={myPet.profileSrc}
+                className={styles.selected_profile_photo}
+                alt="Profile"
+              />
+            ) : (
+              <></>
+            )}
           </div>
         )}
       </div>
@@ -272,8 +309,6 @@ const EditPetProfile = () => {
     );
   };
 
-  console.log("neutered: ", neutered);
-
   // 수정 불가능한 요소 (이름, 품종, 성별(강아지, 고양이))
   const CantEdit = ({ title, content }) => {
     return (
@@ -313,7 +348,6 @@ const EditPetProfile = () => {
     );
   };
 
-  
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
@@ -328,7 +362,7 @@ const EditPetProfile = () => {
         <div className={styles.textpart_container}>
           <CantEdit title={"이름"} content={myPet.name} />
           <CantEdit title={"품종"} content={myPet.kind} />
-          {myPet.type == "3" ? <div className={styles.divider} /> : ""}
+          {myPet.type == "3" && <div className={styles.divider} />}
           {myPet.type == "3" ? (
             <CanEdit title={"성별"} />
           ) : (

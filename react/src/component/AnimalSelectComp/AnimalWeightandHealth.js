@@ -47,7 +47,7 @@ const InputWeight = ({
   const handleWeightInputChange = (e) => {
     const newValue = e.target.value;
     // Allow only numbers and one decimal point
-    if (/^\d*\.?\d*$/.test(newValue)) {
+    if (/^\d*\.?\d*$/.test(newValue) && newValue.length <= 7) {
       setWeightValue(newValue);
       setWeight(`${newValue}${selectedUnit}`);
       if (newValue) {
