@@ -30,7 +30,6 @@ import AddShorts from "./page/AddShorts";
 import NavBar from "./component/NavBarComp/NavBar";
 //네비게이션바 띄울 화면 import 필요
 import Home from "./page/Home";
-import CommunitySearch from "./page/CommunitySearch";
 import LoginPage from "./page/LoginPage";
 import Shorts from "./page/Shorts";
 import UserRegister from "./page/UserRegister";
