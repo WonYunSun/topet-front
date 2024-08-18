@@ -25,7 +25,7 @@ const CommentDetail = ({
   const [replyContent, setReplyContent] = useState("");
   const [editContent, setEditContent] = useState("");
 
-  //임시 유저 프로필 주소
+  // 임시 유저 프로필 주소
   const src =
     "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzEyMDZfNTYg%2FMDAxNzAxODQ1MDQ3OTEy.3nTCEkxraOwSwPN3iGXsityOqeGL37xSYSwzlNpvtN0g.1uI0TfuUpdgH463RXWgf98KONJHKbyncpRmIKE0W9Rgg.JPEG.ddogddogcafe%2F267.jpg&type=sc960_832";
 
@@ -76,8 +76,13 @@ const CommentDetail = ({
     setActiveReplyInput(null);
     setReplyContent("");
   };
-  console.log(isshorts);
+
   const isReplyInputActive = activeReplyInput === comment.id;
+
+  // 날짜를 'YYYY-MM-DD' 형식으로 변환하는 함수
+  const formatDate = (dateString) => {
+    return new Date(dateString).toISOString().split("T")[0];
+  };
 
   return (
     <div className={styles.commentContainer}>
@@ -112,7 +117,10 @@ const CommentDetail = ({
           </button>
         </div>
       ) : (
-        <div className={styles.commentContent}>{comment.content}</div>
+        <div>
+          <div className={styles.commentContent}>{comment.content}</div>
+          <div className={styles.date}>{formatDate(comment.createdTime)}</div>
+        </div>
       )}
 
       {isReplyInputActive && (
@@ -174,7 +182,10 @@ const CommentDetail = ({
                   </button>
                 </div>
               ) : (
-                <div className={styles.commentContent}>{reply.content}</div>
+                <div>
+                  <div className={styles.commentContent}>{reply.content}</div>
+                  <div className={styles.date}>{formatDate(reply.createdTime)}</div>
+                </div>
               )}
             </div>
           ))}

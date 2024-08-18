@@ -22,8 +22,6 @@ constructor() {
         });
         }
 
-
-
     async postPetData(petDomain) {
         return await this.axios
         .post("/post", petDomain, {

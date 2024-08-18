@@ -19,6 +19,10 @@ const HashTagContent = ({ show, initialSelectedCategory, initialSelectedHashTag,
     }
   }, [show, initialSelectedCategory, initialSelectedHashTag]);
 
+  useEffect(()=>{},[
+    selectedTags
+  ])
+
   const handlePredefinedTagClick = (tag) => {
     setRequiredTag(tag);
   };
@@ -77,7 +81,7 @@ const HashTagContent = ({ show, initialSelectedCategory, initialSelectedHashTag,
         {requiredTag && <span className={styles.tag}>#{requiredTag}</span>}
         {selectedTags.map((tag, index) => (
           <span key={index} className={styles.tag}>
-            #{tag}
+            {tag.tag == null ?(<div>#{tag}</div>):(<div>#{tag.tag}</div>) }
             <button className={styles.removeButton} onClick={() => handleTagRemove(tag)}>x</button>
           </span>
         ))}

@@ -1,20 +1,52 @@
 .CalendarscreenWrap_dtver {
+  margin-top: 50px;
   max-width: 1050px;
-  min-width: 665px;
-  width: 100%;
+  justify-content: space-between;
   display: flex;
-  height: 80vh; /* 100vh에서 탑바의 높이를 뺀 값 */
+  flex-direction: row;
+  align-items: stretch;
+  margin-bottom: 50px;
+  /* 100vh에서 탑바의 높이를 뺀 값 */
 }
-.CalendarscreenWrap_dtver > div:nth-child(1) {
-  flex: 2.5 1 auto; /* flex-grow: 2, flex-shrink: 1, flex-basis: auto */
+.rightWrapper {
+  margin-left: 30px;
+  width: calc(100% - 159px);
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  border-radius: 20px;
+  padding: 10px 20px;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
+    rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
 }
-.CalendarscreenWrap_dtver > div:nth-child(2) {
-  margin: 10px auto;
-  width: 400px;
-  flex: 1.5 1 auto; /* flex-grow: 1, flex-shrink: 1, flex-basis: auto */
+.rightWrapper > div:nth-child(1) {
+  flex-grow: 0.6;
+}
+.rightWrapper > div:nth-child(2) {
+  flex-grow: 0.4;
+  width: 35%;
+  min-width: 300px;
 }
 .Calendarwrapper {
   max-width: 1150px;
   width: 70%;
   margin: 0 auto;
+}
+
+.tb_paddingdiv {
+  padding-top: 50px;
+}
+.leftWrapper {
+  margin-left: 1%;
+
+  width: fit-content;
+  width: 20%;
+  align-items: start;
+  text-align: left;
+  width: -moz-fit-content;
+  width: fit-content;
+  color: #ffa62f;
+  margin-bottom: 30px;
+  font-size: 22px;
+  font-weight: 700;
 }

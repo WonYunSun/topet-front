@@ -9,18 +9,20 @@ class petApi {
   }
 
   async getMyPet(id){
-    return await
-      this.axios.get(`/petProfileDetail/${id}`, {
-          headers: {},  
-          withCredentials: true,
-      }).then((response) => {
-          console.log("서버 응답:", response);
-          return response.data;
-      }).catch((error) => {
-          console.error("서버 오류:", error);
-          throw error;
-      });
+
+    try{
+      const response = await this.axios.get(`/petProfileDetail/${id}`)
+      console.log(response);
+      return response.data;
+    }catch(error){
+      console.error("서버 오류:", error);
+      throw error;
     }
+  }
+    
+    
+    
+    
 
   async getMyPets(id){
 
@@ -33,8 +35,7 @@ class petApi {
   }
   
   async postPetData(petDomain) {
-    return await this.axios
-      .post("/post", petDomain, {
+    return await this.axios.post("/post", petDomain, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -65,6 +66,34 @@ class petApi {
         throw error;
       });
   }
+
+  async deleteMember(formData){
+    try{  
+      const response = await this.axios.post(`/deleteMember`,formData,{ 
+        headers: {
+        "Content-Type": "application/json"
+        }
+      })
+      ;
+      return response;
+    }catch(error){
+
+    }
+  }
+
+  async updatePet(formData){
+    try{
+      const response = await this.axios.patch("/update", formData,{
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      });
+     return response.data; 
+    }catch(error){
+      throw error;
+    }
+  }
+  
 }
 export default new petApi();
 

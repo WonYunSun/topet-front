@@ -5,31 +5,44 @@ import styles from '../../css/communityList.module.css';
 import { useNavigate } from 'react-router-dom';
 
 const CommunityListData = ({ item }) => {
+    
+  console.log(item);
   const navigate = useNavigate();
 
-  const formatHashtags = hashtagString => {
-    if(hashtagString == null){
+
+  const formatHashtags = (hashtag) => {
+    
+    if(hashtag == null){
       return;
     }
-    const tags = hashtagString.split(',')
-      .map(tag => tag.trim())
-      .filter(tag => tag !== '');
+    if(hashtag.length == 0 ){
+      return;
+    }
+    else{
+      return (
+        <>
+          {(hashtag != null)?
+          (hashtag.length>0 && hashtag.map((tag, index) => (
+            <span key={index} className={styles.hashtag}>#{tag.tag}</span>
+          ))): <div></div>}
+          {/* {remainingTagsCount > 0 && (
+            <span className={styles.hashtag}>+{remainingTagsCount}</span>
+          )} */}
+        </>
+      );
 
-    const visibleTags = tags.slice(0, 3);
-    const remainingTagsCount = tags.length - visibleTags.length;
+    }
+    console.log(hashtag)
+    const tags = hashtag;
+      // .map(tag => tag.trim())
+      // .filter(tag => tag !== '');
+
+    // const visibleTags = tags.slice(0, 3);
+    // const remainingTagsCount = tags.length - visibleTags.length;
 
     
 
-    return (
-      <>
-        {visibleTags.map((tag, index) => (
-          <span key={index} className={styles.hashtag}>#{tag}</span>
-        ))}
-        {remainingTagsCount > 0 && (
-          <span className={styles.hashtag}>+{remainingTagsCount}</span>
-        )}
-      </>
-    );
+
   };
 
   const handlePostClick = (comid) => {
@@ -44,15 +57,19 @@ const CommunityListData = ({ item }) => {
             <div className={styles.community_title}>{item.title}</div>
             <div className={styles.community_content}>{item.content}</div>
           </div>
-          {item.images && item.images.length > 0 && (
+          {item.thumbnail && item.thumbnail!=null && (
             <div className={styles.community_photo}>
-              <img src={item.images[0].filePath} alt={item.images[0].filePath} />
+              <img src={item.thumbnail} alt={item.thumbnail} />
             </div>
           )}
         </div>
         <div className={styles.community_hashtags}>
-          {formatHashtags(item.hashtag)}
-        </div>
+          {/* {formatHashtags(item.hashtag)} */}
+          {item.hashtag &&
+          (item.hashtag.map((tag, index) => (
+            <span key={index} className={styles.hashtag}>#{tag.tag}</span>
+          )))}
+          </div>
         <div className={styles.like_and_coment}>
           <div className="icon-group">
             <BiSolidLike className={styles.icon}/>

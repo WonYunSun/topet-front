@@ -29,35 +29,34 @@ const EditPetProfile = () => {
   };
 
   const [myPet, setMyPet] = useState(petData1);
+  console.log("id : ", id);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let response = await petApi.getMyPet(id);
+        const response = await petApi.getMyPet(id);
         console.log("editPetProfile : ", response);
-        // const temp = {
-        //   type: response.type,
-        //   photo: response.profileSrc,
-        //   name: response.name,
-        //   kind: response.kind,
-        //   gender: response.gender,
-        //   neutered: response.neutered,
-        //   birth: response.birth,
-        //   weight: response.weight,
-        //   allergy: response.allergy,
-        //   health: response.health,
-        // };
-
         setMyPet(response);
-        console.log(myPet);
+        // 데이터 로드 후 상태 설정
+        setGender(response.gender || "");
+        setNeutered(response.neutered || "");
+        setWeight(response.weight || "");
+        setWeightNum(response.weight ? parseFloat(response.weight) : "");
+        setWeightUnit(
+          response.weight ? response.weight.replace(/[0-9]/g, "").trim() : ""
+        );
+        setDontKnowWeight(response.weight ? false : true);
+        setAllergy(response.allergy || "");
+        setHealth(response.health || "");
       } catch (error) {
+        console.error("Error fetching pet data:", error);
       } finally {
         setIsLoaded(true);
       }
     };
     fetchData();
-  }, []);
+  }, [id]); // id가 변경될 때마다 fetchData를 호출
 
   const fileInputRef = useRef(null);
 
@@ -200,10 +199,22 @@ const EditPetProfile = () => {
 
   const SaveProfile = async () => {
     const formData = new FormData();
+
+    if (profilePhoto != null) {
+      formData.append("photo", profilePhoto);
+    }
+
+    formData.append("id", id);
+    formData.append("gender", gender);
     formData.append("weight", weight);
     formData.append("health", health);
     formData.append("neutered", neutered);
-    const resp = await petApi.updatePet();
+    formData.append("kind", myPet.kind);
+    formData.append("name", myPet.name);
+    formData.append("type", myPet.type);
+    formData.append("allergy", allergy);
+    formData.append("uid", myPet.uid);
+    const resp = await petApi.updatePet(formData);
 
     console.log("저장");
   };
@@ -224,11 +235,15 @@ const EditPetProfile = () => {
           </div>
         ) : (
           <div className={styles.selected_profile_photo_container}>
-            <img
-              src={myPet.profileSrc}
-              className={styles.selected_profile_photo}
-              alt="Profile"
-            />
+            {myPet != null ? (
+              <img
+                src={myPet.profileSrc}
+                className={styles.selected_profile_photo}
+                alt="Profile"
+              />
+            ) : (
+              <></>
+            )}
           </div>
         )}
       </div>

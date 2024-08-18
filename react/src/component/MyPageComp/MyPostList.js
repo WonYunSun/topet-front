@@ -7,12 +7,14 @@ import styles from "../../css/communityList.module.css";
 
 const MyPostList = ({ fetchItems }) => {
   const renderPosts = (item) => {
-    return <CommunityListData key={item.id} item={item} />;
+    <CommunityListData key={item.id} item={item} />;
   };
 
   return (
-    <div className={styles.communities_content_area}>
-      <ContentList fetchItems={fetchItems} renderItem={renderPosts} />
+    <div>
+      <div className={styles.communities_content_area}>
+        <ContentList fetchItems={fetchItems} renderItem={renderPosts} />
+      </div>
     </div>
   );
 };

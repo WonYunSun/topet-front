@@ -4,7 +4,7 @@ import { LoadError, Loading, NoContent } from "./CompHandler";
 
 const PAGE_SIZE = 10;
 
-const ContentList = ({ fetchItems, renderItem, fetchParams }) => {
+const ContentList = ({ posts, fetchItems, renderItem, fetchParams }) => {
   const [resources, setResources] = useState([]);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -36,10 +36,10 @@ const ContentList = ({ fetchItems, renderItem, fetchParams }) => {
   };
 
   useEffect(() => {
-    setPage(0); // Reset page to 0 when parameters change
-    setHasMore(true); // Reset hasMore when params change
+    setPage(0);
+    setHasMore(true);
     setHasError(false);
-    setResources([]); // Clear current resources
+    setResources([]);
   }, [fetchParamsMemo]);
 
   const { ref, inView } = useInView({

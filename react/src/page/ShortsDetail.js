@@ -11,6 +11,7 @@ import ShortsBottom from "../component/ShortsBottom";
 /// responsive
 import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
+import CommunityLikesApi from "../api/communityLikesApi";
 
 // 디바운스 함수 구현
 const debounce = (func, delay) => {
@@ -25,7 +26,7 @@ const debounce = (func, delay) => {
   };
 };
 
-function ShortsDetail() {
+function ShortsDetail({ eventPrevent }) {
   const navigate = useNavigate();
   const { id } = useParams();
   const [thisShorts, setThisShorts] = useState();
@@ -35,13 +36,14 @@ function ShortsDetail() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [progress, setProgress] = useState(0);
+
+  const [isLiked, setIsLiked] = useState(false);
+  const [likes, setLikes] = useState(0);
+  const [isLikeLoading, setIsLikeLoading] = useState(false);
+
   const videoRef = useRef(null);
   const touchStartY = useRef(0);
-  // const screenX = window.outerWidth;
-  // const screenY = window.outerHeight;
-  const isDeskTop = useMediaQuery({
-    query: "(min-width:769px)",
-  });
+
   useEffect(() => {
     window.scrollTo(0, 50);
     const debouncedHandleWheel = debounce(handleWheel, 200);
@@ -57,11 +59,14 @@ function ShortsDetail() {
       window.removeEventListener("touchmove", debouncedHandleTouchMove);
     };
   }, []);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await getShortsDetail();
+        const resp = await shortsApi.getShortsDetail(id);
+        // const likesResp = await CommunityLikesApi.postShortsLike(id);
+        setThisShorts(resp);
+        // setLikes(likesResp.likeCount);
+        console.log(resp);
       } catch (error) {
         console.log(error);
       } finally {
@@ -75,12 +80,7 @@ function ShortsDetail() {
     window.scrollTo(0, 50);
   }, [id]);
 
-  const getShortsDetail = async () => {
-    const resp = await shortsApi.getShortsDetail(id);
-    setThisShorts(resp);
-  };
-
-  const getRandomShorts = async () => {
+  const handlegetRandomShorts = async () => {
     if (!hasFetchedRandom) {
       const resp = await shortsApi.getRandomShorts();
       setHasFetchedRandom(true);
@@ -89,8 +89,10 @@ function ShortsDetail() {
   };
 
   const handleWheel = (event) => {
+    if (showBottomSheet) return; // BottomSheet가 열려있으면 함수 종료
+
     if (event.deltaY > 0) {
-      getRandomShorts();
+      handlegetRandomShorts();
       window.scrollTo(0, 50);
     } else if (event.deltaY < 0) {
       navigate(-1);
@@ -104,16 +106,15 @@ function ShortsDetail() {
       touchStartY.current = startY;
     }
   };
-  const handleBottomSheet = () => {
-    setShowBottomSheet(true);
-    console.log(showBottomSheet);
-  };
+
   const handleTouchMove = (event) => {
+    if (showBottomSheet) return; // BottomSheet가 열려있으면 함수 종료
+
     const touchEndY = event.touches[0].clientY;
 
     if (touchStartY.current !== null) {
       if (touchStartY.current > touchEndY) {
-        getRandomShorts();
+        handlegetRandomShorts();
         window.scrollTo(0, 50);
       } else if (touchStartY.current < touchEndY) {
         navigate(-1);
@@ -123,14 +124,15 @@ function ShortsDetail() {
   };
   const handleBottomSheetOpen = () => {
     setShowBottomSheet(true);
-    console.log("왜안뜨지");
+    eventPrevent(true);
   };
   const handleBottomSheetClose = () => {
     setShowBottomSheet(false);
+    eventPrevent(false);
   };
+
   const togglePlayPause = () => {
     const video = videoRef.current;
-
     // Play/Pause toggle
     if (video.paused) {
       video.play();
@@ -140,7 +142,6 @@ function ShortsDetail() {
       setIsPlaying(false);
     }
 
-    // Show button and hide it after 0.8 seconds
     setIsButtonVisible(true);
     console.log("Button visibility:", isButtonVisible); // 이 위치에서만 로그를 찍도록 수정
     setTimeout(() => {
@@ -150,6 +151,9 @@ function ShortsDetail() {
 
   const handleProgress = () => {
     const video = videoRef.current;
+    if (!video) {
+      return; // video가 없을 때는 아무 것도 하지 않음
+    }
     const progressPercentage = (video.currentTime / video.duration) * 100;
     setProgress(progressPercentage);
   };
@@ -161,12 +165,27 @@ function ShortsDetail() {
 
   const goShorts = () => navigate("/shorts");
 
+  const toggleLike = async () => {
+    // 좋아요 등록 및 취소 함수
+    if (isLikeLoading) return;
+    setIsLikeLoading(true);
+    try {
+      await CommunityLikesApi.postShortsLike(id);
+      setIsLiked(!isLiked);
+      setLikes((prevCount) => prevCount + (isLiked ? -1 : 1));
+    } catch (error) {
+      console.error("Error liking the post:", error);
+    } finally {
+      setIsLikeLoading(false);
+    }
+  };
+
   return (
     <>
       <Mobile>
         <div className={styles.detail_wrap}>
           <div className={styles.icon} onClick={goShorts}>
-            <GoArrowLeft size={25} />
+            <GoArrowLeft size={25} color="#fff" />
           </div>
           <button
             className={`${styles.pauseBtn} ${
@@ -182,9 +201,13 @@ function ShortsDetail() {
           </div>
           <div className={styles.menudiv}>
             <div>
-              <BiSolidLike size={26} className={styles.menuicon} />
+              <BiSolidLike
+                size={26}
+                onClick={toggleLike}
+                className={isLiked ? styles.truelikeicon : styles.falselikeicon}
+              />
               {/* 나중에 값 바꿔주세요 */}
-              <div>100</div>
+              <div>{likes}</div>
             </div>
             <div>
               <BsChatFill
@@ -223,6 +246,7 @@ function ShortsDetail() {
           id={id}
           show={showBottomSheet}
           onClose={handleBottomSheetClose}
+          isshorts={true}
         />
       </Mobile>
       <DeskTop>
@@ -233,7 +257,7 @@ function ShortsDetail() {
           <div className={styles.rightWrapper}>
             <div className={styles.detail_wrap}>
               <div className={styles.icon} onClick={goShorts}>
-                <GoArrowLeft size={25} />
+                <GoArrowLeft size={25} color="#fff" />
               </div>
               <button
                 className={`${styles.pauseBtn} ${
@@ -249,9 +273,15 @@ function ShortsDetail() {
               </div>
               <div className={styles.menudiv}>
                 <div>
-                  <BiSolidLike size={26} className={styles.menuicon} />
+                  <BiSolidLike
+                    size={26}
+                    onClick={toggleLike}
+                    className={
+                      isLiked ? styles.truelikeicon : styles.falselikeicon
+                    }
+                  />
                   {/* 나중에 값 바꿔주세요 */}
-                  <div>100</div>
+                  <div>{likes}</div>
                 </div>
                 <div>
                   <BsChatFill

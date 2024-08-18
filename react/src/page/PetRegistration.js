@@ -225,8 +225,9 @@ const PetRegistration = () => {
 
     formData.append("member", reduxMember.id);
 
-    if (selectedPhoto != null) {
-      formData.append("photo", selectedPhoto);
+    if (selectedPhoto != null && selectedPhoto instanceof File) {
+      formData.append("photo", selectedPhoto );
+      console.log(selectedPhoto)
     }
     console.log(formData.get("type"));
     console.log(formData.get("kind"));
@@ -235,6 +236,7 @@ const PetRegistration = () => {
     console.log(formData.get("birth"));
     console.log(formData.get("weight"));
     console.log(formData.get("health"));
+    console.log(selectedPhoto)
     const resp = await petApi.postPetData(formData);
 
     if (resp.status == 200) {

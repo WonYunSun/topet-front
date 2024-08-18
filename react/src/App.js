@@ -67,6 +67,7 @@ function App() {
     "/myshorts",
     "/likedshorts",
     "/editprofile",
+    "/topetai",
   ];
 
   return (

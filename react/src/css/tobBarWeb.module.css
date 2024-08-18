@@ -91,3 +91,18 @@
 .loginBtn:hover {
   background-color: #eea641;
 }
+
+.logoutBtn {
+  font-size: 13px;
+  color: #868e96;
+  width: fit-content;
+  padding: 3px;
+  margin-left: 10px;
+  transition: color 0.3s ease;
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+.logoutBtn:hover {
+  color: #ffa62f;
+}

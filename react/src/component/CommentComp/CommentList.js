@@ -2,12 +2,19 @@ import React, { useState, useEffect } from "react";
 import commentApi from "../../api/commentApi";
 import CommentDetail from "../CommentComp/CommentDetail";
 import ContentList from "../HandlerComp/ContentList";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import EditDeleteBottomSheet from "../SubBottomSheet";
 import CheckModal from "../CheckModal";
+import { openModal, setReduxModalMessage } from '../../redux/reducers/modalReducer';
+import { useNavigate } from 'react-router-dom';
 
 const CommentList = ({ comid, boardType, isshorts }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
   const reduxMemberId = useSelector((state) => state.member.member.id);
+  const reduxmodalOpen = useSelector((state) => state.modal.modalOpen)
+  const reduxmodalMessage = useSelector((state) => state.modal.modalMessage)
 
   const [isCommentWriter, setIsCommentWriter] = useState(false);
   const [isReplyWriter, setIsReplyWriter] = useState(false);
@@ -20,12 +27,26 @@ const CommentList = ({ comid, boardType, isshorts }) => {
   const [isEditingReply, setIsEditingReply] = useState(null);
   const [commentAuthorId, setCommentAuthorId] = useState(null);
   const [replyAuthorId, setreplyAuthorId] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+  const [modalIsOpen, setModalIsOpen] = useState(reduxmodalOpen);
+  const [modalMessage, setModalMessage] = useState(reduxmodalMessage);
+  
+  const [checkSubmit, setCheckSubmit] = useState(false);
+
+  useEffect(() => {
+    setModalIsOpen(reduxmodalOpen);
+    setModalMessage(reduxmodalMessage);
+  }, [reduxmodalOpen, reduxmodalMessage]);
 
   const bottomsheetClose = () => {
     setShowSubBottomSheet(false);
   };
+
+  const modalClose = () => {
+    setModalIsOpen(false);
+    dispatch(openModal(false));
+    dispatch(setReduxModalMessage(""));
+
+  }
 
   const activateReplyInput = (commentId) => {
     bottomsheetClose();
@@ -33,30 +54,38 @@ const CommentList = ({ comid, boardType, isshorts }) => {
   };
 
   const handleDeleteComment = async () => {
+    if (checkSubmit) return;
+    setCheckSubmit(true);
+
     try {
       await commentApi.deleteComment(commentId);
       setShowSubBottomSheet(false);
-      setFetchKey((prevKey) => prevKey + 1);
       setModalMessage("댓글이 삭제되었습니다.");
       setModalIsOpen(true);
     } catch (error) {
       console.error("Error deleting comment:", error);
       setModalMessage("댓글 삭제에 실패했습니다.");
       setModalIsOpen(true);
+    } finally {
+      setCheckSubmit(false);
     }
   };
 
   const handleDeleteReply = async () => {
+    if (checkSubmit) return;
+    setCheckSubmit(true);
+
     try {
       await commentApi.deleteReply(replyId);
       setShowSubBottomSheet(false);
-      setFetchKey((prevKey) => prevKey + 1);
       setModalMessage("답글이 삭제되었습니다.");
       setModalIsOpen(true);
     } catch (error) {
       console.error("Error deleting reply:", error);
       setModalMessage("답글 삭제에 실패했습니다.");
       setModalIsOpen(true);
+    } finally {
+      setCheckSubmit(false);
     }
   };
 
@@ -71,6 +100,9 @@ const CommentList = ({ comid, boardType, isshorts }) => {
   };
 
   const handleEditSubmit = async (id, content, isComment) => {
+    if (checkSubmit || !content || content.trim() === "") return;
+    setCheckSubmit(true);
+
     try {
       const formData = new FormData();
       formData.append("id", id);
@@ -91,10 +123,15 @@ const CommentList = ({ comid, boardType, isshorts }) => {
       console.error("Error updating content:", error);
       setModalMessage("수정에 실패했습니다.");
       setModalIsOpen(true);
+    } finally {
+      setCheckSubmit(false);
     }
   };
 
   const handleReplySubmit = async (parentCommentId, replyContent) => {
+    if (checkSubmit || !replyContent || replyContent.trim() === "") return;
+    setCheckSubmit(true);
+
     if (parentCommentId && replyContent && replyContent.trim()) {
       try {
         const formData = new FormData();
@@ -104,13 +141,16 @@ const CommentList = ({ comid, boardType, isshorts }) => {
 
         await commentApi.postReplyComment(comid, formData);
         setActiveReplyInput(null);
-        setFetchKey((prevKey) => prevKey + 1);
+    
+        // setFetchKey((prevKey) => prevKey + 1);
         setModalMessage("답글이 등록되었습니다.");
         setModalIsOpen(true);
       } catch (error) {
         console.error("Error posting reply:", error);
         setModalMessage("답글 등록에 실패했습니다.");
         setModalIsOpen(true);
+      } finally {
+        setCheckSubmit(false);
       }
     }
   };
@@ -198,7 +238,7 @@ const CommentList = ({ comid, boardType, isshorts }) => {
       {modalIsOpen && (
         <CheckModal
           Content={modalMessage}
-          onClose={() => setModalIsOpen(false)}
+          onClose={modalClose}
           oneBtn={true}
         />
       )}

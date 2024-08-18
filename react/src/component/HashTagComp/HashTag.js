@@ -8,7 +8,9 @@ const HashTag = ({ selectedCategory, selectedHashTag, handleBottomSheetOpen }) =
     <div className={styles.tagContainer}>
       {selectedCategory && <span className={styles.tag}>#{selectedCategory}</span>}
       {selectedHashTag && selectedHashTag.length > 0 && selectedHashTag.map((tag, index) => (
-        <span key={index} className={styles.tag}>#{tag}</span>
+        <span key={index} className={styles.tag}>
+          {tag.tag == null ?(<div>#{tag}</div>):(<div>#{tag.tag}</div>) }
+          </span>
       ))}
       <button className={styles.button} onClick={() => handleBottomSheetOpen('tag')}>+선택하기</button>
     </div>

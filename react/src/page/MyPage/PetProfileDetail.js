@@ -3,12 +3,16 @@ import { useNavigate, useParams, useLocation  } from "react-router-dom";
 import styles from "../../css/mypage_petprofile.module.css";
 import dayjs from "dayjs";
 import { GoArrowLeft } from "react-icons/go";
+import { IoPersonSharp } from "react-icons/io5";
 import { MdPets, MdInfoOutline, MdEdit } from "react-icons/md";
 import { BiHealth } from "react-icons/bi";
 import { RiWeightFill } from "react-icons/ri";
 import petApi from "../../api/petApi";
+import { useSelector } from "react-redux";
 
 const PetProfileDetail = () => {
+  const reduxMember = useSelector((state) => state.member.member);
+
   const location = useLocation();
   const id = location.state?.id; 
 
@@ -39,6 +43,20 @@ const PetProfileDetail = () => {
 
     fetchData();
   }, [id]); // id가 변경될 때마다 데이터를 새로 가져옵니다
+
+  const memberDelete = async (memberId) =>{
+    const formData = new FormData();
+    formData.append("memberId", memberId);
+    formData.append("petId", myPet.id);
+    
+
+    const resp = await petApi.deleteMember(formData);
+    console.log(resp);
+    if(resp.data == 1) {
+      window.location.reload();
+    }
+  }
+
 
   if (!isLoaded) {
     return <div>Loading...</div>;
@@ -71,6 +89,8 @@ const PetProfileDetail = () => {
     birth: myPet.birth, // 생일
     allergy: myPet.allergy,
     health: myPet.health,
+    members : myPet.members,
+    ownerId : myPet.ownerId
   };
 
   const age = calculateAge(pet.birth); // 생일을 기준으로 나이를 계산하여 추가
@@ -147,6 +167,32 @@ const PetProfileDetail = () => {
               <div className={styles.info_data}>
                 {pet.health == "null" || pet.health == null ? "-" : pet.health}
               </div>
+
+
+{/* --------------------------------------------------------------------------------- */}
+
+              <div style={{height:"20px"}}></div>
+              {/* 스타일 css파일로 빼시고,
+              member 프로필이랑 이름, 컴포넌트있으면 컴포넌트불러오시길.... */}
+
+              <IoPersonSharp style={{fontSize:"30px", color :"#ffa62f"}}/>
+              <div>회원</div>
+              {pet.members.map((member) => (
+                <div>
+                  <div>{member.name}</div>
+
+                  
+                  { (reduxMember.id == pet.ownerId) ?  //현재 사용자가, pet에 등록된 사용자일 경우에, 자신이 자신을 지우지 못하게
+                        (reduxMember.id == member.id)? // 현재 사용자가, pet의 원래주인이냐? 주인이면 다른 회원 삭제 가능/ 주인 아니면 다른 회원 삭제 불가능
+                        <div></div> 
+                        :<div style={{cursor:"pointer"}} onClick={()=>{memberDelete(member.id)}}>x</div>
+                      : <div></div>
+                      
+                      } 
+                  <div>---------------------</div>
+                </div>
+                ))}
+{/* --------------------------------------------------------------------------------- */}
             </div>
           </div>
         </div>

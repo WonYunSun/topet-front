@@ -24,6 +24,10 @@
   flex-direction: column;
   overflow-y: auto;
   white-space: nowrap;
+  -ms-overflow-style: none; /* IE와 Edge에서 스크롤바를 숨김 */
+}
+.scrollContainer::-webkit-scrollbar {
+  display: none;
 }
 .scrollContainer > div {
   flex: 0 0 auto;

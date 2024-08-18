@@ -3,8 +3,12 @@ import RadioButton from './RadioButton';
 import Button from '../ButtonComp/Button';
 import styles from '../../css/report.module.css';
 import ReportAndBlock from '../../api/reportAndBlockApi';
+import { useDispatch } from "react-redux";
+import { openModal, setReduxModalMessage } from '../../redux/reducers/modalReducer';
 
-const Report = ({ onClick, comid, commentId, replyId, genre, setModalIsOpen, setModalMessage }) => {
+const Report = ({ onClick, comid, commentId, replyId, genre }) => {
+  const dispatch = useDispatch();
+
   const [selectedValue, setSelectedValue] = useState('스팸홍보/도배글');
   const [otherText, setOtherText] = useState('');
 
@@ -29,25 +33,39 @@ const Report = ({ onClick, comid, commentId, replyId, genre, setModalIsOpen, set
     const reportValue = selectedValue === '기타' ? otherText : selectedValue;
     formData.append("reason", reportValue);
     
-    if (genre === "게시글") {
+    try {
+      if (genre === "게시글") {
         console.log("게시글 신고");
         await ReportAndBlock.ReportCommunity(formData, comid);
-    } else if (genre === "댓글") {
+      } else if (genre === "댓글") {
         if (commentId === null && replyId !== null) {
-            // 댓글이 null이면서 답글 ID가 있을 때
-            console.log("답글 신고");
-            await ReportAndBlock.ReportComment(formData, replyId);
+          // 댓글이 null이면서 답글 ID가 있을 때
+          console.log("답글 신고");
+          await ReportAndBlock.ReportComment(formData, replyId);
         } else if (commentId !== null && replyId === null) {
-            // 댓글 ID가 있고 답글 ID가 null일 때
-            console.log("댓글 신고");
-            await ReportAndBlock.ReportComment(formData, commentId);
+          // 댓글 ID가 있고 답글 ID가 null일 때
+          console.log("댓글 신고");
+          await ReportAndBlock.ReportComment(formData, commentId);
         }
-    }
-    onClick();
-};
+      }
 
-console.log("댓글ID : ", commentId)
-console.log("답글ID : ", replyId)
+      // 신고가 성공했을 때 모달을 열고 메시지를 설정
+      dispatch(openModal(true));
+      dispatch(setReduxModalMessage("신고 되었습니다."));
+      
+    } catch (error) {
+      console.error("신고에 실패했습니다.", error);
+
+      // 신고가 실패했을 때 모달을 열고 메시지를 설정
+      dispatch(openModal(true));
+      dispatch(setReduxModalMessage("신고에 실패했습니다."));
+    } finally {
+      onClick(); // 최종적으로 onClick 실행
+    }
+  };
+
+  console.log("댓글ID : ", commentId)
+  console.log("답글ID : ", replyId)
 
   return (
     <div className={styles.reportContainer}>

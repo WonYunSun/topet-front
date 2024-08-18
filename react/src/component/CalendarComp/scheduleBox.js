@@ -5,15 +5,18 @@ import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import styles from "../../css/schedule_box.module.css";
 import scheduleApi from "../../api/scheduleApi";
 
-const ScheduleBox = ({ item, onScheduleClick , updatedSchedules, setUpdatedSchedules}) => {
-
+const ScheduleBox = ({
+  item,
+  onScheduleClick,
+  updatedSchedules,
+  setUpdatedSchedules,
+}) => {
   const handleCheckBoxClick = async (item) => {
-
-    console.log("완료 toggle" , item.id);
-    console.log("scheduleId : " , item.isComplete )
+    console.log("완료 toggle", item.id);
+    console.log("scheduleId : ", item.isComplete);
     try {
       await scheduleApi.updateScheduleStatus(item);
-      item.isComplete = !item.isComplete
+      item.isComplete = !item.isComplete;
       setUpdatedSchedules((prevSchedules) =>
         prevSchedules.map((schedule) =>
           schedule.scheduleId === item.id
@@ -26,7 +29,7 @@ const ScheduleBox = ({ item, onScheduleClick , updatedSchedules, setUpdatedSched
     }
   };
 
-  useEffect(()=>{},[item.isComplete])
+  useEffect(() => {}, [item.isComplete]);
 
   return (
     <div
@@ -59,7 +62,7 @@ const ScheduleBox = ({ item, onScheduleClick , updatedSchedules, setUpdatedSched
             }}
           >
             {item.isComplete ? (
-              <IoCheckmarkCircleOutline color="#fff" size={28} />
+              <IoCheckmarkCircleOutline color="#fff" size={25} />
             ) : (
               <GoCircle color="rgba(255, 255, 255, 0.3)" size={25} />
             )}

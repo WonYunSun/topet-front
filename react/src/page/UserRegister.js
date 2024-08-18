@@ -12,6 +12,10 @@ import { Mobile, DeskTop } from "../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
 
 export default function UserRegister() {
+
+
+
+  
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
@@ -21,14 +25,38 @@ export default function UserRegister() {
   });
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  
   const defaultProfileImage =
     "https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg";
 
   const [profilePhoto, setProfilePhoto] = useState(defaultProfileImage);
   const [profileName, setProfileName] = useState("");
   const [canSave, setCanSave] = useState();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [member, setMember] = useState();
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    const fetchData =async()=>{
+      try{
+        await getMember()
+      }catch(error){
+        
+      }finally{
+        setIsLoaded(true);
+      }
+    }
+    fetchData();
+  },[])
+
+  const getMember = async() =>{
+    const resp = await memberApi.getHomeDataMember();
+      dispatch(updateMember(resp.data));
+      setMember(resp.data);
+    }
+  
   const fileInputRef = useRef(null);
+
   useEffect(() => {
     if (profilePhoto == undefined) {
       setProfilePhoto(defaultProfileImage);
@@ -64,18 +92,22 @@ export default function UserRegister() {
   const handleSubmit = async () => {
     // 프로필 등록
     console.log("저장");
+
+    
     const formData = new FormData();
-    formData.append("profileName", profileName);
+    formData.append("id", member.id);
+    
+    formData.append("name", profileName);
     if (profilePhoto != null) {
       formData.append("photo", profilePhoto);
     }
-    const resp = await memberApi.postMemberInfo(formData);
+
+    const resp = await memberApi.memberUpdate(formData);
     if (resp.status == 200) {
       dispatch(updateMember(resp.data));
-      navigate(`/home`);
+      navigate(`/profilecompleted`);
     } else {
       alert("실패");
-      window.location.reload();
     }
     // navigate(-1);
   };
@@ -152,3 +184,4 @@ export default function UserRegister() {
     </div>
   );
 }
+

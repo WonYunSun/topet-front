@@ -52,10 +52,11 @@ const CommunityDetail = () => {
       setProfileName(detail.author.name);
       setCommunityAuthorId(detail.author.id);
 
-      if (detail.hashtag) {
-        setHashtags(detail.hashtag.split(",").map((tag) => tag.trim()));
-      }
-
+      // if (detail.hashtag) {
+      //   setHashtags(detail.hashtag.split(",").map((tag) => tag.trim()));
+      // }
+      
+      setHashtags(detail.hashtag);
       // writer 상태 업데이트
       if (detail.author.id === reduxMemberId.id) {
         setWriter(true);
@@ -95,6 +96,7 @@ const CommunityDetail = () => {
       setIsLikeLoading(false);
     }
   };
+  
   const handleCategoryChange = (newCategory) => {
     const animalKey = item.animal || "dog";
     navigate(`/community/preview/${animalKey}/${newCategory}`, {
@@ -117,7 +119,7 @@ const CommunityDetail = () => {
     : "freedomAndDaily";
 
   const handleCommentSubmit = () => {
-    setCommentListKey((prevKey) => prevKey + 1); // key 값을 증가시켜 CommentList를 리렌더링
+    fetchPostDetail();
   };
 
   if (loading) {
@@ -156,7 +158,10 @@ const CommunityDetail = () => {
     photos,
     likesList,
     commentCount,
+    createdTime,
   } = item;
+
+  const formattedDate = new Date(createdTime).toISOString().split("T")[0];
 
   const navigateWithParams = () => {
     const params = {
@@ -199,20 +204,22 @@ const CommunityDetail = () => {
             {images.map((item, index) => (
               <img
                 key={index}
-                src={item.filePath}
+                src={item.path}
                 alt={`이미지 ${index + 1}`}
               />
             ))}
           </div>
         )}
+        
+        
         <div className={styles.hashtags}>
           {hashtags.map((hashtag, index) => (
             <span key={index} className={styles.hashtag}>
-              #{hashtag}
+              #{hashtag.tag}
             </span>
           ))}
         </div>
-
+        <div className={styles.date}>{formattedDate}</div> {/* 날짜 */}
         <div className={styles.like_and_coment}>
           <div className="icon-group">
             <BiSolidLike
@@ -237,10 +244,10 @@ const CommunityDetail = () => {
             />
           </div>
         </div>
-
+        
         <div className={styles.coment_area}>
           <CommentCreate type={"community"}comid={comid} onCommentSubmit={handleCommentSubmit} />
-          <CommentList key={commentListKey} comid={comid} boardType={"community"} />
+          <CommentList key={commentListKey} comid={comid} boardType={"community"} handleCommentSubmit={handleCommentSubmit} />
         </div>
       </Mobile>
       <DeskTop>
@@ -286,7 +293,7 @@ const CommunityDetail = () => {
                 {images.map((item, index) => (
                   <img
                     key={index}
-                    src={item.filePath}
+                    src={item.path}
                     alt={`이미지 ${index + 1}`}
                   />
                 ))}
@@ -299,7 +306,7 @@ const CommunityDetail = () => {
                 </span>
               ))}
             </div>
-
+            <div className={styles.date}>{formattedDate}</div> {/* 날짜 */}
             <div className={styles.like_and_coment}>
               <div className="icon-group">
                 <BiSolidLike
@@ -324,13 +331,18 @@ const CommunityDetail = () => {
                 />
               </div>
             </div>
+            
 
             <div className={styles.coment_area}>
               <CommentCreate
                 comid={comid}
                 onCommentSubmit={handleCommentSubmit}
               />
-              <CommentList key={commentListKey} comid={comid} />
+              <CommentList
+                key={commentListKey}
+                comid={comid}
+                boardType={"community"}
+              />
             </div>
           </div>
         </div>
