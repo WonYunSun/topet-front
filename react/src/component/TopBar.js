@@ -100,28 +100,6 @@ const TopBar = ({
       );
     } else {
       switch (centerChange) {
-        case "투펫ai":
-          return (
-            <>
-              <Mobile>
-                <div
-                  className={`${styles.topbar} ${
-                    isHome ? styles.homeComp : ""
-                  }`}
-                >
-                  <GoArrowLeft
-                    className={`${styles.icon} ${isHome ? styles.hidden : ""}`}
-                    onClick={goBack}
-                  />
-                  <div className={styles.topetAiTitle}>투펫AI</div>
-                  <GoHome
-                    className={`${styles.icon} ${isHome ? styles.hidden : ""}`}
-                    onClick={goHome}
-                  />
-                </div>
-              </Mobile>
-            </>
-          );
         case "강아지":
         case "고양이":
         case "특수동물":

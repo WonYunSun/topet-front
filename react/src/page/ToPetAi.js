@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
+import { GoArrowLeft, GoHome, GoChevronDown } from "react-icons/go";
 import axios from "axios";
-import TopBar from "../component/TopBar";
+import { useNavigate } from "react-router-dom";
 import styles from "../css/toPetAi.module.css"; // Import the CSS Module
 import { FaArrowUp } from "react-icons/fa6";
 import { ReactComponent as MainImg } from "../asset/icon/MainImg.svg";
@@ -26,11 +27,33 @@ const ToPetAi = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
+  const navigate = useNavigate();
   const addMessage = (sender, message) => {
     setMessages((prevMessages) => [...prevMessages, { sender, message }]);
   };
-
+  const goBack = () => {
+    navigate("/home"); // 뒤로가기
+  };
+  const TopetAiTopbar = () => {
+    return (
+      <div className={styles.chattopbar}>
+        {isMobile && (
+          <div style={{ marginRight: "10px" }}>
+            <GoArrowLeft size={20} onClick={goBack} />
+          </div>
+        )}
+        <div className={styles.profileContainer}>
+          <div className={styles.profileImage}>
+            <MainImg className={styles.mainImg} />
+          </div>
+          <div className={styles.profileNameContainer}>
+            <span className={styles.profileName}>투펫 AI</span>
+            <span className={styles.onlineIndicator}></span>
+          </div>
+        </div>
+      </div>
+    );
+  };
   const fetchAIResponse = async (prompt) => {
     try {
       const response = await axios.post(
@@ -66,10 +89,8 @@ const ToPetAi = () => {
   return (
     <>
       <Mobile>
-        <TopBar centerChange="투펫ai" />
-      </Mobile>
-      <Mobile>
         <div className={`${styles.container}`}>
+          <TopetAiTopbar />
           <div
             className={`${styles.messagesContainer} ${
               isDeskTop && styles.dtver
@@ -121,18 +142,7 @@ const ToPetAi = () => {
             <div>투펫AI</div>
           </div>
           <div className={`${styles.container} ${styles.dtver}`}>
-            <div className={styles.chattopbar}>
-              <div className={styles.profileContainer}>
-                <div className={styles.profileImage}>
-                  <MainImg className={styles.mainImg} />
-                </div>
-                <div className={styles.profileNameContainer}>
-                  <span className={styles.profileName}>투펫 AI</span>
-                  <span className={styles.onlineIndicator}></span>
-                </div>
-              </div>
-            </div>
-
+            <TopetAiTopbar />
             <div
               className={`${styles.messagesContainer} ${
                 isDeskTop && styles.dtver
