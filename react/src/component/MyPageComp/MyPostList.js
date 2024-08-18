@@ -6,6 +6,7 @@ import ContentList from "../HandlerComp/ContentList";
 import styles from "../../css/communityList.module.css";
 
 const MyPostList = ({ postType }) => {
+  console.log()
   const reduxMember = useSelector((state) => state.member.member);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -21,15 +22,15 @@ const MyPostList = ({ postType }) => {
     }
   }, []);
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (page, size) => {
     if (postType == "mypost") {
       // 내 게시글
-      const resp = await CommunityApi.getCommunitybyAuthorId(reduxMember.id);
+      const resp = await CommunityApi.getCommunitybyAuthorId(reduxMember.id, page, size);
 
       return resp;
     } else if (postType == "likedpost") {
       // 좋아요 한 게시글
-      return await CommunityApi.getCommunitybyAuthorId(reduxMember.id); // !! 수정 필요 !!
+      return await CommunityApi.getCommunitybyAuthorId(reduxMember.id, page, size); // !! 수정 필요 !!
     }
   };
 
