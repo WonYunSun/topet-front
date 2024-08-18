@@ -30,9 +30,9 @@ class CommunityApi {
 
   async editCommunity(selectedPhotos, formData, comid) {
     // 게시물 수정
-    selectedPhotos.slice(0, 5).forEach((photo, index) => {
-      formData.append("photos", photo);
-    });
+    // selectedPhotos.slice(0, 5).forEach((photo, index) => {
+    //   formData.append("photos", photo);
+    // });
 
     try {
       const response = await this.axios.post(`/update/${comid}`, formData, {

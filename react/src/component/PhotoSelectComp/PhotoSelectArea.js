@@ -6,6 +6,7 @@ const PhotoSelectArea = ({
   selectedPhotos,
   onPhotosSelected,
   onRemovePhoto,
+  setDeletedPhoto,
   cnt,
 }) => {
   return (
@@ -20,16 +21,13 @@ const PhotoSelectArea = ({
         )}
         {selectedPhotos.map((photo, index) => (
             <div key={index} className={styles["selected-photo-box"]}>
-              <img
-                src= 
-                {photo.path}
-                // {URL.createObjectURL(photo)}
-                alt={`selected ${index}`}
-                className={styles["photo"]}
-              />
+              {(photo instanceof File) ? 
+              (<img src= {URL.createObjectURL(photo)} alt={`selected ${index}`} className={styles["photo"]}/>) : 
+              (<img src= {photo.path} alt={`selected ${index}`} className={styles["photo"]}></img>)}
+              
               <button
                 className={styles["remove-photo-button"]}
-                onClick={() => onRemovePhoto(index)}
+                onClick={() => onRemovePhoto(index, photo.id)}
               >
                 x
               </button>

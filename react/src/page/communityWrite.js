@@ -55,6 +55,9 @@ const CommunityWrite = () => {
 
 
   const [editPhoto, setEditPhoto] = useState([]);
+  const [deletedPhoto, setDeletedPhoto] = useState([]);
+  const [tempCount, setTempCount] = useState(0);
+
 
   const [tagList, setTagList] = useState([]);
 
@@ -66,7 +69,7 @@ const CommunityWrite = () => {
       setContentText(state.content);
       setSelectedPhotos(state.images);
       // setSelectedPhotos(state.photos);
-
+      console.log("state.images : " , state.images);
       setSelectedCategory(state.category);
       setComid(state.comid);
     }
@@ -117,14 +120,16 @@ const CommunityWrite = () => {
     setSelectedPhotos(updatedPhotos);
   };
 
-  const handleRemovePhoto = (index) => {
+  const handleRemovePhoto = (index, deletedPath) => {
     setSelectedPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
+    setDeletedPhoto((prev)=>[...prev, deletedPath])
   };
 
   const conversionHashTag = () => {
     const conversion = selectedHashTag.join(",");
     setConversionStringHashTag(conversion);
   };
+
 
   const handleSubmit = async () => {
     if (submitCheck || isSubmitDisabled) return; // 이미 전송 중이거나 필수값이 없으면 함수 종료
@@ -149,30 +154,66 @@ const CommunityWrite = () => {
     }
   };
 
-  const handleUpdate = async (comid) => {
+
+
+  useEffect(()=>{
     
+  },[
+    editPhoto, tagList, tempCount
+  ])
+  const handleUpdate = async(comid) => {
+    setTempCount(tempCount+1);
+    tagSetting();
+    setEditPhoto([]);
+    if(selectedPhotos!=null){
+      for(let i= 0 ; i< selectedPhotos.length; i++){
+        if(selectedPhotos[i] instanceof File){
+          setEditPhoto((prev)=>[...prev, selectedPhotos[i]]);
+        }
+      }
+    }
+    const deletedSet = new Set(deletedPhoto);
+    const deletedArray = Array.from(deletedSet);
+    
+    // console.log(tagList);
+    
+    const formData = new FormData();
+    formData.append("title", titleText);
+    formData.append("content", contentText);
+    formData.append("category", selectedCategory);
+    formData.append("hashtag", tagList);
+
+    editPhoto.forEach((file, index) => {
+      formData.append("editPhoto", file);
+    });
+    formData.append("deletedPhoto", deletedArray);
+    
+    handleEdit(comid);
+    
+  };
+
+  const handleEdit= async(id, formData)=>{
     if (submitCheck || isSubmitDisabled) return; // 이미 전송 중이거나 필수값이 없으면 함수 종료
     setSubmitCheck(true); // 전송 중 상태로 설정
   
     try {
-      tagSetting();
 
-      console.log(selectedPhotos.length);
+      /**
+      /* 왜 렌더링이 한번 돼야 editPhoto에 값이 들어가는지 모르겠다.....
+      해시태그도 그렇고.....
+      이거 confirm으로 받던지 해야할듯... 
+       */
+      
 
-      const formData = new FormData();
-      formData.append("title", titleText);
-      formData.append("content", contentText);
-      formData.append("category", selectedCategory);
-      formData.append("hashtag", tagList);
-      await communityApi.editCommunity(selectedPhotos, formData, comid);
+      await communityApi.editCommunity(selectedPhotos, formData, id);
       // navigate(-1); // 전송 후 페이지 이동
     } catch (error) {
       console.error("게시물 수정에 실패했습니다.", error);
     } finally {
       setSubmitCheck(false); // 전송 완료 후 상태 초기화
     }
-  };
 
+  }
   const handleBottomSheetOpen = (type) => {
     setBottomSheetType(type);
     setShowBottomSheet(true);
@@ -230,10 +271,7 @@ const CommunityWrite = () => {
           selectedPhotos={selectedPhotos}
           onPhotosSelected={handlePhotosSelected}
           onRemovePhoto={handleRemovePhoto}
-
-
           
-
           cnt={5}
         />
         <br />
