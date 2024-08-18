@@ -54,6 +54,8 @@ const CommunityWrite = () => {
   const [submitCheck, setSubmitCheck] = useState(false);
 
 
+  const [editPhoto, setEditPhoto] = useState([]);
+
   const [tagList, setTagList] = useState([]);
 
   useEffect(() => {
@@ -63,6 +65,8 @@ const CommunityWrite = () => {
       setTitleText(state.title);
       setContentText(state.content);
       setSelectedPhotos(state.images);
+      // setSelectedPhotos(state.photos);
+
       setSelectedCategory(state.category);
       setComid(state.comid);
     }
@@ -152,13 +156,8 @@ const CommunityWrite = () => {
   
     try {
       tagSetting();
-      console.log("tagList :", tagList);
-      console.log(titleText)
-      console.log(contentText)
-      console.log(selectedCategory)
-      
 
-
+      console.log(selectedPhotos.length);
 
       const formData = new FormData();
       formData.append("title", titleText);
@@ -231,6 +230,10 @@ const CommunityWrite = () => {
           selectedPhotos={selectedPhotos}
           onPhotosSelected={handlePhotosSelected}
           onRemovePhoto={handleRemovePhoto}
+
+
+          
+
           cnt={5}
         />
         <br />
