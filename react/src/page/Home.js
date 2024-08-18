@@ -180,31 +180,31 @@ const Home = () => {
       title: "First Post",
       content: "This is the content of the first post.",
       images: [],
-      hashtag: "react, development, coding, coding",
+      hashtag: [] 
     },
     {
       title: "Second Post",
       content: "Content for the second post goes here.",
       images: [{ filePath: "path/to/image2.jpg", origFileName: "image2.jpg" }],
-      hashtag: "javascript, frontend, webdev",
+      hashtag: []
     },
     {
       title: "Third Post",
       content: "Here is the third post content.",
       images: [{ filePath: "path/to/image3.jpg", origFileName: "image3.jpg" }],
-      hashtag: "css, design, ui",
+      hashtag: []
     },
     {
       title: "Fourth Post",
       content: "Fourth post with some different content.",
       images: [{ filePath: "path/to/image4.jpg", origFileName: "image4.jpg" }],
-      hashtag: "html, markup, web",
+      hashtag: []
     },
     {
       title: "Fifth Post",
       content: "Content for the fifth post is right here.",
       images: [{ filePath: "path/to/image5.jpg", origFileName: "image5.jpg" }],
-      hashtag: "nodejs, backend, server",
+      hashtag: []
     },
   ];
 

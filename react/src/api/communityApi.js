@@ -92,9 +92,9 @@ class CommunityApi {
     // 게시물 제목+본문 검색 최신순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
-        `/list/${type}/${category}?page=${size}&size=${page}&title=${searchText}`
+        `/list/${type}/${category}?page=${size}&size=${page}&title=${searchText}&content${searchText}`
       );
-      return response.data;
+            return response.data;
     } catch (error) {
       console.error("서버 오류:", error);
       throw error;
@@ -111,7 +111,7 @@ class CommunityApi {
     // 게시물 제목+본문 검색 좋아요순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
-        `/list/${type}/${category}?page=${size}&size=${page}&title=${searchText}&orderby=likes`
+        `/list/${type}/${category}?page=${size}&size=${page}&title=${searchText}&content${searchText}&orderby=likes`
       );
       return response.data;
     } catch (error) {
