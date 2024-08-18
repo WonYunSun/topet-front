@@ -13,7 +13,7 @@ import { IoChatbubbles } from "react-icons/io5";
 import ScheduleToday from "../component/HomeComp/ScheduleToday";
 import { ReactComponent as AiIcon } from "../asset/icon/ai.svg";
 import ShortsList from "../component/ShortsComp/ShortsList";
-import TopBarWeb from "../component/TopBarWeb";
+
 import styles from "../css/homescreen.module.css";
 // import CommunityList from "../component/CommunityComp/CommunityList"; //작업 연기
 import CommunityListData from "../component/CommunityComp/CommunityListData";
