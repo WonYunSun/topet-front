@@ -71,7 +71,9 @@ const PetProfileDetail = () => {
     }
   };
 
-  const petDelete = () => {
+  const petDelete = async() => {
+
+    const resp = await petApi.deletePet(reduxMember.id ,id);
     console.log("반려동물 삭제 완료");
   };
 

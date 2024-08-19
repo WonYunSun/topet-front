@@ -93,6 +93,16 @@ class petApi {
       throw error;
     }
   }
+
+  async deletePet(memberId, petId){
+    try{
+      const response = await this.axios.post(`/deletePet/${memberId}/${petId}`);
+      console.log(response);
+      return response.data;
+    }catch(error){
+      throw error;
+    }
+  }
   
 }
 export default new petApi();
