@@ -188,11 +188,6 @@ const CommunityWrite = () => {
     });
     formData.append("deletedPhoto", deletedArray);
     
-    handleEdit(comid);
-    
-  };
-
-  const handleEdit= async(id, formData)=>{
     if (submitCheck || isSubmitDisabled) return; // 이미 전송 중이거나 필수값이 없으면 함수 종료
     setSubmitCheck(true); // 전송 중 상태로 설정
   
@@ -205,13 +200,17 @@ const CommunityWrite = () => {
        */
       
 
-      await communityApi.editCommunity(selectedPhotos, formData, id);
+      await communityApi.editCommunity(selectedPhotos, formData, comid);
       // navigate(-1); // 전송 후 페이지 이동
     } catch (error) {
       console.error("게시물 수정에 실패했습니다.", error);
     } finally {
       setSubmitCheck(false); // 전송 완료 후 상태 초기화
     }
+  };
+
+  const handleEdit= async(id, formData)=>{
+    
 
   }
   const handleBottomSheetOpen = (type) => {
