@@ -14,12 +14,14 @@ const Shorts = () => {
   const fetchShorts = async (page, pageSize) => {
     try {
       const response = await shortsApi.getAllShorts(page, pageSize);
-      const allShorts = response.map(short => ({
+      const allShorts = response.map((short) => ({
         id: short.id,
         videoUrl: short.videoSrc,
         thumbnailUrl: short.thumbnailPhotoSrc,
         author: short.author,
+        content: short.content,
       }));
+      console.log("전체쇼츠", allShorts);
       return allShorts;
     } catch (error) {
       console.error("Failed to fetch shorts:", error);
@@ -32,9 +34,8 @@ const Shorts = () => {
       key={short.id}
       id={short.id}
       thumbnailUrl={short.thumbnailUrl}
-      title={short.title}
+      content={short.content}
       author={short.author}
-      widthAdjust="100%"
       heightAdjust="250px"
     />
   );
@@ -49,11 +50,10 @@ const Shorts = () => {
         <TopBar centerChange="쇼츠" />
         <div className={styles.shortWrapper}>
           <div className={styles.allShortsWrap}>
-            <div className={styles.titlediv}>전체 쇼츠</div>
-            <ContentList
-              fetchItems={fetchShorts}
-              renderItem={renderShorts}
-            />
+            <div className={styles.titlediv}>전체 쇼츠</div>'
+            <div className={styles.shortsGridContainer}>
+              <ContentList fetchItems={fetchShorts} renderItem={renderShorts} />
+            </div>
           </div>
           <FloatingBtn onClick={goAddShorts} />
         </div>
@@ -67,10 +67,12 @@ const Shorts = () => {
             <TopBar centerChange="쇼츠" />
             <div className={styles.allShortsWrap}>
               <div className={styles.titlediv}>전체 쇼츠</div>
-              <ContentList
-                fetchItems={fetchShorts}
-                renderItem={renderShorts}
-              />
+              <div className={styles.shortsGridContainer}>
+                <ContentList
+                  fetchItems={fetchShorts}
+                  renderItem={renderShorts}
+                />
+              </div>
             </div>
           </div>
         </div>
