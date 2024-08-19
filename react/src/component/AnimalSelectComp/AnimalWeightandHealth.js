@@ -45,8 +45,8 @@ const InputWeight = ({
   };
 
   const handleWeightInputChange = (e) => {
-    const newValue = e.target.value;
-    // Allow only numbers and one decimal point
+    let newValue = e.target.value;
+  
     if (/^\d*\.?\d*$/.test(newValue) && newValue.length <= 7) {
       setWeightValue(newValue);
       setWeight(`${newValue}${selectedUnit}`);
@@ -55,6 +55,14 @@ const InputWeight = ({
       } else {
         setNextPossible(false);
       }
+    }
+  };
+
+  const handleWeightBlur = () => {
+    if (weightValue.endsWith('.')) {
+      const newWeightNum = `${weightValue}0`; // .으로 끝나면 0을 붙임
+      setWeightValue(newWeightNum);
+      setWeight(`${newWeightNum}${selectedUnit}`);
     }
   };
 
@@ -92,6 +100,7 @@ const InputWeight = ({
           id="petWeight"
           type="text"
           value={weightValue}
+          onBlur={handleWeightBlur}
           onChange={handleWeightInputChange}
           placeholder={"체중을 알려주세요"}
           disabled={weightDontKnow}

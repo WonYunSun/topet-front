@@ -8,7 +8,8 @@ import { useSelector, useDispatch } from "react-redux";
 import MyPostList from "../../component/MyPageComp/MyPostList";
 import { Mobile, DeskTop } from "../../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
-import ShortsPageList from "../../component/ShortsComp/ShortPageList";
+import ContentList from "../../component/HandlerComp/ContentList";
+import ShortItem  from "../../component/ShortsComp/ShortItem";
 
 const SeeLikedShorts = () => {
   const reduxMember = useSelector((state) => state.member.member);
@@ -19,8 +20,17 @@ const SeeLikedShorts = () => {
   const isTablet = useMediaQuery({
     query: "(min-width: 769px) and (max-width: 859px)",
   });
-
-  const fetchPosts =(page, pageSize) => {
+  const renderShorts = (short) => (
+    <ShortItem
+      key={short.id}
+      id={short.id}
+      thumbnailUrl={short.thumbnail}
+      content={short.content}
+      author={short.author}
+      heightAdjust="250px"
+    />
+  );
+  const fetchShorts =(page, pageSize) => {
 
 
     return shortsApi.getLikedShorts(reduxMember.id, page, pageSize);
@@ -32,7 +42,11 @@ const SeeLikedShorts = () => {
           {isDeskTop && <MyPageSideBar option={"좋아요 한 쇼츠 보기"} />}
           <div className={`${isDeskTop && styles.rightside_wrapper}`}>
             <MyPageCommonTopBar title={"좋아요 한 쇼츠"} />
-            <ShortsPageList shortsData={fetchPosts} />
+            <div className={styles.shortsGridContainer}>
+              <ContentList fetchItems={fetchShorts} 
+              renderItem={renderShorts} 
+              />
+            </div>
           </div>
         </div>
       </div>

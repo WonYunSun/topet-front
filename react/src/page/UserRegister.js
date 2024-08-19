@@ -76,7 +76,7 @@ export default function UserRegister() {
     fileInputRef.current.click();
   };
   const handleProfileNameChange = (e) => {
-    const tempname = e.target.value;
+    const tempname = e.target.value.trim();
     if (tempname.length <= 25) {
       setProfileName(tempname);
     }

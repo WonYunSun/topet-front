@@ -12,6 +12,15 @@
   letter-spacing: 0.5px;
 }
 
+.shortsGridContainer {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(156px, 156px));
+  gap: 16px; /* 그리드 아이템 사이의 간격 */
+  padding: 16px; /* 컨테이너의 패딩 */
+  justify-content: center; /* 그리드 컨테이너를 가운데 정렬 */
+}
+
 /* SeeMyComments _ 내 댓글 보기 */
 .comment_container {
   display: flex;
