@@ -57,7 +57,7 @@ const ToPetAi = () => {
   const fetchAIResponse = async (prompt) => {
     try {
       const response = await axios.post(
-        "http://localhost:8081/api/chatgpt/ask",
+        "http://topet.site/api/chatgpt/ask",
         { prompt },
         {
           headers: { "Content-Type": "application/json" },
