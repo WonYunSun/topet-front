@@ -51,6 +51,12 @@ const TopBarWeb = () => {
   };
 
   console.log(reduxMember);
+
+  
+
+
+
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.nabbarInner}>
@@ -122,11 +128,13 @@ const TopBarWeb = () => {
                 onClick={goMypage}
                 style={{ cursor: "pointer" }}
               >
-                <img
-                  src={reduxMember.profileSrc}
-                  alt="Profile"
-                  className={styles.profileImage}
-                />
+                
+                {(reduxMember.profileSrc == null)? <img src="https://i.pinimg.com/564x/57/70/f0/5770f01a32c3c53e90ecda61483ccb08.jpg"alt="Profile" className={styles.profileImage}/>
+                      :  <img src={reduxMember.profileSrc} alt="Profile" className={styles.profileImage}/>
+                }
+                
+
+                
                 <span className={styles.profileName}>{reduxMember.name}</span>
               </div>
               <button
