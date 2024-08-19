@@ -7,9 +7,9 @@ class shortsApi {
     this.axios = createAxios(MID_URL);
   }
 
-  async getAllShorts(){
+  async getAllShorts(page, size){
       try{
-          const response  = await this.axios.get("/getAll");
+          const response  = await this.axios.get(`/getAll?page=${page}&size=${size}`);
           console.log("서버 응답:", response); // 응답 데이터 출력
         return response.data; // 응답 데이터 반환 (필요 시)
       }catch(error){

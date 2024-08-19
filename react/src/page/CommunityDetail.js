@@ -46,11 +46,13 @@ const CommunityDetail = () => {
       console.log("게시물 디테일 : ", detail);
       const liked = await CommunityLikesApi.fetchLikedByCurrentUser(comid);
 
+      console.log(detail);
       setItem(detail);
       setLikes(detail.likeCount);
       setIsLiked(liked);
       setProfileName(detail.author.name);
       setCommunityAuthorId(detail.author.id);
+      setProfileImg(detail.author.src);
 
       // if (detail.hashtag) {
       //   setHashtags(detail.hashtag.split(",").map((tag) => tag.trim()));
@@ -73,6 +75,11 @@ const CommunityDetail = () => {
       setLoading(false);
     }
   };
+
+  // useEffect( async () => { // 댓글 수 변경
+  //   const detail = await CommunityApi.fetchCommunityDetail(comid);
+  //   setCommentCount(detail.commentCount);
+  // }, [commentCountChange])
 
   useEffect(() => {
     fetchPostDetail();
@@ -157,7 +164,6 @@ const CommunityDetail = () => {
     hashtag,
     photos,
     likesList,
-    commentCount,
     createdTime,
   } = item;
 
@@ -235,7 +241,7 @@ const CommunityDetail = () => {
           </div>
           <div className="icon-group">
             <BsChatFill className={styles.icon} />
-            <span> {item.commentCount}</span>
+            <span> {item?.commentCount}</span>
           </div>
           <div className={styles.moreIconContainer}>
             <FiMoreVertical
@@ -322,7 +328,7 @@ const CommunityDetail = () => {
               </div>
               <div className="icon-group">
                 <BsChatFill className={styles.icon} />
-                <span> {item.commentCount}</span>
+                <span> {item?.commentCount}</span>
               </div>
               <div className={styles.moreIconContainer}>
                 <FiMoreVertical

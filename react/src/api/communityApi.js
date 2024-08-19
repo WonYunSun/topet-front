@@ -120,13 +120,7 @@ class CommunityApi {
     }
   }
 
-  async fetchHashTagSearchCommunityPosts(
-    type,
-    category,
-    page,
-    size,
-    searchText
-  ) {
+  async fetchHashTagSearchCommunityPosts( type, category, page, size, searchText) {
     // 게시물 해시태그 검색 최신순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
@@ -139,13 +133,7 @@ class CommunityApi {
     }
   }
 
-  async fetchHashTagSearchSortLikeCommunityPosts(
-    type,
-    category,
-    page,
-    size,
-    searchText
-  ) {
+  async fetchHashTagSearchSortLikeCommunityPosts( type, category, page, size, searchText) {
     // 게시물 해시태그 검색 좋아요순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(

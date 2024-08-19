@@ -8,7 +8,7 @@ import CheckModal from "../CheckModal";
 import { openModal, setReduxModalMessage } from '../../redux/reducers/modalReducer';
 import { useNavigate } from 'react-router-dom';
 
-const CommentList = ({ comid, boardType, isshorts }) => {
+const CommentList = ({ comid, boardType, isshorts, handleCommentSubmit }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
@@ -45,7 +45,7 @@ const CommentList = ({ comid, boardType, isshorts }) => {
     setModalIsOpen(false);
     dispatch(openModal(false));
     dispatch(setReduxModalMessage(""));
-
+    handleCommentSubmit();
   }
 
   const activateReplyInput = (commentId) => {
@@ -117,7 +117,7 @@ const CommentList = ({ comid, boardType, isshorts }) => {
         setIsEditingReply(null);
         setModalMessage("답글이 수정되었습니다.");
       }
-      setFetchKey((prevKey) => prevKey + 1);
+      // setFetchKey((prevKey) => prevKey + 1);
       setModalIsOpen(true);
     } catch (error) {
       console.error("Error updating content:", error);
