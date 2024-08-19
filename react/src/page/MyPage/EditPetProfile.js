@@ -5,6 +5,7 @@ import React, {
   useState,
   useEffect,
 } from "react";
+import CheckModal from "../../component/CheckModal";
 import MyPageCommonTopBar from "../../component/MyPageComp/MyPageCommonTopBar";
 import styles from "../../css/mypage_editpetprofile.module.css";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
@@ -61,11 +62,23 @@ const EditPetProfile = () => {
         setName(response.name);
         setGender(response.gender || "");
         setNeutered(response.neutered || "");
-        setWeight(response.weight || "");
-        setWeightNum(response.weight ? parseFloat(response.weight) : "");
-        setWeightUnit(
-          response.weight ? response.weight.replace(/[0-9]/g, "").trim() : ""
-        );
+        // setWeight(response.weight || "");
+        // setWeightNum(response.weight ? parseFloat(response.weight) : "");
+        // setWeightUnit(
+        //   response.weight ? response.weight.replace(/[0-9]/g, "").trim() : ""
+        // );
+
+      // 체중을 숫자와 단위로 분리
+      const weight = response.weight || "";
+      const weightMatch = weight.match(/^(\d*\.?\d+)([a-zA-Z]*)$/);
+      const weightNum = weightMatch ? weightMatch[1] : "";
+      const weightUnit = weightMatch ? weightMatch[2] : "";
+
+      setWeightNum(weightNum);
+      setWeightUnit(weightUnit);
+      setWeight(`${weightNum}${weightUnit}`);
+      setDontKnowWeight(weight ? false : true);
+
         setDontKnowWeight(response.weight ? false : true);
         setAllergy(response.allergy !== "null" ? response.allergy : "");
         setHealth(response.health !== "null" ? response.health : "");
@@ -100,8 +113,10 @@ const EditPetProfile = () => {
   const [dontKnowWeight, setDontKnowWeight] = useState();
   const [allergy, setAllergy] = useState();
   const [health, setHealth] = useState();
+
   const [dropdown, setDropdown] = useState(false);
   const [canSave, setCanSave] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (
@@ -149,20 +164,34 @@ const EditPetProfile = () => {
   };
 
   const handleWeightChange = (e) => {
-    const tempWeightNum = e.target.value;
+    let tempWeightNum = e.target.value;
+    
     if (/^\d*\.?\d*$/.test(tempWeightNum) && tempWeightNum.length <= 7) {
       setWeightNum(tempWeightNum);
       setWeight(`${tempWeightNum}${weightUnit}`);
     }
   };
 
+  const handleWeightBlur = () => {
+    if (weightNum.endsWith('.')) {
+      const newWeightNum = `${weightNum}0`; // .으로 끝나면 0을 붙임
+      setWeightNum(newWeightNum);
+      setWeight(`${newWeightNum}${weightUnit}`);
+    }
+    console.log("in onBlur - weight :", weight);
+  };
+  
+  console.log("weight1 :", weight);
+
   const handleWeightUnitChange = (unit) => {
     if (dontKnowWeight == false) {
       setWeightUnit(unit);
-      setWeight(`${weightNum}${weightUnit}`);
+      setWeight(`${weightNum}${unit}`);
       setDropdown(false);
     }
   };
+  
+  console.log("weight2 :", weight);
 
   const handleDontKnowWeight = () => {
     setDontKnowWeight((prev) => !prev);
@@ -206,7 +235,14 @@ const EditPetProfile = () => {
     formData.append("uid", myPet.uid);
     const resp = await petApi.updatePet(formData);
 
-    console.log("저장");
+    if (resp.status == 200) {
+      console.log(resp.status);
+      // 반려동물 수정 성공 modal창
+      toggleModal();
+    } else {
+      alert("반려동물 수정에 실패했습니다.");
+    }
+
   };
 
   const ProfilePhoto = useMemo(() => {
@@ -341,6 +377,14 @@ const EditPetProfile = () => {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
+  
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
+  const goManageMyPets = () => {
+    navigate(`/managemypets`);
+  }
 
   return (
     <>
@@ -394,6 +438,7 @@ const EditPetProfile = () => {
                       type="text"
                       value={weightNum}
                       onChange={handleWeightChange}
+                      onBlur={handleWeightBlur}
                       placeholder="체중을 입력해주세요"
                       disabled={dontKnowWeight}
                       className={`${
@@ -503,6 +548,13 @@ const EditPetProfile = () => {
               {"저장"}
             </button>
           </div>
+          {showModal && (
+          <CheckModal
+            Content={"수정이 완료되었습니다."}
+            onClose={goManageMyPets}
+            oneBtn={true}
+          />
+        )}
         </div>
       </div>
     </>

@@ -67,7 +67,7 @@ const EditProfile = () => {
   );
 
   const handleProfileNameChange = (e) => {
-    const tempName = e.target.value;
+    const tempName = e.target.value.trim();
     if (tempName.length <= 25) {
       setProfileName(tempName);
     }
