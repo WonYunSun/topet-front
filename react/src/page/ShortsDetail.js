@@ -8,12 +8,9 @@ import { BsChatFill } from "react-icons/bs";
 import { BiSolidLike } from "react-icons/bi";
 import { HiDotsHorizontal } from "react-icons/hi";
 import ShortsBottom from "../component/ShortsBottom";
-/// responsive
 import { Mobile, DeskTop } from "../responsive/responsive";
-import { useMediaQuery } from "react-responsive";
 import CommunityLikesApi from "../api/communityLikesApi";
 
-// 디바운스 함수 구현
 const debounce = (func, delay) => {
   let timeoutId;
   return (...args) => {
@@ -36,7 +33,6 @@ function ShortsDetail({ eventPrevent }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [progress, setProgress] = useState(0);
-
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(0);
   const [isLikeLoading, setIsLikeLoading] = useState(false);
@@ -58,15 +54,13 @@ function ShortsDetail({ eventPrevent }) {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", debouncedHandleTouchMove);
     };
- 
   }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const resp = await shortsApi.getShortsDetail(id);
-        // const likesResp = await CommunityLikesApi.postShortsLike(id);
         setThisShorts(resp);
-        // setLikes(likesResp.likeCount);
         console.log(resp);
       } catch (error) {
         console.log(error);
@@ -90,7 +84,7 @@ function ShortsDetail({ eventPrevent }) {
   };
 
   const handleWheel = (event) => {
-    if (showBottomSheet) return; // BottomSheet가 열려있으면 함수 종료
+    if (showBottomSheet) return;
 
     if (event.deltaY > 0) {
       handlegetRandomShorts();
@@ -103,13 +97,12 @@ function ShortsDetail({ eventPrevent }) {
 
   const handleTouchStart = (event) => {
     if (event.touches.length > 0) {
-      const startY = event.touches[0].clientY;
-      touchStartY.current = startY;
+      touchStartY.current = event.touches[0].clientY;
     }
   };
 
   const handleTouchMove = (event) => {
-    if (showBottomSheet) return; // BottomSheet가 열려있으면 함수 종료
+    if (showBottomSheet) return;
 
     const touchEndY = event.touches[0].clientY;
 
@@ -123,28 +116,29 @@ function ShortsDetail({ eventPrevent }) {
       }
     }
   };
+
   const handleBottomSheetOpen = () => {
     setShowBottomSheet(true);
     eventPrevent(true);
   };
+
   const handleBottomSheetClose = () => {
     setShowBottomSheet(false);
     eventPrevent(false);
   };
 
-  const togglePlayPause = () => {
+  const togglePlayPause = (event) => {
     const video = videoRef.current;
-    // Play/Pause toggle
+    if (!video) return;
+
     if (video.paused) {
       video.play();
-      setIsPlaying(true);
     } else {
       video.pause();
-      setIsPlaying(false);
     }
 
+    setIsPlaying(!video.paused);
     setIsButtonVisible(true);
-    console.log("Button visibility:", isButtonVisible); // 이 위치에서만 로그를 찍도록 수정
     setTimeout(() => {
       setIsButtonVisible(false);
     }, 800);
@@ -152,14 +146,28 @@ function ShortsDetail({ eventPrevent }) {
 
   const handleProgress = () => {
     const video = videoRef.current;
-    if (!video) {
-      return; // video가 없을 때는 아무 것도 하지 않음
+    if (video) {
+      const progressPercentage = (video.currentTime / video.duration) * 100;
+      setProgress(progressPercentage);
     }
-    const progressPercentage = (video.currentTime / video.duration) * 100;
-    setProgress(progressPercentage);
   };
 
-  // console.log(id);
+  // useEffect(() => {
+  //   const video = videoRef.current;
+  //   if (video) {
+  //     const handlePlay = () => setIsPlaying(true);
+  //     const handlePause = () => setIsPlaying(false);
+
+  //     video.addEventListener("play", handlePlay);
+  //     video.addEventListener("pause", handlePause);
+
+  //     return () => {
+  //       video.removeEventListener("play", handlePlay);
+  //       video.removeEventListener("pause", handlePause);
+  //     };
+  //   }
+  // }, [thisShorts]);
+
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
@@ -167,7 +175,6 @@ function ShortsDetail({ eventPrevent }) {
   const goShorts = () => navigate("/shorts");
 
   const toggleLike = async () => {
-    // 좋아요 등록 및 취소 함수
     if (isLikeLoading) return;
     setIsLikeLoading(true);
     try {
@@ -195,10 +202,10 @@ function ShortsDetail({ eventPrevent }) {
             onClick={togglePlayPause}
             style={{ visibility: isButtonVisible ? "visible" : "hidden" }}
           >
-            {isPlaying ? <FaPause size={50} /> : <FaPlay size={50} />}
+            {isPlaying ? <FaPlay size={50} /> : <FaPause size={50} />}
           </button>
           <div className={styles.detaildiv}>
-            <div>{thisShorts?.content}</div>
+            <div className={styles.condiv}>{thisShorts?.content}</div>
           </div>
           <div className={styles.menudiv}>
             <div>
@@ -207,7 +214,6 @@ function ShortsDetail({ eventPrevent }) {
                 onClick={toggleLike}
                 className={isLiked ? styles.truelikeicon : styles.falselikeicon}
               />
-              {/* 나중에 값 바꿔주세요 */}
               <div>{likes}</div>
             </div>
             <div>
@@ -217,23 +223,28 @@ function ShortsDetail({ eventPrevent }) {
                 onClick={handleBottomSheetOpen}
               />
               {/* 나중에 값 바꿔주세요 */}
-              <div>{thisShorts?.commentCount ? thisShorts?.commentCount : 0}</div>
+              <div>
+                {thisShorts?.commentCount ? thisShorts?.commentCount : 0}
+              </div>
             </div>
             <div>
-              {/* 나중에 값 바꿔주세요 */}
               <HiDotsHorizontal size={25} className={styles.menuicon} />
             </div>
           </div>
-          <video
-            ref={videoRef}
-            src={thisShorts?.videoSrc}
-            autoPlay
-            loop
-            onTimeUpdate={handleProgress}
-            onClick={togglePlayPause}
-            className={styles.video}
-          ></video>
-
+          {thisShorts && (
+            <video
+              ref={videoRef}
+              src={thisShorts.videoSrc}
+              autoPlay
+              loop
+              onTimeUpdate={handleProgress}
+              onClick={() => {
+                console.log("클릭");
+                togglePlayPause(); // Ensure togglePlayPause is called
+              }}
+              className={styles.video}
+            />
+          )}
           <div className={styles.controls}>
             <div className={styles.progressBar}>
               <div
@@ -243,12 +254,14 @@ function ShortsDetail({ eventPrevent }) {
             </div>
           </div>
         </div>
-        <ShortsBottom
-          id={id}
-          show={showBottomSheet}
-          onClose={handleBottomSheetClose}
-          isshorts={true}
-        />
+        {showBottomSheet && (
+          <ShortsBottom
+            id={id}
+            show={showBottomSheet}
+            onClose={handleBottomSheetClose}
+            isshorts={true}
+          />
+        )}
       </Mobile>
       <DeskTop>
         <div className={styles.shortsWrap_dtver}>
@@ -267,7 +280,7 @@ function ShortsDetail({ eventPrevent }) {
                 onClick={togglePlayPause}
                 style={{ visibility: isButtonVisible ? "visible" : "hidden" }}
               >
-                {isPlaying ? <FaPause size={50} /> : <FaPlay size={50} />}
+                {isPlaying ? <FaPlay size={50} /> : <FaPause size={50} />}
               </button>
               <div className={styles.detaildiv}>
                 <div className={styles.condiv}>{thisShorts?.content}</div>
@@ -281,7 +294,6 @@ function ShortsDetail({ eventPrevent }) {
                       isLiked ? styles.truelikeicon : styles.falselikeicon
                     }
                   />
-                  {/* 나중에 값 바꿔주세요 */}
                   <div>{likes}</div>
                 </div>
                 <div>
@@ -291,24 +303,25 @@ function ShortsDetail({ eventPrevent }) {
                     onClick={handleBottomSheetOpen}
                   />
                   {/* 나중에 값 바꿔주세요 */}
-                  <div>{thisShorts?.commentCount ? thisShorts?.commentCount : 0}</div>
+                  <div>
+                    {thisShorts?.commentCount ? thisShorts?.commentCount : 0}
+                  </div>
                 </div>
                 <div>
-                  {/* 나중에 값 바꿔주세요 */}
                   <HiDotsHorizontal size={25} className={styles.menuicon} />
                 </div>
               </div>
-
-              <video
-                ref={videoRef}
-                src={thisShorts?.videoSrc}
-                autoPlay
-                loop
-                onTimeUpdate={handleProgress}
-                onClick={togglePlayPause}
-                className={styles.video}
-              ></video>
-
+              {thisShorts && (
+                <video
+                  ref={videoRef}
+                  src={thisShorts.videoSrc}
+                  autoPlay
+                  loop
+                  onTimeUpdate={handleProgress}
+                  onClick={togglePlayPause}
+                  className={styles.video}
+                ></video>
+              )}
               <div className={styles.controls}>
                 <div className={styles.progressBar}>
                   <div

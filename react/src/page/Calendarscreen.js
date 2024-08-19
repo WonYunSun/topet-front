@@ -60,6 +60,7 @@ const Calendarscreen = () => {
   const [scheduleSubmittedSuccessfully, setScheduleSubmittedSuccessfully] =
     useState();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isSchduleUpdate, setIsSchduleUpdate] = useState(false);
 
   useEffect(() => {
     // handleAddScheduleBottomSheetClose();
@@ -79,10 +80,11 @@ const Calendarscreen = () => {
         console.error("Failed to fetch schedules:", error);
       } finally {
         setIsLoaded(true); // 데이터 로딩 완료
+        setIsSchduleUpdate(false);
       }
     };
     fetchData();
-  }, [selectedPet]);
+  }, [selectedPet, isSchduleUpdate]);
 
   const handleDotsClick = (schedule) => {
     setSelectedSchedule(schedule);
@@ -229,6 +231,7 @@ const Calendarscreen = () => {
           onEditClick={handleEditClick}
           selectedSchedule={selectedSchedule}
           reduxPet={reduxPet}
+          setIsSchduleUpdate={setIsSchduleUpdate}
         />
         {showCancleModal &&
           (bottomSheetType === "addSchedule" ||

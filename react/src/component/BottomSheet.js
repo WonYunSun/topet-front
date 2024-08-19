@@ -42,6 +42,7 @@ const BottomSheet = ({
   setSelectedPlace,
   keyword,
   handleSelectSortListText,
+  setIsSchduleUpdate,
 }) => {
   const dispatch = useDispatch();
   const handleCloseBottomSheet = () => {
@@ -143,6 +144,9 @@ const BottomSheet = ({
           <ScheduleEdit
             selectedSchedule={selectedSchedule}
             onClose={handleCloseBottomSheet}
+            scheduleSubmittedSuccessfully={scheduleSubmittedSuccessfully}
+            setScheduleSubmittedSuccessfully={setScheduleSubmittedSuccessfully}
+            setIsSchduleUpdate={setIsSchduleUpdate}
           />
         );
       case "map":

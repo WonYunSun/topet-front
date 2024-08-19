@@ -13,7 +13,13 @@ registerLocale("ko", ko);
 
 const colors = ["#DE496E", "#5C60ED", "#4BAFDA", "#F4A5B5"];
 
-export default function ScheduleEdit({ selectedSchedule, onClose }) {
+export default function ScheduleEdit({
+  selectedSchedule,
+  onClose,
+  setScheduleSubmittedSuccessfully,
+  scheduleSubmittedSuccessfully,
+  setIsSchduleUpdate,
+}) {
   const initialDate = dayjs(selectedSchedule.startDate).isValid()
     ? dayjs(selectedSchedule.startDate).toDate()
     : new Date();
@@ -112,26 +118,28 @@ export default function ScheduleEdit({ selectedSchedule, onClose }) {
     formData.append("isComplete", isComplete);
     formData.append("color", color);
     formData.append("animal", selectedSchedule.animal.id);
-    if (selectedPhoto != null) {formData.append("photo", selectedPhoto);}
-
+    if (selectedPhoto != null) {
+      formData.append("photo", selectedPhoto);
+    }
     formData.append("author", selectedSchedule.author.id);
     // formData.append("updateAut", "EditorName");
-    console.log("selectedSchedule.author : " +selectedSchedule.author.id)
-    console.log(selectedSchedule.id)
-    
+    console.log("selectedSchedule.author : " + selectedSchedule.author.id);
+    console.log(selectedSchedule.id);
+
     await ScheduleService.updateSchedule(selectedSchedule.id, formData);
   };
-
-  
 
   const handleButtonClick = async () => {
     if (title !== "") {
       try {
         await updateScheduleData();
-        
-        onClose();
+        setScheduleSubmittedSuccessfully(true);
+        setIsSchduleUpdate(true);
+        console.log("수정하였음");
       } catch (error) {
         console.error("스케줄 수정 중 오류 발생:", error);
+        setScheduleSubmittedSuccessfully(false);
+        onClose();
       }
     } else {
       setShowCheckModal(true); // 타이틀이 빈 문자열일 경우 모달 표시
@@ -143,6 +151,11 @@ export default function ScheduleEdit({ selectedSchedule, onClose }) {
       {value}
     </button>
   ));
+  useEffect(() => {
+    if (scheduleSubmittedSuccessfully) {
+      onClose();
+    }
+  }, [scheduleSubmittedSuccessfully, onClose]);
 
   return (
     <div className={styles.AddScheduleWrap}>

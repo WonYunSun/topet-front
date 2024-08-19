@@ -124,7 +124,7 @@ class CommunityApi {
     // 게시물 해시태그 검색 최신순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
-        `/list/${type}/${category}?page=${size}&size=${page}&hashtag=${searchText}`
+        `/list/${type}/${category}?page=${size}&size=${page}&tag=${searchText}`
       );
       return response.data;
     } catch (error) {
@@ -137,7 +137,7 @@ class CommunityApi {
     // 게시물 해시태그 검색 좋아요순 불러오기(+무한스크롤)
     try {
       const response = await this.axios.get(
-        `/list/${type}/${category}?page=${size}&size=${page}&hashtag=${searchText}&orderby=likes`
+        `/list/${type}/${category}?page=${size}&size=${page}&tag=${searchText}&orderby=likes`
       );
       return response.data;
     } catch (error) {
