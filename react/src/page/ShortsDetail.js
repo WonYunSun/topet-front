@@ -58,6 +58,7 @@ function ShortsDetail({ eventPrevent }) {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", debouncedHandleTouchMove);
     };
+ 
   }, []);
   useEffect(() => {
     const fetchData = async () => {
@@ -216,7 +217,7 @@ function ShortsDetail({ eventPrevent }) {
                 onClick={handleBottomSheetOpen}
               />
               {/* 나중에 값 바꿔주세요 */}
-              <div>100</div>
+              <div>{thisShorts?.commentCount ? thisShorts?.commentCount : 0}</div>
             </div>
             <div>
               {/* 나중에 값 바꿔주세요 */}
@@ -290,7 +291,7 @@ function ShortsDetail({ eventPrevent }) {
                     onClick={handleBottomSheetOpen}
                   />
                   {/* 나중에 값 바꿔주세요 */}
-                  <div>100</div>
+                  <div>{thisShorts?.commentCount ? thisShorts?.commentCount : 0}</div>
                 </div>
                 <div>
                   {/* 나중에 값 바꿔주세요 */}
