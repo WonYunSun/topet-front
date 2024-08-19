@@ -19,7 +19,7 @@ import { useSelector } from "react-redux";
 
 const CommunityWrite = () => {
   const reduxMemberId = useSelector((state) => state.member.member.id);
-  
+
   // responsive
   const isDeskTop = useMediaQuery({
     query: "(min-width: 1110px)",
@@ -53,11 +53,9 @@ const CommunityWrite = () => {
   const [showWriteNullCheckModal, setShowWriteNullCheckModal] = useState(false);
   const [submitCheck, setSubmitCheck] = useState(false);
 
-
   const [editPhoto, setEditPhoto] = useState([]);
   const [deletedPhoto, setDeletedPhoto] = useState([]);
   const [tempCount, setTempCount] = useState(0);
-
 
   const [tagList, setTagList] = useState([]);
 
@@ -69,7 +67,7 @@ const CommunityWrite = () => {
       setContentText(state.content);
       setSelectedPhotos(state.images);
       // setSelectedPhotos(state.photos);
-      console.log("state.images : " , state.images);
+      console.log("state.images : ", state.images);
       setSelectedCategory(state.category);
       setComid(state.comid);
     }
@@ -96,18 +94,17 @@ const CommunityWrite = () => {
 
   const tagSetting = () => {
     setTagList([]);
-    if(selectedHashTag!=null && selectedHashTag.length > 0){
-      for(let i =0; i<selectedHashTag.length; i++){
+    if (selectedHashTag != null && selectedHashTag.length > 0) {
+      for (let i = 0; i < selectedHashTag.length; i++) {
         // console.log(selectedHashTag[i]);
-        if(selectedHashTag[i] instanceof Object){
-          setTagList((prev) => [...prev, selectedHashTag[i].tag])
-        }else{
+        if (selectedHashTag[i] instanceof Object) {
+          setTagList((prev) => [...prev, selectedHashTag[i].tag]);
+        } else {
           setTagList((prev) => [...prev, selectedHashTag[i]]);
         }
-      }  
+      }
     }
-  }
-
+  };
 
   const handlePhotosSelected = (photos) => {
     const newPhotos = photos.filter(
@@ -122,7 +119,7 @@ const CommunityWrite = () => {
 
   const handleRemovePhoto = (index, deletedPath) => {
     setSelectedPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
-    setDeletedPhoto((prev)=>[...prev, deletedPath])
+    setDeletedPhoto((prev) => [...prev, deletedPath]);
   };
 
   const conversionHashTag = () => {
@@ -130,19 +127,17 @@ const CommunityWrite = () => {
     setConversionStringHashTag(conversion);
   };
 
-
   const handleSubmit = async () => {
     if (submitCheck || isSubmitDisabled) return; // 이미 전송 중이거나 필수값이 없으면 함수 종료
     setSubmitCheck(true); // 전송 중 상태로 설정
-  
+
     try {
-      
       const formData = new FormData();
       formData.append("animal", animal);
       formData.append("title", titleText);
       formData.append("content", contentText);
       formData.append("category", selectedCategory);
-      
+
       formData.append("hashtag", conversionStringHashTag);
       formData.append("author", reduxMemberId);
       await communityApi.postCommunity(selectedPhotos, formData);
@@ -154,29 +149,23 @@ const CommunityWrite = () => {
     }
   };
 
-
-
-  useEffect(()=>{
-    
-  },[
-    editPhoto, tagList, tempCount
-  ])
-  const handleUpdate = async(comid) => {
-    setTempCount(tempCount+1);
+  useEffect(() => {}, [editPhoto, tagList, tempCount]);
+  const handleUpdate = async (comid) => {
+    setTempCount(tempCount + 1);
     tagSetting();
     setEditPhoto([]);
-    if(selectedPhotos!=null){
-      for(let i= 0 ; i< selectedPhotos.length; i++){
-        if(selectedPhotos[i] instanceof File){
-          setEditPhoto((prev)=>[...prev, selectedPhotos[i]]);
+    if (selectedPhotos != null) {
+      for (let i = 0; i < selectedPhotos.length; i++) {
+        if (selectedPhotos[i] instanceof File) {
+          setEditPhoto((prev) => [...prev, selectedPhotos[i]]);
         }
       }
     }
     const deletedSet = new Set(deletedPhoto);
     const deletedArray = Array.from(deletedSet);
-    
+
     // console.log(tagList);
-    
+
     const formData = new FormData();
     formData.append("title", titleText);
     formData.append("content", contentText);
@@ -187,18 +176,16 @@ const CommunityWrite = () => {
       formData.append("editPhoto", file);
     });
     formData.append("deletedPhoto", deletedArray);
-    
+
     if (submitCheck || isSubmitDisabled) return; // 이미 전송 중이거나 필수값이 없으면 함수 종료
     setSubmitCheck(true); // 전송 중 상태로 설정
-  
-    try {
 
+    try {
       /**
       /* 왜 렌더링이 한번 돼야 editPhoto에 값이 들어가는지 모르겠다.....
       해시태그도 그렇고.....
       이거 confirm으로 받던지 해야할듯... 
        */
-      
 
       await communityApi.editCommunity(selectedPhotos, formData, comid);
       // navigate(-1); // 전송 후 페이지 이동
@@ -209,10 +196,7 @@ const CommunityWrite = () => {
     }
   };
 
-  const handleEdit= async(id, formData)=>{
-    
-
-  }
+  const handleEdit = async (id, formData) => {};
   const handleBottomSheetOpen = (type) => {
     setBottomSheetType(type);
     setShowBottomSheet(true);
@@ -222,7 +206,8 @@ const CommunityWrite = () => {
     setShowBottomSheet(false);
   };
 
-  const isSubmitDisabled = !titleText.trim() || !contentText.trim() || !selectedCategory;
+  const isSubmitDisabled =
+    !titleText.trim() || !contentText.trim() || !selectedCategory;
 
   const handleShowCheckModal = () => {
     setShowWriteCancleModal(true);
@@ -270,7 +255,6 @@ const CommunityWrite = () => {
           selectedPhotos={selectedPhotos}
           onPhotosSelected={handlePhotosSelected}
           onRemovePhoto={handleRemovePhoto}
-          
           cnt={5}
         />
         <br />

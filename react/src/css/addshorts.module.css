@@ -5,6 +5,12 @@
   margin-bottom: 10px;
   font-weight: bold;
 }
+.comm_write_wrap {
+  width: 80%;
+  max-width: 1050px;
+  margin: auto;
+  margin-top: 50px;
+}
 .upload_div {
   margin-top: 15px;
   margin-left: 10px;
