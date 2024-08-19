@@ -222,7 +222,10 @@ function ShortsDetail({ eventPrevent }) {
                 className={styles.menuicon}
                 onClick={handleBottomSheetOpen}
               />
-              <div>100</div>
+              {/* 나중에 값 바꿔주세요 */}
+              <div>
+                {thisShorts?.commentCount ? thisShorts?.commentCount : 0}
+              </div>
             </div>
             <div>
               <HiDotsHorizontal size={25} className={styles.menuicon} />
@@ -294,7 +297,10 @@ function ShortsDetail({ eventPrevent }) {
                     className={styles.menuicon}
                     onClick={handleBottomSheetOpen}
                   />
-                  <div>100</div>
+                  {/* 나중에 값 바꿔주세요 */}
+                  <div>
+                    {thisShorts?.commentCount ? thisShorts?.commentCount : 0}
+                  </div>
                 </div>
                 <div>
                   <HiDotsHorizontal size={25} className={styles.menuicon} />
