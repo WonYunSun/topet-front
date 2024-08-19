@@ -1,84 +1,61 @@
-import React, { useState, useEffect } from "react";
-
+import React from "react";
 import TopBar from "../component/TopBar";
 import styles from "../css/shortsscreen.module.css";
 import ShortItem from "../component/ShortsComp/ShortItem";
 import shortsApi from "../api/shortsApi";
-import { all } from "axios";
-/// responsive
+import ContentList from "../component/HandlerComp/ContentList";
 import { Mobile, DeskTop } from "../responsive/responsive";
-import { useMediaQuery } from "react-responsive";
 import FloatingBtn from "../component/ButtonComp/FloatingBtn";
 import { useNavigate } from "react-router-dom";
 
-function Shorts() {
-  const [shorts, setShorts] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
+const Shorts = () => {
   const navigate = useNavigate();
-  const isDeskTop = useMediaQuery({
-    query: "(min-width:769px)",
-  });
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await getAllShorts();
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoaded(true);
-      }
-    };
-    fetchData();
-  }, []);
-  const goAddShorts =() =>{
-    navigate(`/addshorts`);
-;  }
 
-  const getAllShorts = async () => {
-    const resp = await shortsApi.getAllShorts();
-    console.log(resp);
-    const allShorts = [];
-    for (let i = 0; i < resp.length; i++) {
-      let tempShorts = {
-        id: resp[i].id,
-        videoUrl: resp[i].videoSrc,
-        thumbnailUrl: resp[i].thumbnailPhotoSrc,
-        author: resp[i].author,
-      };
-      allShorts.push(tempShorts);
+  const fetchShorts = async (page, pageSize) => {
+    try {
+      const response = await shortsApi.getAllShorts(page, pageSize);
+      const allShorts = response.map(short => ({
+        id: short.id,
+        videoUrl: short.videoSrc,
+        thumbnailUrl: short.thumbnailPhotoSrc,
+        author: short.author,
+      }));
+      return allShorts;
+    } catch (error) {
+      console.error("Failed to fetch shorts:", error);
+      return [];
     }
-    setShorts(allShorts);
-
-    console.log(allShorts);
   };
 
-  if (!isLoaded) {
-    return <div>Loading...</div>;
-  }
+  const renderShorts = (short) => (
+    <ShortItem
+      key={short.id}
+      id={short.id}
+      thumbnailUrl={short.thumbnailUrl}
+      title={short.title}
+      author={short.author}
+      widthAdjust="100%"
+      heightAdjust="250px"
+    />
+  );
+
+  const goAddShorts = () => {
+    navigate(`/addshorts`);
+  };
+
   return (
     <>
       <Mobile>
         <TopBar centerChange="쇼츠" />
         <div className={styles.shortWrapper}>
-          {/* <div className={styles.divisionline}></div> */}
           <div className={styles.allShortsWrap}>
             <div className={styles.titlediv}>전체 쇼츠</div>
-            <div className={styles.shortsGridContainer}>
-              {shorts.map((short) => (
-                <ShortItem
-                  key={short.id}
-                  id={short.id}
-                  thumbnailUrl={short.thumbnailUrl}
-                  title={short.title}
-                  author={short.author}
-                  widthAdjust="100%" // 그리드 내에서 너비를 조정
-                  heightAdjust="250px" // 필요 시 높이를 조정
-                />
-              ))}
-            </div>
+            <ContentList
+              fetchItems={fetchShorts}
+              renderItem={renderShorts}
+            />
           </div>
-          <FloatingBtn onClick={()=>goAddShorts()}/>
+          <FloatingBtn onClick={goAddShorts} />
         </div>
       </Mobile>
       <DeskTop>
@@ -88,29 +65,18 @@ function Shorts() {
           </div>
           <div className={`${styles.shortWrapper} ${styles.dtver}`}>
             <TopBar centerChange="쇼츠" />
-
-            {/* <div className={styles.divisionline}></div> */}
             <div className={styles.allShortsWrap}>
               <div className={styles.titlediv}>전체 쇼츠</div>
-              <div className={styles.shortsGridContainer}>
-                {shorts.map((short) => (
-                  <ShortItem
-                    key={short.id}
-                    id={short.id}
-                    thumbnailUrl={short.thumbnailUrl}
-                    title={short.title}
-                    author={short.author}
-                    widthAdjust="100%" // 그리드 내에서 너비를 조정
-                    heightAdjust="250px" // 필요 시 높이를 조정
-                  />
-                ))}
-              </div>
+              <ContentList
+                fetchItems={fetchShorts}
+                renderItem={renderShorts}
+              />
             </div>
           </div>
         </div>
       </DeskTop>
     </>
   );
-}
+};
 
 export default Shorts;

@@ -9,9 +9,28 @@ import MyPageCommonTopBar from "../../component/MyPageComp/MyPageCommonTopBar";
 import styles from "../../css/mypage_editpetprofile.module.css";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { TbPhoto, TbTriangleInvertedFilled } from "react-icons/tb";
+import { GoArrowLeft } from "react-icons/go";
 import petApi from "../../api/petApi";
 
+/// responsive
+import { useMediaQuery } from "react-responsive";
+import { updateMember } from "../../redux/reducers/memberReducer";
+import { DeskTop, Mobile } from "../../responsive/responsive";
+
 const EditPetProfile = () => {
+  const isDeskTop = useMediaQuery({
+    query: "(min-width:769px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isTablet = useMediaQuery({
+    query: "(min-width: 769px) and (max-width: 859px)",
+  });
+
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1); // 뒤로가기
+  };
   const location = useLocation();
   const id = location.state?.id;
 
@@ -39,6 +58,7 @@ const EditPetProfile = () => {
         console.log("editPetProfile : ", response);
         setMyPet(response);
         // 데이터 로드 후 상태 설정
+        setName(response.name);
         setGender(response.gender || "");
         setNeutered(response.neutered || "");
         setWeight(response.weight || "");
@@ -47,8 +67,8 @@ const EditPetProfile = () => {
           response.weight ? response.weight.replace(/[0-9]/g, "").trim() : ""
         );
         setDontKnowWeight(response.weight ? false : true);
-        setAllergy(response.allergy && response.allergy);
-        setHealth(response.health && response.health);
+        setAllergy(response.allergy !== "null" ? response.allergy : "");
+        setHealth(response.health !== "null" ? response.health : "");
       } catch (error) {
         console.error("Error fetching pet data:", error);
       } finally {
@@ -60,15 +80,17 @@ const EditPetProfile = () => {
 
   const fileInputRef = useRef(null);
 
-  // 기존 데이터 설정
+  // 기존 데이터
+  const currentName = myPet.name;
   const currentProfilePhoto = myPet.photo;
   const currentNeutered = myPet.neutered;
   const currentWeight = myPet.weight;
+  const currentWeightUnit = myPet.weight.replace(/[0-9]/g, "").trim();
   const currentGender = myPet.gender;
-  const currentAllergy = myPet.allergy;
-  const currenthealth = myPet.health;
+  const currentAllergy = myPet.allergy !== "null" ? myPet.allergy : "";
+  const currentHealth = myPet.health !== "null" ? myPet.health : "";
 
-  // 초기 데이터 설정
+  const [name, setName] = useState();
   const [profilePhoto, setProfilePhoto] = useState();
   const [gender, setGender] = useState();
   const [neutered, setNeutered] = useState();
@@ -81,18 +103,14 @@ const EditPetProfile = () => {
   const [dropdown, setDropdown] = useState(false);
   const [canSave, setCanSave] = useState(false);
 
-  console.log("health : ", health);
-
   useEffect(() => {
-    // 사진 선택 클릭 후 사진 미선택시
-    if (profilePhoto == undefined) {
-      setProfilePhoto(currentProfilePhoto);
-    }
     if (
       (weight == "" && dontKnowWeight == false) ||
-      (weight == currentWeight &&
+      (name == currentName &&
+        weight == currentWeight &&
+        weightUnit == currentWeightUnit &&
         allergy == currentAllergy &&
-        health == currenthealth &&
+        health == currentHealth &&
         profilePhoto == currentProfilePhoto &&
         gender == currentGender &&
         neutered == currentNeutered)
@@ -102,17 +120,17 @@ const EditPetProfile = () => {
       setCanSave(true);
     }
   }, [
-    setProfilePhoto,
     canSave,
+    name,
     weight,
+    weightUnit,
     dontKnowWeight,
     gender,
     allergy,
     health,
+    profilePhoto,
     neutered,
   ]);
-
-  console.log("canSave : ", canSave);
 
   const photoSelect = useCallback(() => {
     fileInputRef.current.click();
@@ -132,7 +150,7 @@ const EditPetProfile = () => {
 
   const handleWeightChange = (e) => {
     const tempWeightNum = e.target.value;
-    if (/^\d*\.?\d*$/.test(tempWeightNum)) {
+    if (/^\d*\.?\d*$/.test(tempWeightNum) && tempWeightNum.length <= 7) {
       setWeightNum(tempWeightNum);
       setWeight(`${tempWeightNum}${weightUnit}`);
     }
@@ -154,6 +172,11 @@ const EditPetProfile = () => {
     }
   };
 
+  const handleNameChange = (e) => {
+    const tempName = e.target.value;
+    setName(tempName);
+  };
+
   const handleAllergyChange = (e) => {
     const tempAllergy = e.target.value;
     setAllergy(tempAllergy);
@@ -172,14 +195,14 @@ const EditPetProfile = () => {
     }
 
     formData.append("id", id);
+    formData.append("name", name);
     formData.append("gender", gender);
     formData.append("weight", weight);
+    formData.append("allergy", allergy);
     formData.append("health", health);
     formData.append("neutered", neutered);
     formData.append("kind", myPet.kind);
-    formData.append("name", myPet.name);
     formData.append("type", myPet.type);
-    formData.append("allergy", allergy);
     formData.append("uid", myPet.uid);
     const resp = await petApi.updatePet(formData);
 
@@ -318,143 +341,171 @@ const EditPetProfile = () => {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
+
   return (
-    <div className={styles.wrapper}>
-      <MyPageCommonTopBar />
-      <div className={styles.editpart_wrapper}>
-        <div className={styles.photo_wrapper}>
-          {ProfilePhoto}
-          {SelectingPhoto}
-        </div>
-        <div className={styles.textpart_container}>
-          <CantEdit title={"이름"} content={myPet.name} />
-          <CantEdit title={"품종"} content={myPet.kind} />
-          {myPet.type == "3" && <div className={styles.divider} />}
-          {myPet.type == "3" ? (
-            <CanEdit title={"성별"} />
-          ) : (
-            <CantEdit title={"성별"} content={myPet.gender} />
+    <>
+      <div className={`${isDeskTop && styles.wrapper_dtver}`}>
+        <div className={styles.wrapper}>
+          {isMobile && (
+            <div className={styles.back_icon_wrapper}>
+              <GoArrowLeft className={styles.back_icon} onClick={goBack} />
+            </div>
           )}
-          {myPet.type != "3" ? <div className={styles.divider} /> : ""}
-          {myPet.type != "3" ? <CanEdit title={"중성화 여부"} /> : ""}
-          <div className={styles.editable_wrapper}>
-            <div className={styles.editable_title}>체중</div>
-            <div className={styles.editable_content}>
-              <div
-                className={`${
-                  dontKnowWeight
-                    ? styles.disabled_weight_input_wrapper
-                    : styles.weight_input_wrapper
-                }`}
-              >
-                <input
-                  type="text"
-                  value={weightNum}
-                  onChange={handleWeightChange}
-                  placeholder="체중을 입력해주세요"
-                  disabled={dontKnowWeight}
-                  className={`${
-                    dontKnowWeight
-                      ? styles.disabled_weight_input
-                      : styles.weight_input
-                  }`}
-                />
-                <div
-                  className={`${
-                    dontKnowWeight ? styles.disabled_unit_box : styles.unit_box
-                  }`}
-                  onClick={() => {
-                    setDropdown((prev) => !prev);
-                  }}
-                >
+          <div className={styles.editpart_wrapper}>
+            <div className={styles.photo_wrapper}>
+              {ProfilePhoto}
+              {SelectingPhoto}
+            </div>
+            <div className={styles.textpart_container}>
+              {/* <CantEdit title={"이름"} content={myPet.name} /> */}
+              <CantEdit title={"품종"} content={myPet.kind} />
+              {myPet.type != "3" && (
+                <CantEdit title={"성별"} content={myPet.gender} />
+              )}
+              {/* {myPet.type == "3" && <div className={styles.divider} />} */}
+              {/* {myPet.type != "3" ? <div className={styles.divider} /> : ""} */}
+              <div className={styles.divider} />
+              <div className={styles.editable_wrapper}>
+                <div className={styles.editable_title}>이름</div>
+                <div className={styles.editable_content}>
+                  <div className={styles.editable_input_wrapper}>
+                    <input
+                      value={name}
+                      onChange={handleNameChange}
+                      placeholder={"반려동물의 이름을 입력해주세요"}
+                      className={styles.editable_input}
+                    />
+                  </div>
+                </div>
+              </div>
+              {myPet.type == "3" && <CanEdit title={"성별"} />}
+              {myPet.type != "3" ? <CanEdit title={"중성화 여부"} /> : ""}
+              <div className={styles.editable_wrapper}>
+                <div className={styles.editable_title}>체중</div>
+                <div className={styles.editable_content}>
                   <div
                     className={`${
                       dontKnowWeight
-                        ? styles.disabled_selecting_unit
-                        : styles.selecting_unit
+                        ? styles.disabled_weight_input_wrapper
+                        : styles.weight_input_wrapper
                     }`}
                   >
-                    {weightUnit == "" ? "kg" : weightUnit}
-                    <TbTriangleInvertedFilled
-                      className={styles.dropdown_icon}
+                    <input
+                      type="text"
+                      value={weightNum}
+                      onChange={handleWeightChange}
+                      placeholder="체중을 입력해주세요"
+                      disabled={dontKnowWeight}
+                      className={`${
+                        dontKnowWeight
+                          ? styles.disabled_weight_input
+                          : styles.weight_input
+                      }`}
+                    />
+                    <div
+                      className={`${
+                        dontKnowWeight
+                          ? styles.disabled_unit_box
+                          : styles.unit_box
+                      }`}
+                      onClick={() => {
+                        setDropdown((prev) => !prev);
+                      }}
+                    >
+                      <div
+                        className={`${
+                          dontKnowWeight
+                            ? styles.disabled_selecting_unit
+                            : styles.selecting_unit
+                        }`}
+                      >
+                        {weightUnit == "" ? "kg" : weightUnit}
+                        <TbTriangleInvertedFilled
+                          className={styles.dropdown_icon}
+                        />
+                      </div>
+                      {!dontKnowWeight && dropdown && (
+                        <div className={styles.options}>
+                          <div
+                            className={styles.option}
+                            onClick={(e) => {
+                              handleWeightUnitChange("kg");
+                              e.stopPropagation();
+                            }}
+                          >
+                            kg
+                          </div>
+                          <div
+                            className={styles.option}
+                            onClick={(e) => {
+                              handleWeightUnitChange("g");
+                              e.stopPropagation();
+                            }}
+                          >
+                            g
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className={styles.dontknowweight}>
+                    체중을 몰라요
+                    <div className={styles.dontknowweight_checkbox_wrapper}>
+                      <input
+                        type="checkbox"
+                        checked={dontKnowWeight}
+                        onChange={handleDontKnowWeight}
+                        className={styles.dontknowweight_checkbox}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.editable_wrapper}>
+                <div className={styles.editable_title}>알러지</div>
+                <div className={styles.editable_content}>
+                  <div className={styles.editable_input_wrapper}>
+                    <input
+                      value={allergy}
+                      onChange={handleAllergyChange}
+                      placeholder={"반려동물의 알러지를 입력해주세요"}
+                      className={styles.editable_input}
                     />
                   </div>
-                  {!dontKnowWeight && dropdown && (
-                    <div className={styles.options}>
-                      <div
-                        className={styles.option}
-                        onClick={(e) => {
-                          handleWeightUnitChange("kg");
-                          e.stopPropagation();
-                        }}
-                      >
-                        kg
-                      </div>
-                      <div
-                        className={styles.option}
-                        onClick={(e) => {
-                          handleWeightUnitChange("g");
-                          e.stopPropagation();
-                        }}
-                      >
-                        g
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
-              <div className={styles.dontknowweight}>
-                체중을 몰라요
-                <div className={styles.dontknowweight_checkbox_wrapper}>
-                  <input
-                    type="checkbox"
-                    checked={dontKnowWeight}
-                    onChange={handleDontKnowWeight}
-                    className={styles.dontknowweight_checkbox}
-                  />
+              <div className={styles.editable_wrapper}>
+                <div className={styles.editable_title}>건강상태</div>
+                <div className={styles.editable_content}>
+                  <div className={styles.editable_input_wrapper}>
+                    <input
+                      value={health}
+                      onChange={handleHealthChange}
+                      placeholder={"반려동물의 건강상태를 입력해주세요"}
+                      className={styles.editable_input}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className={styles.editable_wrapper}>
-            <div className={styles.editable_title}>알러지</div>
-            <div className={styles.editable_content}>
-              <div className={styles.editable_input_wrapper}>
-                <input
-                  value={allergy}
-                  onChange={handleAllergyChange}
-                  placeholder={"반려동물의 알러지를 입력해주세요"}
-                  className={styles.editable_input}
-                />
-              </div>
-            </div>
-          </div>
-          <div className={styles.editable_wrapper}>
-            <div className={styles.editable_title}>건강상태</div>
-            <div className={styles.editable_content}>
-              <div className={styles.editable_input_wrapper}>
-                <input
-                  value={health}
-                  onChange={handleHealthChange}
-                  placeholder={"반려동물의 건강상태를 입력해주세요"}
-                  className={styles.editable_input}
-                />
-              </div>
-            </div>
+          <div
+            className={`${styles.save_button_wrapper} ${
+              isDeskTop ? styles.dtver : styles.mbver
+            }`}
+          >
+            <button
+              className={`${styles.save_button} ${
+                !canSave && styles.disabled
+              } ${isDeskTop && styles.dtver}`}
+              onClick={SaveProfile}
+            >
+              {"저장"}
+            </button>
           </div>
         </div>
       </div>
-      <div className={styles.save_button_wrapper}>
-        <button
-          className={`${
-            !canSave ? styles.disabled_save_button : styles.save_button
-          }`}
-          onClick={SaveProfile}
-        >
-          {"저장"}
-        </button>
-      </div>
-    </div>
+    </>
   );
 };
 

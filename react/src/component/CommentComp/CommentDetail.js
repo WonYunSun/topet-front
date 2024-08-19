@@ -88,7 +88,7 @@ const CommentDetail = ({
     <div className={styles.commentContainer}>
       <div className={styles.commentHeader}>
         <div className={styles.authorInfo}>
-          <img src={src} alt="User Profile" className={styles.profileImage} />
+          <img src={comment.author.src} alt="User Profile" className={styles.profileImage} />
           <div className={styles.authorName}>{comment.author.name}</div>
         </div>
         <FiMoreVertical
@@ -149,7 +149,7 @@ const CommentDetail = ({
               <div className={styles.commentHeader}>
                 <div className={styles.authorInfo}>
                   <img
-                    src={src}
+                    src={reply.author.src}
                     alt="User Profile"
                     className={styles.profileImage}
                   />
