@@ -55,7 +55,7 @@ const PetRegistration = () => {
   const [weightDontKnow, setWeightDontKnow] = useState(false); //무게를 몰라요
 
   const [nextPossible, setNextPossible] = useState(false); //다음단계 가능한가?
-
+  const [canSubmit, setCanSubmit] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -211,7 +211,40 @@ const PetRegistration = () => {
     consoleLog();
   };
 
+
+
+
+  /*
+  
+  const handleEdit= async(id, formData)=>{
+    if (submitCheck || isSubmitDisabled) return; // 이미 전송 중이거나 필수값이 없으면 함수 종료
+    setSubmitCheck(true); // 전송 중 상태로 설정
+  
+    try {
+
+      /**
+      /* 왜 렌더링이 한번 돼야 editPhoto에 값이 들어가는지 모르겠다.....
+      해시태그도 그렇고.....
+      이거 confirm으로 받던지 해야할듯... 
+  
+      
+
+      await communityApi.editCommunity(selectedPhotos, formData, id);
+      // navigate(-1); // 전송 후 페이지 이동
+    } catch (error) {
+      console.error("게시물 수정에 실패했습니다.", error);
+    } finally {
+      setSubmitCheck(false); // 전송 완료 후 상태 초기화
+    }
+
+  }
+       */
+  
   const submitForm = async () => {
+    
+    setNextPossible(true);
+    
+try{
     const formData = new FormData();
     formData.append("type", selectedType);
     formData.append("kind", selectedKind);
@@ -237,6 +270,7 @@ const PetRegistration = () => {
     console.log(formData.get("weight"));
     console.log(formData.get("health"));
     console.log(selectedPhoto)
+
     const resp = await petApi.postPetData(formData);
 
     if (resp.status == 200) {
@@ -246,8 +280,12 @@ const PetRegistration = () => {
     } else {
       alert("펫 등록에 실패했습니다.");
     }
-  };
-
+  }catch (error){
+    throw error;
+  }finally{
+    setNextPossible(true);
+  }
+}
   function nextPossibleFunction(stepNum) {
     switch (stepNum) {
       case 1:
@@ -278,6 +316,7 @@ const PetRegistration = () => {
     console.log("4번째 다음버튼 상태: ", nextPossible);
   }
   const handleRegistFin = () => {
+    setNextPossible(false);
     submitForm();
   };
 

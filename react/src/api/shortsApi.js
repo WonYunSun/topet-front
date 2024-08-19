@@ -80,6 +80,21 @@ class shortsApi {
     }
   }
 
+
+   
+  async getLikedShorts(id,page, size) {
+    try {
+      const response = await this.axios.get(
+        `/likedShorts/${id}?page=${page}&size=${size}`  // !! 수정 필요 !!
+      );
+      console.log("api Response : ", response);
+      return response.data;
+    } catch (error) {
+      console.log("api Response : ", error);
+      
+    }
+  }
+
 }
 export default new shortsApi();
 

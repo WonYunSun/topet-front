@@ -11,11 +11,10 @@ import { LuUpload } from "react-icons/lu";
 import { IoIosClose } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { Loading } from "../component/HandlerComp/CompHandler";
-
+import { Mobile, DeskTop } from "../responsive/responsive";
 
 function AddShorts() {
   const reduxMember = useSelector((state) => state.member.member);
-
 
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -28,7 +27,6 @@ function AddShorts() {
 
   const [loading, setLoading] = useState(false);
 
-
   const fileInputRef = useRef(null);
   const isSubmitDisabled = !videoPreviewUrl || !selectedPhoto;
   const videoSelect = () => {
@@ -39,9 +37,7 @@ function AddShorts() {
     setSelectedPhoto(photo);
   };
 
-  useEffect(()=>{
-
-  },[loading])
+  useEffect(() => {}, [loading]);
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
 
@@ -100,104 +96,179 @@ function AddShorts() {
     setContent(tempContent);
   };
 
-  const submitShorts = async() => {
-
+  const submitShorts = async () => {
     setLoading(true);
-
 
     const formData = new FormData();
     // formData.append("title", title);
     formData.append("content", content);
     formData.append("thumbnailPhoto", selectedPhoto);
     formData.append("video", selectedVideo);
-    formData.append("author" , reduxMember.id);
+    formData.append("author", reduxMember.id);
     const resp = await shortsApi.postShorts(formData);
-    
+
     if (resp.status === 200) {
-      console.log("들어감")
+      console.log("들어감");
       setLoading(false);
-      navigate(`/shortsDetail/${resp.data.id}`)
+      navigate(`/shortsDetail/${resp.data.id}`);
     } else {
-      console.log("안들어감")
+      console.log("안들어감");
     }
   };
 
-  if(loading){
-    return <Loading/>
+  if (loading) {
+    return <Loading />;
   }
-  
+
   return (
     <>
-      <TopBar />
-      <div>
-        
+      <Mobile>
+        <TopBar />
+        <div>
+          <Content
+            value={content}
+            handleContentTextChange={contentChange}
+            maxLength={99}
+            placeholder={"동영상 설명을 입력해주세요"}
+          />
 
-        <Content
-          value={content}
-          handleContentTextChange={contentChange}
-          maxLength={99}
-          placeholder={"동영상 설명을 입력해주세요"}
-        />
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept="video/*" // 이미지와 비디오 파일 모두 허용
+            multiple
+            style={{ display: "none" }}
+          />
 
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          accept="video/*" // 이미지와 비디오 파일 모두 허용
-          multiple
-          style={{ display: "none" }}
-        />
+          {selectedVideo == null ? (
+            <>
+              <div className={styles.divtext}>동영상을 선택해주세요</div>
+              <div className={styles.upload_div} onClick={videoSelect}>
+                <LuUpload size={30} />
+              </div>
+            </>
+          ) : (
+            <div></div>
+          )}
+          {selectedVideo && (
+            <div className={styles.videoPreview_wrap}>
+              <div className={styles.divtext}>동영상 미리보기</div>
+              <div className={styles.videoBoxDiv}>
+                <video
+                  className={styles.videoPreview}
+                  height="95"
+                  controls
+                  controlsList="nodownload"
+                >
+                  <source src={videoPreviewUrl} type={selectedVideo.type} />
+                  Your browser does not support the video tag.
+                </video>
 
-        {selectedVideo == null ? (
-          <>
-            <div className={styles.divtext}>동영상을 선택해주세요</div>
-            <div className={styles.upload_div} onClick={videoSelect}>
-              <LuUpload size={30} />
-            </div>
-          </>
-        ) : (
-          <div></div>
-        )}
-        {selectedVideo && (
-          <div className={styles.videoPreview_wrap}>
-            <div className={styles.divtext}>동영상 미리보기</div>
-            <div className={styles.videoBoxDiv}>
-              <video
-                className={styles.videoPreview}
-                height="95"
-                controls
-                controlsList="nodownload"
-              >
-                <source src={videoPreviewUrl} type={selectedVideo.type} />
-                Your browser does not support the video tag.
-              </video>
-
-              <div
-                className={styles.videoPreview_rmv}
-                onClick={handleRemoveVideo}
-              >
-                <IoIosClose size={19} />
+                <div
+                  className={styles.videoPreview_rmv}
+                  onClick={handleRemoveVideo}
+                >
+                  <IoIosClose size={19} />
+                </div>
               </div>
             </div>
-          </div>
-        )}
-        <div className={styles.divtext}>썸네일을 선택해주세요</div>
-        {/* SchedulePhotoSelectArea 컴포넌트가 실제로 어떻게 동작하는지에 따라 수정 필요 */}
-        <SchedulePhotoSelectArea
-          selectedPhoto={selectedPhoto}
-          onPhotoSelected={handlePhotoSelected}
-          onRemovePhoto={handleRemovePhoto}
-        />
-      </div>
-      <div>
-        <Button text={"취소"} btnstyle="white" onClick={handleShowCheckModal} />
-        <Button
-          text={"작성 완료"}
-          // text={edit ? "수정 완료" : "작성 완료"}
-          btnstyle={isSubmitDisabled ? "white_disabled" : "white"}
-          onClick={isSubmitDisabled ? handleShowNullCheckModal : submitShorts}
-        />
-      </div>
+          )}
+          <div className={styles.divtext}>썸네일을 선택해주세요</div>
+          {/* SchedulePhotoSelectArea 컴포넌트가 실제로 어떻게 동작하는지에 따라 수정 필요 */}
+          <SchedulePhotoSelectArea
+            selectedPhoto={selectedPhoto}
+            onPhotoSelected={handlePhotoSelected}
+            onRemovePhoto={handleRemovePhoto}
+          />
+        </div>
+        <div>
+          <Button
+            text={"취소"}
+            btnstyle="white"
+            onClick={handleShowCheckModal}
+          />
+          <Button
+            text={"작성 완료"}
+            // text={edit ? "수정 완료" : "작성 완료"}
+            btnstyle={isSubmitDisabled ? "white_disabled" : "white"}
+            onClick={isSubmitDisabled ? handleShowNullCheckModal : submitShorts}
+          />
+        </div>
+      </Mobile>
+      <DeskTop>
+        <div className={styles.comm_write_wrap}>
+          <Content
+            value={content}
+            handleContentTextChange={contentChange}
+            maxLength={99}
+            placeholder={"동영상 설명을 입력해주세요"}
+          />
+
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept="video/*" // 이미지와 비디오 파일 모두 허용
+            multiple
+            style={{ display: "none" }}
+          />
+
+          {selectedVideo == null ? (
+            <>
+              <div className={styles.divtext}>동영상을 선택해주세요</div>
+              <div className={styles.upload_div} onClick={videoSelect}>
+                <LuUpload size={30} />
+              </div>
+            </>
+          ) : (
+            <div></div>
+          )}
+          {selectedVideo && (
+            <div className={styles.videoPreview_wrap}>
+              <div className={styles.divtext}>동영상 미리보기</div>
+              <div className={styles.videoBoxDiv}>
+                <video
+                  className={styles.videoPreview}
+                  height="95"
+                  controls
+                  controlsList="nodownload"
+                >
+                  <source src={videoPreviewUrl} type={selectedVideo.type} />
+                  Your browser does not support the video tag.
+                </video>
+
+                <div
+                  className={styles.videoPreview_rmv}
+                  onClick={handleRemoveVideo}
+                >
+                  <IoIosClose size={19} />
+                </div>
+              </div>
+            </div>
+          )}
+          <div className={styles.divtext}>썸네일을 선택해주세요</div>
+          {/* SchedulePhotoSelectArea 컴포넌트가 실제로 어떻게 동작하는지에 따라 수정 필요 */}
+          <SchedulePhotoSelectArea
+            selectedPhoto={selectedPhoto}
+            onPhotoSelected={handlePhotoSelected}
+            onRemovePhoto={handleRemovePhoto}
+          />
+        </div>
+        <div>
+          <Button
+            text={"취소"}
+            btnstyle="white"
+            onClick={handleShowCheckModal}
+          />
+          <Button
+            text={"작성 완료"}
+            // text={edit ? "수정 완료" : "작성 완료"}
+            btnstyle={isSubmitDisabled ? "white_disabled" : "white"}
+            onClick={isSubmitDisabled ? handleShowNullCheckModal : submitShorts}
+          />
+        </div>
+      </DeskTop>
       {showWriteCancleModal && (
         <CheckModal
           Content="게시물 작성을 취소하시겠어요?"

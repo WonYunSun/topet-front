@@ -21,6 +21,7 @@
   padding: 16px; /* 컨테이너의 패딩 */
   justify-content: center; /* 그리드 컨테이너를 가운데 정렬 */
 }
+
 .titlediv {
   text-align: start;
   padding-left: 16px;

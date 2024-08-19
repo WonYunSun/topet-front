@@ -69,6 +69,7 @@ function App() {
     "/petprofiledetail",
     "/editpetprofile/",
     "/topetai",
+    "/addshorts",
   ];
 
   return (
