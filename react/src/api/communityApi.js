@@ -170,7 +170,7 @@ class CommunityApi {
     }
   }
 
-  async getLikedCommunity(id, page, size) {
+  async getLikedCommunity(id,page, size) {
     try {
       const response = await this.axios.get(
         `/likedPosts/${id}?page=${page}&size=${size}`  // !! 수정 필요 !!
@@ -183,6 +183,7 @@ class CommunityApi {
     }
   }
 
+ 
 
   async bestCommunity(){
     try{
