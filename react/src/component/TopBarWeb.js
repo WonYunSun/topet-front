@@ -123,7 +123,7 @@ const TopBarWeb = () => {
                 style={{ cursor: "pointer" }}
               >
                 <img
-                  src={reduxMember.profileImage}
+                  src={reduxMember.profileSrc}
                   alt="Profile"
                   className={styles.profileImage}
                 />

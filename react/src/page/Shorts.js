@@ -58,7 +58,7 @@ const Shorts = () => {
           <FloatingBtn onClick={goAddShorts} />
         </div>
       </Mobile>
-      {/* <DeskTop>
+      <DeskTop>
         <div className={styles.deskTopshortswrap}>
           <div className={styles.sidebarTitle}>
             <div>쇼츠</div>
@@ -74,7 +74,7 @@ const Shorts = () => {
             </div>
           </div>
         </div>
-      </DeskTop> */}
+      </DeskTop>
     </>
   );
 };
