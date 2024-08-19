@@ -69,6 +69,8 @@ const Home = () => {
   // 스케쥴 더미데이터. 사실 오늘 날짜의 스케쥴만 가져오면 됨
   const [schedules, setSchedule] = useState([]);
   console.log(pets);
+  
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -78,7 +80,7 @@ const Home = () => {
           await getSchedule();
 
         }
-        await getFiveShorts();
+         await getFiveShorts();
         await bestCommunity();
         //returnedMember에 따른 pet정보를 가져오는 api필요
       } catch (error) {

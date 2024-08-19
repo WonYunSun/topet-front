@@ -19,6 +19,9 @@ import { useMediaQuery } from "react-responsive";
 import { updateMember } from "../../redux/reducers/memberReducer";
 import { DeskTop, Mobile } from "../../responsive/responsive";
 
+
+import { updatePetList } from "../../redux/reducers/petListReducer";
+import { updateSelectedPet } from "../../redux/reducers/selectedPetReducer";
 const EditProfile = () => {
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
@@ -130,8 +133,12 @@ const EditProfile = () => {
   };
 
   // 회원탈퇴
-  const Secession = () => {
-    console.log("회원탈퇴");
+  const Secession = async() => {
+    const resp = await memberApi.secession(reduxMember.id);
+    dispatch(updateMember(""));
+    dispatch(updatePetList([]));
+    dispatch(updateSelectedPet(""));
+    navigate("/login")
   };
 
   return (

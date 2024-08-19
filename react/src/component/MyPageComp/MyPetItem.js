@@ -40,7 +40,7 @@ const MyPetItem = ({ onOpenModal, photoUrl, name, uid, pet, ownerId }) => {
             <div className={styles.name}>{name}</div>
           </div>
           <div className={styles.icons_wrapper}>
-            <MdShare className={styles.profile_icon} onClick={onOpenModal} />
+            <MdShare className={styles.profile_icon} onClick={()=>onOpenModal} />
             <MdEdit
               className={styles.profile_icon}
               onClick={() => {

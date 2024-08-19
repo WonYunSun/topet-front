@@ -3,7 +3,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import styles from "../../css/mypage_petprofile.module.css";
 import dayjs from "dayjs";
 import petApi from "../../api/petApi";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 // 아이콘
 import { GoArrowLeft } from "react-icons/go";
@@ -17,7 +17,10 @@ import { TiDelete } from "react-icons/ti";
 import { Mobile, DeskTop } from "../../responsive/responsive";
 import { useMediaQuery } from "react-responsive";
 
+import { updatePetList } from "../../redux/reducers/petListReducer";
+
 const PetProfileDetail = () => {
+  const dispatch = useDispatch();
   const isDeskTop = useMediaQuery({
     query: "(min-width:769px)",
   });
@@ -74,7 +77,13 @@ const PetProfileDetail = () => {
   const petDelete = async() => {
 
     const resp = await petApi.deletePet(reduxMember.id ,id);
+
+    if(resp != null){
+      dispatch(updatePetList(resp));
+      navigate(-1);
+    }
     console.log("반려동물 삭제 완료");
+
   };
 
   if (!isLoaded) {

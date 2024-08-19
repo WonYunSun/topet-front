@@ -83,7 +83,7 @@ class petApi {
 
   async updatePet(formData){
     try{
-      const response = await this.axios.patch("/update", formData,{
+      const response = await this.axios.post("/update", formData,{
         headers: {
           "Content-Type": "multipart/form-data",
         }

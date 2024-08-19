@@ -45,7 +45,7 @@ const PetCodeModal = ({
       >
         <div className={styles.titlepart_wrapper}>
           <div className={styles.modal_title}>{modalTitle}</div>
-          <RxCross2 className={styles.cancel_icon} onClick={onClose} />
+          <RxCross2 className={styles.cancel_icon} onClick={()=>onClose} />
         </div>
         <div className={styles.code_box_wrapper}>
           {type == "코드등록" ? (
@@ -64,7 +64,7 @@ const PetCodeModal = ({
           )}
         </div>
         {type == "코드등록" ? (
-          <button className={styles.button} onClick={onRegister}>
+          <button className={styles.button} onClick={()=>onRegister}>
             등록
           </button>
         ) : (

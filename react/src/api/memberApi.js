@@ -120,6 +120,15 @@ constructor() {
         throw error;
         }
     }
+
+    async secession(id){
+        try{
+            const response = await this.axios.post(`/secession/${id}`);
+            console.log(response);
+        }catch(error){
+            console.log(error);
+        }
+    }
     
 }
 export default new memberApi();

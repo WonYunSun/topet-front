@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MyPageCommonTopBar from "../../component/MyPageComp/MyPageCommonTopBar";
 import styles from "../../css/mypage_managemypets.module.css";
 import MyPetList from "../../component/MyPageComp/MyPetList";
@@ -6,7 +6,7 @@ import BottomSheet from "../../component/BottomSheet";
 import PetCodeModal from "../../component/MyPageComp/PetCodeModal";
 import { useSelector, useDispatch } from "react-redux";
 import petApi from "../../api/petApi";
-import { addPetToList } from "../../redux/reducers/petListReducer";
+import { addPetToList, updatePetList } from "../../redux/reducers/petListReducer";
 import MyPageSideBar from "../../component/MyPageComp/MyPageSideBar";
 
 /// responsive
@@ -27,6 +27,26 @@ const ManageMyPets = () => {
 
   const dispatch = useDispatch();
   const petList = useSelector((state) => state.petList.petList);
+  const reduxMember = useSelector((state) => state.member.member);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const [pets, setPets] =useState([]);
+
+  useEffect(()=>{
+    const fetchData= async()=>{
+      try{
+        const resp = await petApi.getMyPets(reduxMember.id);
+        setPets(pets);
+        dispatch(updatePetList(resp));
+      }catch(error){
+        console.log(error);
+      } finally {
+        setIsLoaded(true);
+      }
+      
+    }
+    fetchData();
+  },[]);
 
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [bottomSheetType, setBottomSheetType] = useState("");
@@ -70,7 +90,12 @@ const ManageMyPets = () => {
     setShowModal(true);
     setShowBottomSheet(false);
   };
+  
 
+
+  if(!isLoaded){
+    return(<div>Loading...</div>);
+  }
   return (
     <>
       <div className={`${isDeskTop && styles.wrapper_dtver}`}>
@@ -79,7 +104,7 @@ const ManageMyPets = () => {
           <div className={`${isDeskTop && styles.rightside_wrapper}`}>
             <MyPageCommonTopBar title={"내 동물 관리"} />
             {/* <div className={styles.divider}></div> */}
-            <MyPetList petList={petList} />{" "}
+            {<MyPetList petList={petList} />}{" "}
             <FaCirclePlus
               className={styles.register_icon}
               onClick={() => handleOpenBottomSheet("petRegister")}

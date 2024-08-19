@@ -205,7 +205,7 @@ const EditPetProfile = () => {
     formData.append("type", myPet.type);
     formData.append("uid", myPet.uid);
     const resp = await petApi.updatePet(formData);
-
+    navigate('/managemypets')
     console.log("저장");
   };
 
