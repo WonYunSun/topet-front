@@ -97,7 +97,11 @@ const Community = () => {
   };
 
   const handleSearch = () => {
+    
+    console.log(selectedSearchType)
+    
     setCurrentSearchText(searchText);
+
     setCurrentSearchType(selectedSearchType);
   };
 
