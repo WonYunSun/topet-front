@@ -22,3 +22,4 @@ export function LoadError() {
 export function NoContent() {
   return <div className={styles.error_message}>데이터가 없습니다.</div>;
 }
+  

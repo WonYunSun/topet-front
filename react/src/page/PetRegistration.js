@@ -140,7 +140,7 @@ const PetRegistration = () => {
   };
 
   const handleNameChange = (e) => {
-    const tempName = e.target.value;
+    const tempName = e.target.value.trim();
     if (tempName.length <= 25) {
       setName(tempName);
     }
@@ -278,7 +278,7 @@ try{
       // 반려동물 등록 성공 modal창
       toggleModal();
     } else {
-      alert("펫 등록에 실패했습니다.");
+      alert("반려동물 등록에 실패했습니다.");
     }
   }catch (error){
     throw error;

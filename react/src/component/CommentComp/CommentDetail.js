@@ -25,10 +25,7 @@ const CommentDetail = ({
   const [replyContent, setReplyContent] = useState("");
   const [editContent, setEditContent] = useState("");
 
-  // 임시 유저 프로필 주소
-  const src =
-    "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzEyMDZfNTYg%2FMDAxNzAxODQ1MDQ3OTEy.3nTCEkxraOwSwPN3iGXsityOqeGL37xSYSwzlNpvtN0g.1uI0TfuUpdgH463RXWgf98KONJHKbyncpRmIKE0W9Rgg.JPEG.ddogddogcafe%2F267.jpg&type=sc960_832";
-
+  
   useEffect(() => {
     // 수정 모드가 활성화될 때 기존 내용을 editContent에 설정
     if (isEditingComment === comment.id) {

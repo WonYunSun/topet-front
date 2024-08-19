@@ -306,11 +306,11 @@ const CommunityDetail = () => {
               </div>
             )}
             <div className={styles.hashtags}>
-              {hashtags.map((hashtag, index) => (
-                <span key={index} className={styles.hashtag}>
-                  #{hashtag}
-                </span>
-              ))}
+            {hashtags.map((hashtag, index) => (
+            <span key={index} className={styles.hashtag}>
+              #{hashtag.tag}
+            </span>
+          ))}
             </div>
             <div className={styles.date}>{formattedDate}</div> {/* 날짜 */}
             <div className={styles.like_and_coment}>
