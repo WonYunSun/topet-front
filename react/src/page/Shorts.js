@@ -60,6 +60,7 @@ const Shorts = () => {
       </Mobile>
       <DeskTop>
         <div className={styles.deskTopshortswrap}>
+          <FloatingBtn onClick={goAddShorts} />
           <div className={styles.sidebarTitle}>
             <div>쇼츠</div>
           </div>
