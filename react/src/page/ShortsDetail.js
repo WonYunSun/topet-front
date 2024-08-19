@@ -152,21 +152,21 @@ function ShortsDetail({ eventPrevent }) {
     }
   };
 
-  useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-      const handlePlay = () => setIsPlaying(true);
-      const handlePause = () => setIsPlaying(false);
+  // useEffect(() => {
+  //   const video = videoRef.current;
+  //   if (video) {
+  //     const handlePlay = () => setIsPlaying(true);
+  //     const handlePause = () => setIsPlaying(false);
 
-      video.addEventListener("play", handlePlay);
-      video.addEventListener("pause", handlePause);
+  //     video.addEventListener("play", handlePlay);
+  //     video.addEventListener("pause", handlePause);
 
-      return () => {
-        video.removeEventListener("play", handlePlay);
-        video.removeEventListener("pause", handlePause);
-      };
-    }
-  }, [thisShorts]);
+  //     return () => {
+  //       video.removeEventListener("play", handlePlay);
+  //       video.removeEventListener("pause", handlePause);
+  //     };
+  //   }
+  // }, [thisShorts]);
 
   if (!isLoaded) {
     return <div>Loading...</div>;
@@ -202,10 +202,10 @@ function ShortsDetail({ eventPrevent }) {
             onClick={togglePlayPause}
             style={{ visibility: isButtonVisible ? "visible" : "hidden" }}
           >
-            {isPlaying ? <FaPause size={50} /> : <FaPlay size={50} />}
+            {isPlaying ? <FaPlay size={50} /> : <FaPause size={50} />}
           </button>
           <div className={styles.detaildiv}>
-            <div>{thisShorts?.content}</div>
+            <div className={styles.condiv}>{thisShorts?.content}</div>
           </div>
           <div className={styles.menudiv}>
             <div>
@@ -238,9 +238,12 @@ function ShortsDetail({ eventPrevent }) {
               autoPlay
               loop
               onTimeUpdate={handleProgress}
-              onClick={togglePlayPause}
+              onClick={() => {
+                console.log("클릭");
+                togglePlayPause(); // Ensure togglePlayPause is called
+              }}
               className={styles.video}
-            ></video>
+            />
           )}
           <div className={styles.controls}>
             <div className={styles.progressBar}>
@@ -251,12 +254,14 @@ function ShortsDetail({ eventPrevent }) {
             </div>
           </div>
         </div>
-        <ShortsBottom
-          id={id}
-          show={showBottomSheet}
-          onClose={handleBottomSheetClose}
-          isshorts={true}
-        />
+        {showBottomSheet && (
+          <ShortsBottom
+            id={id}
+            show={showBottomSheet}
+            onClose={handleBottomSheetClose}
+            isshorts={true}
+          />
+        )}
       </Mobile>
       <DeskTop>
         <div className={styles.shortsWrap_dtver}>
@@ -275,7 +280,7 @@ function ShortsDetail({ eventPrevent }) {
                 onClick={togglePlayPause}
                 style={{ visibility: isButtonVisible ? "visible" : "hidden" }}
               >
-                {isPlaying ? <FaPause size={50} /> : <FaPlay size={50} />}
+                {isPlaying ? <FaPlay size={50} /> : <FaPause size={50} />}
               </button>
               <div className={styles.detaildiv}>
                 <div className={styles.condiv}>{thisShorts?.content}</div>
